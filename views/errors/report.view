@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title>Jelloff - Application Error</title>
+   <meta charset="utf-8">
+   <style type="text/css">
+      body, html{
+      	 font-size:100%;
+      	 width:100%;
+          height:100%;
+          background-color:black;
+          color:white;
+          font-family: Arial, Helvetica;
+      }
+   </style>
+</head>
+<body class="error-card">
+   <h1 style="font-size:120%;" class="error-title">Error: <span>=@err</span></h1>
+   <div class="error-details">
+   <p style="font-size:96%;">
+      =@msg
+   </p>
+   <em>
+      on =@line in <a href="=@file">=@file</a>
+   </em>
+   </div>
+</body>
+</html>
