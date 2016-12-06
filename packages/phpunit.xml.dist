@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit cacheTokens="false"
+	 backupGlobals="false"
+	 backupStaticAttributes="false"
+	 colors="true"
+     convertErrorsToExceptions="true"
+     convertNoticesToExceptions="true"
+     convertWarningsToExceptions="true"
+	 stopOnError="false"
+ 	 stopOnFailure="false"
+	 stopOnIncomplete="false"
+	 syntaxCheck="true"
+	 bootstrap="app.php"
+	 verbose="true">
+
+	<php>
+		<ini name="max_execution_time" value="-1" />
+		<ini name="date.timezone" value="Africa/Lagos" />
+		<ini name="intl.error_level" value="0" />
+		<ini name="error_reporting" value="E_ALL" />
+	</php>
+
+	<testsuites>
+		<testsuite name="Jelloff Test Suite">
+			<directory>../system/tests/framework</directory>
+		</testsuite>
+	</testsuites>
+
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory>../system/tests/</directory>
+			<exclude>
+				<directory></directory>
+			</exclude>
+		</whitelist>
+	</filter>
+</phpunit>

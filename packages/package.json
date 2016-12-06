@@ -1,0 +1,34 @@
+{
+        "name": "jelloff",
+        "version": "0.9.9",
+	"description": "",
+	"keywords": ["compact", "php", "framework"],
+	"authors": [
+		{
+		   "name":"Ifeora Okechukwu"
+		}
+	],
+        "private":true,
+        "scripts":{
+           "tests":""
+        },
+        "engines": {
+           "node": "*"
+        },
+        "devDependencies":{
+            "grunt":"*",
+            "grunt-contrib-compress":"*",
+            "grunt-contrib-cssmin":"*",
+            "grunt-contrib-jasmine":"*",
+            "grunt-contrib-csslint":"*",
+            "grunt-contrib-imagemin":"*",
+            "grunt-contrib-concat":"*",
+            "grunt-contrib-uglify":"*",
+            "grunt-contrib-jshint":"*",
+            "grunt-htmlhint":"*",
+            "matchdep":"*"
+        },
+        "dependencies":{
+
+        }
+}
