@@ -1,7 +1,7 @@
 {
         "name": "jelloff",
         "version": "0.9.9",
-	"description": "",
+	"description": "The lighweight PHP framework for developer who love smart work",
 	"keywords": ["compact", "php", "framework"],
 	"authors": [
 		{
