@@ -1,6 +1,6 @@
 <?php
 
-class UserRole extends Model /* implements AuthService */ {
+class UserRole extends Model {
 
     protected $table = 'tbl_user_role';
 
