@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title>Jelloff - Page Not Found</title>
+   <meta charset="utf-8">
+</head>
+<body>
+  <h2>Page at =@url was not found on this server</h2>
+  <span>Lets, get you back to the <a href="[!asset(/)]">begining</a> so it's easy to find you way onwards.</span>
+</body>
+</html>
