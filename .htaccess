@@ -1,0 +1,26 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+    	Options -MultiViews
+    </IfModule>
+
+		RewriteEngine On
+
+		# Trigger Jelloff Routes
+
+		RewriteCond %{REQUEST_URI} !^/documentation/(.*)$
+		RewriteRule !^(.+\.)([a-z]+)(\/)?$ public/index.php [E=HTTP_CONTENT_TYPE:%{HTTP:Content-Type},L,QSA]
+</IfModule>
+
+# Mime Types for Special Files
+
+AddType text/cache-manifest .appcache # Offline-First support
+AddType application/manifest+json .json # Manifest for Native Web Apps support
+AddType video/ogg .ogv # codec
+AddType video/mp4 .mp4 # mp4 codec
+AddType video/webm .webm # theora codec
+
+# Mobile Site/App Version Crawling - This helps googlebot when crawling your web site/app on mobile devices
+	
+<IfModule mod_headers.c> 
+		Header append Vary User-Agent
+</IfModule> 

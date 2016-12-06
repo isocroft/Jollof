@@ -1,0 +1,14 @@
+# skip os specific files/folders
+
+.DS_Store
+.obj
+Thumbs.db
+*.exe
+*.zip
+
+# skip base files/folders
+
+hooks
+packages/vendor
+packages/node_modules
+.env
