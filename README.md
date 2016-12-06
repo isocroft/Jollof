@@ -19,3 +19,13 @@ Views and Routes can be easily setup using the console command
 ```
 
 As well as Controllers and Models
+
+```bash
+	$ php jelloff make:model Comment
+```
+
+```bash 
+	$ php jelloff make:controller Account Settings
+```
+
+_Mobicent Nigeria Ltd_
