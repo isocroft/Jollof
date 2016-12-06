@@ -28,4 +28,4 @@ As well as Controllers and Models
 	$ php jelloff make:controller Account Settings
 ```
 
-_Mobicent Nigeria Ltd_
+_Mobicent, Ltd_
