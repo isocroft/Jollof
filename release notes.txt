@@ -1,0 +1,87 @@
+################# Jelloff PHP MVC Framework  ###################
+
+
+
+Codename : JMF-132
+Version : 0.9.9-beta
+BuildID : LP-56hrtd679dhje7784bzva
+GUID : 2648-0a43-687b-75382654-c142
+Author(s): Ifeora Okechukwu Patrick
+Copyright (c) 2016 - 2017
+
+SIDE NOTE
+ - The Jelloff Project is very grateful to Mr. Micheal Akpobome (mike98989@gmail.com) for the initial concept and inspiration for this PHP MVC framework. 
+
+
+
+
+
+
+CHANGE LOG (8) - v0.9.9-beta
+ - Changed views file from '.php' to '.view' and included logic for view 'compilation'
+ - Completed strict sepration of concerns for controllers and models and views
+ - Made Session cookie hidden from client (browser) to prevent possible XSS attacks
+ - Added CSRF token for every client request.
+ - Included '.log' file to write log data and for easy debugging
+ - Removed query parameter from '.htaccess' rewrite path and modified request uri rewrite methodology
+ - Included command-line options for varying tasks e.g. Model File Creation, View File Creation, Route Creation e.t.c
+ - Included 'routes' folder to serve as central location for route definitions
+ - Created a scaled down query builder for Database access (MySQL alone)
+ - Created 'packages' folder to serve as storage for composer packages & npm modules (especially Grunt for task running)
+
+
+
+
+
+
+CHANGE LOG (0) - v1.0.0-beta
+ - No details yet
+
+CHANGE LOG (0) - v1.0.1-beta
+ - No details yet
+
+CHANGE LOG (0) - v1.0.2-beta
+ - No details yet
+
+CHANGE LOG (0) - v1.0.3-rc
+ - No details yet
+
+
+
+
+KNOWN BUGS (0) - v1.0.0-beta
+ - No details for now
+
+KNOWN BUGS (0) - v1.0.1-beta
+ - No details for now
+
+KNOWN BUGS (0) - v1.0.2-beta
+ - No details yet
+
+KNOWN BUGS (0) - v1.0.3-rc
+ - No details yet
+
+
+
+CAVEATS (0)
+ - No details for now
+
+
+
+
+FINAL UPDATES FOR THIS VERSION (v1.0.0-beta) - [{beta}] timeline early 2017 
+ - Enhance the current query builder functionality and rewrite and arrange database query builder class files
+ - Implement Faker.ng command via the exposed API for Jelloff Framework
+ - Hot fixes for any known bugs for 2016 build
+
+COMING UPDATES FOR NEXT VERSION (v1.0.1-beta) - [patch 1 {beta}] - timeline mid 2017
+ - Implement the PHP DOM Renderer for ReactJS server-side rendering (https://reactjs/react-php-v8js)
+ - Final fixes for any known bugs for 2016/2017 builds
+   
+COMING UPDATES FOR NEXT VERSION (v1.0.2-beta) - [patch 2 {release candidate}] - timeline late 2017
+ - Implement mature Database Migrations
+ - Improve performace for 2016/2017 build
+ 
+COMING UPDATES FOR NEXT VERSION (v1.0.3-rc) - [patch 3 {release candidate}] - timeline early 2018
+ - No details for now
+ 

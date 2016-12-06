@@ -1,0 +1,394 @@
+#!/usr/bin/env php
+
+<?php
+
+	require_once 'system/boot.php';
+
+	$model_path = __DIR__ . '/models/';
+
+    $ctrl_path = __DIR__ . '/controllers/';
+
+    $views_path = __DIR__ . '/views/';
+
+    $tests_path = __DIR__ . '/system/tests/';
+
+    $route_path = __DIR__ . '/system/routes/setup.php';
+
+    $class_maps_path = __DIR__ . '/system/base/';
+
+	$args  = $_SERVER['argv'];
+
+	$promptList = NULL;
+
+	$colors = array(
+	   "RED" => "\033[31m ",
+	   "GREEN" => "\033[32m ",
+	   "BLUE" => "\033[34m ",
+	   "CYAN" => "\033[36m ",
+	   "YELLOW" => "\033[33m ",
+	   "WHITE" => "\033[37m ",
+	   "BLACK" => "\033[30m ",
+	   "PURPLE" => "\033[35m ",
+	   "BROWN" => "\033[33m "
+	);
+
+	$script_name = array_shift($args);
+ 
+    $command = array_shift($args);
+
+	$tokens = array_slice($args, 0);
+
+	$stdinLines = array();
+
+	$out = array();
+
+	$in = NULL;
+
+	$errormsg = "";
+
+	$errorlevel = 0;
+
+	if($script_name !== "jelloff"){
+
+		  exit($errorlevel);
+	}
+
+  if($command === "run:tests"){
+
+         $isCore = false;
+         $prefix = '';
+        
+         if(count($tokens) > 0){
+          
+              $isCore = ($tokens[0] === 'core');
+
+         }
+
+         if($isCore){
+
+              $prefix = 'bin/';
+         }
+
+         chdir('packages');
+
+         exec($prefix.'phpunit', $out, $errorlevel);
+
+         chdir('..');
+  }
+
+
+	if($command === "run:tasks"){
+
+        chdir('packages');
+         
+        if(count($tokens) > 0){ 
+
+             exec('grunt:' . $tokens[0], $out, $errorlevel);
+
+        }else{
+
+        	 exec('grunt', $out);
+        }     
+
+        chdir('..');
+
+	}
+
+	if($command === "run:dumpautoload"){
+
+        chdir('packages');
+
+        if(count($tokens) > 0){
+
+	        switch ($tokens[0]) {
+
+	            	case 'composer':
+
+	            		exec('composer dumpautoload', $out, $errorlevel);
+
+	            	break;
+	            	default:
+                    
+            		     $errorlevel = 1;
+
+            	  break;
+	        }
+
+
+	    }
+	        
+        chdir('..'); 
+	}
+
+	if($command === "run:install"){
+
+        chdir('packages');
+
+        if(count($tokens) > 0){ 
+
+            if(array_key_exists(1, $tokens)){
+
+            	$package = ' ' . $tokens[1];
+
+            }else{
+
+            	$package = ''; #
+
+            }
+
+            switch ($tokens[0]) {
+
+            	case 'npm':
+
+            		exec('npm install' . $package, $out, $errorlevel);
+
+            	break;
+
+            	case 'composer':
+
+                if($package == ' *listed'){
+
+                    exec('composer install', $out, $errorlevel);
+
+                }else{
+
+            		    exec('composer require' . ($package !== ''? $package : ' --dev'), $out, $errorlevel);
+
+                }
+
+            	break;
+            	
+            	default:
+                    
+            		$errorlevel = 1;
+
+            	break;
+            }
+
+        }    
+             
+        chdir('..');    
+   
+	}
+
+
+	if($command === "make:env"){
+
+        make_file('.env');
+
+		$promptList = array(
+			'db_hostname= ',
+			'db_username= ',
+      'db_password= '
+		);
+
+		fwrite(STDOUT, PHP_EOL . "Please enter details for database: " . PHP_EOL);
+
+		sleep(1);
+
+		foreach ($promptList as $prompt) {
+			
+			 fwrite(STDOUT, $prompt);
+
+			 $in = fgets(STDIN);
+
+			 //fflush(STDIN);
+
+			 $stdinLines[] = trim($prompt) . $in;
+
+		}
+
+		$stdinLines[] = 'app_key=' . str_replace('.', '', Helpers::generateCode()); // encryption key
+
+        write_to_file((implode('', $stdinLines)), '.env');
+
+        fwrite(STDOUT, PHP_EOL . "All Done. " . PHP_EOL);	
+	
+	}
+
+	if($command === 'make:test'){
+
+          chdir($tests_path);
+
+          if(count($tokens) > 0){
+
+          	   $testfile = ucfirst($tokens[0]);
+
+          	   fwrite(STDOUT, 'Creating Test File: ' . $testfile . '.php' . PHP_EOL);
+
+          	   file_put_contents($testfile . '.php', "<?php \n\n class " . $testfile . " extends TestCase { \n\n\t # code ... \n\n } ?>");	   
+          }
+
+          fwrite(STDOUT, PHP_EOL . "All Done. " . PHP_EOL);
+
+          chdir('..');
+	}
+
+	if($command === 'make:view'){
+        
+        chdir($views_path);
+
+		if(count($tokens) > 0){
+
+              $new_path_pieces = NULL;
+              $depth = 0;
+      		   	$new_path = $tokens[0];
+
+      		   	if(starts_with($new_path, '/')){
+                    $new_path = substr($new_path, 1);
+      		   	}
+
+              if(ends_with($new_path, '.view')){
+                    $new_path = str_replace('.view', '', $new_path);
+              }
+
+      		   	if(contains($new_path, DIRECTORY_SEPARATOR)){
+                    $new_path = preg_replace('/[\x5c]/i', '/', $new_path);
+      		   	}
+
+      		   	if(contains($new_path, '/')){
+                    $new_path_pieces = explode('/', $new_path);
+      		   	}else{
+      		   		    $new_path_pieces = array($new_path);
+      		   	}
+ 				
+              $new_path_pieces_len = count($new_path_pieces);
+
+                while($new_path_pieces_len != 1){
+
+                	 $view_folder = array_shift($new_path_pieces);
+
+                     File::makeFolder($view_folder);
+
+                     --$new_path_pieces_len;
+
+                     ++$depth;
+
+                     chdir($view_folder);	
+                }
+
+                File::makeFile($new_path_pieces[0] . '.view');
+		}
+
+		while($depth > 0){
+
+            chdir('..');
+
+            --$depth;
+		}
+
+		chdir('..');
+
+		fwrite(STDOUT, PHP_EOL . "All Done. " . PHP_EOL);
+
+	}
+
+	if($command === 'make:model'){
+
+	    while(NULL !== ($token = array_shift($tokens))){
+
+	    	 $in = $model_path . ucfirst($token) . '.php';
+
+	    	 fwrite(STDOUT, 'Creating Model File: ' . ucfirst($token) . '.php' . PHP_EOL);
+
+			 make_file($in);
+
+			 sleep(1);
+
+			 file_put_contents($in, "<?php \n\n class " . ucfirst($token) . " extends Model { \n\n\t protected \$table = '...'; \n\n\t protected \$primaryKey = '...'; \n\n\t protected \$relations = array(); \n\n\t public function __construct(){ \n\n\t\t parent::__construct(); \n\n\t }  \n\n } \n\n ?> ", LOCK_EX);
+
+			 $marker = '     "\\\\Model" => $compDir . "/../../models/Model",' . PHP_EOL;
+
+			 $class_map_arr = file($class_maps_path . '/class_maps.php'); // FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
+
+             $key = array_search($marker, $class_map_arr);
+
+             array_splice($class_map_arr, intval($key)+1, 0, preg_replace('/Model/', ucfirst($token), $marker));
+
+             file_put_contents($class_maps_path . 'class_maps.php', implode('', $class_map_arr), LOCK_EX);
+
+		}
+
+		fwrite(STDOUT, PHP_EOL . "All Done. " . PHP_EOL);
+
+	}
+
+	if($command === 'make:controller'){
+
+        while(NULL !== ($token = array_shift($tokens))){
+
+        	$in = $ctrl_path . ucfirst($token) . '.php';
+
+	    	fwrite(STDOUT, 'Creating Controller File: ' . ucfirst($token) . '.php' . PHP_EOL);
+
+        	make_file($in);
+
+        	sleep(1); /* write_to_file */
+
+        	file_put_contents($in, " <?php \n\n class " . ucfirst($token) ." extends Controller { \n\n\t protected \$params; \n\n\t public function __construct(array \$params = array()){ \n\n\t\t parent::__construct(\$params); \n\n\t } \n\n\t public function index(\$models){  \n\n\t\t # code... \n\n\t } \n\n } \n\n ?> ", LOCK_EX);
+
+        	  $marker = '     "\\\\Controller" => $compDir . "/../../controllers/Controller",' . PHP_EOL;
+
+            $class_map_arr = file($class_maps_path . 'class_maps.php'); // FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
+
+            $key = array_search($marker, $class_map_arr);
+
+            array_splice($class_map_arr, intval($key)+1, 0, preg_replace('/Controller/', ucfirst($token), $marker));
+
+            file_put_contents($class_maps_path . 'class_maps.php', implode('', $class_map_arr), LOCK_EX);
+
+        }
+
+        fwrite(STDOUT, PHP_EOL . "All Done. " . PHP_EOL);
+
+	}
+
+	if($command === 'make:route'){
+
+		if(count($tokens[0]) > 0){ 
+
+			$routeUrl = $tokens[0];
+
+			$routeVerb = array_key_exists(1, $tokens) ? strtolower($tokens[1]) : "get";
+            
+            fwrite(STDOUT, PHP_EOL . "Creating route: $routeUrl" . PHP_EOL);
+
+		 	sleep(1);
+			
+			file_put_contents($route_path, PHP_EOL . PHP_EOL . " Router::bind('{$routeUrl}', array('models'=> array(), 'params' => array()" . ($routeVerb != "get" ? ", 'verb' => '{$routeVerb}' " : "") . "));", FILE_APPEND | LOCK_EX);
+
+			fwrite(STDOUT, PHP_EOL . "All Done. " . PHP_EOL);
+
+		}	
+			 
+	}
+
+  if($command === 'make:component'){
+
+
+  }
+
+	$outline = join($out); 
+
+	if($errorlevel === 0){
+
+        // If the {$outline} contains output color formatting, we deal with it here
+		fwrite(STDOUT, str_replace("\e", "\033", $outline));
+
+		fclose(STDOUT);
+	}
+
+	if($errorlevel === 1){ 
+        
+        // If the {$outline} contains output color formatting, we deal with it here
+        fwrite(STDERR, str_replace('\e', "\033", $outline));
+
+		fclose(STDERR);
+
+	}
+
+	$out = array();
+
+	exit($errorlevel);
+
+?>
