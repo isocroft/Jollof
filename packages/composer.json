@@ -1,0 +1,32 @@
+{
+        "name": "mobicent/jelloff",
+        "description": "This is a lighweight PHP framework for developers who love smart work",
+        "keywords": ["compact", "php", "framework"],
+        "type": "project",
+        "authors": [
+          {
+            "name":"Ifeora Okechukwu"
+          }
+        ],
+        "require": {
+            
+        },
+        "require-dev": {
+          "mockery/mockery":"0.9.*",
+          "phpunit/phpunit":"4.7.*"
+        },
+        "autoload": {
+          "classmap": [
+             "../system/tests/"	
+          ],
+                      "psr-4": {
+                         "Jelloff\\": "../system/extensions/apis/src/Jelloff/"
+                      }
+        },
+        "scripts": {
+          "post-install-cmd": [
+
+          ]
+        },
+        "minimum-stability": "stable"
+}
