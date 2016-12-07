@@ -5,7 +5,7 @@
 
 		RewriteEngine On
 
-		# Trigger Jelloff Routes
+		# Trigger Jollof Routes
 
 		RewriteCond %{REQUEST_URI} !^/documentation/(.*)$
 		RewriteRule !^(.+\.)([a-z]+)(\/)?$ public/index.php [E=HTTP_CONTENT_TYPE:%{HTTP:Content-Type},L,QSA]

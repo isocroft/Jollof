@@ -4,11 +4,11 @@
     ! 
     ! In the begining, We have to boot up the {System} and then
     ! load up all class files needed to get started  using the
-    ! Jelloff autoloader.
+    ! Jollof autoloader.
     !
     !
     !
-    ! * Jelloff (c) Copyright 2016
+    ! * Jollof (c) Copyright 2016
     ! *
     ! *
     ! *

@@ -8,9 +8,9 @@ php:
  - "hhvm"
  
 before_script:
- - php jelloff run:install composer *listed
+ - php jollof run:install composer *listed
 
-script: php jelloff run:tests core
+script: php jollof run:tests core
 
 matrix:
  fast_failure:true
