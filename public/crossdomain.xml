@@ -1,7 +1,9 @@
 <?xml version="1.0" ?>
 <!DOCTYPE cross-doamin-policy SYSTEM "https://www.adobe.com/xml/dtds/cross-domain-policy.dtd">
 <cross-domain-policy>
-   <!-- @collegemobile Read this: https://www.adobe.com/devnet/articles/cross-domain-policy-file-spec.html -->
+   <!-- Read this: https://www.adobe.com/devnet/articles/cross-domain-policy-file-spec.html for clarifications on how -->
+   <!-- the application can use Adobe Flash to request a resource from a diferent domain without being limited by the -->
+   <!-- Same-Origin policy for browsers -->
 
    <site-control permitted-cross-domain-policies="none" />
 
