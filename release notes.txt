@@ -78,7 +78,7 @@ COMING UPDATES FOR NEXT VERSION (v1.0.1-beta) - [patch 1 {beta}] - timeline mid 
  - Implement the PHP DOM Renderer for ReactJS server-side rendering (https://reactjs/react-php-v8js)
  - Final fixes for any known bugs for 2016/2017 builds
    
-COMING UPDATES FOR NEXT VERSION (v1.0.2-beta) - [patch 2 {release candidate}] - timeline late 2017
+COMING UPDATES FOR NEXT VERSION (v1.0.2-beta) - [patch 2 {beta}] - timeline late 2017
  - Implement mature Database Migrations
  - Improve performace for 2016/2017 build
  
