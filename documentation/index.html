@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Home - Jelloff</title>
+ <meta charset="utf-8">
+ <link rel="stylesheet" type="text/css" href="./bootstrap.css">
+ <link rel="stylesheet" type="text/css" href="./documentation.css">
+ <link rel="stylesheet" type="text/css" href="./mobile.css">
+
+</head>
+<body class="surface relative non-selectable">
+  <div class="menu fixed snap-top-left" id="menu">
+     <h4 class="menu-heading clear-fix">
+     	<span class="line-block-box float-left">MENU</span>
+     	<a href="javascript:void(0);" class="btn menu-close-btn line-block-box float-right nav-btn"><b>&times;</b></a>
+     </h4>
+     <ul class="menu-list">
+     	<li class="menu-list-item">
+     		<h5 class="sub-menu-heading">GETTING STARTED</h5>
+     		<ul class="sub-menu-list">
+     		    <li class="sub-menu-list-item"><a href="./getting-started/app-lifecycle.html">App LifeCycle</a></li>
+     		    <li class="sub-menu-list-item"><a href="./getting-started/app-folders.html">App Folders</a></li>
+     			<li class="sub-menu-list-item"><a href="./getting-started/setting-up-configs.html">Setting Up Configs</a></li>
+                <li class="sub-menu-list-item"><a href="./getting-started/creating-controllers.html">Creating Controllers</a></li>
+                <li class="sub-menu-list-item"><a href="./getting-started/creating-models.html">Creating Models</a></li>
+     			<li class="sub-menu-list-item"><a href="./getting-started/creating-views.html">Creating Views</a></li>
+     		</ul>
+     	</li>
+     	<li class="menu-list-item">
+     		<h5 class="sub-menu-heading">APIs</h5>
+     		<ul class="sub-menu-list">
+     			<li class="sub-menu-list-item"><a href="./apis/components.html">Components</a></li>
+                <li class="sub-menu-list-item"><a href="./apis/console.html">Console</a></li>
+     		</ul>
+     	</li>
+     	<li class="menu-list-item last-item">
+     		{$add}
+     	</li>
+     </ul>
+  </div>
+  <header class="header fixed snap-top-left clear-fix" id="header">
+  	   <div class="header-branding pull-left">
+  	   	  <ul class="nav navbar-nav">
+  	   	  	  <li><a href="javascript:void(0);" class="btn btn-menu btn-plain nav-btn"><strong>&#9776;</strong></a></li>
+  	   	  	  <li><b>Jelloff</b></li>
+  	   	  </ul>
+  	   </div>
+       <div class="header-extra pull-right"><a href="javascript:void(0);" id="load-app" class="btn btn-primary">GO TO APP</a></div>
+  </header>
+  <section class="section content relative text-center">
+        <div class="content-img-wrapper absolute">
+           <img src="./mast.png" id="mast" class="img-responsive content-banner">
+        </div>  
+        <span class="line-block-box content-banner-caption">
+             <strong>Jelloff</strong>
+        </span>
+        <span class="block-box content-banner-text">
+        	<b class="banner-text-top block-box">the php mvc framework</b>
+        	<i class="banner-text-bottom block-box">for developers who love smart work!</i>
+        </span>
+  </section>
+  <section class="container-fluid text-center">
+  	    <div class="col-md-4">
+  	        <h3>COMPACT</h3>
+  	        <p class="punched-up"><kbd>Jelloff</kbd> is a fully featured framework with all its' parts tightly knitted together. You don't have to write a lot of code to get started on a serious project. Enjoy web development like you've never!</p>
+  	    </div>
+  	    <div class="col-md-4">
+  	        <h3>LIGHTWEIGHT</h3>
+            <p class="punched-up"><kbd>Jelloff</kbd> is a really portable PHP MVC framework for fast and efficient developement. It has a small footprint on the filesystem when compared to other mature PHP MVC frameworks.</p>
+  	    </div>
+  	    <div class="col-md-4">
+  	        <h3>CONFIGURABLE</h3>
+    		<p class="punched-up"><kbd>Jelloff</kbd> developers aren't looking for extendablility anymore. they all want a framework with all the needed capabilities built into it and just have to configure these capabilities to suit their needs.</p>
+  	    </div>
+  </section>
+  <footer class="footer clear-fix">
+  	  <div class="footer-copyright pull-left"><span><script>document.write((new Date).getFullYear());</script> &copy; Copyright, <strong>Jelloff Framework.</strong> All Rights Reserved&reg;. Mobicent Ltd.</span></div>
+      <div class="footer-extra pull-right"><a href="https://www.jelloff.com/apps" class="btn btn-plain"><img src="" alt="All apps built with Jelloff Framework"></a></div>
+  </footer>
+  <script type="text/javascript" src="./documentation.js?id=0976"></script>
+</html>
