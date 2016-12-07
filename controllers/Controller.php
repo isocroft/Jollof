@@ -12,7 +12,7 @@ class Controller {
 
     public function index($models){
 
-        return Response::view('index', array('framework' => 'Jelloff', 'title' => 'PHP MVC Framework'));	
+        return Response::view('index', array('framework' => 'Jollof', 'title' => 'PHP MVC Framework'));	
     } 
 
 }

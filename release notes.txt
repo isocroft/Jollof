@@ -1,4 +1,4 @@
-################# Jelloff PHP MVC Framework  ###################
+################# Jollof PHP MVC Framework  ###################
 
 
 
@@ -10,7 +10,7 @@ Author(s): Ifeora Okechukwu Patrick
 Copyright (c) 2016 - 2017
 
 SIDE NOTE
- - The Jelloff Project is very grateful to Mr. Micheal Akpobome (mike98989@gmail.com) for the initial concept and inspiration for this PHP MVC framework. 
+ - The Jollof Project is very grateful to Mr. Micheal Akpobome (mike98989@gmail.com) for the initial concept and inspiration for this PHP MVC framework. 
 
 
 
@@ -71,7 +71,7 @@ CAVEATS (0)
 
 FINAL UPDATES FOR THIS VERSION (v1.0.0-beta) - [{beta}] timeline early 2017 
  - Enhance the current query builder functionality and rewrite and arrange database query builder class files
- - Implement Faker.ng command via the exposed API for Jelloff Framework
+ - Implement Faker.ng command via the exposed API for Jollof Framework
  - Hot fixes for any known bugs for 2016 build
 
 COMING UPDATES FOR NEXT VERSION (v1.0.1-beta) - [patch 1 {beta}] - timeline mid 2017

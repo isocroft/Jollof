@@ -22,7 +22,7 @@
 	</php>
 
 	<testsuites>
-		<testsuite name="Jelloff Test Suite">
+		<testsuite name="Jollof Test Suite">
 			<directory>../system/tests/framework</directory>
 		</testsuite>
 	</testsuites>

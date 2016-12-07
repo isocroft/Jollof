@@ -48,7 +48,7 @@
 
 	$errorlevel = 0;
 
-	if($script_name !== "jelloff"){
+	if($script_name !== "jollof"){
 
 		  exit($errorlevel);
 	}

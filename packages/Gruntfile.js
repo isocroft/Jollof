@@ -1,6 +1,6 @@
 /*
  *
- * Jelloff Copyright (c) 2016.
+ * Jollof Copyright (c) 2016.
  */
 
 

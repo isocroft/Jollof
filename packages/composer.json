@@ -1,5 +1,5 @@
 {
-        "name": "mobicent/jelloff",
+        "name": "mobicent/jollof",
         "description": "This is a lighweight PHP framework for developers who love smart work",
         "keywords": ["compact", "php", "framework"],
         "type": "project",
@@ -20,7 +20,7 @@
              "../system/tests/"	
           ],
                       "psr-4": {
-                         "Jelloff\\": "../system/extensions/apis/src/Jelloff/"
+                         "Jollof\\": "../system/extensions/apis/src/Jollof/"
                       }
         },
         "scripts": {

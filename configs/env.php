@@ -7,7 +7,7 @@
     !
     !
     !
-    ! * Jelloff (c) Copyright 2016
+    ! * Jollof (c) Copyright 2016
     ! *
     ! *
     ! *

@@ -14,7 +14,7 @@
          verbose="true">
          
             <testsuites>
-                <testsuite name="Jelloff App Test Suite">
+                <testsuite name="Jollof App Test Suite">
                     <directory suffix="Test.php">../system/tests</directory>
                 </testsuite>
             </testsuites>
