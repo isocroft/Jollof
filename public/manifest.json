@@ -1,13 +1,8 @@
 {
-	"name":"Jelloff",
-	"short_name":"Jelloff",
+	"name":"Jollof",
+	"short_name":"Jollof",
 	"lang":"en",
 	"icons":[
-		{
-			"src":"./public/img/icons/logo_low_res.png",
-			"sizes":"64x64",
-			"type":"image/png"
-		},
 		{
 			"src":"./public/img/icons/logo_hd_low.png",
 			"sizes":"64x64",
