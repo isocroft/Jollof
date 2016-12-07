@@ -1,15 +1,10 @@
 <?xml version="1.0" standalone="no" ?>
 <urlset xsi:schemaLocation="http://sitemaps.org/schemas/sitemap/0.9 http://sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  <!-- Edit the below to suit current needs for several URLs -->
   <url>
-      <loc>http://www.foop.com.ng</loc>
+      <loc>http://localhost</loc>
       <lastmod>2016-11-29</lastmod>
 	  <changefreq>monthly</changefreq>
 	  <priority>1.0</priority>
-  </url>
-  <url>
-      <loc>http://www.foop.com.ng/user</loc>
-      <lastmod>2016-12-11</lastmod>
-	  <changefreq>yearly</changefreq>
-	  <priority>0.1</priority>
   </url>
 </urlset>
