@@ -1,6 +1,6 @@
 <?php
 
-    define('JELLOFF_EXEC_ID', mt_rand(1, time()));
+    define('JOLLOF_EXEC_ID', mt_rand(1, time()));
 
    /*!------------------------------------------------------
     ! It's only natural that we rep Naija by modifiying the
@@ -108,8 +108,8 @@
 
    /*!------------------------------------------------------
     ! 
-    ! Start piecing together the controller action from the 
-    ! current activated route
+    ! Start piecing together the controller action and models
+    ! from the current activated route
     !
     !
     !
@@ -126,7 +126,7 @@
    /*!------------------------------------------------------
     ! 
     ! Lets' cross our fingers and have a good ride on the 
-    ! application cycle.
+    ! application cycle. Osheee!
     !
     !
     !
@@ -138,6 +138,5 @@
     ! *
     --------------------------------------------------------*/
 
-    # compact(); create_function(args, code); :-)
 
 ?>
