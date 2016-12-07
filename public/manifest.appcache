@@ -1,0 +1,15 @@
+CACHE MANIFEST
+# 2016-12-09:v1
+
+# Explicitly cached 'master entries'
+CACHE:
+
+/
+/public/favicon.ico
+/public/assets/img/offline.png
+
+NETWORK:
+*
+
+FALLBACK:
+/ /public/offline.html
