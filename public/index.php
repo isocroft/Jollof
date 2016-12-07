@@ -90,7 +90,7 @@
 
    /*!------------------------------------------------------
     ! 
-    ! Load up all the application event observer callbacks
+    ! Load up all the application event observers/callbacks
     !
     !
     !
