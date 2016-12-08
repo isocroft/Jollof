@@ -25,7 +25,7 @@
        	   return Response::view('errors/report', array('err' => $code, 'msg' => $message, 'file' => $file, 'line' => $line));
        	break;
        	case 'prod': # Staging/Production Environment
-           # use the app error reporter or any external reporters e.g. BugSnag
+           # use the app error reporter or any external reporters e.g. from BugSnag
            # code ...
        	break;
        	default:
