@@ -1,0 +1,9 @@
+{
+  "public":true,
+  "base_paths":[
+      "base/providers",
+      "base/components",
+      "base/contracts"
+  ],
+  "old_php_autoload_file":"base/_autload.php"
+}
