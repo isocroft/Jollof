@@ -1,11 +1,11 @@
 <?php
 
-/*-------------------------------
+/*!
  * Jollof Framework (c) 2016
  * 
  * {class_maps.php}
  *
- --------------------------------*/
+ */
 
 $compDir = basename(__DIR__);
 $compDir = "/" .  $compDir;
