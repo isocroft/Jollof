@@ -15,12 +15,16 @@
 ! *
 ----------------------------------------------------------*/
  
- Router::bind('/', array('models' => array()));
+ Router::bind('/', array('verb' => 'get', 'models' => array()));
 
- Router::bind('/admin', array('models' => array()));
+ Router::bind('/admin', array('verb' => 'get', 'models' => array()));
+
+ Router::bind('/account/login/@provider', array('verb' => 'get', 'models' => array(), 'params'=>array('provider' => '/^$/i')));
+
+ Router::bind('/account/register/@mode', array('verb' => 'get', 'models' => array(), 'params' => array('mode' => '/^$/i')));
  
- Router::bind('/account/login/@provider', array('models' => array(), 'params'=>'/^(?:(?:oauth-([a-z]+))|email|)$/i'));
+ Router::bind('/account/login/@provider', array('verb' => 'post', 'models' => array(), 'params'=> array('provider' => '/^(?:(?:oauth-([a-z]+))|email)$/i')));
 
- Router::bind('/account/register/@mode', array('models' => array(), 'params' => array('/^(create|)$/i')));
+ Router::bind('/account/register/@mode', array('verb' => 'post', 'models' => array(), 'params' => array('mode' => '/^create$/i')));
 
  
