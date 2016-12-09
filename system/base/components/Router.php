@@ -187,7 +187,7 @@ final class Router {
                          $hasKey = array_key_exists($i, $routeParts);
 
                          if($hasKey){
-	     	 	 	         $index = index_of($routeParts[$i], '@');
+	     	 		$index = index_of($routeParts[$i], '@');
                          }   
 	     	 	 	     // validation: 
                          if($index === 0 && $i === 0){ // No route parameter should be at the beginning of a route url
@@ -219,8 +219,7 @@ final class Router {
 		     	 }
 		     	 if(count($checks) === count($routeParts)){
 		     	 	  $this->currentRouteUrl = $route;
-                      \Logger::info("The Current Route: " . $this->currentRouteUrl);
-                      return TRUE;
+                                  return TRUE;
 		     	 }	 
      	 }
 
@@ -273,7 +272,6 @@ final class Router {
                  }
              }
 
-             \Logger::info("Current HTTP Verb: " . strtolower($settings['verb']) . " Requested: " . $requestMethod);
          	 if(strtolower($settings['verb']) !== $requestMethod){
                  if($i !== ($sLen - 1)){
                     // this route may not be the one we are looking for... so keep checking
