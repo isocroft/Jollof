@@ -26,7 +26,11 @@
 
              'session_driver' => "#native",  #options: ("#native", "#redis")
 
-             'session_name' => "JELLOFF_SESS_ID" # change the session name
+             'session_name' => "JELLOFF_SESS_ID", # change the session name
+          
+              'sessions_host' => '127.0.0.1',
+          
+              'sessions_port' => 6379
         ),
 
         "app_paths" => array (
