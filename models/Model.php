@@ -18,9 +18,11 @@ class Model implements DBInterface {
 
      public function __construct(){
 
-          if(file_exists($GLOBALS['env']['app.path.base'] . '.env')){
+          $envfile = $GLOBALS['env']['app.path.base'] . '.env';
 
-              $app->setDBConnection($GLOBALS['env']['app.path.base'] . '.env');
+          if(file_exists($envfile)){
+
+              $app->setDBConnection($envfile);
 
           }else{
 
