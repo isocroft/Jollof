@@ -774,7 +774,8 @@ if(! function_exists('db_put') ){ ## SQL INSERT
 		  
 		       $param_count = 0;
 		       $set_array = array();
-               $stmt = $pdo->prepare($query);
+           $stmt = $pdo->prepare($query);
+
 		       foreach($params as $type => $param){
 		           $stmt->bindParam(++$param_count, ("int" != $type? $param : intval($param)), $param_types[$type]);
 		       }
@@ -816,7 +817,36 @@ if(! function_exists('db_post') ){  ## SQL UPDATE
 		  if(!starts_with($query, "UPDATE", TRUE)){
 		      return NULL;
 		  }
-	}
+
+      try{
+      
+           $param_count = 0;
+           $set_array = array();
+           $stmt = $pdo->prepare($query);
+
+           foreach($params as $type => $param){
+               $stmt->bindParam(++$param_count, ("int" != $type? $param : intval($param)), $param_types[$type]);
+           }
+     
+              if($transact)
+                 $pdo->beginTransaction();
+ 
+              if($stmt->execute()){
+                   
+                     if($commit)
+                         $pdo->commit();
+                  
+                         return 1;   
+              }else{
+               
+                    $pdo->rollBack();
+                    return NULL;               
+              }     
+         
+      }catch(\Exception $e){
+             throw $e;
+      } 
+	  }
 }	
 
 if(! function_exists('db_del') ){ ## SQL DELETE
@@ -831,7 +861,37 @@ if(! function_exists('db_del') ){ ## SQL DELETE
 		  if(!starts_with($query, "DELETE", TRUE)){
 		      return NULL;
 		  }
-	}
+
+      try{
+      
+           $param_count = 0;
+           $set_array = array();
+           $stmt = $pdo->prepare($query);
+
+           foreach($params as $type => $param){
+               $stmt->bindParam(++$param_count, ("int" != $type? $param : intval($param)), $param_types[$type]);
+           }
+     
+              if($transact)
+                 $pdo->beginTransaction();
+ 
+              if($stmt->execute()){
+                   
+                     if($commit)
+                         $pdo->commit();
+                  
+                         return 1;   
+              }else{
+               
+                    $pdo->rollBack();
+                    return NULL;               
+              }     
+         
+      }catch(\Exception $e){
+             throw $e;
+      }
+	
+  }
 }
 
 if(! function_exists('db_copy') ){ ## SQL INSERT/SELECT
