@@ -1,0 +1,193 @@
+﻿<!DOCTYPE html>
+<html class="" lang="en">
+<head>
+ <title>App Lifecycle - Jollof</title>
+ <meta charset="utf-8">
+ <link rel="stylesheet" type="text/css" href="../bootstrap.css">
+ <link rel="stylesheet" type="text/css" href="../documentation.css">
+ <!-- <link rel="stylesheet" type="text/css" href="../mobile.css"> -->
+
+</head>
+<body class="screen relative">
+  <div class="menu fixed snap-top-left" id="menu">
+     <h4 class="menu-heading clear-fix">
+     	<span class="line-block-box float-left">MENU</span>
+     	<a href="javascript:void(0);" class="btn menu-close-btn line-block-box float-right nav-btn"><b>&times;</b></a>
+     </h4>
+     <ul class="menu-list">
+     	<li class="menu-list-item">
+     		<h5 class="sub-menu-heading">GETTING STARTED</h5>
+     		<ul class="sub-menu-list">
+          <li class="sub-menu-list-item"><a href="../getting-started/app-lifecycle.html">App LifeCycle</a></li>
+          <li class="sub-menu-list-item"><a href="../getting-started/app-folders.html">App Folders</a></li>
+     			<li class="sub-menu-list-item"><a href="../getting-started/setting-up-configs.html">Setting Up Configs</a></li>
+                <li class="sub-menu-list-item"><a href="../getting-started/creating-controllers.html">Creating Controllers</a></li>
+                <li class="sub-menu-list-item"><a href="../getting-started/creating-models.html">Creating Models</a></li>
+     			<li class="sub-menu-list-item"><a href="../getting-started/creating-views.html">Creating Views</a></li>
+     		</ul>
+     	</li>
+     	<li class="menu-list-item">
+     		<h5 class="sub-menu-heading">APIs</h5>
+     		<ul class="sub-menu-list">
+     			<li class="sub-menu-list-item"><a href="../apis/components.html">Components</a></li>
+                <li class="sub-menu-list-item"><a href="../apis/console.html">Console</a></li>
+     		</ul>
+     	</li>
+     	<li class="menu-list-item last-item">
+     		{$add}
+     	</li>
+     </ul>
+  </div>
+  <header class="header fixed snap-top-left clear-fix">
+  	   <div class="header-branding pull-left">
+  	   	  <ul class="nav navbar-nav">
+  	   	  	  <li><a href="javascript:void(0);" class="btn btn-menu btn-plain nav-btn"><strong>&#9776;</strong></a></li>
+  	   	  	  <li><b>Jollof</b></li>
+  	   	  </ul>
+  	   </div>
+       <div class="header-extra pull-right"><a href="javascript:void(0);" class="btn btn-primary">GO TO APP</a></div>
+  </header>
+  <section class="section content relative">
+        <div class="content-wrapper">
+        <ul class="content-list">
+            <li class="content-list-item">
+          <section class="content-list-panel" id="application_startup">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b>Application Startup</b></h2>
+               <blockquote>
+                 <p>
+                    At startup, Jollof makes use of a <kbd>.htaccess</kbd> file to call up the entry point file <i class="bg-success">public/index.php</i> which loads up all class loaders for the application (Composer and Jollof autoload files). This files are necessary to make all Jollof Core &amp; Extension APIs available.
+                 </p>
+                 <p>
+                    The core application class is instantiated at this point too to provide access to other functionalities.
+                 </p>
+               </blockquote>
+             </div>
+          </section>
+        </li>
+        <li class="content-list-item">
+          <section class="content-list-panel" id="services_installation">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b>Services Installation</b></h2>
+               <blockquote>
+                 <p>
+                    Thereafter, the core application object instantiated in the prior step is used to register 2 major config services for the application. The <i class="bg-success">db</i> and the <i class="bg-success">env</i> services. This loads up necessary configurations for Database connections and Components Setups utilized in the next step. 
+                 </p>
+               </blockquote>
+             </div>
+          </section>
+        </li>
+        <li class="content-list-item">
+          <section class="content-list-panel" id="components_registration">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b>Componets Registration</b></h2>
+               <blockquote>
+                 <p>
+                    At this point, the core application components are registered (loaded into a container sort of) and are primed with the necessary configurations to make them work. Components like the <kbd>Router</kbd>, <kbd>Session</kbd>, <kbd>Logger</kbd>, <kbd>Comms</kbd> e.t.c are registered here. 
+                 </p>
+               </blockquote>
+             </div>
+          </section>
+        </li>
+        <li class="content-list-item">
+          <section class="content-list-panel" id="middlewares_setup">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b>Middlewares Setup</b></h2>
+               <blockquote>
+                 <p>
+                    Next, The middlewares for the application are loaded up so the application can iterate over them one after another to determine if the current requested will be completely serviced or truncated abruptly.
+                 </p>
+               </blockquote>
+             </div>
+          </section>
+        </li>
+        <li class="content-list-item">
+          <section class="content-list-panel" id="events_setup">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b>Events Setup</b></h2>
+               <blockquote>
+                 <p>
+                    Next, The events for the application are loaded up too to provide a central mediator construct for handling both application-level events (e.g. ERRORS, UNKNOWN ROUTES) and custom events which are created to achieve some purpose in the application. Custom events are created with the <samp class="bg-warning">::on( ... );</samp> method of the <kbd>System</kbd> component. See <a href="../apis/components.html#system">System Component reference</a> for more details.
+                 </p>
+               </blockquote>
+             </div>
+          </section>
+        </li>
+        <li class="content-list-item">
+          <section class="content-list-panel" id="routes_setup">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b>Routes Setup</b></h2>
+               <blockquote>
+                 <p>
+                    Subsquently, all application routes are loaded up and stored in a routes table from where the current route is determined. Each defined route have several properties that go along with it. These properties serve as some form of filters for them and when any filter fails, request handling is terminated in an fatal error.
+                 </p>
+                 <p>
+                    The properties include the <b class="bg-primary">verb</b>, the <b class="bg-primary">models</b>, the <b class="bg-primary">params</b> and the <b class="bg-primary">ajax</b>. The <kbd>verb</kbd>  property serves to dictate the HTTP method that will be used for accessing the route (e.g PUT, GET, HEAD, POST, DELETE). The <kbd>models</kbd> property is an array of model classes to to be instatiated for use in the controller. The <kbd>params</kbd> property is an array of route parameter names and the regular expressions used to validate them. Finally, the <kbd>ajax</kbd> property is a flag to dictate when the route is to be accessed via <i class="text-success">AJAX</i> or not.
+                 </p>
+                 <p>
+                    Routes are created using the <samp class="bg-warning">::bind( ... );</samp> method of the <kbd>Router</kbd> component. See <a href="../apis/components.html#router">Router Component reference</a> for more details.
+                 </p>
+               </blockquote>
+             </div>
+          </section>
+        </li>
+        <li class="content-list-item">
+          <section class="content-list-panel" id="controller_instantiation">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b>Controller Instantiation</b></h2>
+               <blockquote>
+                 <p>
+                    
+                 </p>
+               </blockquote>
+             </div>
+          </section>
+        </li>
+        <li class="content-list-item">
+          <section class="content-list-panel" id="controller_action_call">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b>Controller Action Call</b></h2>
+               <blockquote>
+                 <p>
+                    
+                 </p>
+               </blockquote>
+             </div>
+          </section>
+        </li>
+        <li class="content-list-item">
+          <section class="content-list-panel" id="application_shutdown">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b>Application Shutdown</b></h2>
+               <blockquote>
+                 <p>
+                    
+                 </p>
+               </blockquote>
+             </div>
+          </section>
+        </li>
+      </ul>
+      </div>    
+  </section>
+  <footer class="footer clear-fix">
+  	  <div class="footer-copyright pull-left"><span><script>document.write((new Date).getFullYear());</script> &copy; Copyright, <strong>Jollof Framework.</strong> All Rights Reserved</span>. Mobicent, Ltd.</div>
+      <div class="footer-extra pull-right"><a href="https://www.github.com/isocroft/Jollof" class="btn btn-plain"><img src=""></a></div>
+  </footer>
+  <aside class="table-of-contents fixed snap-top-right" id="aside">
+     	<ul class="table-of-contents-list">
+         <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#application_startup" class="block-box active">Application Startup</a></li>
+     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#services_installation" class="block-box active">Services Installation</a></li>
+     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#components_registration" class="block-box">Components Registration</a></li>
+     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#middlewares_setup" class="block-box">Middlewares Setup</a></li>
+     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#events_setup" class="block-box">Events Setup</a></li>
+     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#routes_setup" class="block-box">Routes Setup</a></li>
+     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#controller_instantiation" class="block-box">Controller Instantiation</a></li>
+     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#controller_action_call" class="block-box">Controller Action Call</a></li>
+     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#application_shutdown" class="block-box">Application Shutdown</a></li>
+     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#error_reporting" class="block-box">Error Reporting</a></li>
+     	</ul>
+  </aside>
+ <script type="text/javascript" src="../documentation.js"></script>
+</body>
+</html>
