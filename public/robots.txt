@@ -1,1 +1,5 @@
-User-agent: *Disallow:
+# robotstxt.org/
+
+User-agent: *
+
+# Disallow:
