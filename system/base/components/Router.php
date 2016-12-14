@@ -96,7 +96,7 @@ final class Router {
 
      public function getCurrentRouteParameters(){
 
-           $this->routeParameters;
+          return $this->routeParameters;
      }
 
      public function setMethod($method){
@@ -187,23 +187,24 @@ final class Router {
                          $hasKey = array_key_exists($i, $routeParts);
 
                          if($hasKey){
-	     	 		$index = index_of($routeParts[$i], '@');
+				 $index = index_of($routeParts[$i], '@');
                          }   
 	     	 	 	     // validation: 
                          if($index === 0 && $i === 0){ // No route parameter should be at the beginning of a route url
                              throw new \Exception("Invalid Route URL >> [" . $route . "] ");
                          }
 
-                         if($index === -1 && ($i === ($len - 1)) && $i != 0){ // No route part should be at the end of a route url except if it is the first and last part
+                         if($index === -1 && ($i === ($len - 1)) && $i > 2){ // No route part should be at the end of a route url except if it is the first and last part
                              throw new \Exception("Invalid Route URL >> [" . $route . "] ");
                          }
 
-		     	 	 	 $urlPart = $routeUrlParts[$i];
+			    $urlPart = $routeUrlParts[$i];
                          
                          // detect a route parameter
                          if($index > -1){
                              $criteria = array_slice($checks, 0, $i);
-    		     	 	 	 if(($i === ($len - 1)) // The parameter must be the last thing about defined route
+
+    		     	 	 	        if(($i === ($len - 1)) // The parameter must be the last thing about defined route
                                  && (count($criteria) === ($len - $i))){ 
                                   $this->setCurrentRouteParameter(substr($routeParts[$i], ($index+1)), $urlPart);
     			     	 	 	  array_splice($routeParts, $i, 1);
@@ -213,13 +214,13 @@ final class Router {
                              
                              // match up each segment of the route url
 			     	 	     if($hasKey && $urlPart === $routeParts[$i]){
-                                 $checks[] = TRUE;
+                                 			$checks[] = TRUE;
 			     	 	     }
 			     	 	 }   
 		     	 }
 		     	 if(count($checks) === count($routeParts)){
 		     	 	  $this->currentRouteUrl = $route;
-                                  return TRUE;
+                      return TRUE;
 		     	 }	 
      	 }
 
@@ -272,7 +273,7 @@ final class Router {
                  }
              }
 
-         	 if(strtolower($settings['verb']) !== $requestMethod){
+	if(strtolower($settings['verb']) !== $requestMethod){
                  if($i !== ($sLen - 1)){
                     // this route may not be the one we are looking for... so keep checking
                     continue;
