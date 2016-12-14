@@ -15,16 +15,15 @@
 ! *
 ----------------------------------------------------------*/
  
- Router::bind('/', array('verb' => 'get', 'models' => array()));
+ Router::bind('/', array('models' => array()));
 
- Router::bind('/admin', array('verb' => 'get', 'models' => array()));
-
- Router::bind('/account/login/@provider', array('verb' => 'get', 'models' => array(), 'params'=>array('provider' => '/^$/i')));
-
- Router::bind('/account/register/@mode', array('verb' => 'get', 'models' => array(), 'params' => array('mode' => '/^$/i')));
+ Router::bind('/admin', array('models' => array()));
  
- Router::bind('/account/login/@provider', array('verb' => 'post', 'models' => array(), 'params'=> array('provider' => '/^(?:(?:oauth-([a-z]+))|email)$/i')));
+ Router::bind('/account/login/', array('models' => array()));
 
- Router::bind('/account/register/@mode', array('verb' => 'post', 'models' => array(), 'params' => array('mode' => '/^create$/i')));
+ Router::bind('/account/register/', array('models' => array()));
 
+ Router::bind('/account/signin/@provider', array('verb'=> 'post', 'models' => array(), 'params'=> array('provider' => '/^(?:(?:oauth-([a-z]+))|email)$/i')));
+
+ Router::bind('/account/signup/@mode', array('verb' => 'post', 'models' => array(), 'params' => array('mode' => '/^(create)$/i')));
  
