@@ -1,9 +1,160 @@
 <!DOCTYPE html>
-<html lang="en">
+<html manifest="[!asset(/manifest.appcache)]" lang="en">
 <head>
-	<title>Jollof - </title>
+	<title>=@framework &dash; =@title</title>
+	<meta charset="utf-8">
+	<meta name="csrftoken" content="=@csrftoken">
+
+	<link rel="icon" type="text/x-icon" href="[!asset(/favicon.ico)]">
+
+	<link rel="manifest" type="application/manifest+json" href="[!asset(/manifest.json)]">
+	<link rel="stylesheet" type="text/css" href="[!asset(/css/bootstrap.min.css)]">
+	<link rel="stylesheet" type="text/css" href="[!asset(/css/bootstrap-theme.min.css)]">
+
+	<style type="text/css">
+
+			/*
+	 		 * Specific styles of signup component
+	 		 */
+			/*
+			 * General styles
+			 */
+			body, html {
+			    height: 100%;
+			    background-repeat: no-repeat;
+			    background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
+			}
+
+			.card-container.card {
+			    max-width: 350px;
+			    *width: expression(document.body.clientWidth < 350)? "350px" : "auto";
+			    padding: 40px 40px;
+			}
+
+			.btn {
+			    font-weight: 700;
+			    height: 36px;
+			    -moz-user-select: none;
+			    -webkit-user-select: none;
+			    user-select: none;
+			    cursor: default;
+			}
+
+			/*
+			 * Card component
+			 */
+			.card {
+			    background-color: #e7e7e7;
+			    /* just in case there no content*/
+			    padding: 20px 25px 30px;
+			    margin: 0 auto 25px;
+			    margin-top: 10px;
+			    /* shadows and rounded borders */
+			    -moz-border-radius: 2px;
+			    -webkit-border-radius: 2px;
+			    border-radius: 2px;
+			    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+			    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+			    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+			    
+			}
+
+			.form-signin #email,
+			.form-signin #mobile,
+			.form-signin #first_name,
+			.form-signin #last_name,
+			.form-signin #pic,
+			.form-signin #password {
+			    direction: ltr;
+			    height: 44px;
+			    font-size: 16px;
+			}
+
+			[type=password],
+			.form-signup input[type=email],
+			.form-signup input[type=text],
+			.form-signup button {
+			    width: 100%;
+			    display: block;
+			    margin-bottom: 10px;
+			    z-index: 1;
+			    position: relative;
+			    -moz-box-sizing: border-box;
+			    -webkit-box-sizing: border-box;
+			    box-sizing: border-box;
+			}
+
+			.form-signup .form-control:focus {
+			    border-color: rgb(104, 145, 162);
+			    outline: 0;
+			    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
+			    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
+			}
+
+			.btn.btn-signup {
+			    /*background-color: #4d90fe; */
+			    background-color: rgb(104, 145, 162);
+			    /* background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
+			    padding: 0px;
+			    font-weight: 700;
+			    font-size: 14px;
+			    height: 36px;
+			    -moz-border-radius: 3px;
+			    -webkit-border-radius: 3px;
+			    border-radius: 3px;
+			    border: none;
+			    -o-transition: all 0.218s;
+			    -moz-transition: all 0.218s;
+			    -webkit-transition: all 0.218s;
+			    transition: all 0.218s;
+			}
+
+			.btn.btn-signup:hover,
+			.btn.btn-signup:active,
+			.btn.btn-signup:focus {
+			    background-color: rgb(12, 97, 33);
+			}
+	</style>
 </head>
 <body>
+	<div class="container">
+        <div class="card card-container">
+        
+        <section class="">
+        	<a href="#" class="btn">Signin With Facebook</a>
+        	<a href="#" class="btn">Signin With Twitter</a>
+        	<a href="#" class="btn">Signin With Google+</a>
+        </section>
+      
+        <form class="form-signup" id="form-signup" name="form-signup" action="[!url(/account/register/create)]" method="post" target="payload-sink">
+          	 <span id="reauth-email" class="reauth-email"></span>
+                <input type="email" id="email" name="email" class="form-control" placeholder="Email Address" required autofocus>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                <input type="text" id="mobile" name="mobile" class="form-control" placeholder="Mobile Number" required>
+                <input type="text" id="first_name" name="first_name" class="form-control" placeholder="First Name" required>
+                <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last Name" required>
+                <input type="text" id="" name="" class="form-control" placeholder="" required>
+     			<div class=""></div>
+                <button class="btn btn-lg btn-primary btn-block btn-signup" type="submit">Sign up</button>
+            </form><!-- /form -->
+        </div><!-- /card-container -->
+        <iframe src="javascript:false;" id="payload-sink" name="payload-sink" allowtransparency="true" frameborder="0" scrolling="no" width="0" height="0"></iframe><!-- /iframe -->
+    </div><!-- /container -->
 
+    
+	
+	<script type="text/javascript" src="[!asset(/js/manup.js)]"></script>
+	<script type="text/javascript" src="[!asset(/js/jquery-1.10.2.js)]"></script>
+	<script type="text/javascript" src="[!asset(/js/bootstrap.min.js)]"></script>
+
+    <script type="text/javascript">
+    	;(function(w, $){
+    			$(function(){
+				$("#form-signup").on("submit", function(e){
+					alert("About To Submit...");
+				});
+    			});
+    	}(this, this.jQuery));
+    </script>
 </body>
 </html>
