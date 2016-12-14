@@ -48,11 +48,87 @@
        <div class="header-extra pull-right"><a href="javascript:void(0);" class="btn btn-primary">GO TO APP</a></div>
   </header>
   <section class="section content relative">
-        <div class="container">
-            <div class="row">
+        <div class="content-wrapper">
+       <ul class="content-list">
+         <li class="content-list-item">
+           <section class="content-list-panel" id="choose_controller_name">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b> Choose Controller Name</b></h2>
+               <blockquote>
+                 <p>
+                    To get started on choosing a controller name, you have to know that controllers name are linked with route names. Whenever you choose a name, choose one that has relevance to the function or group of functions it (Controller) will perform as far as your application is concerned.
+                 </p>
+                 <p>
+                    For instance, for the user authorization/authentication part of your application, you could choose <kbd>Accounts</kbd> as the name for controller. As a result, you can have <b class="text-primary">/accounts/login</b>, <b class="text-primary">/accounts/reset-password/@user</b> and <b class="text-primary">/accounts/logout</b> as possible routes. In the routes, the parts that have an <i class="bg-warning"><q>@</q></i> symbol in front are route parameters.
+                 </p>
+                 <p>
+                    
+                 </p>
+               </blockquote>
+             </div>
+          </section>
+        </li>
+        <li class="content-list-item">
+           <section class="content-list-panel" id="create_controller_file">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b> Create Controller File</b></h2>
+               <blockquote>
+                 <p>
+                  <span>Every controller file can be created in 2 ways:</span>
+                    <ol start="1">
+                       <li>Using the <a href="../apis/console.html#make:controller">console command</a> for creating controllers.</li>
+                       <li>Manually creating the controller file and registering it in the <i class="bg-success">system/base/class_maps.php</i> file.</li>
+                    </ol>
+                 </p>
+                 <p>
+                   When the file has been created, navigate to the <i class="bg-success">controllers</i> folder and open the file in a text editor. You should see something like as shown below:
+                 </p>
+               </blockquote>
+             </div>
+             <main class="contnet-code-list">
+               <article class="contnet-code">
+                     <code class="block-box content-code-line">
+                         <var class="line-block-box content-example-line">Showcase:</var>
+                       <pre>class Accounts extends Controller {
 
-            </div>
-        </div>
+    protected $params = array();
+
+    public function __construct(array $params = array()){
+
+        parent::__construct($params);
+
+    }
+
+    // @Override
+
+    public function index($models){
+
+        # code ...
+
+    }
+}</pre>
+                     </code>
+               </article>
+          </main>
+          </section>
+        </li>
+        <li class="content-list-item">
+           <section class="content-list-panel" id="controller_method_argument">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b> Controller Method Argument</b></h2>
+               <blockquote>
+                 <p>
+                    Only one argument is passed to every method of any controller. This is an array of <kbd>Models</kbd> (objects) that are defined for the given route for which the controller method is invoked.
+                 </p>
+                 <p>
+
+                 </p>
+               </blockquote>
+             </div>
+          </section>
+        </li>
+        </ul>
+       </div> 
   </section>
   <footer class="footer clear-fix">
   	  <div class="footer-copyright pull-left"><span><script>document.write((new Date).getFullYear());</script> &copy; Copyright, <strong>Jollof Framework.</strong> All Rights Reserved</span>. Mobicent, Ltd.</div>
@@ -60,9 +136,9 @@
   </footer>
   <aside class="table-of-contents fixed snap-top-right" id="aside">
      	<ul class="table-of-contents-list">
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#choose_controller_name" class="block-box active">Choose Controller Name</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#create_controller_file" class="block-box">Create Controller File</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
+     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#choose_controller_name" class="block-box active" style="white-space:nowrap;">Choose Controller Name</a></li>
+     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#create_controller_file" class="block-box" style="white-space:nowrap;">Create Controller File</a></li>
+     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#controller_method-argument" class="block-box" style="white-space:nowrap;">Controller Method Arg</a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
