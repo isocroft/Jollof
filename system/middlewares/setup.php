@@ -57,11 +57,11 @@
        * suit the needs of the app
        */
       
-      if(!in_array($currentRoute, $auth->getGuestRoutes())){
+      if(!(in_array($currentRoute, $auth->getGuestRoutes()))){
             if(!Auth::check($currentRoute)){ 
                 $auth->setReturnToUrl($currentRoute);
                 if(Request::method() == 'GET'){
-                  return Response::redirect('/account/login' . '?return_to=' . $currentRoute); 
+                  return Response::redirect('/account/login' . '?return_to=' . urlencode($currentRoute)); 
                 }     
             }    
       }
