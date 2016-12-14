@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html manifest="./public/manifest.appcache" lang="en">
+<html manifest="[!asset(/manifest.appcache)]" lang="en">
 <head>
 	<title>=@framework &dash; =@title</title>
 	<meta charset="utf-8">
+	<meta name="csrftoken" content="=@csrftoken">
 
-	<link rel="icon" type="text/x-icon" href="./public/favicon.ico">
+	<link rel="icon" type="text/x-icon" href="[!asset(/favicon.ico)]">
 
-	<link rel="manifest" type="application/manifest+json" href="./public/manifest.json">
-	<link rel="stylesheet" type="text/css" href="./public/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="./public/css/bootstrap-theme.min.css">
+	<link rel="manifest" type="application/manifest+json" href="[!asset(/manifest.json)]">
+	<link rel="stylesheet" type="text/css" href="[!asset(/css/bootstrap.min.css)]">
+	<link rel="stylesheet" type="text/css" href="[!asset(/css/bootstrap-theme.min.css)]">
 
 	<style type="text/css">
 		html, body{
@@ -37,22 +38,41 @@
 			*height:auto !important;
 			*height: 1px;
 		}
+
+		.btn-deck{
+			width:auto !important;
+			padding-left: 20px;
+			padding-right: 20px;
+			margin-top: 35px;
+		}
+
+		.btn-deck + .btn-deck{
+			margin-top: 10px;
+		}
 	</style>
 </head>
 <body class="page">
 	<section class="row-full">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-9">
 					<h1 class="big-heading">=@framework</h1>
 					<p class="punched-up">COMPACT - LIGHTWEIGHT - CONFIGURABLE</p>
+				</div>
+				<div class="col-md-3">
+					<div class="btn-deck">
+						<a class="btn btn-block btn-default" href="[!url(/account/register)]">REGISTER</a>
+					</div>
+					<div class="btn-deck">	
+						<a class="btn btn-block btn-success" href="[!url(/account/login)]">LOGIN</a>
+					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<script type="text/javascript" src="./public/js/manup.js"></script>
-	<script type="text/javascript" src="./public/js/jquery-1.10.2.js"></script>
-	<script type="text/javascript" src="./public/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="[!asset(/js/manup.js)]"></script>
+	<script type="text/javascript" src="[!asset(/js/jquery-1.10.2.js)]"></script>
+	<script type="text/javascript" src="[!asset(/js/bootstrap.min.js)]"></script>
 </body>
 </html>
