@@ -315,13 +315,11 @@ final class Response {
                $root = "/" . $root;
            }
 
-           $url = contains(Request::header('REQUEST_URI'), $root)? ($host . $root . $route) : ($host . $route);
-
-           \Logger::info('redirect URL: ' . $url);
+            $url = contains(Request::header('REQUEST_URI'), $root)? ($host . $root . $route) : ($host . $route);
 
            http_response_code(($temporary)? 303 : 302);
 
-           static::header('Location', $url);
+           static::header('Location', ("http://" .  $url));
 
            return TRUE;
 
