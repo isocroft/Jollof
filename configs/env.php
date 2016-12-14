@@ -79,7 +79,10 @@
 
             'guest_routes' => array( # These routes can be accessed only if the user is not logged in (guest).
                  '/',
-                 '/account/login/@provider'
+                 '/account/login/',
+                 '/account/register/',
+                 '/account/signup/@mode/',
+                 '/account/signin/@provider/'
             )          
         ),
 
