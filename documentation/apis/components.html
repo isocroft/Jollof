@@ -70,7 +70,6 @@
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   $uri = Request::uri();</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
@@ -81,7 +80,6 @@
                                      <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   $method = Request::method();</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	  <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
@@ -92,7 +90,6 @@
                                      <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   $sessionId = Request::getCookie('_my_cookie');</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
@@ -103,7 +100,6 @@
                                      <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   $ip_address = Request::ip();</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
@@ -114,7 +110,6 @@
                                      <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   $type = Request::contentType();</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
@@ -125,7 +120,6 @@
                                      <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   $referer = Request::referer();</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
@@ -137,7 +131,6 @@
      	 	 	 	 	 	     	 <pre>   $uploadErrors = array();
    $statusArray = Request::upload('display_photos', $uploadErrors);</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article> 
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
@@ -148,7 +141,6 @@
                                      <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   $isAsync = Request::isAjax();</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
@@ -160,7 +152,6 @@
      	 	 	 	 	 	     	 <pre>   $files = Request::input()->getFiles(); 
    $fields = Request::input()->getFields();</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 </main>
      	 	 	 </section>
@@ -186,7 +177,6 @@
      	 	 	 	 	 	     	 <pre>   $json = json_encode(array('status' => 'ok'));
    Response::json($json);</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
@@ -198,7 +188,6 @@
      	 	 	 	 	 	     	 <pre>   $text = 'Hello World!';
    Response::text($text);</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
                <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
@@ -210,7 +199,6 @@
      	 	 	 	 	 	     	 <pre>  $viewFile = 'app/dashboard'; 
    Response::view($viewFile, array('id'=>12345678));</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
@@ -222,7 +210,6 @@
      	 	 	 	 	 	     	 <pre>   $imgefile = 'bitmap.png';
    Response::file($imagefile);</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
@@ -234,7 +221,6 @@
      	 	 	 	 	 	     	 <pre>   $file = 'careers.pdf'; 
    Response::download($file);</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
@@ -246,7 +232,6 @@
      	 	 	 	 	 	     	 <pre>   $details = array('username'=> 'eniobong', 'id' => '23jwn47uya663q3e'); 
    Response::setCookie('USERPROFILE', $details);</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
@@ -257,7 +242,6 @@
                                      <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   Response::header('Cache-Control', 'private');</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
@@ -269,7 +253,6 @@
      	 	 	 	 	 	     	 <pre>   $path = '/campaigns/tv'; 
    Response::redirect($path);</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 </main>
      	 	 	 </section>
@@ -294,7 +277,6 @@
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   $data = Session::get('user_data');</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
@@ -305,7 +287,6 @@
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   $forgotten = Session::forget('user_data');</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
@@ -316,7 +297,6 @@
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   $token = Session::token();</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
@@ -327,7 +307,6 @@
                                      <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   $has = Session::has('accessControl');</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
@@ -338,7 +317,6 @@
                                      <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   Session::drop();</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 </main>
      	 	 	 </section>
@@ -365,7 +343,6 @@
    			# code ....
    });</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
@@ -376,7 +353,6 @@
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   $value = System::fire('userRegistered', array('timestamp'=>time()));</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
@@ -391,7 +367,6 @@
        		# code ...
    });</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 </main>
      	 	 	 </section>
@@ -416,7 +391,6 @@
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   Logger::info("variable value: " . isset($accountNumber));</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
@@ -427,7 +401,6 @@
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   Logger::error("Wahala dey! The database connection couldn't be made");</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
@@ -438,7 +411,6 @@
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   Logger::warn("The database query returned NULL", "warnings");</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 </main>
      	 	 	 </section>
@@ -472,7 +444,6 @@
    // Start the web scrapper by reading the JUMIA home page. 
    $html = File::readChunk("http://www.jumia.com.ng/", $options);</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
@@ -483,7 +454,6 @@
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   $written = File::writeChunk(realpath("readme.txt"), "New Text Content");</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
@@ -494,7 +464,6 @@
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   File::makeFile("readme.txt");</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
@@ -505,7 +474,6 @@
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   File::deleteFile("readme.txt");</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
@@ -516,7 +484,6 @@
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   File::makeFolder("shelf");</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
@@ -527,7 +494,6 @@
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   $content = File::read("readme.txt");</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
@@ -538,12 +504,13 @@
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>   File::write("readme.txt", "The First Line", true);</pre>
      	 	 	 	 	 	     </code>
-     	 	 	 	 	 	   </p>
      	 	 	 	 	 </article>
      	 	 	 	 </main>
      	 	 	 </section>
      	 	 </li>
-     	 	 <li class="content-list-item">
+     	 	 
+
+<li class="content-list-item">
      	 	 	 <section class="content-list-panel" id="router">
      	 	 	     <div class="content-list-panel-heading">
      	 	 	 	 	 <h2 class=""><i class="ink-icon">§</i><b> Router</b> - <span class="ink">system/base/components/Router</span></h2>
@@ -554,6 +521,26 @@
      	 	 	 	 	 </blockquote>
      	 	 	 	 </div>
      	 	 	 	 <main class="contnet-code-list">
+                            <article class="contnet-code">
+                                <span class="block-box">
+                                     <b class="line-block-box content-desc-line">::bind( string [, array ]);</b>
+                                     <small class="line-block-box content-desc-line">This will bind and/or register a given route for the application. It is only used in the <i class="text-primary">routes/setup.php</i> file. The second <q><i>array</i></q> type argument is <samp class="bg-primary">optional</samp>. When supplied, it supplies all the necessary route properties.</small>
+                                 </span>  
+                                 <code class="block-box content-code-line">
+                                     <var class="line-block-box content-example-line">Example Usage:</var>
+                                     <pre>   Router::bind("/settings/basic", array('verb' => 'get', 'models' => array(), 'ajax' => true));</pre>
+                                 </code>
+                         </article>
+                         <article class="contnet-code">
+                                <span class="block-box">
+                                     <b class="line-block-box content-desc-line">::resolve( string [, array ] );</b>
+                                     <small class="line-block-box content-desc-line">This initiates a controller action (by calling up the appropriate controller method) as specified along with the request parameters. The second <q><i>array</i></q> type argument is <samp class="bg-primary">optional</samp>. When supplied, it specifies the request parameters.</small>
+                                 </span>  
+                                 <code class="block-box content-code-line">
+                                     <var class="line-block-box content-example-line">Example Usage:</var>
+                                     <pre>   Router::resolve("/app/filter/medium", array('post' => array('key' => '2873652672')));</pre>
+                                 </code>
+                         </article>
      	 	 	 	 </main>
      	 	 	 </section>
      	 	</li>
@@ -568,9 +555,55 @@
      	 	 	 	 	 </blockquote>
      	 	 	 	 </div>
      	 	 	 	 <main class="contnet-code-list">
-     	 	 	 	 </main>
+                         <article class="contnet-code">
+                                <span class="block-box">
+                                     <b class="line-block-box content-desc-line">::has( string , string );</b>
+                                     <small class="line-block-box content-desc-line">This checks if a given cacheable resource is available for retrieval or modification.</small>
+                                 </span>  
+                                 <code class="block-box content-code-line">
+                                     <var class="line-block-box content-example-line">Example Usage:</var>
+                                     <pre>  $wasCached = Cache::has("lineburst");</pre>
+                                 </code>
+                         </article>
+                         <article class="contnet-code">
+                                <span class="block-box">
+                                     <b class="line-block-box content-desc-line">::get( string );</b>
+                                     <small class="line-block-box content-desc-line">This retrieves a given cacheable resource via its key.</small>
+                                 </span>  
+                                 <code class="block-box content-code-line">
+                                     <var class="line-block-box content-example-line">Example Usage:</var>
+                                     <pre>  $value = Cache::get("lineburst");</pre>
+                                 </code>
+                         </article>
+                         <article class="contnet-code">
+                                <span class="block-box">
+                                     <b class="line-block-box content-desc-line">::set( string , string );</b>
+                                     <small class="line-block-box content-desc-line">This sets a cacheable entry given a key.</small>
+                                 </span>  
+                                 <code class="block-box content-code-line">
+                                     <var class="line-block-box content-example-line">Example Usage:</var>
+                                     <pre>  Cache::set("lineburst", (new \stdClass()));</pre>
+                                 </code>
+                         </article>
+     	 	 	 	      </main>
      	 	 	 </section>
-     	 	</li>	 	 
+     	 	</li>
+		      <li class="content-list-item">
+     	 	 	 <section class="content-list-panel" id="auth">
+     	 	 	     <div class="content-list-panel-heading">
+     	 	 	 	 	 <h2 class=""><i class="ink-icon">§</i><b> Auth</b> - <span class="ink">system/base/components/Auth</span></h2>
+     	 	 	 	 	 <blockquote>
+     	 	 	 	 	 	 <p>
+     	 	 	 	 	 		This component is responsible for handling application authentication/authorization.
+     	 	 	 	 	 	 </p>
+     	 	 	 	 	 </blockquote>
+     	 	 	 	 </div>
+     	 	 	 	 <main class="contnet-code-list">
+                            		<article class="contnet-code">
+					</article>
+				 </main>
+			</section>
+		</li>	 	 	 
      	 </ul>
      </div>
   </section>
