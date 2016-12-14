@@ -127,7 +127,7 @@
         </section>
       
         <form class="form-signup" id="form-signup" name="form-signup" action="[!url(/account/register/create)]" method="post" target="payload-sink">
-          	 <span id="reauth-email" class="reauth-email"></span>
+          	 <span id="submit-response" class="submit-response"></span>
                 <input type="email" id="email" name="email" class="form-control" placeholder="Email Address" required autofocus>
                 <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
                 <input type="text" id="mobile" name="mobile" class="form-control" placeholder="Mobile Number" required>
@@ -149,10 +149,30 @@
 
     <script type="text/javascript">
     	;(function(w, $){
+			w.ServerResponseReady = function(event, data){
+    	 			$('body').trigger('networkresponse', [data, event]);
+    	 		}
     			$(function(){
 				$("#form-signup").on("submit", function(e){
-					alert("About To Submit...");
+					console.log("About To Submit...");
 				});
+				
+				$('body').on('networkresponse', function(e, data, extraEvent){
+					$('#submit-response').text(data);
+				});
+
+				var iframe = $('#payload-sink').get(0),
+					afterformsubmit = function(e){
+					var top = window.top;
+					var doc = window.document;
+					top.ServerResponseReady(e, doc.body.innerHTML);
+				};
+				
+				if(iframe.attachEvent){
+					iframe.attachEvent('onload', afterformsubmit);
+				}else{
+					iframe.onload = afterformsubmit;
+				}
     			});
     	}(this, this.jQuery));
     </script>
