@@ -1,9 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html manifest="[!asset(/manifest.appcache)]" lang="en">
 <head>
-	<title>Jollof - </title>
+	<title>=@framework &dash; =@title</title>
+	<meta charset="utf-8">
+	<meta name="csrftoken" content="=@csrftoken">
+
+	<link rel="icon" type="text/x-icon" href="[!asset(/favicon.ico)]">
+
+	<link rel="manifest" type="application/manifest+json" href="[!asset(/manifest.json)]">
+	<link rel="stylesheet" type="text/css" href="[!asset(/css/bootstrap.min.css)]">
+	<link rel="stylesheet" type="text/css" href="[!asset(/css/bootstrap-theme.min.css)]">
+
+	<style type="text/css">
+
+	</style>
 </head>
 <body>
 
+	
+	<script type="text/javascript" src="[!asset(/js/manup.js)]"></script>
+	<script type="text/javascript" src="[!asset(/js/jquery-1.10.2.js)]"></script>
+	<script type="text/javascript" src="[!asset(/js/bootstrap.min.js)]"></script>
 </body>
 </html>
