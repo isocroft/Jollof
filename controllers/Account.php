@@ -2,9 +2,9 @@
 
 class Account extends Controller {
 
-        protected $params;
+        protected $params = array();
 
-        public function __construct($params = array()){
+        public function __construct(array $params = array()){
 
              parent::__construct($params);
              
@@ -19,19 +19,59 @@ class Account extends Controller {
 
         public function register($models){
 
+            return Response::view('register/index', array('framework' => 'Jollof', 'title' => 'Register'));
+        }
+
+        public function signup($models){
+
+            $inputs = Request::input()->getFields();
+
+            $validInputs = Validator::checkAndSanitize( $inputs, 
+                array(
+                    'email' => "email|required",
+                    'password' => "password|required|/^(?:[^\t\r\n\f\b\~\"\']+)$/i",
+                    'first_name' => 'name|required|/^(?:[^\S\d\t\r\n]+)$/i',
+                    'last_name' => 'name|required|/^(?:[^\S\d\t\r\n]+)$/i',
+                    'mobile' => 'mobile_number|required|/^(?:070|071|081|080|090|091)(?:\d{8})$/'
+                )
+            );
+
+            $validateErrors = Validator::getErrors();
+
+            if(count($validateErrors) > 0){
+                return Response::json(array('status' => 'error', 'result' => $validateErrors));
+            }
+
             switch($this->params['mode']) {
                  case 'create':
                      # code...
                  break;
-                 default:
-                    return Response::view('register/index', array());
-                 break;
             }
+
+            return Response::json(array('status' => 'ok'));
         }
 
         public function login($models){
 
-             switch($this->params['provider']) {
+             
+            return Response::view('login/index', array('framework' => 'Jollof', 'title' => 'Login'));
+            
+        }
+
+        public function signin($models){
+
+            $inputs = Request::input()->getFields();
+
+            $validInputs = Validator::checkAndSanitize( $inputs, 
+                array(
+                    'email' => "email|required",
+                    'password' => "password|required|/^(?:[^\t\r\n\f\b\~\"\']+)$/i"
+                )
+            );
+
+            $validateErrors = Validator::getErrors();
+
+            switch($this->params['provider']) {
                  case 'oauth-facebook':
                      # code...
                  break;
@@ -40,9 +80,6 @@ class Account extends Controller {
                  break;
                  case 'email':
                      # code...
-                 break;
-                 default:
-                     return Response::view('login/index', array());
                  break;
              }
         }
