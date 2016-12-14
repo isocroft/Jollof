@@ -7,6 +7,8 @@ We completely welcome your intent to contributing to the Jollof PHP Framework. W
 - Enhance the current query builder with 'join' function and rewrite and arrange database query builder class files better.
 - Implement the PHP DOM Renderer for ReactJS server-side rendering (https://reactjs/react-php-v8js)
 - Adding the command for make:component and/or redesigning the manner in which custom components will be created.
+- Implement a <q>Config</q> core component for managing app-wide configurations at runtime.
+- Implement a <q>jollof</q> command for dynamically generating user-defined project documentation via a documentation generating Composer package.  
 - Implement a mature Database Migrations
 - Implement [Faker.ng](https://faker.abujadevmeetup.com/) command via the exposed API
 - Hotfixes for Bugs and Errors
