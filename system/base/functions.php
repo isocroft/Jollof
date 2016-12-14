@@ -160,6 +160,16 @@ if(! function_exists('asset')){
     }
 }
 
+if(! function_exists('url')){
+    function url($__url, $route){
+        if(starts_with($route, '/')){
+            $route = substr($route, 1);
+        }
+        $fullroute = $__url . $route;
+        return $fullroute;
+    }
+}
+
 if(! function_exists('http_response_code') ){
    function http_response_code($code = NULL){
          $text = '';
