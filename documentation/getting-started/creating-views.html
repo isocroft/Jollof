@@ -38,21 +38,83 @@
      	</li>
      </ul>
   </div>
-  <header class="header fixed snap-top-left clear-fix">
+  <header class="header fixed snap-top-left clear-fix"  id="header">
   	   <div class="header-branding pull-left">
   	   	  <ul class="nav navbar-nav">
   	   	  	  <li><a href="javascript:void(0);" class="btn btn-menu btn-plain nav-btn"><strong>&#9776;</strong></a></li>
   	   	  	  <li><b>Jollof</b></li>
   	   	  </ul>
   	   </div>
-       <div class="header-extra pull-right"><a href="javascript:void(0);" class="btn btn-primary">GO TO APP</a></div>
+       <div class="header-extra pull-right"><a href="javascript:void(0);" id="load-app" class="btn btn-primary">GO TO APP</a></div>
   </header>
   <section class="section content relative">
-        <div class="container">
-            <div class="row">
-
-            </div>
-        </div>
+        <div class="content-wrapper">
+       <ul class="content-list">
+         <li class="content-list-item">
+           <section class="content-list-panel" id="setup_view_file">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b> Setup View File</b></h2>
+               <blockquote>
+                 <p>
+                    <span class="inline-block-box" style="width:100%;">Setting up a view entails creating a view file by:</span>
+                    <ol start="1">
+                        <li>using the <a href="../apis/console.html#make:view">console command</a> for view creation.</li>
+                        <li>manually creating a view file using the OS GUI or terminal.</li>
+                    </ol>
+                 </p>
+                 <p>
+                    Views are triggered whenever the <b class="text-success">Response::view();</b> api is used within a controller method. A compilation process (i.e. the conversion of <em class="bg-primary">.view</em> files to <em class="bg-primary">.php</em> files) is always completed before view contents are sent to the client-side as part of the response.
+                 </p>
+                </blockquote>
+               </div>
+           </section>
+         </li>
+         <li class="content-list-item">
+           <section class="content-list-panel" id="view_template_syntax">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b> View Template Syntax</b></h2>
+               <blockquote>
+                 <p>
+                    <span class="inline-block-box" style="width:100%;">Jollof views have a syntax which makes it possible to build out completly using the view data passed into the view file.</span>
+                    <ol start="1">
+                        <li>For <var class="text-success">string</var>, <var class="text-success">integer</var> and <var class="text-success">boolean</var> type view data, precede the view data name by <kbd>=@</kbd>.</li>
+                        <li>For <var class="text-success">array</var> type view data, the <kbd>[loop:]</kbd> construct can be used to access its' contents at each index.</li>
+                        <li>The <kbd>[if:]</kbd> construct can be used to setup a conditional statement for <var class="text-success">array</var>, <var class="text-success">string</var>, <var class="text-success">integer</var> and <var class="text-success">boolean</var> type view data.</li>
+                        <li>The <kbd>[choose:]</kbd> construct can be using to switch on cases that apply to the <var class="text-success">array</var>, <var class="text-success">string</var>, <var class="text-success">integer</var> and <var class="text-success">boolean</var> type view data given.</li>
+                    </ol>
+                 </p>
+                </blockquote>
+               </div>
+               <main class="contnet-code-list">
+               <article class="contnet-code">
+                      <span class="block-box">
+                           <b class="line-block-box content-desc-line">[loop: &lt;array&gt; ]</b>
+                       </span>  
+                     <code class="block-box content-code-line">
+                         <var class="line-block-box content-example-line">Example Usage:</var>
+                       <pre>   [loop:@posts]
+          &lt;a href="[!url(/postings/=@branch)]" id="[@posts_index]"&gt; [@posts_value] &lt;/a&gt;
+   [/loop]</pre>
+                     </code>
+               </article>
+               <article class="contnet-code">
+                      <span class="block-box">
+                           <b class="line-block-box content-desc-line">[if: &lt;array|string|integer&gt; ]</b>
+                       </span>  
+                     <code class="block-box content-code-line">
+                         <var class="line-block-box content-example-line">Example Usage:</var>
+                       <pre>   [if:@alltasks <= 23]
+          &lt;div class="ramp"&gt; Too low... &lt;/div&gt;
+   [elseif:@alltasks > 90]
+          &lt;div class="ramp"&gt; Off the charts! &lt;/div&gt;
+   [/if]</pre>
+                     </code>
+               </article>
+               </main>
+           </section>
+         </li>
+        </ul>
+        </div>        
   </section>
   <footer class="footer clear-fix">
   	  <div class="footer-copyright pull-left"><span><script>document.write((new Date).getFullYear());</script> &copy; Copyright, <strong>Jollof Framework.</strong> All Rights Reserved</span>. Mobicent, Ltd.</div>
@@ -60,9 +122,9 @@
   </footer>
   <aside class="table-of-contents fixed snap-top-right" id="aside">
      	<ul class="table-of-contents-list">
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#choose_model_name" class="block-box active">Set View Directory</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#create_model_file" class="block-box">Create View Folder/File</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#input_model_fields" class="block-box"></a></li>
+     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#setup_view_file" class="block-box active">Setup View File</a></li>
+     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#view_template_syntax" class="block-box">View Template Syntax</a></li>
+     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
