@@ -26,11 +26,29 @@
 
              'session_driver' => "#native",  #options: ("#native", "#redis")
 
-             'session_name' => "JELLOFF_SESS_ID", # change the session name
+             'session_name' => "JOLLOF_SESS_ID", # change the session name
           
               'sessions_host' => '127.0.0.1',
           
               'sessions_port' => 6379
+        ),
+
+        "app_errors" => array(
+
+              'report_fatal' => TRUE,
+
+              'reporter_settings' => array(
+
+                   'host' => 'http://localhost',
+
+                   'driver' => '#native', #options: ("#native", "#bugsnag")
+
+                   'key' => '...', # <enter API Key for BugSnag here - if any>
+
+                   'meta_data' => array( # <enter Report Meta Data here - if any>
+
+                    )
+              )
         ),
 
         "app_paths" => array (
