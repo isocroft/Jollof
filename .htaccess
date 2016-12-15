@@ -1,18 +1,39 @@
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
     	Options -MultiViews
+    	Options -Indexes
     </IfModule>
 
 		RewriteEngine On
 
+		php_flag html_errors Off
+	    php_flag log_error Off
+
+	    # Prevent Hot-linking (especially for images)
+
+		# Disallow Dastradly Crawlers And Site-Mirroring Apps
+
+		RewriteCond %{HTTP_USER_AGENT} ^Teleport\ Pro [NC,OR]
+		RewriteCond %{HTTP_USER_AGENT} ^HT\ ?Track [NC,OR]
+		RewriteCond %{HTTP_USER_AGENT} ^BackWeb [NC,OR]
+		RewriteCond %{HTTP_USER_AGENT} ^Bandit [NC,OR]
+		RewriteCond %{HTTP_USER_AGENT} ^BatchFTP [NC,OR]
+		RewriteCond %{HTTP_USER_AGENT} ^BecomeBot [NC,OR]
+		RewriteCond %{HTTP_USER_AGENT} ^Sponger [NC,OR] 
+		RewriteCond %{HTTP_USER_AGENT} ^BlackWidow [NC,OR]
+		RewriteCond %{HTTP_USER_AGENT} ^Net\ Vampire [NC]
+
+		RewriteRule . web.abused [L]
+
 		# Trigger Jollof Routes
 
-		RewriteCond %{REQUEST_URI} !^/documentation/(.*)$
-		RewriteRule !^(.+\.)([a-z]+)(\/)?$ public/index.php [E=HTTP_CONTENT_TYPE:%{HTTP:Content-Type},L,QSA]
+		RewriteCond %{REQUEST_URI} !^/documentation/
+		RewriteRule !^(.+\.)([a-z]+)(/)?$ public/index.php [E=HTTP_CONTENT_TYPE:%{HTTP:Content-Type},L,QSA]
 </IfModule>
 
 # Mime Types for Special Files
 
+AddType text/plain .abused # Jollof Abused file
 AddType text/cache-manifest .appcache # Offline-First support
 AddType application/manifest+json .json # Manifest for Native Web Apps support
 AddType video/ogg .ogv # codec
@@ -24,3 +45,18 @@ AddType video/webm .webm # theora codec
 <IfModule mod_headers.c> 
 		Header append Vary User-Agent
 </IfModule> 
+
+# Enable file compression (where possible) - use DEFLATE Compression Scheme
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/css
+  AddOutputFilterByType DEFLATE appliation/javascript
+  AddOutputFilterByType DEFLATE application/xml
+  AddOutputFilterByType DEFLATE text/html
+</IfModule>	  
+	
+# Enhanced caching for site static assets
+
+<FilesMatch ".(flv|gif|jpg|jpeg|mp3|mp4|avi|ogv|webm|png|ico|swf|js|css|html|pdf)$">
+    Header set Cache-control "max-age=28800"
+</FilesMatch>
