@@ -1,15 +1,13 @@
 /*!
- * @vendor: Vyke
- * @filename: documenttion.css
- * @created: 28/10/2016
- * @
+ *
+ * Jollof Documentation
+ *
+ * {documentation.css}
  */
 
 @charset 'utf-8';
 
-
 /* ----------------- BASE SETTINGS ----------------*/
-
 
 /*!
   * IE10 viewport hack for Surface/desktop Windows 8 bug
@@ -191,8 +189,8 @@ textarea.resize-none {
 }
 
 .block-box{
-      display:block;
-      height:auto !important;
+  display:block;
+  height:auto !important;
 }
 
 /* Firefox (FF3-4) has a different way of setting "inline-block" behaviour on all DOM elements */
@@ -443,6 +441,7 @@ textarea.resize-none {
 .sub-menu-list > .sub-menu-list-item a{
 	color: #2079d5;
 }
+
 /* --------------- TABLE OF CONTENT ------------- */
 
 .table-of-contents{
@@ -464,11 +463,13 @@ textarea.resize-none {
     text-indent: 10px;
     height: 30px;
     line-height: 30px;
+    white-space:nowrap;
 }
 
 .table-of-contents-list > .table-of-contents-list-item a:hover{
 	font-weight: bold;
 	text-decoration: none;
+  white-space: nowrap;
 }
 
 .table-of-contents-list > .table-of-contents-list-item a.active{
@@ -478,7 +479,9 @@ textarea.resize-none {
 	-moz-border-radius:4px;
 	border-radius: 4px;
 	text-decoration: none;
+  white-space: nowrap;
 }
+
 /* --------------- HEADER ----------------- */
 
 .header{
@@ -503,7 +506,6 @@ textarea.resize-none {
 .header .header-extra{
 	padding:10px 20px 10px 0;
 }
-
 
 /* ---------------  CONTENT   ----------------- */
 
@@ -614,8 +616,13 @@ textarea.resize-none {
    padding-right:10px;
 }
 
+/* ----------------- FEATURE QUERIES -------------- */
 
-/* ----------------- MEDIA QUERUES -------------- */
+/* @supports (){
+
+}*/
+
+/* ----------------- MEDIA QUERIES -------------- */
 
 @media all and (max-width: 960px){
    .content-banner-text{
