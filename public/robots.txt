@@ -1,5 +1,7 @@
 # robotstxt.org/
 
 User-agent: *
-
-# Disallow:
+Disallow: /css/
+Disallow: /img/
+Disallow: /fonts/
+Disallow: /js/
