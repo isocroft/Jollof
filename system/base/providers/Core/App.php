@@ -211,7 +211,7 @@ class App {
          $packages_path = $GLOBALS['env']['app.path.packages'];
         
          if(file_exists($packages_path . 'vendor/autoload.php')){
-             return (new \Jollof\ErrorReporter\Reporter($this->getInstance('Comms')));
+             return (new \Jollof\ErrorReporter\Reporter($this->getInstance('Comms'), $this->envservice->getConfig('app_errors')));
          }
 
          return NULL;
