@@ -134,6 +134,7 @@
                 <input type="text" id="first_name" name="first_name" class="form-control" placeholder="First Name" required>
                 <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last Name" required>
                 <input type="text" id="" name="" class="form-control" placeholder="" required>
+                <input type="hidden" name="_token" value="=@csrftoken">
      			<div class=""></div>
                 <button class="btn btn-lg btn-primary btn-block btn-signup" type="submit">Sign up</button>
             </form><!-- /form -->
