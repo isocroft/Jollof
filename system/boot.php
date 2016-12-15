@@ -77,7 +77,7 @@
 
     /*!--------------------------------------------------------
     ! 
-    ! Otherwise, if something goes awry, kill the process fast 
+    ! Otherwise, if something goes awry, kill it process fast 
     ! ^Naija Style^ 
     !
     !
@@ -92,7 +92,7 @@
 
 	else { 
 	
-        die('ClassLoader processing failed - Jelloff terminated abruptly');
+        die('ClassLoader processing failed - Jollof terminated abruptly');
 		
     } 
 	
