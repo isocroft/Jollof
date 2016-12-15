@@ -1,7 +1,8 @@
 /*!
- 
- * Jelloff Documentation
-
+ *
+ * Jollof Documentation
+ *
+ * {documentation.js}
  */
 
 ;(function(w, d){
@@ -133,7 +134,7 @@
                 },
 
                 DOM = {
-                    oldOperaFix:function(factory){
+                    boostrapImgFix:function(factory){
                         factory(document.images['mast']);
                     },
                     projectBtnNav:function(factory){
@@ -166,8 +167,9 @@
                 	  }
                 };
 
-                DOM.oldOperaFix(function(img){
-                    if(w.opera){
+                DOM.boostrapImgFix(function(img){
+                    // For Opera & Firefox
+                    if(w.opera || w.crypto){
                         if(!img) return;
                         
                         img.width = String(window.innerWidth);
@@ -176,12 +178,15 @@
                 });
 
                 DOM.projectBtnNav(function(rootPath){
-                    if(w.location.protocol == "file:"){
-                        alert("Your Jelloff App cannot be loaded from the file system");
-                        return;
-                    }
 
-                    location.assign(location.protocol + '//' + location.host + (location.pathname.length > 1? location.pathname.replace('/documentation/index.html', '') : '') + location.port + rootPath);
+                    return function(e){
+                          if(w.location.protocol == "file:"){
+                              alert("Your Jollof App cannot be loaded from the file system");
+                              return;
+                          }
+
+                          location.assign(location.protocol + '//' + location.host + (location.pathname.length > 1? location.pathname.replace('/documentation/index.html', '') : '') + location.port + rootPath);
+                    }
                 });
 
                 DOM.setRightMenu(function(classActiveName, classAttrName, hashValue){
