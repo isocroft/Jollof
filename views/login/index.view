@@ -167,8 +167,10 @@
       	<p id="profile-name" class="profile-name-card"></p>
             <form class="form-signin" action="[!url(/account/login/email)]" method="post" target="payload-sink">
           	 <span id="reauth-email" class="reauth-email"></span>
+          	 <span id="submit-response" class="submit-response"></span>
                 <input type="email" id="email" name="email" class="form-control" placeholder="Email Address" required autofocus>
                 <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                <input type="hidden" name="_token" value="=@csrftoken">
      			<div id="remember" class="checkbox">
                     <label>
                         <input type="checkbox" value="remember-me"> Remember me
