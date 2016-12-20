@@ -2,6 +2,38 @@
 
 <?php
 
+  # @TODO: I really need to clean this out and make use of Classes. I 
+  #        also need to make sure that custom commands can be included
+  #        easily by Jollof developers
+
+
+  /**
+   * -- This will be the new implementation format as of v1.0.0.
+   *
+   * require_once 'system/boot.php';
+   *
+   * $console = new Console($_SERVER['argv'], $_SERVER['argc'], __DIR__);
+   *
+   * $console->run();
+   *
+   * --------------------------------------------------
+   * array('make:env' => function(){ });
+   * Console::setCommand('make:env', function($prompt){
+   *
+   *        $stdInData = array(); 
+   *        $stdOuts = array('datbase_host=', 'data_password=');
+   *
+   *        $tokens = $prompt->getArguments();
+   *
+   *        // $prompt->execute('cd packages');
+   *
+   *        $prompt->read($stdInData, $stdOuts);
+   *
+   *        $prompt->write('All Done.');
+   * });
+   *
+   */
+
 	require_once 'system/boot.php';
 
 	$model_path = __DIR__ . '/models/';
@@ -34,7 +66,7 @@
 
 	$script_name = array_shift($args);
  
-    $command = array_shift($args);
+  $command = array_shift($args);
 
 	$tokens = array_slice($args, 0);
 
@@ -66,7 +98,7 @@
 
          if($isCore){
 
-              $prefix = 'bin/';
+              $prefix = '';
          }
 
          chdir('packages');
@@ -198,7 +230,7 @@
 
 		}
 
-		$stdinLines[] = 'app_key=' . str_replace('.', '', Helpers::generateCode()); // encryption key
+		$stdinLines[] = 'app_key=' . str_replace('.', '', Helpers::generateRandomByPattern('xxxxxxxxxxxxxxxxxxxxxxxxxxx')); // encryption key
 
         write_to_file((implode('', $stdinLines)), '.env');
 
@@ -325,7 +357,7 @@
 
         	sleep(1); /* write_to_file */
 
-        	file_put_contents($in, " <?php \n\n class " . ucfirst($token) ." extends Controller { \n\n\t protected \$params; \n\n\t public function __construct(array \$params = array()){ \n\n\t\t parent::__construct(\$params); \n\n\t } \n\n\t public function index(\$models){  \n\n\t\t # code... \n\n\t } \n\n } \n\n ?> ", LOCK_EX);
+        	file_put_contents($in, " <?php \n\n class " . ucfirst($token) ." extends Controller { \n\n\t protected \$params = array(); \n\n\t public function __construct(array \$params = array()){ \n\n\t\t parent::__construct(\$params); \n\n\t } \n\n\t public function index(\$models){  \n\n\t\t # code... \n\n\t } \n\n } \n\n ?> ", LOCK_EX);
 
         	  $marker = '     "\\\\Controller" => $compDir . "/../../controllers/Controller",' . PHP_EOL;
 

@@ -6,11 +6,13 @@ The aim of the framewrok is to make it very easy to develop applications with li
 
 ## Setting Up
 
-The philosophy of **Jollof** is very simple. _Routes_ are very tightly knitted to the _Controllers_ that service them. For every route, the first part of the URI and/or pathname is the Controller class name and the second part of the URI and/or pathname is the Controller class method.
+The philosophy of **Jollof** is very simple. _Routes_ are very tightly knitted to the _Controllers_ that service them. For every route, the first part of the URI and/or path is the Controller class name and the second part of the URI and/or path is the Controller class method.
+
+>
 
 It's a new way of thinking about the way applications should be crafted!
 
-All you need to setup can be found in the [documenatation](http://github.com/isocroft/Jollof/documentation/index.html) file(s) of the project starter folder. 
+All you need to setup can be found in the **documenatation** folder(s) of the project starter folder. 
 
 ## Contributing
 
