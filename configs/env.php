@@ -87,8 +87,6 @@
 
             'jwt_as_signed_cookie' => true,
 
-            'jwt_request_header' => 'X-App-Token',
-
             'throttle_enabled' => true,
 
             'extension' => array(
