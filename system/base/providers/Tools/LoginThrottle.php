@@ -8,19 +8,11 @@ class LoginThrottle {
 
       }
 
-      public function isUserBanned(){
+      public function isBanned(){
 
       }
 
-      public function setAttempt(){
-
-      }
-
-      public function ban(){
-
-      }
-
-      public function attemptLimit(){
+      public function isAttemptLimit(){
 
       }
 
