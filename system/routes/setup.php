@@ -17,13 +17,13 @@
  
  Router::bind('/', array('models' => array()));
 
- Router::bind('/admin', array('models' => array()));
+ Router::bind('/admin', array('models' => array('Todo', 'TodoList')));
  
  Router::bind('/account/login/', array('models' => array()));
 
  Router::bind('/account/register/', array('models' => array()));
 
- Router::bind('/account/signin/@provider', array('verb'=> 'post', 'models' => array(), 'params'=> array('provider' => '/^(?:(?:oauth-([a-z]+))|email)$/i')));
+ Router::bind('/account/signin/@provider', array('verb'=> 'post', 'models' => array('User', 'UserRole', 'UserThrottle'), 'params'=> array('provider' => '/^(?:(?:oauth-([a-z]+))|email)$/i')));
 
- Router::bind('/account/signup/@mode', array('verb' => 'post', 'models' => array(), 'params' => array('mode' => '/^(create)$/i')));
+ Router::bind('/account/signup/@mode', array('verb' => 'post', 'models' => array('User', 'UserRole', 'UserThrottle'), 'params' => array('mode' => '/^(create)$/i')));
  
