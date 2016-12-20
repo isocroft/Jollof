@@ -1,13 +1,13 @@
 <?php
 
-class User extends Model {
+class TodoList extends Model {
 
-    protected $table = 'tbl_users';
+    protected $table = 'tbl_todos_list';
 
     protected $primaryKey = 'id';
 
     protected $relations = array(
- 		'TodoList' => 'id'
+ 		'User' => 'user_id'
     );
 
     public function __construct(){

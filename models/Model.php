@@ -1,5 +1,13 @@
 <?php
 
+/*!
+ * Jollof (c) Copyright 2016
+ *
+ *
+ * {Model.php}
+ *
+ */
+
 use \Contracts\Policies\DBAccessInterface as DBInterface;
 use \Providers\Core\QueryBuilder as Builder;
 
@@ -18,7 +26,7 @@ class Model implements DBInterface {
 
      public function __construct(){
 
-          $envfile = $GLOBALS['env']['app.path.base'] . '.env';
+          $envfile = $env['app.path.base'] . '.env';
 
           if(file_exists($envfile)){
 
@@ -45,14 +53,14 @@ class Model implements DBInterface {
          return $this->builder->select($columns, $clauseProps, $conjunction);
      }
 
-     protected function set(array $values = array()){
+     protected function set(array $values = array(), array $clauseProps = array()){
         
-        return $this->builder->insert($values);
+        return $this->builder->insert($values, $clauseProps);
      }
 
-     protected function let(array $columns = array(), $conjunction = 'and'){
+     protected function let(array $columnValues = array(), $clauseProps = array(), $conjunction = 'and'){
 
-        return $this->builder->update($columns, $conjunction);
+        return $this->builder->update($columnValues, $clauseProps, $conjunction);
      }
 
      protected function del(array $columns = array()){

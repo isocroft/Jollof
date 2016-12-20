@@ -2,9 +2,9 @@
 
 class UserRole extends Model {
 
-    protected $table = 'tbl_user_role';
+    protected $table = 'tbl_user_roles';
 
-    protected $primaryKey = 'role_id';
+    protected $primaryKey = 'id';
 
     protected $relations = array(
        'User' => 'user_id'

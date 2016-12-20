@@ -2,12 +2,12 @@
 
 class UserThrottle extends Model /* implements AuthService */ {
 
-    protected $table = 'tbl_user_throttle';
+    protected $table = 'tbl_user_throttles';
 
-    protected $primaryKey = 'throttle_id';
+    protected $primaryKey = 'id';
 
     protected $relations = array(
-       'User' => 'user_id'
+
     );
 
     public function __construct(){
