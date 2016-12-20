@@ -24,6 +24,10 @@ class Console {
 
    }
    
+   public function run(){
+   
+   }
+   
    public function static setCommand($command_name, callable $handle){
    
    
