@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html manifest="[!asset(/manifest.appcache)]" lang="en">
+<html data-x-path="[!asset(/offline.html)]" lang="en">
 <head>
 	<title>=@framework &dash; =@title</title>
 	<meta charset="utf-8">
@@ -143,10 +143,10 @@
     </div><!-- /container -->
 
     
-	
+	<script type="text/javascript" src="[!asset(/js/browsengine.js)]"></script>
 	<script type="text/javascript" src="[!asset(/js/manup.js)]"></script>
 	<script type="text/javascript" src="[!asset(/js/jquery-1.10.2.js)]"></script>
-	<script type="text/javascript" src="[!asset(/js/bootstrap.min.js)]"></script>
+	<script type="text/javascript" src="[!asset(/js/bootstrap.js)]"></script>
 
     <script type="text/javascript">
     	;(function(w, $){
