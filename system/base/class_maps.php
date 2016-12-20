@@ -39,6 +39,7 @@ return array(
      "\\Providers\\Tools\\Hasher" => $compDir . "/providers/Tools/Hasher",
      "\\Providers\\Tools\\ArgvOutput" => $compDir . "/providers/Tools/ArgvOutput",
      "\\Providers\\Tools\\Console" => $compDir . "/providers/Tools/Console",
+     "\\Providers\\Tools\\AuthContext" => $compDir . "/providers/Tools/AuthContext",
      "\\Providers\\Tools\\InputFilter" => $compDir . "/providers/Tools/InputFilter",
      "\\Providers\\Tools\\RedisStorage" => $compDir . "/providers/Tools/RedisStorage",
      "\\Providers\\Tools\\MemcachedStorage" => $compDir . "/providers/Tools/MemcachedStorage",
@@ -75,6 +76,8 @@ return array(
      "\\User" => $compDir . "/../../models/User",
      "\\UserRole" => $compDir . "/../../models/UserRole",
      "\\UserThrottle" => $compDir . "/../../models/UserThrottle",
+     "\\Todo" => $compDir . "/../../models/Todo",
+     "\\TodoList" => $compDir . "/../../models/TodoList",
 
      /* Controllers */
 

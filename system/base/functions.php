@@ -599,13 +599,22 @@ if(! function_exists('delete_text_from_file') ){
     }
 }
 
+if(! function_exists('make_seed') ){
+    function make_seed(){
+      list($usec, $sec) = explode(' ', microtime());
+      return (float) $sec + ((float) $usec * 100000);
+    }
+}
+
 if(! function_exists('get_random_as_range') ){
     function get_random_as_range($useText=FALSE, $len=10, $range=10){
         $text = array();
         for($i=0;$i < $len; $i++){
-            $rnd = rand(0, $range);
-	        if($useText)
-                $text[] = base_convert(mt_rand(0xaaff355db, 0x543dbbca310) >> 0xffa, 10, 36);
+            $rnd = rand(2, $range);
+          if($useText){
+            //mt_srand(make_seed());
+                $text[] = base_convert(mt_rand(0xaaff355db, 0x543dbbca310) >> 0xffa, $rnd, 36);
+          }
         }
         return join($text);
     }
