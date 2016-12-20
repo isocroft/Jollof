@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html manifest="[!asset(/manifest.appcache)]" lang="en">
+<html data-x-path="[!asset(/offline.html)]" lang="en">
 <head>
 	<title>=@framework &dash; =@title</title>
 	<meta charset="utf-8">
 	<meta name="csrftoken" content="=@csrftoken">
+
+	<meta name="apple-mobile-web-app-status-bar-style" content="orange">
+    <meta name="HandheldFriendly" content="True">
 
 	<link rel="icon" type="text/x-icon" href="[!asset(/favicon.ico)]">
 
@@ -50,6 +53,38 @@
 			margin-top: 10px;
 		}
 	</style>
+
+	<script type="text/javascript">
+             // Avoid `console` errors in browsers that lack a console. (old IE)
+			 ;(function() {
+				    var method;
+				    var noop = function () {};
+				    var methods = [
+				        'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+				        'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+				        'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+				        'timeline', 'timelineEnd', 'timeStamp', 'trace', 'warn'
+				    ];
+				    var length = methods.length;
+				    var console = (window.console = window.console || {});
+
+				    while (length--) {
+				        method = methods[length];
+
+				        // Only stub undefined methods.
+				        if (!console[method]) {
+				            console[method] = noop;
+				        }
+				    }
+			  }());
+       </script> 
+
+       <!-- Windows-Phone = 70x70 -->
+	   <meta name="msapplication-TileImage" content="[!asset(/img/tile.png)]">
+
+	   <!-- Apple-iOS - -->
+	   <meta name="apple-mobile-web-app-status-bar-style" content="orange">
+	   <meta name="HandheldFriendly" content="True">
 </head>
 <body class="page">
 	<section class="row-full">
@@ -71,8 +106,15 @@
 		</div>
 	</section>
 
+	<script type="text/javascript" src="[!asset(/js/browsengine.js)]"></script>
 	<script type="text/javascript" src="[!asset(/js/manup.js)]"></script>
 	<script type="text/javascript" src="[!asset(/js/jquery-1.10.2.js)]"></script>
-	<script type="text/javascript" src="[!asset(/js/bootstrap.min.js)]"></script>
+	<script type="text/javascript" src="[!asset(/js/bootstrap.js)]"></script>
+
+	<!-- Offline-First Support -->
+
+    <script type="text/javascript" src="[!asset(/upup.min.js)]"></script>
+    <script type="text/javascript" src="[!asset(/cachr.min.js)]"></script>
+	<script type="text/javascript" src="[!asset(/js/offline-support.js)]"></script>
 </body>
 </html>
