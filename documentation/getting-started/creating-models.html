@@ -56,7 +56,25 @@
                <h2 class=""><i class="ink-icon">§</i><b> Choose Model Name</b></h2>
                <blockquote>
                  <p>
-                    To get started on choosing a model name, .
+                    Since model and controller classes aren't namespaced, choosing a model name will require a lot of scrutiny. Make sure not to choose a name that has already been given to a controller or a component. In later versions of <b class="text-warning">Jollof</b>, models and controllers should be namespaced to avoid unintentional conflict.
+                 </p>
+                 <p>
+                   All model classes must <kbd>extend</kbd> the core <i class="text-success">Model</i> class.
+                 </p>
+               </blockquote>
+               </div>
+           </section>
+         </li>
+         <li class="content-list-item">
+           <section class="content-list-panel" id="create_env_file">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b> Create Env File</b></h2>
+               <blockquote>
+                 <p>
+                   Before setting up to use any model class. The <kbd class="bg-info">.env</kbd> file (which contains database configuration values as well as the <b class="bg-">Application Key</b>) must be created.
+                 </p>
+                 <p>
+                   Refer to <a href="../apis/console.html#make:env">this</a> to learn how to create an <kbd class="bg-info">.env</kbd> file from the command line.
                  </p>
                </blockquote>
                </div>
@@ -65,22 +83,61 @@
          <li class="content-list-item">
            <section class="content-list-panel" id="create_model_file">
                <div class="content-list-panel-heading">
-               <h2 class=""><i class="ink-icon">§</i><b> Create Model File</b></h2>
+               <h2 class=""><i class="ink-icon">§</i><b>Create Model File</b></h2>
                <blockquote>
                  <p>
-
+                  <span class="inline-block-box" style="width:100%;">Every <i class="bg-info">model</i> class file can be created in 2 ways:</span>
+                    <ol start="1">
+                       <li>Using the <a href="../apis/console.html#make:model">console command</a> for creating the <i class="bg-info">model</i> class file.</li>
+                       <li>Manually creating the <i class="bg-info">models</i> class file and registering it in the <i class="bg-success">system/base/class_maps.php</i> file.</li>
+                    </ol>
+                 </p>
+                 <p>
+                   When the file has been created, navigate to the <i class="bg-info">models</i> folder and open the file in a text editor. You should see something like as shown below:
                  </p>
                </blockquote>
-               </div>
-           </section>
+             </div>
+             <main class="contnet-code-list">
+               <article class="contnet-code">
+                     <code class="block-box content-code-line">
+                         <var class="line-block-box content-example-line">Showcase:</var>
+                       <pre>class Posts extends Model {
+
+    protected $table = '...';
+
+    protected $primaryKey = '...';
+
+    protected $relations = array(
+
+    );
+
+    public function __construct(){
+
+        parent::__construct();
+
+    }
+
+}</pre>
+                     </code>
+               </article>
+          </main>
+          </section>
          </li>
          <li class="content-list-item">
-           <section class="content-list-panel" id="model_fields">
+           <section class="content-list-panel" id="setup_model_attributes">
                <div class="content-list-panel-heading">
-               <h2 class=""><i class="ink-icon">§</i><b> Model Fields</b></h2>
+               <h2 class=""><i class="ink-icon">§</i><b>Setup Model Attributes</b></h2>
                <blockquote>
                  <p>
-
+                    <span class="inline-block-box" style="width:100%;">There are 3 major attributes of every <b class="text-warning">Jollof</b> model.</span>
+                    <ol start="1">
+                        <li><kbd>table</kbd> - </li>
+                        <li><kbd>primary key</kbd> - </li>
+                        <li><kbd>relations</kbd> - </li>
+                    </ol>
+                 </p>
+                 <p>
+                  These atrributes need to be filled in and setup with the correct info.
                  </p>
                </blockquote>
                </div>
@@ -96,8 +153,9 @@
   <aside class="table-of-contents fixed snap-top-right" id="aside">
      	<ul class="table-of-contents-list">
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#choose_model_name" class="block-box active" style="white-space:nowrap;">Choose Model Name</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#create_model_file" class="block-box" style="white-space:nowrap;">Create Model File</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#model_fields" class="block-box" style="white-space:nowrap;">Model Fields</a></li>
+     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#create_env_file" class="block-box" style="white-space:nowrap;">Create Env File</a></li>
+         <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#create_model_file" class="block-box" style="white-space:nowrap;">Create Model File</a></li>
+     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#setup_model_attributes" class="block-box" style="white-space:nowrap;">Setup Model Attributes</a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
