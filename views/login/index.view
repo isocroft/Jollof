@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html manifest="[!asset(/manifest.appcache)]" lang="en" style="behavior:url(#default#userData);">
+<html data-x-path="[!asset(/offline.html)]" lang="en" style="behavior:url(#default#userData);">
 <head>
 	<title>=@framework &dash; =@title</title>
 	<meta charset="utf-8">
@@ -185,10 +185,10 @@
         <iframe src="javascript:false;" id="payload-sink" name="payload-sink" allowtransparency="true" frameborder="0" scrolling="no" width="0" height="0"></iframe><!-- /iframe -->
     </div><!-- /container -->
 
-    
+    <script type="text/javascript" src="[!asset(/js/browsengine.js)]"></script>
 	<script type="text/javascript" src="[!asset(/js/manup.js)]"></script>
 	<script type="text/javascript" src="[!asset(/js/jquery-1.10.2.js)]"></script>
-	<script type="text/javascript" src="[!asset(/js/bootstrap.min.js)]"></script>
+	<script type="text/javascript" src="[!asset(/js/bootstrap.js)]"></script>
 
     <script type="text/javascript">
     	;(function(w, $){
