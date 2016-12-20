@@ -2,9 +2,9 @@
 
 class Webhook extends Controller { 
 
-       protected $params;
+       protected $params = array();
 
-       public function __construct($params){
+       public function __construct(array $params = array()){
 
             parent::__construct($params);
        }
@@ -18,7 +18,7 @@ class Webhook extends Controller {
 
        public function git_payload($models){
 
-            $base_repo_path = "https://raw.githubusercontent.com/<account>/<project>/";
+            $base_repo_path = "https://raw.githubusercontent.com/<account>/<project>/master";
 
             $base_project_path = $env['app.path.base'];
 
@@ -48,7 +48,7 @@ class Webhook extends Controller {
                 $full_repo_path = $base_repo_path . $filepath;
                 $full_project_path = $base_project_path . $filepath;
                 $fetch = File::readChunk($full_repo_path);
-				        File::write($full_project_path, $fetch, TRUE);
+		File::write($full_project_path, $fetch, TRUE);
             }
 
             return Response::text(NULL, 204);
