@@ -9,7 +9,7 @@
 
 use \Providers\Tools\InputFilter as Filter;
 
-class Validator{
+final class Validator{
 
     const FAILED = "failed!";
 
@@ -33,6 +33,8 @@ class Validator{
 
          $this->errors = array();
 
+         $this->bounds = new \stdClass();
+
          $this->allowed = NULL;
 
          $this->allowed_errors = FALSE;
@@ -48,10 +50,6 @@ class Validator{
     }
 
     public static function getErrors(){
-	      
-        if(count(static::$instance->errors) == 0){
-		          return NULL;
-		    }
 
         return static::$instance->errors;
     }
@@ -61,7 +59,12 @@ class Validator{
         return $this->filter->sanitizeInput($email, 4);
     }
 
-    public static function checkAndSanitize(array $data, array $fieldRules){ // $data should be the data from $_POST super global always...
+    public static function hasErrors(){
+
+        return count(static::$instance->errors) > 0;
+    }
+
+    public static function check(array $data, array $fieldRules){ // $data should be the data from GET / POST / PUT always...
          $valid = TRUE;
          $results = array();
          $callbacks = NULL;
@@ -75,20 +78,45 @@ class Validator{
             static::$instance->allowed = NULL;
             static::$instance->fieldHasError = FALSE;
 
-            $callbacks = NULL;
+            $callbacks = array();
             $fieldvalue = '';
             $pattern = '';
+            $limits = NULL;
+            $boundary = '';
+            $endIndex = -1;
 
             if(is_array($rule)){
                static::$instance->allowed = $rule['allowed'];
                $callbacks = explode("|", $rule['rule']);
-			         $callbacks[] = 'useAllowed';
+			   $callbacks[] = 'useAllowed';
             }else if(is_string($rule)){
-               $index = index_of($rule, '/');
-               if($index > -1){
-                  $pattern = substr($rule, $index);
+               $_rule = $rule;
+               $patternIndex = index_of($rule, '/');
+               $maxMinIndex = index_of($rule, 'bounds:');
+               
+
+               if($patternIndex > -1){
+                  $endIndex = index_of($rule, '|', $patternIndex);
+                  if($endIndex == -1){
+                     $endIndex = strlen($rule);
+                  }
+                  $pattern = substr($rule, $patternIndex, $endIndex-1);
+                  $_rule = str_replace(('|'.$pattern), '', $_rule);
                }
-               $callbacks = explode("|", substr($rule, 0, $index-1));
+               if($maxMinIndex > -1){
+                  $endIndex = index_of($rule, '|', $maxMinIndex);
+                  if($endIndex == -1){
+                     $endIndex = (strlen($rule) - 1);
+                  }
+                  $boundary = substr($_rule, $maxMinIndex, $endIndex);
+                  preg_match('/:([\d]+)?(\,[\d]+)?$/', $boundary, $limits);
+                  static::$instace->bounds->max = $limits[1];
+                  static::$instance->bounds->min = $limits[0];
+                  $_rule = str_replace(('|'.$boundary), '', $_rule);
+                  $boundary = 'bounds';
+               }
+
+               $callbacks = array_merge((array) $boundary, explode("|", $_rule));
             }else{
                
                 throw new Exception("Validator: could not process ['". $rule['rule'] . "'] for $fieldname");
@@ -98,7 +126,8 @@ class Validator{
             foreach($callbacks as $callback){
                $fieldvalue = $data[$fieldname];
                $fieldvalue = trim(strip_tags(htmlspecialchars($fieldvalue, ENT_QUOTES, 'UTF_8')));
-               $valid = $callback($fieldvalue, $fieldname, $pattern, static::$instance);
+               if($callback == ''){ continue; }
+               $valid = $callback($fieldvalue, $fieldname, static::$instance, $pattern);
                if(!is_bool($valid)){
                     static::$instance->errors[] = $valid; // read out the error message in $valid first!!
 				            $valid = TRUE; // then set it to the default boolean value

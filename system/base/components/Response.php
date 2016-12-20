@@ -300,7 +300,7 @@ final class Response {
 
            if(!isset($route) || empty($route)){
 
-                throw new \InvalidArgumentException("Cannot redirect to empty destination");
+                throw new \InvalidArgumentException("Cannot redirect to unknown destination");
            }
 
            $root = $GLOBALS['env']['app.root']; 
@@ -315,11 +315,20 @@ final class Response {
                $root = "/" . $root;
            }
 
+           $protocol = substr(Request::header('SERVER_PROTOCOL'), 0, 5);
+
+           $https = Request::header('HTTPS');
+
+            if(!isset($protocol)){
+
+                $protocol = isset($https)? 'https' : 'http';
+            }
+
             $url = contains(Request::header('REQUEST_URI'), $root)? ($host . $root . $route) : ($host . $route);
 
            http_response_code(($temporary)? 303 : 302);
 
-           static::header('Location', ("http://" .  $url));
+           static::header('Location', ($protocol . "://" .  $url));
 
            return TRUE;
 

@@ -1,6 +1,14 @@
 <?php
 
-class Helpers {
+/*!
+ *
+ * Jollof (c) Copyright 2016
+ *
+ * {Helpers.php}
+ *
+ */
+
+final class Helpers {
 
       const CIPHER_KEY = 'ABCDEF123JKLMNOPQvwxUVWYZ0GHI456789abcghi]|klp[_#$qrstuRSTyz@,!def^*/?><:;+% -=.")(}{mn&o\'`~©';
 
@@ -70,10 +78,10 @@ class Helpers {
     }
 
 
-    public static function dateSet($date,$dateadd){
+    public static function dateSet($date, $date_to_add){
 
         $date = new \DateTime($date);
-        date_add($date, new \DateInterval("P".$dateadd."D"));
+        date_add($date, new \DateInterval("P".$date_to_add."D"));
         //date_sub();
         return $date->format("d-m-Y");
     }
@@ -139,8 +147,8 @@ class Helpers {
             return $plain_str;
        }
        
-       public static function delay($input, $secret_key) {
-              $hash = crc32(serialize($secret_key . $input . $secret_key));
+       public static function delay($input, $secret) {
+              $hash = crc32(serialize($secret . $input . $secret));
               // make it take a maximum of 0.1 milliseconds
               time_nanosleep(0, abs($hash % 100000));
        }
@@ -260,14 +268,16 @@ class Helpers {
             return static::decodeJWTObject($parse_obj);          
        }
 
-       public static function uuidV4($inputstr){ // TCAPI sessionRegistration for CollegeMobile (when implemented)
+       public static function uuid($inputstr, $noDash = TRUE){ // v4 UUID format
     
             assert(strlen($inputstr) == 16);
 
             $inputstr[6] = chr(ord($inputstr[6]) & 0x0f | 0x40); // set version to 0100
             $inputstr[8] = chr(ord($inputstr[8]) & 0x3f | 0x80); // set bits 6-7 to 10
 
-            return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($inputstr), 4));
+            $outputstr = vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($inputstr), 4));
+
+            return ($noDash)? preg_replace('/-/i', '', $outputstr) : $outputstr;
        }
 
        public static function generateRandomByPattern($pattern = "xxxxxxxx-xxxxxxxx-xxxr4xxx-xxxxxxkx"){
@@ -316,7 +326,7 @@ class Helpers {
 
        public static function generateCode($prefix = ""){
 
-            return uniqid($prefix, false);
+            return ((uniqid($prefix, false)) . (uniqid($prefix, false)));
        }
 
 
