@@ -1,15 +1,17 @@
 CACHE MANIFEST
-# 2016-12-09:v1
-
-# Explicitly cached 'master entries'
-CACHE:
-
-/
+# 2016-12-17:v1
+# ef352a348bfd74e415b2
+/public/css/boostrap.min.css
+/public/css/bootstrap-theme.min.css
 /public/favicon.ico
-/public/assets/img/offline.png
+/public/js/jquery-1.10.2.js
+/public/js/bootstrap.js
+/public/js/browsengine.js
 
 NETWORK:
 *
 
 FALLBACK:
 / /public/offline.html
+/account/register /public/offline.html
+/account/login /public/offline.html
