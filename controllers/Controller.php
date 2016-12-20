@@ -1,10 +1,18 @@
 <?php
 
+/*!
+ * Jollof (c) Copyright
+ *
+ *
+ * {Controller.php}
+ *
+ */
+
 class Controller {
 
-	protected $params;
+	protected $params = array();
 
-    public function __construct($params){
+    public function __construct(array $params = array()){
 
             $this->params = $params;
              

@@ -26,29 +26,32 @@ class Account extends Controller {
 
             $inputs = Request::input()->getFields();
 
-            $validInputs = Validator::checkAndSanitize( $inputs, 
+            $validInputs = Validator::check( $inputs, 
                 array(
                     'email' => "email|required",
-                    'password' => "password|required|/^(?:[^\t\r\n\f\b\~\"\']+)$/i",
-                    'first_name' => 'name|required|/^(?:[^\S\d\t\r\n]+)$/i',
-                    'last_name' => 'name|required|/^(?:[^\S\d\t\r\n]+)$/i',
-                    'mobile' => 'mobile_number|required|/^(?:070|071|081|080|090|091)(?:\d{8})$/'
+                    'password' => "password|required|bounds:8",
+                    'first_name' => 'name|required',
+                    'last_name' => 'name|required',
+                    'mobile' => 'mobile_number|required'
                 )
             );
 
-            $validateErrors = Validator::getErrors();
-
-            if(count($validateErrors) > 0){
-                return Response::json(array('status' => 'error', 'result' => $validateErrors));
-            }
+            $json = array('status' => 'ok', 'result' => NULL);
 
             switch($this->params['mode']) {
                  case 'create':
-                     # code...
+                     if(Validator::hasErrors()){
+                          $json['status'] = 'error';
+                          $json['result'] = Validator::getErrors();
+                     }else{
+
+                        Auth::createNewContext( $models );
+                        $json['result'] = Auth::register( $validInputs );
+                     }
                  break;
             }
 
-            return Response::json(array('status' => 'ok'));
+            return Response::json( $json );
         }
 
         public function login($models){
@@ -62,14 +65,14 @@ class Account extends Controller {
 
             $inputs = Request::input()->getFields();
 
-            $validInputs = Validator::checkAndSanitize( $inputs, 
+            $validInputs = Validator::check( $inputs, 
                 array(
                     'email' => "email|required",
-                    'password' => "password|required|/^(?:[^\t\r\n\f\b\~\"\']+)$/i"
+                    'password' => "password|required"
                 )
             );
 
-            $validateErrors = Validator::getErrors();
+            $json = array( 'status' => 'ok', 'result' => NULL );
 
             switch($this->params['provider']) {
                  case 'oauth-facebook':
@@ -79,9 +82,17 @@ class Account extends Controller {
                      # code...
                  break;
                  case 'email':
-                     # code...
+                    if(Validator::hasErrors()){
+                        $json['status'] = 'error';
+                        $json['result'] = Validator::getErrors();
+                    }else{
+                        Auth::createNewContext( $models );
+                        $json['result'] = Auth::login( $validInputs );
+                    }
                  break;
              }
+
+             return Response::json( $json );
         }
 
         public function logout($models){
@@ -94,7 +105,7 @@ class Account extends Controller {
             # code ...
         }
 
-        public function activation($models){
+        public function activate($models){
 
             # code ...
         }
