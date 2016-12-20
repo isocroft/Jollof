@@ -6,9 +6,9 @@ interface DBAccessInterface {
 
       public function get(\array $columns, \array $clauseProps, $conjunction);
 
-      public function set(\array $values);
+      public function set(\array $values, \array $clauseProps);
 
-      public function let(\array $columns, $conjunction);
+      public function let(\array $columnValues, \array $clauseProps, $conjunction);
 
       public function del(\array $columns);
 
