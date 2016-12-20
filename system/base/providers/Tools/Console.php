@@ -3,20 +3,24 @@
 namespace Providers\Tools;
 
 use \Providers\Tools\ArgvInput as ArgvInput;
-use \Providers\Tools\ArgvOutput as ArgvOutput;
+use \Providers\Tools\ArgcInput as ArgcInput;
+use \Providers\Tools\Prompt as Prompt;
 
 
 class Console {
 
-   private $input;
+   private $argv;
 
-   private $output;
+   private $argc;
 
-   public function __construct(){
+   public function __construct($script_root){
 
-       $this->input = new ArgvInput();
+       $this->argv = new ArgvInput();
+      
+       $this->argc = new ArgcInput();
+      
+        $this->prompt = new Prompt($this->argv, $this->argc);
 
-       $this->output = new ArgvOutput();
 
    }
 
