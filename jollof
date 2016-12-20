@@ -12,7 +12,7 @@
    *
    * require_once 'system/boot.php';
    *
-   * $console = new Console($_SERVER['argv'], $_SERVER['argc'], __DIR__);
+   * $console = new Console(__DIR__);
    *
    * $console->run();
    *
