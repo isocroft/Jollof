@@ -7,34 +7,65 @@
    *
    */
 
-  function email(&$value, $fieldname, $pattern, $validator){
-	     trim($value);
+  /*!
+   * @TODO: This separate functions for 
+   *
+   * -- This will be the new implementation format as of v1.0.0 for validation rules.
+   *
+   *  Validator::addRule('email', function($fieldObject, $validator){
+   *
+   *        # $fieldObject will be an instance of (stdClass)
+   *
+   *        $value = $fieldObject->value;
+   *        $name = $fieldObject->name;
+   *        $pattern = $fieldObject->pattern;
+   *
+   *        return $validator->response($validator->filterEmail($value));
+   * });
+   *
+   *
+   *
+   */
+
+  function email($value, $fieldname, $validator, $pattern = ''){
 	     $valid = $validator->filterEmail($value);
 		   if($valid === FALSE){
-		     return "The is not a valid email address for '$fieldname'"; 
+		     return "This is not a valid '{$fieldname}'"; 
 		   }
 		   return $valid;
 		
   }
 	
-  function useAllowed($value, $fieldname, $pattern, $validator){
+  function useAllowed($value, $fieldname, $validator, $pattern = ''){
        if(is_null($validator->allowed)){
-  	       return "Field options not accessible for '$fieldname'";
+  	       return "Field options not accessible for '{$fieldname}'";
        }
        $valid = in_array($value, $validator->allowed);
-       return ($valid === FALSE)? "This '$value' is invalid for '$fieldname'" : $valid;
+       return ($valid === FALSE)? "This is an invalid value for '$fieldname'" : $valid;
   }
 
-  function required(&$value, $fieldname, $pattern, $validator){
+  function required($value, $fieldname, $validator, $pattern = ''){
         $valid = !empty($value);
     		if($valid === FALSE){
-    		  return "Field '$fieldname' is required";
+    		  return "'{$fieldname}' is required";
     		}
     		return $valid;
   }
 
-  function password(&$value, $fieldname, $pattern, $validator){
-         $value = trim($value);
+  function bounds($value, $fieldname, $validator, $pattern = ''){
+      $len = strlen($value);
+      $max = isset($validator->bounds->max)? $validator->bounds->max : $len;
+      $min = isset($validator->bounds->min)? $validator->bounds->min : 0;
+      $valid = (($len >= $min) && ($len <= $max));
+
+      if($valid === FALSE){
+          return "'{$fieldname}' is out of bounds";
+      }
+    
+      return $valid;
+  }
+
+  function password($value, $fieldname, $validator, $pattern = '/^(?:[^\t\r\n\f\b\~\"\']+)$/i'){
          $valid = (bool) preg_match($pattern, $value);
          if($valid === FALSE){
             return "This is not a valid password";
@@ -42,27 +73,25 @@
          return $valid;
   }
 
-  function name(&$value, $fieldname, $pattern, $validator){
-         $value = trim($value);
+  function name($value, $fieldname, $validator, $pattern = '/^(?:[^\S\d\t\r\n]+)$/i'){
          $valid = (bool) preg_match($pattern, $value);
          if($valid === FALSE){
-            return "This is not a valid '$fieldname'";
+            return "This is not a valid '{$fieldname}'";
          }
          return $valid;
   }
 
-  function mobile_number(&$value, $fieldname, $pattern, $validator){
-         $value = trim($value);
+  function mobile_number($value, $fieldname, $validator, $pattern = '/^(?:070|071|081|080|090|091)(?:\d{8})$/'){
          $valid = (bool) preg_match($pattern, $value);
          if($valid === FALSE){
-            return "This is not a valid '$fieldname'";
+            return "This is not a valid '{$fieldname}'";
          }
          return $valid;
   }
 
   /* ADD YOUR CUSTOM VALIDATOR RULES (functions) BELOW */
 
-  function mail_box(&$value, $fieldname, $pattern, $validator){
+  function zip_code($value, $fieldname, $validator, $pattern = '/^(.)*$/'){
 
         # code ...
   }
