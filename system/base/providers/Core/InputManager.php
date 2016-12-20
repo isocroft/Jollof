@@ -62,7 +62,7 @@ class InputManager {
               if(!is_string($value)){
                  $this->httpInput['files'][$name] = (array_key_exists($name, $_FILES) && $value !== $_FILES[$name]) ? $_FILES[$name] : $value;
               }else{
-                 $this->httpInput['fields'][$name] = $value;
+                 $this->httpInput['fields'][$name] = urldecode($value);
               }
           }
 

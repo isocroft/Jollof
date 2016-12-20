@@ -76,7 +76,7 @@ class App {
 
      protected $instances;
 
-     /**
+    /**
      * Constructor.
      *
      * @param void
@@ -86,11 +86,13 @@ class App {
 
      public function __construct(){
 
+        $protocol;
+
         if(!$this->inCLIMode()){
 
              $this->resolver = new Resolver();
 
-             $this->apphost = (Request::header('HTTP_PROTOCOL') . Request::getHost());
+             $this->apphost = Request::getHost();
 
              $this->os = preg_replace('/^(?:.+)?\((Win32|Linux)\)(?:.+)?$/i', '${1}', Request::header('SERVER_SOFTWARE'));
         }     
@@ -103,11 +105,26 @@ class App {
 
      }
 
+     /**
+     * Destructor.
+     *
+     * @param void
+     *
+     * @scope public
+     */
+
      public function __destruct(){ 
 
           $this->shutDown();
      }
 
+     /**
+      * Registers the databse configuration.
+      *
+      *
+      * @param array $DBCONFIG
+      * @return void
+      */
 
      public function installDBService(array $DBCONFIG){
 
@@ -127,10 +144,17 @@ class App {
 			$this->dbservice = new DBService($DBCONFIG); // extract($DBCONFIG, EXTR_PREFIX_ALL , "db");
      }
 
+     /**
+      * Registers the environmental configuration.
+      *
+      *
+      * @param array $ENVCONFIG
+      * @return void
+      */
+
      public function installENVService(array $ENVCONFIG){
 
      	    if ( ! extension_loaded($ENVCONFIG['encryption_scheme'])){
-                 # "Error: 01:29:35 - 03/09/2016 [.]" . PHP_EOL;
                
                  exit(1);
             }
@@ -149,15 +173,39 @@ class App {
             $this->envservice = new EnvService($ENVCONFIG);
      }
 
+     /**
+      * Retrieves the Operating System name for the server.
+      *
+      *
+      * @param void
+      * @return string 
+      */
+
      public function getOS(){
 
      	return $this->os;
      }
 
+     /**
+      * Retrieves the host name for the server.
+      *
+      *
+      * @param string $appendChar
+      * @return string
+      */
+
      public function getHost($appendChar = ''){
 
      	return $this->apphost . $appendChar;
      }
+
+     /**
+      * Sets up the connection for the database.
+      *
+      *
+      * @param string $env_path
+      * @return void
+      */
 
      public function setDBConnection($env_path){ 
 
@@ -169,10 +217,27 @@ class App {
          return $this->cookieQueue;
      }
 
+     /**
+      * Adds an entry to the cookie queue.
+      *
+      *
+      * @param string $ckey
+      * @param array $cval
+      * @return void
+      */
+
      public function pushCookieQueue($ckey, $cval){
 
          $this->cookieQueue[$ckey] = $cval;
      }
+
+     /**
+      * Initializes the Http resolution mechanism.
+      *
+      *
+      * @param void
+      * @return void
+      */
 
      public function initHTTPResolver(){
 
@@ -188,6 +253,14 @@ class App {
 
      }
 
+     /**
+      * Stores all model instances for latter access.
+      *
+      *
+      * @param array $models
+      * @return void
+      */
+
      public function cacheModelInstances(array $models){
  
         if($this->hasCachedModels === FALSE){ 
@@ -200,22 +273,60 @@ class App {
 
      }
 
+     /**
+      * Reveals all environment configs to the global space.
+      *
+      *
+      * @param string $root
+      * @return array 
+      */
+
      public function exposeEnvironment($root){
 
          return $this->envservice->exposeEnvironment($root);
 
      }
 
+     /**
+      * Retrives the error reporter.
+      *
+      *
+      * @param void
+      * @return void
+      */
+
      public function getRemoteErrorReporter(){
 
          $packages_path = $GLOBALS['env']['app.path.packages'];
+
+         $errorsConfig = $this->envservice->getConfig('app_errors');
+
+         $settings = $errorsConfig['reporter_settings'];
+
+         if(array_key_exists('meta_data', $settings)){
+                if(is_array($settings['meta_data'])){
+                    $settings['meta_data']['browser'] = Request::header('HTTP_USER_AGENT');
+                    $settings['meta_data']['req_time'] = Request::header('REQUEST_TIME');
+                    $settings['meta_data']['time_zone'] = 'Africa/Lagos';
+
+                    $settings['meta_data']['exec_id'] = JOLLOF_EXEC_ID; 
+                }
+         }
         
          if(file_exists($packages_path . 'vendor/autoload.php')){
-             return (new \Jollof\ErrorReporter\Reporter($this->getInstance('Comms'), $this->envservice->getConfig('app_errors')));
+             return (new \Jollof\ErrorReporter\Reporter($this->getInstance('Comms'), $settings));
          }
 
          return NULL;
      }
+
+     /**
+      * Registers all core components for the application.
+      *
+      *
+      * @param void
+      * @return void
+      */
 
      public function registerCoreComponents(){
           /*
@@ -255,8 +366,6 @@ class App {
      }
 
      private function shutDown(){
-
-     	 Logger::info("Application is Shutting Down...");
 
          $this->hasCachedModels = FALSE;
 
