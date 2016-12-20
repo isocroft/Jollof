@@ -6,6 +6,9 @@
         "authors": [
           {
             "name":"Ifeora Okechukwu"
+          },
+	  {
+            "name":"Micheal Akpobome"
           }
         ],
         "require":{
@@ -37,7 +40,8 @@
 		"predis/predis":"Required to use the [Session] components' redis driver (~1.1)",
 		"auth0/auth0-php":"Optionally required to use the [Auth] authentication/authorization functionality (~4.0)",
 		"mailgun/mailgun-php":"Optionally required to use the [Comms] components' mailing functionality (~2.1)",
-		"phpmailer/phpmailer":"Optionally required to use the [Comms] components' mailing functionality (~5.2)"	 
+		"phpmailer/phpmailer":"Optionally required to use the [Comms] components' mailing functionality (~5.2)",
+		"bugsnag/bugsnag":"Optionally required to use the Jollof Error Reporter (~3.4)"
 	},
         "minimum-stability": "stable"
 }
