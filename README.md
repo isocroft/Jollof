@@ -16,7 +16,7 @@ All you need to setup can be found in the **documenatation** folder(s) of the pr
 
 ## Contributing
 
-_If you wish to contribute to this project, you can take a peep at the [contributing mark down file](https://github.com/isocroft/Jollof/CONTRIBUTING.md) to get guidance. Plus, any issues and pull requests should be filed on the [Jollof](https://github.com/isocroft/Jollof/) repository._
+_If you wish to contribute to this project, you can take a peep at the [contributing mark down file](https://raw.githubusercontent.com/isocroft/Jollof/master/CONTRIBUTING.md) or the [release notes text file](https://raw.githubusercontent.com/isocroft/Jollof/master/release notes.txt) to get guidance. Plus, any issues and pull requests should be filed on the [Jollof](https://github.com/isocroft/Jollof/) repository._
 
 ## Credits
 
