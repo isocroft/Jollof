@@ -106,9 +106,9 @@ class QueryBuilder {
 	 * @return \Providers\Core\QueryExtender
 	 */
 
-	public function delete(array $columns){
+	public function delete(array $columns, array $clauseProps){
 
-       return $this->extender->del($columns);
+       return $this->extender->del($columns, $clauseProps);
 	}
 
 	
