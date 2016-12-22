@@ -10,7 +10,7 @@ interface DBAccessInterface {
 
       public function let(\array $columnValues, \array $clauseProps, $conjunction);
 
-      public function del(\array $columns);
+      public function del(\array $columns, \array $clauseProps);
 
       public function rawGet($query, \array $columns, \array $clauseProps);
 
