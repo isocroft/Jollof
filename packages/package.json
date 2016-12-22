@@ -1,11 +1,14 @@
 {
-        "name": "jollof",
+        "name": "mobicent_jollof",
         "version": "0.9.9",
 	"description": "The lighweight PHP framework for developer who love smart work",
 	"keywords": ["compact", "php", "framework"],
 	"authors": [
 		{
 		   "name":"Ifeora Okechukwu"
+		},
+		{
+		    "name":"Micheal Akpobome"
 		}
 	],
         "private":true,
