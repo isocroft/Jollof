@@ -10,7 +10,8 @@ Author(s): Ifeora Okechukwu Patrick
 Copyright (c) 2016 - 2017
 
 SIDE NOTE
- - The Jollof Project is very grateful to Mr. Micheal Akpobome (mike98989@gmail.com) for the initial concept and inspiration for this PHP MVC framework. 
+ - The Jollof Project is very grateful to Mr. Micheal Akpobome for the initial concept and inspiration for this PHP MVC framework. 
+ - The Jollof Project is also very grateful to Mr. Shuaib Afegbua, Mr. Abraham Yusuf, Mr. Stephen Igwue & Mr. Umar Binkabir for coming up with th name for this Project and giving it the much deserved support. 
 
 
 
@@ -71,15 +72,15 @@ CAVEATS (0)
 
 FINAL UPDATES FOR THIS VERSION (v1.0.0-beta) - [{beta}] timeline early 2017 
  - Enhance the current query builder functionality and rewrite and arrange database query builder class files
- - Implement Faker.ng command via the exposed API for Jollof Framework
+ - Implement Faker.ng command via the exposed API (faker.abujadevmeetup.com) for Jollof Framework
  - Hot fixes for any known bugs for 2016 build
 
 COMING UPDATES FOR NEXT VERSION (v1.0.1-beta) - [patch 1 {beta}] - timeline mid 2017
  - Implement the PHP DOM Renderer for ReactJS server-side rendering (https://reactjs/react-php-v8js)
  - Final fixes for any known bugs for 2016/2017 builds
    
-COMING UPDATES FOR NEXT VERSION (v1.0.2-beta) - [patch 2 {beta}] - timeline late 2017
- - Implement mature Database Migrations
+COMING UPDATES FOR NEXT VERSION (v1.0.2-beta) - [patch 2 {release candidate}] - timeline late 2017
+ - Implement mature ORM and Database Migrations for Jollof
  - Improve performace for 2016/2017 build
  
 COMING UPDATES FOR NEXT VERSION (v1.0.3-rc) - [patch 3 {release candidate}] - timeline early 2018

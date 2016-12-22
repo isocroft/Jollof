@@ -18,6 +18,10 @@ All you need to setup can be found in the **documenatation** folder(s) of the pr
 
 _If you wish to contribute to this project, you can take a peep at the [contributing mark down file](https://github.com/isocroft/Jollof/CONTRIBUTING.md) to get guidance. Plus, any issues and pull requests should be filed on the [Jollof](https://github.com/isocroft/Jollof/) repository._
 
+## Credits
+
+_Thanks to **Micheal Akpobome**, **Shuaib Afegbua**, **Abraham Yusuf**, **Stephen Igwue** and **Umar Binkabir** for their individual and collective efforts in this project. Jollof would not be the way it is without you guys._
+
 ## Trademarks
 
 _Trademark(s) for this PHP framework are a joint effort of [Mobicent, Ltd](http://www.collegemobile.net) and [Abuja Dev Meetup](http://www.abujadevmeetup.com)_  
