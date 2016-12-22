@@ -63,9 +63,9 @@ class Model implements DBInterface {
         return $this->builder->update($columnValues, $clauseProps, $conjunction);
      }
 
-     protected function del(array $columns = array()){
+     protected function del(array $columns = array(), $clauseProps = array()){
 
-        return $this->builder->delete($columns);
+        return $this->builder->delete($columns, $clauseProps);
      }
 
      public function getAttributes(){
