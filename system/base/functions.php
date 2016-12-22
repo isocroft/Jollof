@@ -550,12 +550,26 @@ if(! function_exists('get_random_from_string') ){
     }
 }
 
+
 if(! function_exists('update_placeholder')){
     function update_placeholder($value, $key){
+        $stub = '?';
+        $range = array();
         if(!is_array($value)){
-            return "$key = ?"; 
+            if(preg_match('/^\+(?:[\d]+)/', $value)){ 
+                return '$key = $key + ' . str_replace('+', '', $value);
+            }
+            return "$key = " . $stub; 
         }
-        return "$key " . $value[0] . " ?";
+
+        if(ignorecase_index_of($value[0], 'between')){
+            if(array_key_exists(1, $value)){
+                $range = explode(',', $value[1]);
+                $range = array_fill(0, count($range), $stub);
+            }
+        }
+
+        return "$key " . $value[0] . " " . (count($range) > 0? (implode(' AND ', $range)) : $stub);
     }
 }
 
