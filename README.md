@@ -12,7 +12,7 @@ The philosophy of **Jollof** is very simple. _Routes_ are very tightly knitted t
 
 It's a new way of thinking about the way applications should be crafted!
 
-All you need to setup can be found in the **documenatation** folder(s) of the project starter folder. 
+All you need to setup can be found in the **documentation** folder(s) of the project starter folder. 
 
 ## Contributing
 
