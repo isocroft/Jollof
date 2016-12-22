@@ -18,7 +18,7 @@ class Webhook extends Controller {
 
        public function git_payload($models){
 
-            $base_repo_path = "https://raw.githubusercontent.com/<account>/<project>/master";
+            $base_repo_path = "https://raw.githubusercontent.com/<account>/<project>/master/";
 
             $base_project_path = $env['app.path.base'];
 
