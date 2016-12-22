@@ -12,6 +12,8 @@ class Console {
    private $argv;
 
    private $argc;
+   
+   private $prompt;
 
    public function __construct($script_root){
 
@@ -28,7 +30,7 @@ class Console {
    
    }
    
-   public function static setCommand($command_name, callable $handle){
+   public static function setCommand($command_name, callable $handle){
    
    
    }
