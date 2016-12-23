@@ -14,6 +14,7 @@
 		
 		RewriteCond %{HTTP_REFERER} !^$
 		RewriteCond %{HTTP_REFERER} !^http://(www\.)?(localhost|jollof.com)/.*$ [NC]
+		
 		RewriteRule \.(gif|jpg|jpeg|bmp|zip|rar|mp3|flv|swf|xml|php|png|css|pdf)$ - [F]
 
 		# Disallow Dastradly Crawlers And Site-Mirroring Apps
@@ -48,7 +49,7 @@ AddType video/webm .webm # theora codec
 # Mobile Site/App Version Crawling - This helps googlebot when crawling your web site/app on mobile devices
 	
 <IfModule mod_headers.c> 
-		Header append Vary User-Agent
+	Header append Vary User-Agent
 </IfModule> 
 
 # Enable file compression (where possible) - use DEFLATE Compression Scheme
