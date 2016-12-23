@@ -7,9 +7,9 @@
 		RewriteEngine On
 
 		php_flag html_errors Off
-	    php_flag log_error Off
+	    	php_flag log_error Off
 
-	    # Prevent Hot-linking (especially for images)
+	    	# Prevent Hot-linking (especially for images)
 
 		# Disallow Dastradly Crawlers And Site-Mirroring Apps
 
@@ -57,6 +57,13 @@ AddType video/webm .webm # theora codec
 	
 # Enhanced caching for site static assets
 
-<FilesMatch ".(flv|gif|jpg|jpeg|mp3|mp4|avi|ogv|webm|png|ico|swf|js|css|html|pdf)$">
+<FilesMatch ".(flv|gif|jpg|jpeg|mp3|mp4|avi|ogv|webm|png|ico|swf|js|css|pdf)$">
     Header set Cache-control "max-age=28800"
+</FilesMatch>
+
+# The Application Cache manifest file and ML files needs not be cached on the client
+
+<FilesMatch ".(html|xml|appcache)$">
+    Header set Cache-control "no-store, no-cache, no-transform"
+    Header set Expires "1"
 </FilesMatch>
