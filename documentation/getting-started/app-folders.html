@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="" lang="en">
 <head>
- <title>Setting Up Configs - Jollof</title>
+ <title>App Folders - Jollof</title>
  <meta charset="utf-8">
  <link rel="stylesheet" type="text/css" href="../bootstrap.css">
  <link rel="stylesheet" type="text/css" href="../documentation.css">
@@ -48,11 +48,76 @@
        <div class="header-extra pull-right"><a href="javascript:void(0);" id="load-app" class="btn btn-primary">GO TO APP</a></div>
   </header>
   <section class="section content relative">
-	<div class="container">
-   		<div class="row">
-			
-		  </div>
-	</div>
+	     <div class="content-wrapper">
+        <ul class="content-list">
+            <li class="content-list-item">
+          <section class="content-list-panel" id="public">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b>&#47;public</b></h2>
+               <blockquote>
+                 <p>
+                    The <kbd>public</kbd> folder contains the <b class="bg-primary">index.php</b> entry file for the Jollof application as well as other static files needed to make the application work on the front-end. For instance, <i class="text-success">css</i>, <i class="text-success">js</i>, <i class="text-success">font</i> folders contain the resources for the app. The <i class="text-success">sitemap</i> xml file for informing crawlers of your web application structure and pages.
+                 </p>
+                 <p>
+                    Other files include the <i class="text-success">manifest</i> json file which aids the process of turning your web app into an <q>installbale</q> on a mobile device. Also the <i class="text-success">manifest</i> appcache file and <i class="text-success">offline</i> html file for <q>offline support</q>.   
+                 </p>
+                 <p>
+                   These are all provided to make your app development easy.
+                 </p>
+               </blockquote>
+             </div>
+          </section>
+        </li>
+        <li class="content-list-item">
+          <section class="content-list-panel" id="documentation">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b>&#47;documentation</b></h2>
+               <blockquote>
+                 <p>
+                    The <kbd>documentation</kbd> folder contains all files that provide information on how to build web applications using Jollof. 
+                 </p>
+               </blockquote>
+             </div>
+          </section>
+        </li>
+        <li class="content-list-item">
+          <section class="content-list-panel" id="system_routes">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b>&#47;system&#47;routes</b></h2>
+               <blockquote>
+                 <p>
+                    The <kbd>routes</kbd> folder contains all the routes for the application. Routes can be defined and/or removed in the <b class="bg-primary">setup.php</b> file within this folder. 
+                 </p>
+               </blockquote>
+             </div>
+          </section>
+        </li>
+        <li class="content-list-item">
+          <section class="content-list-panel" id="system_middlewares">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b>&#47;system&#47;middlwares</b></h2>
+               <blockquote>
+                 <p>
+                    The <kbd>middlewares</kbd> folder contains all application middlewares that run per request. 
+                 </p>
+               </blockquote>
+             </div>
+          </section>
+        </li>
+        <li class="content-list-item">
+          <section class="content-list-panel" id="system_events">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b>&#47;system&#47;events</b></h2>
+               <blockquote>
+                 <p>
+                    The <kbd>events</kbd> folder contains
+                 </p>
+               </blockquote>
+             </div>
+          </section>
+        </li>
+     </ul>
+    </div>     
   </section>
   <footer class="footer clear-fix">
   	  <div class="footer-copyright pull-left"><span><script>document.write((new Date).getFullYear());</script> &copy; Copyright, <strong>Jollof Framework.</strong> All Rights Reserved</span>. Mobicent, Ltd</div>
@@ -61,7 +126,7 @@
   <aside class="table-of-contents fixed snap-top-right" id="aside">
      	<ul class="table-of-contents-list">
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#public" class="block-box active">&#47;public</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#documentation" class="block-box">&#47;documenation</a></li>
+     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#documentation" class="block-box">&#47;documentation</a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#system_routes" class="block-box">&#47;system&#47;routes</a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#system_middlewares" class="block-box">&#47;system&#47;middlwares</a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#system_events" class="block-box">&#47;system&#47;events</a></li>
