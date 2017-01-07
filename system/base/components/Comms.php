@@ -192,6 +192,10 @@ final class Comms {
           $this->httpclient->setHeaders($config['headers']);
           $this->httpclient->setRequest($config['path'], $config['client_id'], $config['params']);
 
+          if(starts_with($host, 'https:')){
+              $this->httpclient->setAsStale();
+          }
+
           return $this->httpclient->getResponse();
      }
 

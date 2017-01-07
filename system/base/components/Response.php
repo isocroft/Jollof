@@ -234,8 +234,8 @@ final class Response {
                 }    
             }
              
-            if(function_exists('fastcgi_finish_request')) {
-                fastcgi_finish_request();
+            if(function_exists('fast_cgi_finish_request')) {
+                fast_cgi_finish_request();
             }elseif('cli' !== PHP_SAPI){
                 static::$instance->closeOutputBuffers(0, true, $from);
             }
