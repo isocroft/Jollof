@@ -389,6 +389,52 @@ if(! function_exists('all_index_of') ){
     }
 }	
 
+if(! function_exists('get_os') ){
+    function get_os(){
+        $os = '';
+        if(defined('PHP_OS')){
+            if(PHP_OS == 'WINNT' || PHP_OS == 'WIN32' || PHP_OS == 'Windows'){
+                $os = 'windows';
+            }else if(PHP_OS == 'FreeBSD' || PHP_OS == 'OpenBSD' || PHP_OS == 'NetBSD'){
+                $os = 'bsd';
+            }else if(PHP_OS == 'Unix'){
+                $os = 'unix';
+            }else if(PHP_OS == 'Linux'){
+                $os = 'linux';
+            }else if(PHP_OS == 'SunOS'){
+                $os = 'sun';
+            }
+        }else{ 
+            if(ignorecase_index_of($_SERVER['SERVER_SOFTWARE'], "Linux") > -1){
+                $os = 'linux';
+            }else if(ignorecase_index_of($_SERVER['SERVER_SOFTWARE'], "Unix") > -1){
+                $os = 'unix';
+            }else if(ignorecase_index_of($_SERVER['SERVER_SOFTWARE'], "Win") > -1){
+                $os = 'windows';
+            }
+        }
+    }
+}
+
+if(! function_exists('run_command_deamon')){
+    function run_command_deamon($command){ 
+      $php_os = get_os();
+      if($php_os == 'windows'){
+          $command = 'start "" ' . $command;
+      }else{
+          $command = $comannd . '/dev/null &';
+      }
+
+      $handle = popen($command, 'r');
+      if($handle!==false){
+          pclose($handle);
+          return true;
+      }else{
+          return false;
+      }
+    }
+}
+
 if(! function_exists('generate_uniq_string') ){
     function generate_uniq_string($input = NULL){  
         if($input === NULL){
@@ -518,10 +564,10 @@ if(! function_exists('custom_session_id') ){
 if(! function_exists('is_binary_file') ){
     function is_binary_file($file, $asString=FALSE){
         $out = array();
-        if(index_of($_SERVER['SERVER_SOFTWARE'], "Linux") > -1
-          || index_of($_SERVER['SERVER_SOFTWARE'], "Unix") > -1){
+        $php_os = get_os();
+        if($php_os != 'windows'){
            exec("file -bi" . $file, $out);
-            return $asString? $out[0] : index_of($out[0], "charset=binary") > -1;
+           return $asString? $out[0] : index_of($out[0], "charset=binary") > -1;
         }else{
            $out[0] = mime_content_type($file);
            return $asString? $out[0] : index_of($out[0], 'text/') == -1;
@@ -550,7 +596,6 @@ if(! function_exists('get_random_from_string') ){
     }
 }
 
-
 if(! function_exists('update_placeholder')){
     function update_placeholder($value, $key){
         $stub = '?';
@@ -570,6 +615,12 @@ if(! function_exists('update_placeholder')){
         }
 
         return "$key " . $value[0] . " " . (count($range) > 0? (implode(' AND ', $range)) : $stub);
+    }
+}
+
+if(! function_exists('array_prefix_values')){
+    function array_prefix_values(){
+
     }
 }
 
