@@ -25,15 +25,14 @@ class HttpClient {
         private $headers = NULL;
 
         public function __construct($HTTP_HOST, $HTTP_PORT, $HTTP_METHOD="GET",array $HTTP_OPTS = array()){
+
             if(!ends_with($HTTP_HOST, '/')){
                 $HTTP_HOST .= '/';
             }
+
 		        $this->HTTP_HOST = $HTTP_HOST;
-		        if($HTTP_OPTS === NULL){
-		           $this->HTTP_OPTIONS = array_merge($this->HTTP_OPTIONS);
-		        }else{
-               $this->HTTP_OPTIONS = array_merge($this->HTTP_OPTIONS, $HTTP_OPTS);
-			      }
+		        $this->HTTP_OPTIONS = array_merge($this->HTTP_OPTIONS, $HTTP_OPTS);
+			      
             $this->port = $HTTP_PORT;
             $this->method = $HTTP_METHOD;
             $this->headers = array('Expect:', 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8');
@@ -61,6 +60,14 @@ class HttpClient {
             }
             $merged = array_merge($this->headers, $headers);
             $this->headers = $merged;
+        }
+
+        public function setMethod($method){
+              $methods = array('GET', 'POST', 'PUT', 'PATCH', 'HEAD', 'DELETE');
+              if(in_array($method, $methods)){
+              
+                  $this->method = $method;
+              }
         }
 
         public function setRequest($pathname, $client_id, $client_data){
@@ -94,7 +101,24 @@ class HttpClient {
              
               $this->recieve = curl_exec($this->ch);
              
-              curl_close($ch);
+              curl_close($this->ch);
+        }
+
+        public function setAsStale($flag = TRUE){
+
+            if($flag === TRUE){
+                curl_setopt($this->ch, CURLOPT_FORBID_REUSE, 1);
+                curl_setopt($this->ch, CURLOPT_FRESH_CONNECT, $flag);
+            }else if($flag === FALSE){
+                curl_setopt($this->ch, CURLOPT_FORBID_REUSE, 0);
+                curl_setopt($this->ch, CURLOPT_FRESH_CONNECT, $flag);
+            }
+        }
+
+        public function setAsSecure(){
+
+            curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($this->ch, CURLOPT_SSL_VERIFYHOST, 2);
         }
 
         public function getResponse(){
@@ -104,6 +128,9 @@ class HttpClient {
 
         private function http_build_query($arr){
              $str = "";
+             if(function_exists('http_build_query')){
+                return http_build_query($arr);
+             }
              foreach($arr as $key => $val){
                if(is_array($val)){
                  $str .= $this->http_build_query($val);
