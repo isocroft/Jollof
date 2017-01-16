@@ -1,6 +1,6 @@
 # Jollof Code Contribution
 
-We completely welcome your intent to contributing to the Jollof PHP Framework. We are very open about the development of the Jollof Framewrok. Before sending in a pull request, please ensure you read through the details below. It is a list of all relevant code requests information.
+We completely welcome your intent to contributing to the Jollof PHP Framework. We are very open about the development of the Jollof Framework. Before sending in a pull request, please ensure you read through the details below. It is a list of all relevant code requests information.
 
 ## Current Code Requests 
 
