@@ -192,9 +192,10 @@
 
     <script type="text/javascript">
     	;(function(w, $){
+
     	 	w.ServerResponseReady = function(event, data){
     	 		$('body').trigger('networkresponse', [data, event]);
-    	 	}
+    	 	};
 
     	 	$(function() {
 			    // DOM ready
@@ -213,16 +214,14 @@
 				// Load profile if it exits
 				loadProfile();
 
-				$('body').on('networkresponse', function(e, data, extraEvent){
-					
-					$('#submit-response').text(data);
-			
+				$('body').on('networkresponse', function(e, data, extraEvent){			
+					$('#submit-response').text(data);	
 				});
 
 				var iframe = $('#payload-sink').get(0),
 					afterformsubmit = function(e){
-						var top = window.top;
-						var doc = window.document;
+						//var top = window.top;
+						var doc = this.contentWindow.document || this.contentDocument;
 						top.ServerResponseReady(e, doc.body.innerHTML);
 				};
 				

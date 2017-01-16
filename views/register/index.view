@@ -120,11 +120,11 @@
 	<div class="container">
         <div class="card card-container">
         
-        <section class="">
+        <!--<section class="">
         	<a href="#" class="btn">Signin With Facebook</a>
         	<a href="#" class="btn">Signin With Twitter</a>
         	<a href="#" class="btn">Signin With Google+</a>
-        </section>
+        </section>-->
       
         <form class="form-signup" id="form-signup" name="form-signup" action="[!url(/account/register/create)]" method="post" target="payload-sink">
           	 <span id="submit-response" class="submit-response"></span>
@@ -150,7 +150,7 @@
 
     <script type="text/javascript">
     	;(function(w, $){
-			w.ServerResponseReady = function(event, data){
+				w.ServerResponseReady = function(event, data){
     	 			$('body').trigger('networkresponse', [data, event]);
     	 		}
     			$(function(){
@@ -164,8 +164,8 @@
 
 				var iframe = $('#payload-sink').get(0),
 					afterformsubmit = function(e){
-					var top = window.top;
-					var doc = window.document;
+					//var top = window.top;
+					var doc = this.contentWindow.document || this.contentDocument;
 					top.ServerResponseReady(e, doc.body.innerHTML);
 				};
 				

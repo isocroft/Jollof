@@ -413,6 +413,7 @@ if(! function_exists('get_os') ){
                 $os = 'windows';
             }
         }
+        return $os;
     }
 }
 

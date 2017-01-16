@@ -12,7 +12,7 @@
    *
    * require_once 'system/boot.php';
    *
-   * $console = new Console(__DIR__);
+   * $console = new Console($_SERVER['argv'], $_SERVER['argc'], __DIR__);
    *
    * $console->run();
    *
@@ -84,6 +84,27 @@
 
 		  exit($errorlevel);
 	}
+
+  if($command === "docs"){
+
+      $os = strtolower(php_uname());
+
+      $root_path = __DIR__;
+
+      //$host = system("php -r 'echo php_uname(\"n\");'");
+
+      //if(index_of($root_path, 'wamp') > -1){
+          $root_path = 'http://localhost/' . basename($root_path);
+      //}
+
+      if(index_of($os, 'darwin') > -1){
+        exec('open -a "Safari" ' . $root_path . '/documentation/index.html', $out, $errorlevel);
+      }else if(index_of($os, 'win') > -1){
+        exec('start "" "' . $root_path . '/documentation/index.html"', $out, $errorlevel);
+      }else if(index_of($os, 'linux')){
+          ;
+      }  
+  }
 
   if($command === "run:tests"){
 

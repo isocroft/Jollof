@@ -4,6 +4,17 @@ This is a very lighweight PHP framework built to cater to very busy backend-deve
 
 The aim of the framework is to make it very easy to develop applications with little or no friction as regards the ever changing landscape of web development.
 
+## Quick Start
+
+1. Firstly, spin up  terminal or console window and run the command below
+
+```bash
+
+$ php jollof docs
+
+```
+2. Next, click the blue <q>GO TO APP</q> button at the top right corner of the page that loads.
+
 ## Setting Up
 
 The philosophy of **Jollof** is very simple. _Routes_ are very tightly knitted to the _Controllers_ that service them. For every route, the first part of the URI and/or path is the Controller class name and the second part of the URI and/or path is the Controller class method.

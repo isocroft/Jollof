@@ -83,7 +83,7 @@
 	   <meta name="msapplication-TileImage" content="[!asset(/img/tile.png)]">
 
 	   <!-- Apple-iOS - -->
-	   <meta name="apple-mobile-web-app-status-bar-style" content="orange">
+	   <meta name="apple-mobile-web-app-status-bar-style" content="green">
 	   <meta name="HandheldFriendly" content="True">
 </head>
 <body class="page">

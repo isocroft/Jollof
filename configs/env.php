@@ -65,6 +65,20 @@
 
         ),
 
+        "app_security" => array(
+
+            'strict_mode' => FALSE, #options: (FALSE, TRUE) ;
+
+            'csp' => FALSE, // #options: (FALSE, TRUE, array(...)) ; Content-Security-Policy
+
+            'hpkp' => FALSE, // #options: (FALSE, TRUE, array(...))
+
+            'cspro' => FALSE, // #options: (FALSE, TRUE, array(...)) ;Content-Security-Policy-Reporting-Only:
+
+            'noncify-inline-source' => TRUE // Generates a nonce value for each <script> and <style> tag code in your views 
+
+        ),
+
         "app_cache" => array(
 
              'cache_driver' => "#memcached", #options: ("#memcached")

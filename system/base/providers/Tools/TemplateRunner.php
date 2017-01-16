@@ -14,7 +14,11 @@ class TemplateRunner {
 
     private $compileFileName = NULL;
 
-    public function __construct(){
+    private $viewNonces;
+
+    public function __construct($nonces){
+
+        $this->viewNonces = $nonces;
 
         $this->viewRoot = $GLOBALS['env']['app.path.views'];
 
@@ -55,6 +59,11 @@ class TemplateRunner {
         $compileFn = array(&$this, 'compile');
 
         $compileRoot = $this->compiledViewRoot;
+
+        if(array_key_exists('script', $this->viewNonces) 
+            || array_key_exists('style', $this->viewNonces)){
+            $view__string = preg_replace(array('/<(script|style)( |[\w\S\s]|[^>]*)>([\w\S\s]|[^<]+)<\/\1>/'), array("<${1} ${2} nonce-{$_nonce['${1}']}>${3}</${1}>"), $view__string);
+        }    
 
         $templateFileIncludeToken = '/\[!import\((.*?)\);?\]/i';
 
@@ -142,6 +151,8 @@ class TemplateRunner {
 
             $vars['__url'] = '//' . $appHost;
         }
+
+        $vars['_nonce'] = $this->viewNonces;
 
 	   extract($vars); 
 

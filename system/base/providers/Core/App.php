@@ -3,11 +3,15 @@
 /**
  * Jollof Framework (c) 2016
  * 
+ *
  * {App.php}
+ *
  */
 
 namespace Providers\Core;
 
+
+use Providers\Tools\JollofSecureHeaders as JollofSecureHeaders;
 use Providers\Core\HTTPResolver as Resolver;
 use Providers\Services\DBService as DBService;
 use Providers\Services\EnvService as EnvService;
@@ -59,6 +63,12 @@ class App {
      protected $resolver;
 
     /**
+     * @var Providers\Tools\JollofSecureHeaders
+     */ 
+
+     protected $jheaders; 
+
+    /**
      * @var Providers\Services\DBService
      */ 
 
@@ -86,15 +96,15 @@ class App {
 
      public function __construct(){
 
-        $protocol;
-
         if(!$this->inCLIMode()){
 
              $this->resolver = new Resolver();
 
+             $this->jheaders = new JollofSecureHeaders();
+
              $this->apphost = Request::getHost();
 
-             $this->os = preg_replace('/^(?:.+)?\((Win32|Linux)\)(?:.+)?$/i', '${1}', Request::header('SERVER_SOFTWARE'));
+             $this->os = get_os();
         }     
 
         $this->instances = array();
@@ -105,7 +115,7 @@ class App {
 
      }
 
-     /**
+    /**
      * Destructor.
      *
      * @param void
@@ -119,7 +129,7 @@ class App {
      }
 
      /**
-      * Registers the databse configuration.
+      * Registers the database configuration.
       *
       *
       * @param array $DBCONFIG
@@ -334,10 +344,12 @@ class App {
            */
 
          // @TODO: later, try to do the below in a loop! it probably will be a much cleaner code
+               $this->jheaders->installConfig($this->envservice->getConfig("app_security"));
+
                $this->instances['Logger'] = Logger::createInstance();
                $this->instances['System'] = System::createInstance();
                $this->instances['Session'] = Session::createInstance($this->envservice->getConfig('app_session'));
-               $this->instances['Response'] = Response::createInstance();
+               $this->instances['Response'] = Response::createInstance($this->jheaders->getSourceNonces());
                $this->instances['Request'] = Request::createInstance($this->envservice->getConfig('app_uploads'));
                $this->instances['Cache'] = Cache::createInstance($this->envservice->getConfig('app_cache'));
                $this->instances['Router'] = Router::createInstance($this->getInstance('Request'), $this->getInstance('Response'));
@@ -366,16 +378,18 @@ class App {
      }
 
      private function shutDown(){
+        
+        $this->hasCachedModels = FALSE;
 
-         $this->hasCachedModels = FALSE;
+        $this->dbservice = NULL; // called by __destruct to disconnect DB connection 
 
-         $this->dbservice = NULL; // called by __destruct to disconnect DB connection 
+        $this->envservice = NULL; // called by __desstruct to unset configs
 
-         $this->envservice = NULL; // called by __desstruct to unset configs
+        $this->resolver = NULL; // called by __destruct 
 
-         $this->resolver = NULL; // called by __destruct 
+        $this->instances = array(); // recover more memory (if any need be)
 
-         $this->instances = array(); // recover more memory (if any need be)
+        $this->jheaders = NULL;
             
      }
 

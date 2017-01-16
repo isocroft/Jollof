@@ -20,6 +20,12 @@ final class Response {
      private static $instance = NULL;
 
     /**
+     * @var
+     */
+
+     private $runner;
+
+    /**
      * Constructor.
      *
      * @param void
@@ -27,11 +33,11 @@ final class Response {
      * @scope private
      */
  
-     private function __construct(){
+     private function __construct(array $viewNonces){
             
             $this->openOutputBuffers(); // this is done intentionally
 
-            $this->runner = new Runner();
+            $this->runner = new Runner($viewNonces);
      }
 
     /**
@@ -59,9 +65,9 @@ final class Response {
      *
      * @api
      */
-     public static function createInstance(){
+     public static function createInstance(array $viewNonces){
          if(static::$instance == NULL){
-               static::$instance = new Response();
+               static::$instance = new Response($viewNonces);
                return static::$instance;
          }    
      }
