@@ -5,7 +5,7 @@
  <meta charset="utf-8">
  <link rel="stylesheet" type="text/css" href="../bootstrap.css">
  <link rel="stylesheet" type="text/css" href="../documentation.css">
- <!-- <link rel="stylesheet" type="text/css" href="../mobile.css">-->
+ <link rel="stylesheet" type="text/css" href="../prism.css">
 
 </head>
 <body class="screen relative non-selectable">
@@ -24,6 +24,9 @@
                 <li class="sub-menu-list-item"><a href="../getting-started/creating-controllers.html">Creating Controllers</a></li>
                 <li class="sub-menu-list-item"><a href="../getting-started/creating-models.html">Creating Models</a></li>
      			<li class="sub-menu-list-item"><a href="../getting-started/creating-views.html">Creating Views</a></li>
+                <li class="sub-menu-list-item"><a href="../getting-started/creating-routes.html">Creating Routes</a></li>
+                <li class="sub-menu-list-item"><a href="../getting-started/creating-middlewares.html">Creating Middlewares</a></li>
+                <li class="sub-menu-list-item"><a href="../getting-started/workiing-with-databases.html">Working With Databases</a></li>
      		</ul>
      	</li>
      	<li class="menu-list-item">
@@ -66,92 +69,128 @@
      	 	 	 	 	             <b class="line-block-box content-desc-line">::uri( void );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will retrieve the pathname of the current HTTP request</small>
      	 	 	 	 	         </span>  
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $uri = Request::uri();</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre>   
+    <code class="language-php">
+        $uri = Request::uri();
+    </code> 
+                                    </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::method( void );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will retrieve the current HTTP request method</small>
      	 	 	 	 	         </span> 
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $method = Request::method();</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre>   
+     <code class="language-php">
+        $method = Request::method();
+     </code>  
+                                    </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	  <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::getCookie( string );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will retrieve the current HTTP request cookie value for a given cookie name as a string</small>
      	 	 	 	 	         </span> 
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $sessionId = Request::getCookie('_my_cookie');</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">  
+        $sessionId = Request::getCookie('_my_cookie');
+     </code>
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::ip( void );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will retrieve the remote client ip address</small>
      	 	 	 	 	         </span> 
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $ip_address = Request::ip();</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre>   
+     <code class="language-php">
+        $ip_address = Request::ip();
+     </code>   
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::contentType( void );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will retrieve the content type for the current HTTP request entity body.</small>
      	 	 	 	 	         </span> 
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $type = Request::contentType();</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre>   
+     <code class="language-php">
+        $type = Request::contentType();
+     </code>   
+                                    </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::referer( void );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will retrieve the referer url/pathname for the current HTTP request</small>
      	 	 	 	 	         </span> 
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $referer = Request::referer();</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre>  
+     <code class="language-php">
+         $referer = Request::referer();
+     </code>    
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::upload( string [, &amp;array] );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will upload client files to the destination server as setup in the <a href="../getting-started/setting-up-configs.html" class="link">config</a> section for application uploads</small>
      	 	 	 	 	         </span> 
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $uploadErrors = array();
-   $statusArray = Request::upload('display_photos', $uploadErrors);</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre>
+     <code class="language-php">
+        $uploadErrors = array();
+        $statusArray = Request::upload('display_photos', $uploadErrors);
+     </code>    
+                                    </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article> 
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::isAjax( void );</b>
-     	 	 	 	 	             <small class="line-block-box content-desc-line">This will check if/whether an HTTP request is an asynchronous (AJAX)</small>
+     	 	 	 	 	             <small class="line-block-box content-desc-line">This will check if/whether an HTTP request is an asynchronous (AJAX) one</small>
      	 	 	 	 	         </span> 
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $isAsync = Request::isAjax();</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre>  
+                 <code class="language-php">
+                     $isAsync = Request::isAjax();
+                 </code>    
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::input( void );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will retrieve all GET, POST, PUT, DELETE, PATCH inputs to the request. The input methods serves to collect both files and fields</small>
      	 	 	 	 	         </span> 
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $files = Request::input()->getFiles(); 
-   $fields = Request::input()->getFields();</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">  
+      $files = Request::input()->getFiles(); 
+      $fields = Request::input()->getFields();
+     </code>
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 </main>
      	 	 	 </section>
@@ -172,87 +211,119 @@
      	 	 	 	 	             <b class="line-block-box content-desc-line">::json( string );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will send JSON data back to the client</small>
      	 	 	 	 	         </span>  
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $json = json_encode(array('status' => 'ok'));
-   Response::json($json);</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">
+       $json = json_encode(array('status' => 'ok'));
+       Response::json($json);
+     </code>
+                                    </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::text( string );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will send PLAIN TEXT data back to the client</small>
      	 	 	 	 	         </span> 
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $text = 'Hello World!';
-   Response::text($text);</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">  
+        $text = 'Hello World!';
+        Response::text($text);
+     </code>
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
                <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::view( string [, array [, array]] );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will send markup (HTML or XML) data back to the client. The second <q><i>array</i></q> type argument is <samp class="bg-primary">optional</samp>. When passed it feeds data to Jollofs' Templating renderer.</small>
      	 	 	 	 	         </span> 
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>  $viewFile = 'app/dashboard'; 
-   Response::view($viewFile, array('id'=>12345678));</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php"> 
+     $viewFile = 'app/dashboard'; 
+        Response::view($viewFile, array('id'=>12345678));
+     </code>
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::file( string );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will send contents of the given file back to the client</small>
      	 	 	 	 	         </span>  
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $imgefile = 'bitmap.png';
-   Response::file($imagefile);</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">   
+        $imgefile = 'bitmap.png';
+        Response::file($imagefile);
+     </code>
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::download( string );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will display the prompt window on the client for a file download. This method interacts with files in the <samp class="bg-warning">"download"</samp> and <samp class="bg-warning">"upload"</samp> folders found in the <samp class="bg-warning">"storage/cabinet"</samp> path</small>
      	 	 	 	 	         </span> 
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $file = 'careers.pdf'; 
-   Response::download($file);</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">  
+        $file = 'careers.pdf'; 
+        Response::download($file);
+     </code>
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::setCookie( string, mixed );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will set a cookie on the response to the client. when the data type passed as the cookie value is not a <samp class="bg-warning">"string"</samp>, it is serialized as JSON.</small>
      	 	 	 	 	         </span> 
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $details = array('username'=> 'eniobong', 'id' => '23jwn47uya663q3e'); 
-   Response::setCookie('USERPROFILE', $details);</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">  
+        $details = array('username'=> 'eniobong', 'id' => '23jwn47uya663q3e'); 
+        Response::setCookie('USERPROFILE', $details);
+     </code>   
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::header( string, string );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will setup a given HTTP response header name with a value for the client response</small>
      	 	 	 	 	         </span> 
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   Response::header('Cache-Control', 'private');</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">  
+        Response::header('Cache-Control', 'private');
+     </code>
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::redirect( string );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will display the prompt window on the client for a file download</small>
      	 	 	 	 	         </span> 
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $path = '/campaigns/tv'; 
-   Response::redirect($path);</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">  
+        $path = '/campaigns/tv'; 
+        Response::redirect($path);
+     </code>
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 </main>
      	 	 	 </section>
@@ -273,50 +344,70 @@
      	 	 	 	 	             <b class="line-block-box content-desc-line">::get( string );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will retrieve the value for a given session data name.</small>
      	 	 	 	 	         </span>  
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $data = Session::get('user_data');</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">  
+        $data = Session::get('user_data');
+     </code>
+                                    </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::forget( string );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will delete the value and associated session data name for a given session data name.</small>
      	 	 	 	 	         </span>  
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $forgotten = Session::forget('user_data');</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php"> 
+       $forgotten = Session::forget('user_data');
+     </code>  
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::token( void );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will retrieve the csrf token for the given HTTP request</small>
      	 	 	 	 	         </span>  
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $token = Session::token();</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">  
+        $token = Session::token();
+     </code>
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::has( string );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will determine whether the current session has the a value for the given key</small>
      	 	 	 	 	         </span> 
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $has = Session::has('accessControl');</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php"> 
+        $has = Session::has('accessControl');
+     </code>
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::drop( void );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will destroy the entire session and its associated data</small>
      	 	 	 	 	         </span> 
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   Session::drop();</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">  
+      Session::drop();
+     </code>
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 </main>
      	 	 	 </section>
@@ -337,36 +428,50 @@
      	 	 	 	 	             <b class="line-block-box content-desc-line">::on( string , callable );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will setup/register an observer and/or event handler for a given custom event triggered using the <samp class="bg-warning">::fire( ... );</samp> method.</small>
      	 	 	 	 	         </span>  
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   System::on('userRegistered', function($eventData){
-   			# code ....
-   });</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre>
+    <code class="language-php">  
+      System::on('userRegistered', function($eventData){
+			# code ....
+      }); 
+
+      System::on('rewriteFailed', create_function('$data', ' /* code .... */ '));
+   </code>                           </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::fire( string [, mixed [ ,..]] );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will trigger the observer and/or event handler for the specified custom event registered using the <samp class="bg-warning">::on( ... );</samp> method. The second <q><i>mixed</i></q> type argument is <samp class="bg-primary">optional</samp>. The return value of the callable from the <samp class="bg-warning">::on( ... );</samp> call will be passed back from the <samp class="bg-warning">::fire( ... );</samp> method call.</small>
      	 	 	 	 	         </span>  
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $value = System::fire('userRegistered', array('timestamp'=>time()));</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">  
+        $value = System::fire('userRegistered', array('timestamp'=>time()));
+     </code>
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::middleware( string , callable );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will register an application-wide conditional filter for all HTTP requests. The second <q><i>callable</i></q> argument must return a <samp class="bg-default">boolean</samp> value to notify the application of the status of the filter operation.</small>
      	 	 	 	 	         </span>  
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   System::middleware('verifyCORSAccess', function($currentRoute, $auth){
-                       # $currentRoute - is the currentRoute for the request being served
-                       # $auth - This is the authorization component object(Auth) that manages authroization for routes based on active sessions
-       		# code ...
-   });</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">  
+        System::middleware('verifyCORSAccess', function($currentRoute, $auth){
+            # $currentRoute - This is the currentRoute for the request being served
+            # $auth - This is the authorization component object(Auth) that manages authroization for routes based on active sessions
+        
+            # code ...
+        });
+   </code>
+                                    </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 </main>
      	 	 	 </section>
@@ -387,30 +492,42 @@
      	 	 	 	 	             <b class="line-block-box content-desc-line">::info( string [, string ] );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will write the given text to a log file (e.g. <kbd>exec.log</kbd>) on an INFO level. The second <q><i>string</i></q> type argument is <samp class="bg-primary">optional</samp>.</small>
      	 	 	 	 	         </span>  
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   Logger::info("variable value: " . isset($accountNumber));</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre>
+    <code class="language-php">
+      Logger::info("variable value: " . isset($accountNumber));
+    </code>    
+                                    </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::error( string [, string ] );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will write the given text to a log file (e.g. <kbd>exec.log</kbd>) on an ERROR level. The second <q><i>string</i></q> type argument is <samp class="bg-primary">optional</samp>.</small>
      	 	 	 	 	         </span>  
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   Logger::error("Wahala dey! The database connection couldn't be made");</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre>
+     <code class="language-php">
+      Logger::error("Wahala dey! The redis db connection couldn't be made");
+     </code> 
+                                    </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::warn( string [, string ] );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will write the given text to a log file (e.g. <kbd>exec.log</kbd>) on an WARNING level. The second <q><i>string</i></q> type argument is <samp class="bg-primary">optional</samp>. In the example below, the second <q><i>string</i></q> argument is given a value. This value is the name of a user-created log file called <q><i>warnings</i></q></small>
      	 	 	 	 	         </span>  
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   Logger::warn("The database query returned NULL", "warnings");</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre>   
+     <code class="language-php">
+      Logger::warn("The database query returned NULL", "warnings");
+     </code>
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 </main>
      	 	 	 </section>
@@ -431,79 +548,107 @@
      	 	 	 	 	             <b class="line-block-box content-desc-line">::readChunk( string [, array ] );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will read the contents of the given file. The second <q><i>array</i></q> type argument is <samp class="bg-primary">optional</samp>. In the example below, the second <q><i>array</i></q> argument is given a value. This value is an array that sets up some HTTP options. Whenever you read files off the hard disk, it is better to use the <samp class="bg-warning">::read( ... );</samp>  method instead.</small>
      	 	 	 	 	         </span>  
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   // Create a stream
-   $options = array(
-      'http'=>array(
-        'method'=>"GET",
-        'header'=>"Accept-language: en\r\n" . "Cookie: foo=bar\r\n"
-      )
-   );
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">   
+        // Create a stream
+        $options = array(
+          'http'=>array(
+            'method'=>"GET",
+            'header'=>"Accept-language: en\r\n" . "Cookie: foo=bar\r\n"
+          )
+        );
 
-   // Start the web scrapper by reading the JUMIA home page. 
-   $html = File::readChunk("http://www.jumia.com.ng/", $options);</pre>
-     	 	 	 	 	 	     </code>
+        // Start the web scrapper by reading the JUMIA home page. 
+        $html = File::readChunk("http://www.jumia.com.ng/", $options);
+    </code>    
+                                    </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::writeChunk( string , string );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will write the contents of the given file. The second <q><i>string</i></q> type argument serves for the content.</small>
      	 	 	 	 	         </span>  
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $written = File::writeChunk(realpath("readme.txt"), "New Text Content");</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">  
+        $written = File::writeChunk(realpath("readme.txt"), "New Text Content");
+     </code>
+                                    </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::makeFile( string );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will create a file with the given file name and file extension.</small>
      	 	 	 	 	         </span>  
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   File::makeFile("readme.txt");</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">  
+        File::makeFile("readme.txt");
+     </code>   
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::deleteFile( string );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will delete a file with the given file name and file extension.</small>
      	 	 	 	 	         </span>  
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   File::deleteFile("readme.txt");</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">    
+       File::deleteFile("readme.txt");
+     </code>
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::makeFolder( string [, bool ] );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will create a folder with the given file name and file extension. The second <q><i>bool</i></q> type argument is <samp class="bg-primary">optional</samp>. When supplied as TRUE, it will hide the folder.</small>
      	 	 	 	 	         </span>  
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   File::makeFolder("shelf");</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">  
+       File::makeFolder("shelf");
+     </code>
+                                     </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::read( string );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will create a folder with the given file name and file extension. The second <q><i>bool</i></q> type argument is <samp class="bg-primary">optional</samp>. When supplied as TRUE, it will hide the folder.</small>
      	 	 	 	 	         </span>  
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   $content = File::read("readme.txt");</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre>  
+     <code class="language-php">
+      $content = File::read("readme.txt");
+     </code>
+                                    </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::write( string , string [, bool] );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will write to a file with the given file name and file extension line by line. The third <q><i>bool</i></q> type argument is <samp class="bg-primary">optional</samp>. When supplied as TRUE, it will overwrite the prior contents of the file.</small>
      	 	 	 	 	         </span>  
-     	 	 	 	 	 	     <code class="block-box content-code-line">
+     	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
-     	 	 	 	 	 	     	 <pre>   File::write("readme.txt", "The First Line", true);</pre>
-     	 	 	 	 	 	     </code>
+     	 	 	 	 	 	     	 <pre> 
+     <code class="language-php">  
+       File::write("readme.txt", "The First Line", true);
+     </code>
+                                    </pre>
+     	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
      	 	 	 	 </main>
      	 	 	 </section>
@@ -526,20 +671,28 @@
                                      <b class="line-block-box content-desc-line">::bind( string [, array ]);</b>
                                      <small class="line-block-box content-desc-line">This will bind and/or register a given route for the application. It is only used in the <i class="text-primary">routes/setup.php</i> file. The second <q><i>array</i></q> type argument is <samp class="bg-primary">optional</samp>. When supplied, it supplies all the necessary route properties.</small>
                                  </span>  
-                                 <code class="block-box content-code-line">
+                                 <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-                                     <pre>   Router::bind("/settings/basic", array('verb' => 'get', 'models' => array(), 'ajax' => true));</pre>
-                                 </code>
+                                     <pre>  
+     <code class="language-php"> 
+     Router::bind("/settings/basic", array('verb' => 'get', 'models' => array(), 'ajax' => true));
+     </code>
+                                     </pre>
+                                 </span>
                          </article>
                          <article class="contnet-code">
                                 <span class="block-box">
                                      <b class="line-block-box content-desc-line">::resolve( string [, array ] );</b>
                                      <small class="line-block-box content-desc-line">This initiates a controller action (by calling up the appropriate controller method) as specified along with the request parameters. The second <q><i>array</i></q> type argument is <samp class="bg-primary">optional</samp>. When supplied, it specifies the request parameters.</small>
                                  </span>  
-                                 <code class="block-box content-code-line">
+                                 <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-                                     <pre>   Router::resolve("/app/filter/medium", array('post' => array('key' => '2873652672')));</pre>
-                                 </code>
+                                     <pre> 
+     <code class="language-php">  
+      Router::resolve("/app/filter/medium", array('post' => array('key' => '2873652672')));
+     </code>
+                                     </pre>
+                                 </span>
                          </article>
      	 	 	 	 </main>
      	 	 	 </section>
@@ -560,34 +713,125 @@
                                      <b class="line-block-box content-desc-line">::has( string , string );</b>
                                      <small class="line-block-box content-desc-line">This checks if a given cacheable resource is available for retrieval or modification.</small>
                                  </span>  
-                                 <code class="block-box content-code-line">
+                                 <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-                                     <pre>  $wasCached = Cache::has("lineburst");</pre>
-                                 </code>
+                                     <pre> 
+     <code class="language-php"> 
+     $wasCached = Cache::has("lineburst");
+     </code>
+                                     </pre>
+                                 </span>
                          </article>
                          <article class="contnet-code">
                                 <span class="block-box">
                                      <b class="line-block-box content-desc-line">::get( string );</b>
                                      <small class="line-block-box content-desc-line">This retrieves a given cacheable resource via its key.</small>
                                  </span>  
-                                 <code class="block-box content-code-line">
+                                 <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-                                     <pre>  $value = Cache::get("lineburst");</pre>
-                                 </code>
+                                     <pre> 
+     <code class="language-php"> 
+      $value = Cache::get("lineburst");
+     </code>
+                                     </pre>
+                                 </span>
                          </article>
                          <article class="contnet-code">
                                 <span class="block-box">
                                      <b class="line-block-box content-desc-line">::set( string , string );</b>
                                      <small class="line-block-box content-desc-line">This sets a cacheable entry given a key.</small>
                                  </span>  
-                                 <code class="block-box content-code-line">
+                                 <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
-                                     <pre>  Cache::set("lineburst", (new \stdClass()));</pre>
-                                 </code>
+                                     <pre> 
+     <code class="language-php"> 
+      Cache::set("lineburst", (new \stdClass()));
+     </code>
+                                     </pre>
+                                 </span>
                          </article>
      	 	 	 	      </main>
      	 	 	 </section>
      	 	</li>
+            <li class="content-list-item">
+                 <section class="content-list-panel" id="comms">
+                     <div class="content-list-panel-heading">
+                         <h2 class=""><i class="ink-icon">§</i><b> Comms</b> - <span class="ink">system/base/components/Comm</span></h2>
+                         <blockquote>
+                             <p>
+                                This component is responsible for handling application communication of all sorts (e.g sending text messages, making calls, sending emails). At the background, it uses <b class="">Twilio</b> for sending SMS and making Calls and <b class="">Mailgun</b> or <b class="">PHPMailer</b> for sending emails. It also uses <b class="">Pusher</b> for sending realtime messages.
+                             </p>
+                         </blockquote>
+                     </div>
+                     <main class="contnet-code-list"> 
+                        <article class="contnet-code">
+                            <span class="block-box">
+                                     <b class="line-block-box content-desc-line">::sendBroadcast( string , string, mixed );</b>
+                                     <small class="line-block-box content-desc-line">This sends a realtime message using the underlying <b class="">Pusher</b> composer library installation.</small>
+                                 </span>  
+                                 <span class="block-box content-code-line">
+                                     <var class="line-block-box content-example-line">Example Usage:</var>
+                                     <pre> 
+     <code class="language-php"> 
+      // Sending a realtime  message (powered by Pusher).
+
+      $data = array('id' => 1, 'msg' => 'I\'ll look at it now');
+      Comms::sendBroadcast("channel-1", "forumMsg", $data);
+     </code>
+                                     </pre>
+                                 </span>
+                        </article>
+                        <article class="contnet-code">
+                            <span class="block-box">
+                                     <b class="line-block-box content-desc-line">::sendMessage( string , string );</b>
+                                     <small class="line-block-box content-desc-line">This sends a text message or SMS to the number provided as the first argument. The second argument is for the message body itself.</small>
+                                 </span>  
+                                 <span class="block-box content-code-line">
+                                     <var class="line-block-box content-example-line">Example Usage:</var>
+                                     <pre> 
+     <code class="language-php"> 
+      // Sending a text message (powered by Twilio).
+
+      Comms::sendMessage("09034560000", "See bros, pay up your invoice abeg.");
+     </code>
+                                     </pre>
+                                 </span>
+                        </article>
+                        <article class="contnet-code">
+                            <span class="block-box">
+                                     <b class="line-block-box content-desc-line">::sendCall( string , string );</b>
+                                     <small class="line-block-box content-desc-line">This sends a call to the number provided as the first argument. The second argument is for the URL to the <i class="text-success">TwiML</i> xml file which should contain the words for the call.</small>
+                                 </span>  
+                                 <span class="block-box content-code-line">
+                                     <var class="line-block-box content-example-line">Example Usage:</var>
+                                     <pre> 
+     <code class="language-php"> 
+      // Making a call (powered by Twilio).
+
+      Comms::sendCall("09034560000", "");
+     </code>
+                                     </pre>
+                                 </span>
+                        </article>
+                    </main>
+            </section>
+        </li>
+        <li class="content-list-item">
+                 <section class="content-list-panel" id="validator">
+                     <div class="content-list-panel-heading">
+                         <h2 class=""><i class="ink-icon">§</i><b> Validator</b> - <span class="ink">system/base/components/Validator</span></h2>
+                         <blockquote>
+                             <p>
+                                This component is responsible for handling application request parameter validation.
+                             </p>
+                         </blockquote>
+                     </div>
+                     <main class="contnet-code-list">
+                        <article class="contnet-code">
+                        </article>
+                    </main>
+            </section>
+        </li>
 		      <li class="content-list-item">
      	 	 	 <section class="content-list-panel" id="auth">
      	 	 	     <div class="content-list-panel-heading">
@@ -599,7 +843,7 @@
      	 	 	 	 	 </blockquote>
      	 	 	 	 </div>
      	 	 	 	 <main class="contnet-code-list">
-                            		<article class="contnet-code">
+                        <article class="contnet-code">
 					</article>
 				 </main>
 			</section>
@@ -621,11 +865,12 @@
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#file" class="block-box">File</a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#router" class="block-box">Router</a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#cache" class="block-box">Cache</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#auth" class="block-box">Auth</a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#comms" class="block-box">Comms</a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#validator" class="block-box">Validator</a></li>
+           <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#auth" class="block-box">Auth</a></li>
      	</ul>
   </aside>
  <script type="text/javascript" src="../documentation.js"></script>
+ <script type="text/javascript" src="../prism.js"></script>
 </body>
 </html>

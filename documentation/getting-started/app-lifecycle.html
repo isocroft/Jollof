@@ -24,6 +24,9 @@
                 <li class="sub-menu-list-item"><a href="../getting-started/creating-controllers.html">Creating Controllers</a></li>
                 <li class="sub-menu-list-item"><a href="../getting-started/creating-models.html">Creating Models</a></li>
      			<li class="sub-menu-list-item"><a href="../getting-started/creating-views.html">Creating Views</a></li>
+          <li class="sub-menu-list-item"><a href="../getting-started/creating-routes.html">Creating Routes</a></li>
+          <li class="sub-menu-list-item"><a href="../getting-started/creating-middlewares.html">Creating Middlewares</a></li>
+          <li class="sub-menu-list-item"><a href="../getting-started/workiing-with-databases.html">Working With Databases</a></li>
      		</ul>
      	</li>
      	<li class="menu-list-item">
@@ -122,7 +125,7 @@
                     Subsquently, all application routes are loaded up and stored in a routes table from where the current route is determined. Each defined route have several properties that go along with it. These properties serve as some form of filters for them and when any filter fails, request handling is terminated in an fatal error.
                  </p>
                  <p>
-                    The properties include the <b class="bg-primary">verb</b>, the <b class="bg-primary">models</b>, the <b class="bg-primary">params</b> and the <b class="bg-primary">ajax</b>. The <kbd>verb</kbd>  property serves to dictate the HTTP method that will be used for accessing the route (e.g PUT, GET, HEAD, POST, DELETE). The <kbd>models</kbd> property is an array of model classes to to be instatiated for use in the controller. The <kbd>params</kbd> property is an array of route parameter names and the regular expressions used to validate them. Finally, the <kbd>ajax</kbd> property is a flag to dictate when the route is to be accessed via <i class="text-success">AJAX</i> or not.
+                    The properties include the <b class="bg-primary">verb</b>, the <b class="bg-primary">models</b>, the <b class="bg-primary">params</b> and the <b class="bg-primary">ajax</b> property. The <kbd>verb</kbd>  property serves to dictate the HTTP method that will be used for accessing the route (e.g PUT, GET, HEAD, POST, DELETE). The <kbd>models</kbd> property is an array of model classes to to be instatiated for use in the controller. The <kbd>params</kbd> property is an array of route parameter names and the regular expressions used to validate them. Finally, the <kbd>ajax</kbd> property is a flag to dictate when the route is to be accessed via <i class="text-success">AJAX</i> or not.
                  </p>
                  <p>
                     Routes are created using the <samp class="bg-warning">::bind( ... );</samp> method of the <kbd>Router</kbd> component. See <a href="../apis/components.html#router">Router Component reference</a> for more details.

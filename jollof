@@ -89,21 +89,27 @@
 
       $os = strtolower(php_uname());
 
-      $root_path = __DIR__;
+      $root_folder = basename(__DIR__);
 
       //$host = system("php -r 'echo php_uname(\"n\");'");
 
-      //if(index_of($root_path, 'wamp') > -1){
-          $root_path = 'http://localhost/' . basename($root_path);
-      //}
+      $path = 'http://localhost/' . $root_folder; // = 'http://localhost:8888';
 
+      fwrite(STDOUT, PHP_EOL . "Launching Documentation in default browser..." . PHP_EOL);
+      
       if(index_of($os, 'darwin') > -1){
-        exec('open -a "Safari" ' . $root_path . '/documentation/index.html', $out, $errorlevel);
+        //exec('php -S localhost:8888 | open -a "Safari" ' . $path . '/documentation/index.html', $out, $errorlevel);
+        exec('open -a "Safari" ' . $path . '/documentation/index.html', $out, $errorlevel);
       }else if(index_of($os, 'win') > -1){
-        exec('start "" "' . $root_path . '/documentation/index.html"', $out, $errorlevel);
+        //exec('php -S localhost:8888 | start "" "' . $path . '/documentation/index.html"', $out, $errorlevel);
+        exec('start "" "' . $path . '/documentation/index.html"', $out, $errorlevel);
       }else if(index_of($os, 'linux')){
           ;
       }  
+
+      sleep(3);
+
+      fwrite(STDOUT, PHP_EOL . "All Done." . PHP_EOL);
   }
 
   if($command === "run:tests"){

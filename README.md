@@ -6,6 +6,8 @@ The aim of the framework is to make it very easy to develop applications with li
 
 ## Quick Start
 
+> It's important to note that *Jollof* requires no <q>Installation</q> so to speak to start using it. In the event that one wishes to use it to develop an ap
+
 1. Firstly, spin up  terminal or console window and run the command below
 
 ```bash
@@ -13,15 +15,15 @@ The aim of the framework is to make it very easy to develop applications with li
 $ php jollof docs
 
 ```
-2. Next, click the blue <q>GO TO APP</q> button at the top right corner of the page that loads.
+2. Next, click the blue <q>GO TO APP</q> button at the top right corner of the page that loads in the (your default) browser.
 
 ## Setting Up
 
 The philosophy of **Jollof** is very simple. _Routes_ are very tightly knitted to the _Controllers_ that service them. For every route, the first part of the URI and/or path is the Controller class name and the second part of the URI and/or path is the Controller class method.
 
->
+> For more on getting up and running, see the [easydocs mark down file](https://raw.githubusercontent.com/isocroft/Jollof/master/EASYDOCS.md).
 
-It's a new way of thinking about the way applications should be crafted!
+It's a new way of thinking about the way applications could be crafted!
 
 All you need to setup can be found in the **documentation** folder(s) of the project starter folder. 
 

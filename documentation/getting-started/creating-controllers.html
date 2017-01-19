@@ -5,7 +5,7 @@
  <meta charset="utf-8">
  <link rel="stylesheet" type="text/css" href="../bootstrap.css">
  <link rel="stylesheet" type="text/css" href="../documentation.css">
- <!-- <link rel="stylesheet" type="text/css" href="../mobile.css"> -->
+ <link rel="stylesheet" type="text/css" href="../prism.css">
 
 </head>
 <body class="screen relative">
@@ -24,6 +24,9 @@
                 <li class="sub-menu-list-item"><a href="../getting-started/creating-controllers.html">Creating Controllers</a></li>
                 <li class="sub-menu-list-item"><a href="../getting-started/creating-models.html">Creating Models</a></li>
      			<li class="sub-menu-list-item"><a href="../getting-started/creating-views.html">Creating Views</a></li>
+          <li class="sub-menu-list-item"><a href="../getting-started/creating-routes.html">Creating Routes</a></li>
+          <li class="sub-menu-list-item"><a href="../getting-started/creating-middlewares.html">Creating Middlewares</a></li>
+          <li class="sub-menu-list-item"><a href="../getting-started/workiing-with-databases.html">Working With Databases</a></li>
      		</ul>
      	</li>
      	<li class="menu-list-item">
@@ -51,9 +54,9 @@
         <div class="content-wrapper">
        <ul class="content-list">
          <li class="content-list-item">
-           <section class="content-list-panel" id="choose_controller_name">
+           <section class="content-list-panel" id="set_controller_name">
                <div class="content-list-panel-heading">
-               <h2 class=""><i class="ink-icon">§</i><b> Choose Controller Name</b></h2>
+               <h2 class=""><i class="ink-icon">§</i><b> Set Controller Name</b></h2>
                <blockquote>
                  <p>
                     To get started on choosing a controller name, you have to know that controller names are linked with route names. Whenever you choose a name, choose one that has relevance to the function or group of functions it (Controller) will perform as far as your application is concerned.
@@ -87,27 +90,31 @@
              </div>
              <main class="contnet-code-list">
                <article class="contnet-code">
-                     <code class="block-box content-code-line">
+                     <span class="block-box content-code-line">
                          <var class="line-block-box content-example-line">Showcase:</var>
-                       <pre>class Accounts extends Controller {
+                       <pre class="line-numbers">
+<code class="language-php">
+   class Accounts extends Controller {
 
-    protected $params = array();
+        protected $params = array();
 
-    public function __construct(array $params = array()){
+        public function __construct(array $params = array()){
 
-        parent::__construct($params);
+            parent::__construct($params);
 
-    }
+        }
 
-    // @Override
+        // @Override
 
-    public function index($models){
+        public function index($models){
 
-        # code ...
+            # code ...
 
-    }
-}</pre>
-                     </code>
+        }
+   }
+</code>
+                </pre>
+                     </span>
                </article>
           </main>
           </section>
@@ -136,7 +143,7 @@
   </footer>
   <aside class="table-of-contents fixed snap-top-right" id="aside">
      	<ul class="table-of-contents-list">
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#choose_controller_name" class="block-box active">Choose Controller Name</a></li>
+     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#set_controller_name" class="block-box active">Set Controller Name</a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#create_controller_file" class="block-box">Create Controller File</a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#controller_method-argument" class="block-box">Controller Method Arg</a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
@@ -147,6 +154,7 @@
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
      	</ul>
   </aside>
- <script type="text/javascript" src="../documentation.js"></script>
+  <script type="text/javascript" src="../documentation.js"></script>
+  <script type="text/javascript" src="../prism.js"></script>
 </body>
 </html>
