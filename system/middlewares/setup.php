@@ -104,7 +104,9 @@
 
         if(index_of($acceptable, 'text/html') > -1){
           // don't allow this resource to be loaded into a frame (<iframe>, <frameset>) except by same origin {prevent click-jacking}
-          Response::header("X-Frame-Options",  "SAMEORIGIN"); # DENY
+
+          // This overrides {JollofSecureHeaders} feature settings
+          Response::header("X-Frame-Options",  "SAMEORIGIN");
         }  
         
         return $result;

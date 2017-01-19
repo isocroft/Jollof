@@ -3,15 +3,15 @@
 /*!
  * Jollof Framework (c) 2016
  * 
- * {Auth.php}
+ * {JollofSecureHeaders.php}
  *
  */
 
 namespace Providers\Tools;
 
-use Providers\Tools\SecureHeaders as SecureHeaders;
+use \Providers\Tools\SecureHeaders as SecureHeaders;
 
-class JollofSecureHeaders extend SecureHeaders {
+class JollofSecureHeaders extends SecureHeaders {
 
 	/**
 	 * @var array
@@ -34,7 +34,7 @@ class JollofSecureHeaders extend SecureHeaders {
 
 	 public function __construct(){
 
-			parent::__construct();
+			//parent::__construct();
 
 			$this->nonceMap = array();
 
@@ -53,7 +53,7 @@ class JollofSecureHeaders extend SecureHeaders {
 
 			$this->safe_mode(TRUE);
 
-			$this->protected_cookie('sess', SecureHeaders::COOKIE_REMOVE & SecureHeaders::COOKIE_SUBSTR)
+			$this->protected_cookie('sess', SecureHeaders::COOKIE_REMOVE & SecureHeaders::COOKIE_SUBSTR);
 	 }
 
 	/**
@@ -102,26 +102,47 @@ class JollofSecureHeaders extend SecureHeaders {
         $strictModeConfig = $config['strict_mode'];
         $generateNoncesConfig = $config['noncify-inline-source'];
 
-        if(gettype($cspConfig) == 'bool'
-            && $cspConfig === TRUE){
+        if($cspConfig === TRUE){
             $cspConfig = array(
             	"default-src" => array(
             		"'none'"
             	),
-		        "script-src" => array(
+		        "script-src" => ($generateNoncesConfig ? 
+		          array(
+		          		"'self'"
+		          ) : 
+		          array(
 		            "'self'",
-		            "https://www.google-analytics.com/"
+		            "'unsafe-inline'",
+		            "'unsafe-eval'"
+		          )
 		        ),
-		        "style-src" => array(
+		        "style-src" => ($generateNoncesConfig ? 
+		          array(
+		          		"'self'",
+		          		"https://fonts.googleapis.com"
+		          ) : 
+		          array(
 		            "'self'",
-		            "https://fonts.googleapis.com/"
+		            "'unsafe-inline'",
+		            "'unsafe-eval'"
+		          )
+		        ),
+		        "connect-src" => array(
+		        	"'self'"
+		        ),
+		        "form-action" => array(
+		        	"'self'"
+		        ),
+		        "font-src" => array(
+		        	"'self'",
+		        	"https://fonts.gstatic.com data:"
 		        ),
 		        "base-uri" => array(
 		        	"'self'"
 		        )
-
             );
-        }else if(gettype($cspConfig) == 'array'){
+        }else if(is_array($cspConfig)){
             ;
         }
 
@@ -134,7 +155,7 @@ class JollofSecureHeaders extend SecureHeaders {
         } 
 
         if($generateNoncesConfig === TRUE){
-        	$his->generateSourceNonces();
+        	$this->generateSourceNonces();
         }
 
         if($strictModeConfig === TRUE){

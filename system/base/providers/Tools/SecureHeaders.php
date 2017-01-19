@@ -30,7 +30,10 @@
 #
 #
 
-class SecureHeaders{
+
+namespace Providers\Tools;
+
+class SecureHeaders {
     # ~~
     # protected variables: settings
 
@@ -2296,7 +2299,7 @@ class SecureHeaders{
         const COOKIE_DEFAULT        =  2; # ~COOKIE_REMOVE & COOKIE_SUBSTR
 }
 
-class SecureHeadersTypeError extends Exception{
+class SecureHeadersTypeError extends \Exception{
     private $headers;
 
     public function passHeaders(SecureHeaders $headers)
