@@ -102,7 +102,7 @@ Firstly, move into the __config__ folder and then into the _env.php_. Open it up
 
 In the view you created in the first example (example/start), add an inline script tag to the head as below:
 
-```js
+```html
 <head>
  .
  .
