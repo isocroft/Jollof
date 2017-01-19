@@ -75,7 +75,7 @@
 
             'cspro' => FALSE, // #options: (FALSE, TRUE, array(...)) ;Content-Security-Policy-Reporting-Only:
 
-            'noncify-inline-source' => TRUE // Generates a nonce value for each <script> and <style> tag code in your views 
+            'noncify-inline-source' => FALSE // Generates a nonce value for each <script> and <style> tag code in your views 
 
         ),
 
