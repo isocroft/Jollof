@@ -111,7 +111,7 @@ class DBService {
 
          }catch (\Exception $e) { ## PDOException ##
 
-             fwrite(STDOUT, $e->getMessage());
+             ; //($e->getMessage());
 
          }
     } 

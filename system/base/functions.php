@@ -155,7 +155,9 @@ if(! function_exists('asset')){
         $root .= contains($root, $app_root)? '' :  DIRECTORY_SEPARATOR . $app_root; 
         $root .= DIRECTORY_SEPARATOR;
 
-        $filepath = str_replace($root, $__url, realpath($file));
+        $real = (index_of($__url, ':') > -1)? realpath(basename($public) . '/' . $file) : realpath($file);
+
+        $filepath = str_replace($root, $__url, $real);
         return preg_replace('/[\x5c]/i', '/', ($filepath . $query));
     }
 }
