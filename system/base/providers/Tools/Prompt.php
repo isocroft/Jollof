@@ -1,6 +1,6 @@
 <?php
 
-namespace Providers/Tools;
+namespace Providers\Tools;
 
 class Prompt {
 

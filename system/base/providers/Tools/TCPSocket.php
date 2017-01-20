@@ -117,7 +117,7 @@ class TCPSocket {
 		}
 
 		foreach ($ipList as $ip) {
-			 fwrite(STDOUT, "s " . count($ipList))
+			 fwrite(STDOUT, "s " . count($ipList));
 			 try{
 		 	    unset($this->connections[$ip]);
 		 	 }catch(\Exception $e){}

@@ -47,8 +47,8 @@ class HttpClient {
             }
             foreach ($_COOKIE as $ckey => $cvalue) {
                   if(in_array($ckey, $cookieKeys)){
-                        $cookie .= (strlen($cookie) == 0 ? '' : ';';
-                        $cookie .= $ckey . '=' $cvalue
+                        $cookie .= (strlen($cookie) == 0 ? '' : ';');
+                        $cookie .= $ckey . '=' . $cvalue;
                   }
             }
             curl_setopt($this->ch, CURLOPT_COOKIE, $cookie);

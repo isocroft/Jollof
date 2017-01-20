@@ -154,7 +154,7 @@ class QueryExtender {
 
         if(count($clauseProps) > 0){
             $this->queryString .= " ON DUPLICATE KEY UPDATE ";
-            $this->queryString .= implode(', ', $this->prepareUpdatePlaceholder($clauseProps);
+            $this->queryString .= implode(', ', $this->prepareUpdatePlaceholder($clauseProps));
         }
 
         return $this;

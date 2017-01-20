@@ -55,10 +55,6 @@ class ArgvInput {
 
   }
 
-  public function __destruct(){
-
-  }
-
   public function getCommand(){
 
 
