@@ -7,7 +7,7 @@ class SessionManager {
     protected $app;
 
     protected $driver;
-    
+
     public function __construct($app){
 
     	$this->app = $app;

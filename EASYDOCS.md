@@ -9,11 +9,11 @@ Below are some examples that can help you dig in in minutes.
 ### Example 1 - Simple Page
 
 >Here, we will be build a simple page with Jollof.
-              
+
 Let's open the terminal or console window and create a view file by running the command below. This command will create an __example__ folder with a _start.view_ file inside it.
 
 ```bash
-                
+
 	$ php jollof make:view example/start
 
 ```
@@ -40,7 +40,7 @@ Move into the __views__ folder (in the root) and into the __example__ folder, op
 Next, Let's create a simple GET route by running the command below. This command will add an entry into the _setup.php_ file inside the __routes__ folder.
 
 ```bash
-                   
+
     $ php jollof make:route /home GET
 
 ```
@@ -49,7 +49,7 @@ Let's now create a simple controller file by running the command below.
 This command will drop a _Home.php_ file inside the __routes__ folder.
 
 > NOTE: the name of the controller file <strong>MUST</strong> be the same as the first part of the route url.
-             
+
 ```bash
 
     $ php jollof make:controller home
@@ -59,11 +59,11 @@ This command will drop a _Home.php_ file inside the __routes__ folder.
 Move into the __controllers__ folder (in the root), open up the _Home.php_ file and add the code below into the file (within the _index_ method).
 
 ```php
-              
+
       $words = ['Jollof', 'Make', 'Sense!'];
       $heading = 'About Jollof';
       return Response::view('example/start', [
-                'title' => 'Example', 
+                'title' => 'Example',
                 'words' => $words,
                 'heading' => $heading
       ]);
@@ -91,7 +91,7 @@ Firstly, move into the __config__ folder and then into the _env.php_. Open it up
 
             'cspro' => FALSE, // #options: (FALSE, TRUE, array(...)) ;Content-Security-Policy-Reporting-Only:
 
-            'noncify-inline-source' => TRUE // Generates a nonce value for each <script> and <style> tag code in your views 
+            'noncify-inline-source' => TRUE // Generates a nonce value for each <script> and <style> tag code in your views
 
   )
 
@@ -115,6 +115,6 @@ In the view you created in the first example (example/start), add an inline scri
 </head>
 ```
 
-Finally, serve the view in the browser as before using '/home'. Check the view source from the browser and notice CSP 'nonce=' values attached to the inline script tag. 
+Finally, serve the view in the browser as before using '/home'. Check the view source from the browser and notice CSP 'nonce=' values attached to the inline script tag.
 
 > Jollof supports security response headers on-the-fly. So, you don't have to do too much. CSP hashes will be supported in a later version - v1.0.0 perharps.

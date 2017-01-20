@@ -2,7 +2,7 @@
 
 <?php
 
-  # @TODO: I really need to clean this out and make use of Classes. I 
+  # @TODO: I really need to clean this out and make use of Classes. I
   #        also need to make sure that custom commands can be included
   #        easily by Jollof developers
 
@@ -20,7 +20,7 @@
    * array('make:env' => function(){ });
    * Console::setCommand('make:env', function($prompt){
    *
-   *        $stdInData = array(); 
+   *        $stdInData = array();
    *        $stdOuts = array('datbase_host=', 'data_password=');
    *
    *        $tokens = $prompt->getArguments();
@@ -65,7 +65,7 @@
 	);
 
 	$script_name = array_shift($args);
- 
+
   $command = array_shift($args);
 
 	$tokens = array_slice($args, 0);
@@ -96,7 +96,7 @@
       $path = 'http://localhost/' . $root_folder; // = 'http://localhost:8888';
 
       fwrite(STDOUT, PHP_EOL . "Launching Documentation in default browser..." . PHP_EOL);
-      
+
       if(index_of($os, 'darwin') > -1){
         //exec('php -S localhost:8888 | open -a "Safari" ' . $path . '/documentation/index.html', $out, $errorlevel);
         exec('open -a "Safari" ' . $path . '/documentation/index.html', $out, $errorlevel);
@@ -105,7 +105,7 @@
         exec('start "" "' . $path . '/documentation/index.html"', $out, $errorlevel);
       }else if(index_of($os, 'linux')){
           ;
-      }  
+      }
 
       sleep(3);
 
@@ -116,9 +116,9 @@
 
          $isCore = false;
          $prefix = '';
-        
+
          if(count($tokens) > 0){
-          
+
               $isCore = ($tokens[0] === 'core');
 
          }
@@ -139,15 +139,15 @@
 	if($command === "run:tasks"){
 
         chdir('packages');
-         
-        if(count($tokens) > 0){ 
+
+        if(count($tokens) > 0){
 
              exec('grunt:' . $tokens[0], $out, $errorlevel);
 
         }else{
 
         	 exec('grunt', $out);
-        }     
+        }
 
         chdir('..');
 
@@ -167,7 +167,7 @@
 
 	            	break;
 	            	default:
-                    
+
             		     $errorlevel = 1;
 
             	  break;
@@ -175,15 +175,15 @@
 
 
 	    }
-	        
-        chdir('..'); 
+
+        chdir('..');
 	}
 
 	if($command === "run:install"){
 
         chdir('packages');
 
-        if(count($tokens) > 0){ 
+        if(count($tokens) > 0){
 
             if(array_key_exists(1, $tokens)){
 
@@ -216,18 +216,18 @@
                 }
 
             	break;
-            	
+
             	default:
-                    
+
             		$errorlevel = 1;
 
             	break;
             }
 
-        }    
-             
-        chdir('..');    
-   
+        }
+
+        chdir('..');
+
 	}
 
 
@@ -246,7 +246,7 @@
 		sleep(1);
 
 		foreach ($promptList as $prompt) {
-			
+
 			 fwrite(STDOUT, $prompt);
 
 			 $in = fgets(STDIN);
@@ -261,8 +261,8 @@
 
         write_to_file((implode('', $stdinLines)), '.env');
 
-        fwrite(STDOUT, PHP_EOL . "All Done. " . PHP_EOL);	
-	
+        fwrite(STDOUT, PHP_EOL . "All Done. " . PHP_EOL);
+
 	}
 
 	if($command === 'make:test'){
@@ -275,7 +275,7 @@
 
           	   fwrite(STDOUT, 'Creating Test File: ' . $testfile . '.php' . PHP_EOL);
 
-          	   file_put_contents($testfile . '.php', "<?php \n\n class " . $testfile . " extends TestCase { \n\n\t # code ... \n\n } ?>");	   
+          	   file_put_contents($testfile . '.php', "<?php \n\n class " . $testfile . " extends TestCase { \n\n\t # code ... \n\n } ?>");
           }
 
           fwrite(STDOUT, PHP_EOL . "All Done. " . PHP_EOL);
@@ -284,7 +284,7 @@
 	}
 
 	if($command === 'make:view'){
-        
+
         chdir($views_path);
 
 		if(count($tokens) > 0){
@@ -310,7 +310,7 @@
       		   	}else{
       		   		    $new_path_pieces = array($new_path);
       		   	}
- 				
+
               $new_path_pieces_len = count($new_path_pieces);
 
                 while($new_path_pieces_len != 1){
@@ -323,7 +323,7 @@
 
                      ++$depth;
 
-                     chdir($view_folder);	
+                     chdir($view_folder);
                 }
 
                 File::makeFile($new_path_pieces[0] . '.view');
@@ -404,22 +404,22 @@
 
 	if($command === 'make:route'){
 
-		if(count($tokens[0]) > 0){ 
+		if(count($tokens[0]) > 0){
 
 			$routeUrl = $tokens[0];
 
 			$routeVerb = array_key_exists(1, $tokens) ? strtolower($tokens[1]) : "get";
-            
+
             fwrite(STDOUT, PHP_EOL . "Creating route: $routeUrl" . PHP_EOL);
 
 		 	sleep(1);
-			
+
 			file_put_contents($route_path, PHP_EOL . PHP_EOL . " Router::bind('{$routeUrl}', array('models'=> array(), 'params' => array()" . ($routeVerb != "get" ? ", 'verb' => '{$routeVerb}' " : "") . "));", FILE_APPEND | LOCK_EX);
 
 			fwrite(STDOUT, PHP_EOL . "All Done. " . PHP_EOL);
 
-		}	
-			 
+		}
+
 	}
 
   if($command === 'make:component'){
@@ -427,7 +427,7 @@
 
   }
 
-	$outline = join($out); 
+	$outline = join($out);
 
 	if($errorlevel === 0){
 
@@ -437,8 +437,8 @@
 		fclose(STDOUT);
 	}
 
-	if($errorlevel === 1){ 
-        
+	if($errorlevel === 1){
+
         // If the {$outline} contains output color formatting, we deal with it here
         fwrite(STDERR, str_replace('\e', "\033", $outline));
 

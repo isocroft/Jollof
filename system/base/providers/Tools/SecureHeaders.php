@@ -211,7 +211,7 @@ class SecureHeaders {
             and preg_match('/([^:]+)/', $name, $match)
         ) {
             $name = $match[1];
-            
+
             $capitalised_name = preg_replace_callback(
                 '/(?<=[-\s]|^)[^-\s]/',
                 function ($match){

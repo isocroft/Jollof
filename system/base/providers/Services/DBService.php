@@ -1,7 +1,7 @@
 <?php
 /*!
  * Jollof Framework (c) 2016
- * 
+ *
  * {DBService.php}
  */
 
@@ -12,7 +12,7 @@ use \Providers\Core\QueryBuilder as Builder;
 
 class DBService {
 
-   
+
 	protected $connectionHandle = NULL;
 
 	protected $connectionString = '';
@@ -24,12 +24,12 @@ class DBService {
 		"str" => PDO::PARAM_STR
   );
 
-	protected $config; 
+	protected $config;
 
 	protected $isMSREnabled; // Master-Slave Replication
 
     public function __construct(array $config){
-       
+
           $this->config = $config;
 
           $this->isMSREnabled = (bool) $this->config['msr_enabled'];
@@ -43,7 +43,7 @@ class DBService {
           	   case "PDO":
           	       $this->connectionString = ';dbname='.$engine['accessname'].';charset='.$engine['charset'];
           	   break;
-              
+
           }
 
           $this->builders = array();
@@ -62,7 +62,7 @@ class DBService {
 
     public function setModelsToBuilder(&$models){
 
-        foreach($models as $model){ 
+        foreach($models as $model){
 
              $builder = new Builder($this->getConnection(), $this->getParamTypes());
 
@@ -94,9 +94,9 @@ class DBService {
          }
 
     	   if($this->connectionHandle !== NULL){
-              return; // do not try to connect to the DB if we already have an active connection 
+              return; // do not try to connect to the DB if we already have an active connection
     	   }
-         
+
          try {
 
             $this->connectionString = 'mysql:host=' . $engine['hostname'] . $this->connectionString;
@@ -114,7 +114,7 @@ class DBService {
              fwrite(STDOUT, $e->getMessage());
 
          }
-    } 
+    }
 
     private function disconnect(){
 

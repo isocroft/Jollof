@@ -30,7 +30,7 @@ class Sync {
     public function __construct(array $syncConfig = array()){
 
     	$this->config = $syncConfig;
-  
+
     }
 }
 

@@ -10,7 +10,7 @@ class Hasher {
 
        public function __construct(array $config = array()){
 
-            $this->algorithms = array('bcrypt'=>"$2y$", 'bcrypt_blowfish'=>"$2a$"); 
+            $this->algorithms = array('bcrypt'=>"$2y$", 'bcrypt_blowfish'=>"$2a$");
 
             $this->workLoadFactors = array('high_factor'=>"12$", 'low_factor'=>"10$");
 
@@ -25,9 +25,9 @@ class Hasher {
        	    }
             // secure hashing of passwords wih [bcrypt]
        	    // salt for [bcrypt] needs to be 22 base_64 characters (blowfish_salt)
-       	    
+
        	    $blowfish_salt = bin2hex(openssl_random_pseudo_bytes(22));
-       	    $format = $this->algorithms['bcrypt_blowfish'] . $this->workLoadFactors['high_factor']; 
+       	    $format = $this->algorithms['bcrypt_blowfish'] . $this->workLoadFactors['high_factor'];
        	    return (crypt($plain_text, ($format . $blowfish_salt)));
        }
 

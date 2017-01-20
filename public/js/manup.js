@@ -33,7 +33,7 @@ var generateFullMetaData = function(){
           if (validMetaValues[i].manifestName == 'display' && manUpObject.display == 'standalone') validMetaValues[i].content = 'yes'
          // console.log('stop')
       }
-  } 
+  }
  };
 
  //console.log(validMetaValues)
@@ -112,10 +112,10 @@ var makeAjax = function (url) {
     var ajax;
     try{
         if(w.XMLHttpRequest){
-            ajax = new XMLHttpRequest();  
+            ajax = new XMLHttpRequest();
         }else{
             ajax = new ActiveXObject();
-        } 
+        }
     }catch(ex){ return; }
 
     ajax.onreadystatechange = function () {

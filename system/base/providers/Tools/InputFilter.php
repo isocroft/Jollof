@@ -16,7 +16,7 @@ class InputFilter {
      }
 
      public function sanitizeInput($raw_str, $level){
-       if(gettype($level) !== 'integer' 
+       if(gettype($level) !== 'integer'
           || preg_match('/^string/', gettype($raw_str))){
            return;
        }

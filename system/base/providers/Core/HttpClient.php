@@ -1,7 +1,7 @@
 <?php
 
 namespace Providers\Core;
- 
+
  /*!
   *
   * Jollof (c) Copyright 2016
@@ -10,11 +10,11 @@ namespace Providers\Core;
   * {HttpClient.php}
   *
   */
-  
+
 class HttpClient {
 
         const HTTP_PACKETING = TRUE;
-		
+
         private $HTTP_HOST = '';
         private $HTTP_OPTIONS = array('RETURN_HTTP_HEADERS'=>1,'RETURN_HTTP_RESPONSE'=>TRUE);
         private $port = 0;
@@ -32,7 +32,7 @@ class HttpClient {
 
 		        $this->HTTP_HOST = $HTTP_HOST;
 		        $this->HTTP_OPTIONS = array_merge($this->HTTP_OPTIONS, $HTTP_OPTS);
-			      
+
             $this->port = $HTTP_PORT;
             $this->method = $HTTP_METHOD;
             $this->headers = array('Expect:', 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8');
@@ -48,7 +48,7 @@ class HttpClient {
             foreach ($_COOKIE as $ckey => $cvalue) {
                   if(in_array($ckey, $cookieKeys)){
                         $cookie .= (strlen($cookie) == 0 ? '' : ';';
-                        $cookie .= $ckey . '=' $cvalue 
+                        $cookie .= $ckey . '=' $cvalue
                   }
             }
             curl_setopt($this->ch, CURLOPT_COOKIE, $cookie);
@@ -65,29 +65,29 @@ class HttpClient {
         public function setMethod($method){
               $methods = array('GET', 'POST', 'PUT', 'PATCH', 'HEAD', 'DELETE');
               if(in_array($method, $methods)){
-              
+
                   $this->method = $method;
               }
         }
 
         public function setRequest($pathname, $client_id, $client_data){
-   
+
              curl_setopt($this->ch, CURLOPT_URL, ($this->HTTP_HOST . $pathname));
              curl_setopt($this->ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
              curl_setopt($this->ch, CURLOPT_HEADER, $this->HTTP_OPTIONS['RETURN_HTTP_HEADERS']);
-	           curl_setopt($this->ch, CURLOPT_HTTPHEADER, $this->headers); 
-             if($this->port != 80){   
+	           curl_setopt($this->ch, CURLOPT_HTTPHEADER, $this->headers);
+             if($this->port != 80){
                 curl_setopt($this->ch, CURLOPT_PORT, $this->port);
              }
              curl_setopt($this->ch, CURLOPT_CONNECTTIMEOUT, 2);
-               
+
              if($this->method == "GET"){
 		            curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, $this->HTTP_OPTIONS['RETURN_HTTP_RESPONSE']);
                 curl_setopt($this->ch, CURLOPT_GET, true);
              }else{
                 curl_setopt($this->ch, CURLOPT_POST, true);
              }
- 
+
              $pf = array('client_id'=>$client_id);
 
               foreach($client_data as $key => $val){
@@ -98,9 +98,9 @@ class HttpClient {
                  curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->http_build_query($pf));
 		              //curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
               }
-             
+
               $this->recieve = curl_exec($this->ch);
-             
+
               curl_close($this->ch);
         }
 

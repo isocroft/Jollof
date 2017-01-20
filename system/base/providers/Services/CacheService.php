@@ -2,7 +2,7 @@
 
 /*!
  * Jollof Framework (c) 2016
- * 
+ *
  * {CacheSerivce.php}
  */
 
@@ -16,7 +16,7 @@ class CacheService implements CacheAccessInterface {
       protected $memcache;
 
       protected $isCacheAvialable;
-     
+
       public function __construct($options){
 
          try{
@@ -38,7 +38,7 @@ class CacheService implements CacheAccessInterface {
 
       public function get($key){
 
-           return $this->memcache->get($key); 
+           return $this->memcache->get($key);
       }
 
       public function has($key){

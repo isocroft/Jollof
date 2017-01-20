@@ -24,7 +24,7 @@
 		});
 	}
 
-	/* 
+	/*
 	 * Setup Application Cache as fallback from lack of native
 	 * support for Service-Workers (PWA old style)
 	 */
@@ -36,7 +36,7 @@
 	 		}
 
 	 		w.Cachr.go();
-		
+
 	 }
 
 }(this, this.navigator));

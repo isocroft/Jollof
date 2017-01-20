@@ -17,7 +17,7 @@ class LoginThrottle {
       }
 
       public function updateSessionDataStore(){
-      	
+
       }
 
 }

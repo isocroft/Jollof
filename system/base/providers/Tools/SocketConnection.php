@@ -38,7 +38,7 @@ class SocketConnection {
         $this->flush();
 
         $this->ip = $remoteIp;
-        
+
         $this->clientSocket = $socket;
 
     }
@@ -52,7 +52,7 @@ class SocketConnection {
         $this->body = array();
 
         $this->query = array();
-        
+
         $this->bucket = array();
 
         $this->responseHeaders = array();
@@ -81,7 +81,7 @@ class SocketConnection {
     }
 
     public function parseRequest($h){
-         
+
          if($h === NULL){
          	return;
          }
@@ -99,7 +99,7 @@ class SocketConnection {
              return;
          }
 
-    	 foreach ($x as $k => $y) { 
+    	 foreach ($x as $k => $y) {
     	 	  switch ($k) {
     	 	  	case 0:
     	 	  	   $i['method'] = $y;
@@ -116,10 +116,10 @@ class SocketConnection {
          foreach($h as $r){
          	 $exploded = explode(":", $r);
          	 if(stripos($r, "\r\n") === 0 || count($exploded) == 1){
-                $this->request->rawBody = trim($r); // we have entered the enity body section of the request 
+                $this->request->rawBody = trim($r); // we have entered the enity body section of the request
                 break;
          	 }
-         	 
+
              list($v, $l) = $exploded;
              if($v === null) continue;
              $o[$v] = trim($l);
@@ -155,7 +155,7 @@ class SocketConnection {
     }
 
     public function getBody(){
-       
+
        if(property_exists($this->request, 'rawBody')){
     	   switch($this->request->headers['Content-Type']){
     	   	    case 'application/json':
@@ -163,11 +163,11 @@ class SocketConnection {
     	   	    break;
     	   	    case 'application/x-www-form-urlencoded':
                     parse_str($this->request->rawBody, $this->body);
-    	   	    break;    
-    	   }   
+    	   	    break;
+    	   }
        }
 
-       return $this->body;	
+       return $this->body;
     }
 
     public function getHTTPVersion(){
@@ -186,9 +186,9 @@ class SocketConnection {
     }
 
     public function setHeader($headerKey = NULL, $headerValue = NULL){
-        
+
         if($headerKey !== NULL && $headerValue !== NULL){
-          
+
            $this->responseHeaders[] = "$headerKey: $headerValue";
         }
     }
@@ -213,7 +213,7 @@ class SocketConnection {
            break;
            case 401:
               $status .= " $statusCode Conflict";
-           break;  
+           break;
            case 403:
               $status .= " $statusCode Forbidden";
            break;
@@ -226,7 +226,7 @@ class SocketConnection {
     }
 
     public function getResponse(){
-        
+
          return $this->response;
 
     }

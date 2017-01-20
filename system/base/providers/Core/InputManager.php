@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Providers\Core;
 
@@ -10,14 +10,14 @@ class InputManager {
      protected $binaryFilesAllowed = array(
         IMAGETYPE_GIF,
         IMAGETYPE_JPEG,
-        IMAGETYPE_PNG     
+        IMAGETYPE_PNG
      );
 
      protected $textFilesAllowed = array(
          "application/zip",
          "application/xhtml+xml",
-         "application/xml", 
-         "application/x-zip", 
+         "application/xml",
+         "application/x-zip",
          "application/x-zip-compressed",
          "application/xml",
          "text/html"
@@ -38,8 +38,8 @@ class InputManager {
          'doc',
          'jpeg',
          'jpg',
-         'pptx', 
-         'dotx', 
+         'pptx',
+         'dotx',
          'xlsx'
      );
 
@@ -50,14 +50,14 @@ class InputManager {
      protected $httpInput = array('fields'=>array(), 'files'=>NULL);
 
      public function __construct(array $httpInput = array(), array $uploadConfig = array()){
-           
+
           $this->maxUploadSize = $uploadConfig['max_upload_size'];
           $this->uploadSettings = $uploadConfig['upload_settings'];
           $this->uploadTempDir = $uploadConfig['temp_upload_dir'];
           $this->canExtractZip = $uploadConfig['can_extract_zip'];
 
           $this->httpInput['files'] = $_FILES;
-          
+
           foreach($httpInput as $name => $value){
               if(!is_string($value)){
                  $this->httpInput['files'][$name] = (array_key_exists($name, $_FILES) && $value !== $_FILES[$name]) ? $_FILES[$name] : $value;
@@ -79,14 +79,14 @@ class InputManager {
                     $file = $this->httpInput['files'][$name];
                     $isRemoteUpload = false;
                     $errors[$name] = array();
-                    
+
                     if($file['error'] !== UPLOAD_ERR_OK){
                        $errors[$name]['upload_error'] = 'file seems to have a problem';
                        $results[$name] = NULL;
                        continue;
                     }
 
-                    if($file['error'] == UPLOAD_ERR_INI_SIZE 
+                    if($file['error'] == UPLOAD_ERR_INI_SIZE
                       || $file['error'] == UPLOAD_ERR_FORM_SIZE){
                         $errors[$name]['upload_error'] = 'file too big to upload';
                         $results[$name] = NULL;
@@ -115,7 +115,7 @@ class InputManager {
                     $ext = $file_parts['extension'];
                     $zip = NULL;
 
-                    if(!in_array($ext, $this->allowedFileExtentions)){ 
+                    if(!in_array($ext, $this->allowedFileExtentions)){
                        $errors[$name]['type_error'] = 'the system cannot process this file';
                        $results[$name] = NULL;
                        continue;
@@ -123,17 +123,17 @@ class InputManager {
 
                     // avoid accidentally overwriting a file (collisions can and do occur)
                     do{
-                      if(!file_exists($upload_path)){ 
+                      if(!file_exists($upload_path)){
                           // if the directory doesn't exist, create it!
                           make_folder($upload_path);
-                      }    
+                      }
                       $_name = get_random_from_string($file_parts['filename']);
                       $target_path = $upload_base_dir . $upload_path . $_name . '.' . $ext;
                     }while(file_exists($target_path));
 
                     if(!is_binary_file($file['tmp_name'], $ext)){
                         // validate (text files)
-                        $finfo = new finfo(FILEINFO_MIME); // FILEINFO_MIME_TYPE 
+                        $finfo = new finfo(FILEINFO_MIME); // FILEINFO_MIME_TYPE
                         $ftype = $finfo->file($file['tmp_name']);
                         if(!in_array($ftype, $this->textFilesAllowed)){
                            $errors[$name]['type_error'] = 'the system cannot process this file';
@@ -152,7 +152,7 @@ class InputManager {
                     $driver = $this->uploadSettings['upload_driver'];
                     $key = $this->uploadSettings['key'];
                     $secret = $this->uploadSettings['secret'];
-                    
+
                     switch($driver){
                       case "#aws-s3":
                           if(class_exists('Aws\S3\S3Client')){
@@ -195,13 +195,13 @@ class InputManager {
                               $errors[$name]['step_error'] = 'Upload Driver Not Found';
                           }
                           $isRemoteUpload = true;
-                      break;  
+                      break;
                     }
 
                     if($isRemoteUpload){
                         continue;
-                    }  
-                     
+                    }
+
                     if(!is_uploaded_file($file['tmp_name'])){
                          if($ext == "zip"){
                              $zip = new \ZipArcive();
@@ -214,7 +214,7 @@ class InputManager {
                              continue;
                          }
                          if($ext == "zip" && $result){
-                            if($this->canExtractZip === TRUE){ 
+                            if($this->canExtractZip === TRUE){
                                  $x = $zip->open($target_path);
                                  if($x === TRUE){
                                       $target_path_temp = str_replace(('.'.$ext), '/', $target_path);
@@ -224,14 +224,14 @@ class InputManager {
                                       $target_path = substr($target_path_temp, 0, (count($target_path_temp)-1));
                                       sleep(5);
                                  }
-                            }   
+                            }
                          }
                     }else{
                          $errors[$name]['write_error'] = 'file has already been created';
                          $results[$name] = NULL;
                          continue;
-                    }   
- 
+                    }
+
                     // set proper permissions on new file
                     if(is_file($target_path)){
                        chmod($target_path, 0600); // 0644
@@ -241,18 +241,18 @@ class InputManager {
                         unset($errors[$name]);
                     }
 
-                    // cache unique name for return 
+                    // cache unique name for return
                     # $_temp = explode('/', $target_path);
                     $host = $GLOBALS['app']->getHost();
                     if($host === "localhost"){
                         $host .= '/' . $root;
                     }
                     $doc_root = Request::header('DOCUMENT_ROOT');
-                    $results[$name] = str_replace($doc_root, $host, $target_path); 
+                    $results[$name] = str_replace($doc_root, $host, $target_path);
                     # implode('/', (array_slice($_temp, (count($_temp)-2))));
-                    
-        
-                
+
+
+
                 }
            }
 
@@ -278,7 +278,7 @@ class InputManager {
 
      private function filterInput(array $vars = array(), $parameters){
             $filtered = NULL;
-            if(count($vars) > 0){ 
+            if(count($vars) > 0){
                 $filtered = array();
                 foreach($vars as $field){
                     if(array_key_exists($field, $parameters)){
@@ -288,7 +288,7 @@ class InputManager {
             }else{
                 $filtered = $parameters;
             }
-            
+
             return (count($filtered) > 0)? $filtered : NULL;
      }
 

@@ -25,7 +25,7 @@ class HTTPResolver{
 	 public function draftRouteHandler($method){
 
 	 	  $this->resolverMethod = $method;
-	
+
  	 }
 
  	 private function getResolverURIParts($url){
@@ -43,7 +43,7 @@ class HTTPResolver{
  	 }
 
      public function handleCurrentRoute(Router $router, System $sys, Auth $auth){
-            
+
             $uri = Request::uri();
 
             if(preg_match('/\.(?:[a-z]{1,5})$/i', $uri)){
@@ -67,7 +67,7 @@ class HTTPResolver{
             $models = $router->getRouteSettings($method, $sys, $auth);
 
             $GLOBALS['app']->cacheModelInstances($models);
-            
+
             $controllerClass = '\\';
             $controllerMethod = (array_key_exists(1, $uriParts) && index_of($uriParts[1], '@') != 0)? $uriParts[1] : 'index';
 
@@ -83,7 +83,7 @@ class HTTPResolver{
                  }
             }else{
                  throw new \Exception("Controller Not Found >> ['". $controllerClass . "'] ");
-            } 
+            }
 
             return NULL;
      }

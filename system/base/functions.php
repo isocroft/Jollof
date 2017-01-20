@@ -2,11 +2,11 @@
 
 /*--------------------------------
  * Jollof Framework (c) 2016
- * 
+ *
  * {functions.php}
  *
  *--------------------------------*/
-  
+
 
 if(!defined('PHP_VERSION_ID')){
     $version = explode('.', PHP_VERSION);
@@ -20,7 +20,7 @@ if(!defined('PHP_VERSION_ID')){
 
     }
 }
-  
+
 if(! function_exists('char_at') ){
     function char_at($str, $num){
 	        if(gettype($str) == 'string' && gettype($num) == 'integer'){
@@ -39,7 +39,7 @@ if(! function_exists('getallheaders')){
    function getallheaders(){
        return array();
    }
-} 
+}
 
 // Fix for overflowing signed 32 bit integers,
 // works for sizes up to 2^32-1 bytes (4 GiB - 1):
@@ -51,7 +51,7 @@ if(! function_exists('fix_integer_overflow')){
         return $size;
     }
 }
-  
+
 if(! function_exists('index_of') ){
     function index_of($str, $seed, $radix  = -1){
 	      $mixed = FALSE;
@@ -96,12 +96,12 @@ if(! function_exists('array_shuffle')){
 }
 
 if(! function_exists('array_select')){
-  function array_select($input, $select_keys){ 
-      
+  function array_select($input, $select_keys){
+
   }
 }
 
-if(! function_exists('array_pluck')){  
+if(! function_exists('array_pluck')){
     function array_pluck($array, $index){
        $return = array();
        foreach ($array as $key => $value) {
@@ -116,8 +116,8 @@ if(! function_exists('array_pluck')){
        return $return;
     }
 }
-  
-if(! function_exists('str_compare_to') ){ 
+
+if(! function_exists('str_compare_to') ){
     function str_compare_to($str1, $str2){
         if(gettype($str1) == 'string' && gettype($str2) == 'string'){
            if(strcmp($str1,$str2) == 0){
@@ -127,7 +127,7 @@ if(! function_exists('str_compare_to') ){
 	       return -1;
 	    }
     }
-} 
+}
 
 if(! function_exists('index_of_any') ){
     function index_of_any($str, $seed, $arr){
@@ -151,8 +151,8 @@ if(! function_exists('asset')){
             $file = substr($file, 0, $queryIndex);
         }
 
-        $root = preg_replace('/\//i', DIRECTORY_SEPARATOR, $_SERVER['DOCUMENT_ROOT']); 
-        $root .= contains($root, $app_root)? '' :  DIRECTORY_SEPARATOR . $app_root; 
+        $root = preg_replace('/\//i', DIRECTORY_SEPARATOR, $_SERVER['DOCUMENT_ROOT']);
+        $root .= contains($root, $app_root)? '' :  DIRECTORY_SEPARATOR . $app_root;
         $root .= DIRECTORY_SEPARATOR;
 
         $filepath = str_replace($root, $__url, realpath($file));
@@ -207,149 +207,149 @@ if(! function_exists('http_response_code') ){
                break;
                case 207:
                   $text = 'Multi-Status';          // RFC4918
-               break;  
+               break;
                case 208:
                   $text = 'Already Reported'; // RFC5842
-               break;         
+               break;
                case 226:
                   $text = 'IM Used';               // RFC3229
-               break;   
+               break;
                case 300:
                   $text = 'Multiple Choices';
-               break;   
+               break;
                case 301:
                   $text = 'Moved Permanently';
-               break;   
+               break;
                case 302:
                   $text = 'Found';
-               break;   
+               break;
                case 303:
                   $text = 'See Other';
-               break;   
+               break;
                case 304:
                   $text = 'Not Modified';
-               break;   
+               break;
                case 305:
                   $text = 'Use Proxy';
-               break;   
+               break;
                case 306:
                   $text = 'Reserved';
-               break;   
+               break;
                case 307:
                   $text = 'Temporary Redirect';
-               break;   
+               break;
                case 308:
                   $text = 'Permanent Redirect';    // RFC7238
-               break;  
-               case 400: 
+               break;
+               case 400:
                   $text = 'Bad Request';
                break;
                case 401:
                   $text = 'Unauthorized';
-               break;  
+               break;
                case 402:
                   $text = 'Payment Required';
-               break;   
+               break;
                case 403:
                   $text = 'Forbidden';
-               break;   
-               case 404: 
+               break;
+               case 404:
                   $text = 'Not Found';
                break;
-               case 405: 
+               case 405:
                   $text = 'Method Not Allowed';
-               break; 
-               case 406: 
+               break;
+               case 406:
                   $text = 'Not Acceptable';
                break;
-               case 407: 
+               case 407:
                   $text = 'Proxy Authentication Required';
                break;
-               case 408: 
+               case 408:
                   $text = 'Request Timeout';
                break;
-               case 409: 
+               case 409:
                   $text = 'Conflict';
                break;
                case 410:
                   $text = 'Gone';
                break;
-               case 411: 
+               case 411:
                   $text = 'Length Required';
-               break; 
-               case 412: 
+               break;
+               case 412:
                   $text = 'Precondition Failed';
-               break;   
-               case 413: 
+               break;
+               case 413:
                   $text = 'Request Entity Too Large';
                break;
-               case 414: 
+               case 414:
                   $text = 'Request-URI Too Long';
                break;
-               case 415: 
+               case 415:
                   $text = 'Unsupported Media Type';
                break;
-               case 416: 
+               case 416:
                   $text = 'Requested Range Not Satisfiable';
-               break;   
+               break;
                case 417:
                   $text = 'Expectation Failed';
                break;
                case 418:
                   $text = 'I\'m a teapot';                                 // RFC2324
                break;
-               case 422: 
+               case 422:
                   $text = 'Unprocessable Entity';                                  // RFC4918
                break;
                case 423:
                   $text = 'Locked';                            // RFC4918
-               break;   
+               break;
                case 424:
                   $text = 'Failed Dependency';                        // RFC4918
-               break;   
+               break;
                case 425:
                   $text = 'Reserved for WebDAV advanced collections expired proposal';      // RFC2817
-               break;   
+               break;
                case 426:
                   $text = 'Upgrade Required';                            // RFC2817
-               break;   
+               break;
                case 428:
                   $text = 'Precondition Required';                       // RFC6585
-               break;   
+               break;
                case 429:
                   $text = 'Too Many Requests';                           // RFC6585
-               break;   
-               case 431: 
+               break;
+               case 431:
                   $text = 'Request Header Fields Too Large';             // RFC6585
-               break;   
-               case 500: 
+               break;
+               case 500:
                   $text = 'Internal Server Error';
                break;
-               case 501: 
+               case 501:
                   $text = 'Not Implemented';
                break;
-               case 502: 
+               case 502:
                   $text = 'Bad Gateway';
-               break;   
-               case 503: 
+               break;
+               case 503:
                   $text = 'Service Unavailable';
-               break;   
-               case 504: 
-                  $text = 'Gateway Timeout';  
-               break;   
-               case 505: 
+               break;
+               case 504:
+                  $text = 'Gateway Timeout';
+               break;
+               case 505:
                   $text = 'HTTP Version Not Supported';
-               break;   
-               case 506: 
+               break;
+               case 506:
                   $text = 'Variant Also Negotiates (Experimental)';              // RFC2295
-               break;   
-               case 507: 
+               break;
+               case 507:
                   $text = 'Insufficient Storage';                // RFC4918
-               break;   
-               case 508: 
+               break;
+               case 508:
                   $text = 'Loop Detected';              // RFC5842
                break;
-               case 510: 
+               case 510:
                   $text = 'Not Extended';               // RFC2774
                break;
                case 511:
@@ -357,7 +357,7 @@ if(! function_exists('http_response_code') ){
                break;
                default:
                   $text = 'Unknown';
-               break;                      
+               break;
          }
 
          $proto = (isset($_SERVER['SERVER_PROTOCOL'])? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
@@ -367,7 +367,7 @@ if(! function_exists('http_response_code') ){
               header($proto . ' ' . $code . ' ' . $text, true, $code);
          }else{
               return $GLOBAL['HTTP_CODE'];
-         }     
+         }
    }
 }
 
@@ -375,10 +375,10 @@ if(! function_exists('last_index_of') ){
     function last_index_of($str, $seed){
       if(gettype($str) == 'string' && gettype($seed) == 'string'){
          $rstr = strrev($str);
-         $lx = (strlen($str)-1) - (index_of($rstr, $seed)); 
+         $lx = (strlen($str)-1) - (index_of($rstr, $seed));
              if(index_of($str, $seed, ($lx-1)) + index_of($rstr, $seed) == (strlen($str)-1)){
                                    return $lx;
-             }else{ return -1; } 
+             }else{ return -1; }
       }
     }
 }
@@ -387,7 +387,7 @@ if(! function_exists('all_index_of') ){
     function all_index_of($str, $seed){
 
     }
-}	
+}
 
 if(! function_exists('get_os') ){
     function get_os(){
@@ -404,7 +404,7 @@ if(! function_exists('get_os') ){
             }else if(PHP_OS == 'SunOS'){
                 $os = 'sun';
             }
-        }else{ 
+        }else{
             if(ignorecase_index_of($_SERVER['SERVER_SOFTWARE'], "Linux") > -1){
                 $os = 'linux';
             }else if(ignorecase_index_of($_SERVER['SERVER_SOFTWARE'], "Unix") > -1){
@@ -418,7 +418,7 @@ if(! function_exists('get_os') ){
 }
 
 if(! function_exists('run_command_deamon')){
-    function run_command_deamon($command){ 
+    function run_command_deamon($command){
       $php_os = get_os();
       if($php_os == 'windows'){
           $command = 'start "" ' . $command;
@@ -437,11 +437,11 @@ if(! function_exists('run_command_deamon')){
 }
 
 if(! function_exists('generate_uniq_string') ){
-    function generate_uniq_string($input = NULL){  
+    function generate_uniq_string($input = NULL){
         if($input === NULL){
            $input = "abcefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#%$*";
         }
-        $index = strlen($keyset); 
+        $index = strlen($keyset);
         $modT = rand(1, 28);
         $keyset = str_shuffle($input);
 	      $keyset = substr($keyset, 0 , ($index * 2) - ($index + $modT));
@@ -460,15 +460,15 @@ if(! function_exists('starts_with') ){
 		       $begin = strtolower($begin);
 			   $sub = strtolower($sub);
 		    }
-             if(strcmp($sub, $begin) == 0){ 
+             if(strcmp($sub, $begin) == 0){
                  return TRUE;
              }else{
                 return FALSE;
              }
-		  
-       }else{ 
-	          return NULL; 
-	   }  
+
+       }else{
+	          return NULL;
+	   }
    }
 }
 
@@ -483,8 +483,8 @@ if(! function_exists('ends_with') ){
             }else{
                  return FALSE;
             }
-        }else{ 
-		        return NULL; 
+        }else{
+		        return NULL;
 		}
     }
 }
@@ -528,9 +528,9 @@ if(! function_exists('is_image_file') ){
 	           break;
 	           case "jpeg":
 	              $result =  true;
-	           break; 
+	           break;
                default:
-                  $result = false;	
+                  $result = false;
             }
             return $result;
     }
@@ -541,7 +541,7 @@ if(! function_exists('get_file_name') ){
         $isdir = false;
         $args = func_get_args();
         $filename = '';
-        if(index_of($file_path,'/') > -1 
+        if(index_of($file_path,'/') > -1
            || index_of($file_path, DIRECTORY_SEPARATOR) > -1){
             $isdir = true;
 	          $filename = basename($args[0]);
@@ -550,17 +550,17 @@ if(! function_exists('get_file_name') ){
             $filename = $file_path;
         }
         $ext = explode('.', $filename);
-        
+
         return (!$withExt)? $ext[0] : $filename;
-        
+
     }
 }
 
 if(! function_exists('custom_session_id') ){
     function custom_session_id($native = FALSE){
-         return substr(generate_uniq_string(NULL), 1, ($native? 31 : 23));  
+         return substr(generate_uniq_string(NULL), 1, ($native? 31 : 23));
     }
-}    
+}
 
 if(! function_exists('is_binary_file') ){
     function is_binary_file($file, $asString=FALSE){
@@ -602,10 +602,10 @@ if(! function_exists('update_placeholder')){
         $stub = '?';
         $range = array();
         if(!is_array($value)){
-            if(preg_match('/^\+(?:[\d]+)/', $value)){ 
+            if(preg_match('/^\+(?:[\d]+)/', $value)){
                 return '$key = $key + ' . str_replace('+', '', $value);
             }
-            return "$key = " . $stub; 
+            return "$key = " . $stub;
         }
 
         if(ignorecase_index_of($value[0], 'between')){
@@ -637,7 +637,7 @@ if(! function_exists('array_swap_values')){
 
 if(! function_exists('make_file') ){
     function make_file($file){
-	   return system('echo. >> '.$file); 
+	   return system('echo. >> '.$file);
 	}
 }
 
@@ -653,7 +653,7 @@ if(! function_exists('make_folder') ){
 
 if(! function_exists('delete_text_from_file') ){
     function delete_text_from_file($file, $str){
-           $isdir = is_dir($file); 
+           $isdir = is_dir($file);
            $isfile = is_file($file);
            $oldx = ($isfile) ? file_get_contents($file) : $isdir ? file_get_contents(basename($file)) : "";
            if(index_of($oldx, $str) > -1){
@@ -661,7 +661,7 @@ if(! function_exists('delete_text_from_file') ){
               file_put_contents($newx, $file);
               return TRUE;
            }
-           return FALSE;   
+           return FALSE;
     }
 }
 
@@ -691,8 +691,8 @@ if(! function_exists('write_to_file') ){
     function write_to_file($entry, $file, $overwrite=true){
          $is_dir = is_dir($file); // (index_of(trim($file), '/') > -1 && last_index_of(trim($file),'.') > -1);
          $is_file = is_file($file) && file_exists($file); //(index_of(trim($file), '/') == -1 && last_index_of(trim($file),'.') > -1);
-   
-         if($is_dir || $is_file){      
+
+         if($is_dir || $is_file){
             if(!$overwrite && get_file_extension($file) == 'rtc' || get_file_extension($file) == 'log'){
                  $fh = fopen($file, 'a');
             }
@@ -705,7 +705,7 @@ if(! function_exists('write_to_file') ){
             else if($overwrite){
                  $fh = fopen($file, 'w+');
             }else{}
-   
+
             if(isset($fh) && gettype($entry) == 'string'){
 	            fwrite($fh, $entry);
 		        fclose($fh);
@@ -713,9 +713,9 @@ if(! function_exists('write_to_file') ){
 	        }else{
 	            return FALSE;
 	        }
-        }else{ 
-		       return FALSE; 
-	    }	
+        }else{
+		       return FALSE;
+	    }
     }
 }
 
@@ -723,11 +723,11 @@ if(! function_exists('read_from_file') ){
     function read_from_file($file){
         if(gettype($file) == 'string' && !is_dir($file) && is_file($file) && file_exists($file)){
             $fr = fopen($file, 'r');
-   
+
             while(!feof($fr)){
-               $reader = fread($fr, filesize($fr)); 
+               $reader = fread($fr, filesize($fr));
             }
-	 
+
 	        fclose($fr);
 	        return $reader;
         }
@@ -758,7 +758,7 @@ if(! function_exists('cloudinary_public_id') ){
 
 if(! function_exists('cloudinary_url')){
      function cloudinary_url($public_url){
-     	      
+
      }
 }
 
@@ -766,36 +766,36 @@ if(! function_exists('cloudinary_url')){
 
 /*
  HOW TO USE THE BELOW FUNCTIONS
- 
+
  db_get("SELECT * FROM tbl_client_testimonies WHERE client = ?", array("str" => "Alexis"), 3);
  db_put("INSERT/UPDATE INTO tbl_news_subscribers (email, location, created_at) SET logged = ? / VALUES (?, ?, ?)", array("str" => "xyz@gmail.com", "str" => "Abuja", "int" => time(), TRUE);
  db_delete("DELETE * FROM tbl_saas_pricing WHERE admin_id = ?", array("str" => ""), TRUE);
- 
+
  @TODO: THINKING OF USING db_let("UPDATE tbl_saas_pricing SET =  WHERE admin_id = ?"); FOR UPDATE QUERIES ??
- 
+
  */
 
 
 if(! function_exists('db_get') ){ ## SQL SELECT
     function db_get($pdo, $param_types, $query = "", $params = array(), $rows_limit = NULL, $resultset_cols_filter = array()){
-		  
+
 		  if(strlen($query) == 0 || !is_array($params) || !is_object($pdo)){
 		      return NULL;
 		  }
-		  
+
 		  $query = trim($query);
-		  
-		  
+
+
 		  if(!starts_with($query, "SELECT", TRUE)){
 		      return NULL;
 		  }
-		  
+
 		  //if(count($params) !== count(all_index_of($query, "?"))){
 		    //  throw new Exception("Error: 'db_get' function has entered an unstable state: insufficient/excessive query paramters supplied");
 		 // }
-          
+
 		try{
-		  
+
 		  $param_count = 0;
 		  $set_array = array();
 		  $set_filter = array();
@@ -803,35 +803,35 @@ if(! function_exists('db_get') ){ ## SQL SELECT
 		  foreach($params as $type => $param){ // params filter by rows (obviously !?)
 		     $stmt->bindParam(++$param_count, ("int" != $type? $param : intval($param)), $param_types[$type]);
 		  }
-		  
+
              if($stmt->execute()){
-    
+
                 while($resultset = $stmt->fetch(PDO::FETCH_ASSOC)){
-                
+
 				    if(count($resultset_cols_filter) > 0){
 				       foreach($resultset as $key => $val){
 					      if(in_array($resultset_cols_filter, $key)) // filtering by columns...
                               $set_filter[$key] = $val;
 				       }
 					   $set_array[] =  (count($set_filter) > 0)? $set_filter : $resultset;
-                       $set_filter = array();					   
-					}else{  
+                       $set_filter = array();
+					}else{
 					   $set_array[] = $resultset;
-					}  
+					}
                 }
-      
-                if($stmt->rowCount() > 0){ 
-                    if(count($set_array) > 0){				
+
+                if($stmt->rowCount() > 0){
+                    if(count($set_array) > 0){
                            return $set_array;
 					}else{
 					       return FALSE;
-					}	   
+					}
                 }else{
-				
+
 				}
 			}else{
 			        return NULL;
-			}	
+			}
           }catch(\Exception $e){
                   throw $e;
           }
@@ -840,23 +840,23 @@ if(! function_exists('db_get') ){ ## SQL SELECT
 
 if(! function_exists('db_put') ){ ## SQL INSERT
     function db_put($pdo, $param_types, $query = "", $params = array(), $commit = FALSE, $transact = TRUE){
-		  
+
 		  if(strlen($query) == 0 || !is_array($params) || !is_object($pdo)){
 		      return NULL;
 		  }
 
-		  $query = trim($query); 
-		  
+		  $query = trim($query);
+
 		  if(!starts_with($query, "INSERT", TRUE)){
 		      return NULL;
 		  }
 		  //if(count($params) !== count(all_index_of($query, "?"))){
 		     //  throw new Exception("Error: 'db_put' function has entered an unstable state: insufficient/excessive query paramters supplied");
            //}
-		  
-		  
+
+
 		  try{
-		  
+
 		       $param_count = 0;
 		       $set_array = array();
            $stmt = $pdo->prepare($query);
@@ -864,47 +864,47 @@ if(! function_exists('db_put') ){ ## SQL INSERT
 		       foreach($params as $type => $param){
 		           $stmt->bindParam(++$param_count, ("int" != $type? $param : intval($param)), $param_types[$type]);
 		       }
-	   
+
               if($transact)
                  $pdo->beginTransaction();
- 
+
               if($stmt->execute()){
-                   
+
 				   if($commit)
 				       $pdo->commit();
-				
-                 if(starts_with($query, "INSERT"))				
+
+                 if(starts_with($query, "INSERT"))
 				             return $pdo->lastInsertId();
 	             else
 				             return 0;
-				   
+
 	          }else{
-             
+
                   $pdo->rollBack();
-                  return NULL;						   
-              } 		
-         
+                  return NULL;
+              }
+
           }catch(\Exception $e){
                  throw $e;
-          } 
+          }
     }
 }
 
 if(! function_exists('db_post') ){  ## SQL UPDATE
     function db_post($pdo ,$param_types, $query = "", $params = array(), $commit = FALSE, $transact = TRUE){
-	
-		  
+
+
 		  if(strlen($query) == 0 || !is_array($params) || !is_object($pdo)){
 		      return NULL;
 		  }
-		  $query = trim($query); 
-		  
+		  $query = trim($query);
+
 		  if(!starts_with($query, "UPDATE", TRUE)){
 		      return NULL;
 		  }
 
       try{
-      
+
            $param_count = 0;
            $set_array = array();
            $stmt = $pdo->prepare($query);
@@ -912,43 +912,43 @@ if(! function_exists('db_post') ){  ## SQL UPDATE
            foreach($params as $type => $param){
                $stmt->bindParam(++$param_count, ("int" != $type? $param : intval($param)), $param_types[$type]);
            }
-     
+
               if($transact)
                  $pdo->beginTransaction();
- 
+
               if($stmt->execute()){
-                   
+
                      if($commit)
                          $pdo->commit();
-                  
-                         return 1;   
+
+                         return 1;
               }else{
-               
+
                     $pdo->rollBack();
-                    return NULL;               
-              }     
-         
+                    return NULL;
+              }
+
       }catch(\Exception $e){
              throw $e;
-      } 
+      }
 	  }
-}	
+}
 
 if(! function_exists('db_del') ){ ## SQL DELETE
     function db_del($pdo ,$param_types, $query = "", $params = array(), $commit = FALSE){
-	     
-		  
+
+
 		  if(strlen($query) == 0 || !is_array($params) || !is_object($pdo)){
 		      return NULL;
 		  }
-		  $query = trim($query); 
-		  
+		  $query = trim($query);
+
 		  if(!starts_with($query, "DELETE", TRUE)){
 		      return NULL;
 		  }
 
       try{
-      
+
            $param_count = 0;
            $set_array = array();
            $stmt = $pdo->prepare($query);
@@ -956,34 +956,34 @@ if(! function_exists('db_del') ){ ## SQL DELETE
            foreach($params as $type => $param){
                $stmt->bindParam(++$param_count, ("int" != $type? $param : intval($param)), $param_types[$type]);
            }
-     
+
               if($transact)
                  $pdo->beginTransaction();
- 
+
               if($stmt->execute()){
-                   
+
                      if($commit)
                          $pdo->commit();
-                  
-                         return 1;   
+
+                         return 1;
               }else{
-               
+
                     $pdo->rollBack();
-                    return NULL;               
-              }     
-         
+                    return NULL;
+              }
+
       }catch(\Exception $e){
              throw $e;
       }
-	
+
   }
 }
 
 if(! function_exists('db_copy') ){ ## SQL INSERT/SELECT
     function db_copy($query, $params = array()){
-	
+
 	}
-}	
+}
 
 
 ?>

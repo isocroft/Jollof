@@ -19,7 +19,7 @@ use \Mockery as m;
 use \PHPUnit_Framework_TestCase;
 
 class TestCase extends PHPUnit_Framework_TestCase {
-    
+
     protected $mockObjects;
 
     protected $mockClassNames;
@@ -37,7 +37,7 @@ class TestCase extends PHPUnit_Framework_TestCase {
      */
 
     public function __construct(array $mockClassNames, array $testingConfig = array()){
-        
+
          $this->config = $testingConfig; #unitTesting = true
 
          $this->mockClassNames = $mockClassNames;
@@ -45,7 +45,7 @@ class TestCase extends PHPUnit_Framework_TestCase {
          $this->mockObjects = array();
 
          parent::__construct();
-        
+
     }
 
     /**
@@ -57,10 +57,10 @@ class TestCase extends PHPUnit_Framework_TestCase {
     public function setUp(){
 
         foreach ($this->mockClasses as $index => $className) {
-             
-             $this->mockObjects[$className] = m::mock($className); 
 
-        }  
+             $this->mockObjects[$className] = m::mock($className);
+
+        }
 
     }
 
@@ -71,7 +71,7 @@ class TestCase extends PHPUnit_Framework_TestCase {
      * @return void
      */
     public function tearDown(){
-       
+
         m::close();
 
         $this->mockObjects = array();

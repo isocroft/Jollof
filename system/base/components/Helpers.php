@@ -35,7 +35,7 @@ final class Helpers {
        *
        * @param void
        * @return object $instance
-       * @api 
+       * @api
        */
 
       public static function createInstance(){
@@ -43,7 +43,7 @@ final class Helpers {
          if(static::$instance == NULL){
             static::$instance = new Helpers();
             return static::$instance;
-         }  
+         }
       }
 
     public static function randomCode($length = 10){
@@ -61,12 +61,12 @@ final class Helpers {
         } while ($total < $length);
 
         return $code;
-    }	
+    }
 
 
     public static function emptyCheck($value){
 
-       return !isset($value) || empty($value); 	
+       return !isset($value) || empty($value);
     }
 
 
@@ -102,7 +102,7 @@ final class Helpers {
 
 
     public static function decodeValue($value, $padding = 'abcd1234abcdefg') {
-    	
+
     	$value = base64_decode(urldecode($value));
     	if(!static::emptyCheck($padding)){
 
@@ -120,7 +120,7 @@ final class Helpers {
           $valid_key = strrev(trim($key));
           $text_length = strlen(trim($plain_str));
           $cipher_str = '';
-   
+
             if($text_length < (strlen(trim($key)) - 3)){
               for($i = 0;$i < $text_length;$i++){
                  $index = index_of($valid_key, char_at(trim($plain_str), $i));
@@ -129,24 +129,24 @@ final class Helpers {
             }
           return $cipher_str;
        }
-       
-       
+
+
        public static function lowDecipher($cipher_str, $key=NULL){
             /* implementing simple substitutuion cipher algorithm with alternate null characters using random number generation -3 points*/
             if($key === NULL){
                 $key = self::CIPHER_KEY;
             }
             $valid_key = trim($key);
-            $key_length = strlen($valid_key); 
+            $key_length = strlen($valid_key);
             $plain_str = '';
-  
+
             for($i = 0;$i < $key_length;$i++){
                   $index = index_of($valid_key, char_at(trim($cipher_str), $i));
                   $plain_str .=  ($index > -1) ? char_at($valid_key, index_of($valid_key , char_at(trim($cipher_str), $i)) + 3) : '' ;
             }
             return $plain_str;
        }
-       
+
        public static function delay($input, $secret) {
               $hash = crc32(serialize($secret . $input . $secret));
               // make it take a maximum of 0.1 milliseconds
@@ -165,19 +165,19 @@ final class Helpers {
             }
             return $return;
        }
-       
+
        public static function objectToArray($anyObj){
            if(is_object($anyObj)){
                $anyObj = get_object_vars($anyObj);
            }
-           
+
            if(is_array($anyObj)){
                return array_map(__METHOD__, $anyObj);
            }else{
                return $anyObj;
            }
        }
-       
+
         /**
          * A timing safe equals comparison
          *
@@ -219,9 +219,9 @@ final class Helpers {
 
               return static::timingSafeCompare($hash, $__hash);
        }
-       
+
        public static function encodeJWTObject(array $item){
-       
+
           return base64_encode(json_encode($item));
        }
 
@@ -231,45 +231,45 @@ final class Helpers {
                    "typ" => "JWT",
                    "alg" => $hash_algos
              );
-              
+
               $_time = time();
-              
+
               // reserved claims
               $payload = array(
-                  "iss" => $props['iss'], // issuer -- private claim 
+                  "iss" => $props['iss'], // issuer -- private claim
                   "iat" => $_time, // issued at -- private claim
                   "sub" => $props['sub'], // sub -- private claim
                   "exp" => ($_time+36000), // expiration -- private claim
                   "jti" => $props['jti'], // jwt identifier -- used to prevent token replay attacks -- private claim
                   "userPermissons" => $props['routes'] // -- public claims
               );
-              
+
               $header = static::encodeJWTObject($header);
               $payload = static::encodeJWTObject($payload);
-              
+
               $signature = hash_hmac('sha256', ($header.".".$payload), $hash_key);
               $signature = base64_encode($signature);
 
               // This will form part and parsel of our SSO signed cookie for SWAP
               $settings = ($header.".".$payload.".".$signature);
-              
+
               return $settings;
        }
-       
+
        public static function parseJWT($webtoken){ // when read from Cookie as a string
             $token_bits = explode('.', $webtoken);
-            
+
             $parse_obj = array();
             $parse_obj['header'] = $token_bits[0];
             $parse_obj['payload'] = $token_bits[1];
             $parse_obj['signature'] = $token_bits[2];
-    
 
-            return static::decodeJWTObject($parse_obj);          
+
+            return static::decodeJWTObject($parse_obj);
        }
 
        public static function uuid($inputstr, $noDash = TRUE){ // v4 UUID format
-    
+
             assert(strlen($inputstr) == 16);
 
             $inputstr[6] = chr(ord($inputstr[6]) & 0x0f | 0x40); // set version to 0100
@@ -281,20 +281,20 @@ final class Helpers {
        }
 
        public static function generateRandomByPattern($pattern = "xxxxxxxx-xxxxxxxx-xxxr4xxx-xxxxxxkx"){
-            
+
             return preg_replace_callback('/[xy]/', function ($matches){
 
                               $r = rand(1, (16|0));
                               $v = ($matches[0] == "x") ? $r : ($r&0x3|0x8);
                               return dechex($v);
-          
+
             }, $pattern);
-            
+
        }
-       
-       public static function validateJWT(array $jwt_arr, $hash_key){ 
+
+       public static function validateJWT(array $jwt_arr, $hash_key){
               // pick both $jwt_arr and $hash_key from the redis server
-              $jwt_plain = $jwt_arr; 
+              $jwt_plain = $jwt_arr;
               $head = base64_decode($jwt_plain['header']);
               $pload= base64_decode($jwt_plain['payload']);
               $signature = $jwt_plain['signature'];
@@ -308,18 +308,18 @@ final class Helpers {
                   return NULL;
               }
        }
-       
+
        public static function decodeJWTObject(array $jwt_obj){
-             
+
             $token_bits = array();
-             
+
             foreach ($jwt_obj as $key => $value) {
-                if($key == "signature"){  
+                if($key == "signature"){
                     //$value = json_decode($value, TRUE);
                     $value = base64_decode((string) $value);
-                }  
+                }
                 $token_bits[$key] = $value;
-             } 
+             }
 
             return $token_bits;
        }

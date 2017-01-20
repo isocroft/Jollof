@@ -14,7 +14,7 @@ class MemcachedStorage {
 
 		public function __construct(){
 
-			
+
 		}
 
 }

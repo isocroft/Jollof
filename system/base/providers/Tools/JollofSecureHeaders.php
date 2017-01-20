@@ -2,7 +2,7 @@
 
 /*!
  * Jollof Framework (c) 2016
- * 
+ *
  * {JollofSecureHeaders.php}
  *
  */
@@ -44,12 +44,12 @@ class JollofSecureHeaders extends SecureHeaders {
 
 			$this->error_reporting(FALSE);
 
-        	/* 	
+        	/*
         	enabling legacy support for deprecated
-        	 CSP headers for borowser (e.g. X-Webkit-CSP:, X-Content-Security-Policy: ... ) 
+        	 CSP headers for borowser (e.g. X-Webkit-CSP:, X-Content-Security-Policy: ... )
         	*/
 
-			$this->csp_legacy(TRUE); 
+			$this->csp_legacy(TRUE);
 
 			$this->safe_mode(TRUE);
 
@@ -69,7 +69,7 @@ class JollofSecureHeaders extends SecureHeaders {
 	 	if(count($this->nonceMap) === 0){ // never generate more than once..
 	 		$this->nonceMap['script'] = $this->csp_nonce('script');
 	 		$this->nonceMap['style'] = $this->csp_nonce('style');
-	 	}	
+	 	}
 
 	}
 
@@ -97,7 +97,7 @@ class JollofSecureHeaders extends SecureHeaders {
 
 	public function installConfig($config){
 
-		$cspConfig = $config['csp']; 
+		$cspConfig = $config['csp'];
         $hpkpConfig = $config['hpkp'];
         $strictModeConfig = $config['strict_mode'];
         $generateNoncesConfig = $config['noncify-inline-source'];
@@ -107,21 +107,21 @@ class JollofSecureHeaders extends SecureHeaders {
             	"default-src" => array(
             		"'none'"
             	),
-		        "script-src" => ($generateNoncesConfig ? 
+		        "script-src" => ($generateNoncesConfig ?
 		          array(
 		          		"'self'"
-		          ) : 
+		          ) :
 		          array(
 		            "'self'",
 		            "'unsafe-inline'",
 		            "'unsafe-eval'"
 		          )
 		        ),
-		        "style-src" => ($generateNoncesConfig ? 
+		        "style-src" => ($generateNoncesConfig ?
 		          array(
 		          		"'self'",
 		          		"https://fonts.googleapis.com"
-		          ) : 
+		          ) :
 		          array(
 		            "'self'",
 		            "'unsafe-inline'",
@@ -152,7 +152,7 @@ class JollofSecureHeaders extends SecureHeaders {
 
         if($hpkpConfig !== FALSE){
         	$this->hpkp($hpkpConfig, 1500, 1);
-        } 
+        }
 
         if($generateNoncesConfig === TRUE){
         	$this->generateSourceNonces();

@@ -111,5 +111,5 @@ class QueryBuilder {
        return $this->extender->del($columns, $clauseProps);
 	}
 
-	
+
 }

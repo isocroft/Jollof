@@ -2,7 +2,7 @@
 
 /*!
  * Jollof Framework (c) 2016
- * 
+ *
  * {class_maps.php}
  *
  */
@@ -23,7 +23,7 @@ return array(
      "\\Providers\\Core\\InputManager" => $compDir . "/providers/Core/InputManager",
      "\\Providers\\Core\\QueryExtender" => $compDir . "/providers/Core/QueryExtender",
      "\\Providers\\Core\\QueryBuilder" => $compDir . "/providers/Core/QueryBuilder",
-     
+
      /* Services */
 
      "\\Providers\\Services\\DBService" => $compDir . "/providers/Services/DBService",
@@ -49,13 +49,13 @@ return array(
      "\\Providers\\Tools\\SocketConnection" => $compDir . "/providers/Tools/SocketConnection",
      "\\Providers\\Tools\\LoginThrottle" => $compDir . "/providers/Tools/LoginThrottle",
      "\\Providers\\Tools\\TemplateRunner" => $compDir . "/providers/Tools/TemplateRunner",
-        
+
      /* Policies */
 
      "\\Contracts\\Policies\\CacheAccessInterface" => $compDir . "/contracts/policies/Cache/CacheAccessInterface",
      "\\Contracts\\Policies\\DBAccessInterface" => $compDir . "/contracts/policies/DB/DBAccessInterface",
      "\\Contracts\\Policies\\SessionAccessInterface" => $compDir . "/contracts/policies/Session/SessionAccessInterface",
-		
+
      /* Components */
 
      "\\Router" => $compDir . "/components/Router",
@@ -87,7 +87,7 @@ return array(
      "\\Admin" => $compDir . "/../../controllers/Admin",
      "\\Account" => $compDir . "/../../controllers/Account",
      "\\Webhook" => $compDir . "/../../controllers/Webhook"
-	 
+
 
 );
 

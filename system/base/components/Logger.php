@@ -37,7 +37,7 @@ final class Logger {
      *
      * @param void
      * @return object $instance
-     * @api 
+     * @api
      */
 
     public static function createInstance(){
@@ -50,7 +50,7 @@ final class Logger {
 
     public function setLogFileName($file = 'exec'){
 
-        $this->log_file = $GLOBALS['env']['app.path.storage'] . $file . '.log';        
+        $this->log_file = $GLOBALS['env']['app.path.storage'] . $file . '.log';
     }
 
     public static function info($message, $file = NULL){
@@ -77,7 +77,7 @@ final class Logger {
     }
 
     private function marker($type){
-       
+
         return '' . strtoupper($type) . ':' . date('Y-m-d H:i:s');
     }
 

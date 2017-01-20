@@ -2,7 +2,7 @@
 
 /**
  * Jollof Framework (c) 2016
- * 
+ *
  *
  * {App.php}
  *
@@ -34,55 +34,55 @@ class App {
 
     /**
      * @var string
-     */ 
+     */
 
      private $apphost;
 
     /**
      * @var string
-     */ 
+     */
 
      private $os;
 
     /**
      * @var array
-     */ 
+     */
 
      protected $cookieQueue;
 
     /**
      * @var bool
-     */ 
+     */
 
      protected $hasCachedModels;
 
     /**
      * @var Providers\Core\HTTPResolver
-     */ 
+     */
 
      protected $resolver;
 
     /**
      * @var Providers\Tools\JollofSecureHeaders
-     */ 
+     */
 
-     protected $jheaders; 
+     protected $jheaders;
 
     /**
      * @var Providers\Services\DBService
-     */ 
+     */
 
      protected $dbservice;
 
     /**
      * @var Providers\Services\EnvService
-     */ 
+     */
 
      protected $envservice;
 
     /**
      * @var array
-     */ 
+     */
 
      protected $instances;
 
@@ -105,7 +105,7 @@ class App {
              $this->apphost = Request::getHost();
 
              $this->os = get_os();
-        }     
+        }
 
         $this->instances = array();
 
@@ -123,7 +123,7 @@ class App {
      * @scope public
      */
 
-     public function __destruct(){ 
+     public function __destruct(){
 
           $this->shutDown();
      }
@@ -139,15 +139,15 @@ class App {
      public function installDBService(array $DBCONFIG){
 
             $engine = $DBCONFIG['engines']['mysql'];
-            
-            if (! extension_loaded($engine['driver']) 
+
+            if (! extension_loaded($engine['driver'])
           	   || ! extension_loaded(strtolower($engine['driver']) . "_mysql")){
-	            
+
 	           exit(1);
             }
 
 			if(!is_array($DBCONFIG)){
-             
+
                 exit(1);
 			}
 
@@ -165,7 +165,7 @@ class App {
      public function installENVService(array $ENVCONFIG){
 
      	    if ( ! extension_loaded($ENVCONFIG['encryption_scheme'])){
-               
+
                  exit(1);
             }
 
@@ -175,10 +175,10 @@ class App {
             }
 
 	     	if(!is_array($ENVCONFIG)){
-	             
+
 	            exit(1);
-				   
-			}	   
+
+			}
 
             $this->envservice = new EnvService($ENVCONFIG);
      }
@@ -188,7 +188,7 @@ class App {
       *
       *
       * @param void
-      * @return string 
+      * @return string
       */
 
      public function getOS(){
@@ -217,7 +217,7 @@ class App {
       * @return void
       */
 
-     public function setDBConnection($env_path){ 
+     public function setDBConnection($env_path){
 
          $this->dbservice->connect($env_path);
      }
@@ -272,14 +272,14 @@ class App {
       */
 
      public function cacheModelInstances(array $models){
- 
-        if($this->hasCachedModels === FALSE){ 
+
+        if($this->hasCachedModels === FALSE){
 
             $this->dbservice->setModelsToBuilder($models);
 
             $this->hasCachedModels = TRUE;
 
-        }    
+        }
 
      }
 
@@ -288,7 +288,7 @@ class App {
       *
       *
       * @param string $root
-      * @return array 
+      * @return array
       */
 
      public function exposeEnvironment($root){
@@ -319,10 +319,10 @@ class App {
                     $settings['meta_data']['req_time'] = Request::header('REQUEST_TIME');
                     $settings['meta_data']['time_zone'] = 'Africa/Lagos';
 
-                    $settings['meta_data']['exec_id'] = JOLLOF_EXEC_ID; 
+                    $settings['meta_data']['exec_id'] = JOLLOF_EXEC_ID;
                 }
          }
-        
+
          if(file_exists($packages_path . 'vendor/autoload.php')){
              return (new \Jollof\ErrorReporter\Reporter($this->getInstance('Comms'), $settings));
          }
@@ -369,8 +369,8 @@ class App {
                 throw new \UnexpectedValueException("Failed To Register Component >> Expected an 'object' but found a/an '" . gettype($component) . "'");
             }
 
-            $this->instances[get_class($component)] = $component;  
-     }     
+            $this->instances[get_class($component)] = $component;
+     }
 
      public function inCLIMode(){
 
@@ -378,23 +378,23 @@ class App {
      }
 
      private function shutDown(){
-        
+
         $this->hasCachedModels = FALSE;
 
-        $this->dbservice = NULL; // called by __destruct to disconnect DB connection 
+        $this->dbservice = NULL; // called by __destruct to disconnect DB connection
 
         $this->envservice = NULL; // called by __desstruct to unset configs
 
-        $this->resolver = NULL; // called by __destruct 
+        $this->resolver = NULL; // called by __destruct
 
         $this->instances = array(); // recover more memory (if any need be)
 
         $this->jheaders = NULL;
-            
+
      }
 
      public function crash(\Exception $e){
-     	 
+
      	  Response::error($e);
      }
 
@@ -404,7 +404,7 @@ class App {
      }
 
      private function getInstance($instance_name){
-        
+
         if(array_key_exists($instance_name, $this->instances)){
 
              return $this->instances[$instance_name];

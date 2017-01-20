@@ -32,7 +32,7 @@ class ClassLoader {
     public function __construct(array $options){
 
         $this->options = $options;
-        
+
         $this->classMapSuper = true;
 
         $this->classMap = array();
@@ -52,7 +52,7 @@ class ClassLoader {
          foreach($maps as $key => $val){
 
               if(array_key_exists($key, $this->classMap)){
-                
+
                     continue;
 
               }
@@ -82,8 +82,8 @@ class ClassLoader {
          }else{
 
               return $version;
-         }  
-    } 
+         }
+    }
 
     /**
      *
@@ -96,7 +96,7 @@ class ClassLoader {
      public function isRegistered(){
 
          return $this->registered;
-     } 
+     }
 
     /**
      *
@@ -139,7 +139,7 @@ class ClassLoader {
         }else{ // PHP 5.0 - PHP 5.2
 
                $CLASSMAP = $this->getClassMap();
-         
+
                require self::ROOT . '/_autoload.php';
 
         }
@@ -196,7 +196,7 @@ class ClassLoader {
         // for PHP 5.3.0 - 5.3.2, we need not add a leading backward slash
         if(!(substr($this->getHostVersion(false), 0, 3) === '5.3')){
             $class = "\\" . $class;
-        }   
+        }
         // class map lookup
         if (isset($this->classMap[$class])) {
             return $this->classMap[$class];
@@ -209,11 +209,11 @@ class ClassLoader {
     }
 
     private function includeFile($file){
-     
+
          include str_replace(basename(self::ROOT), '', self::ROOT) . $file . ".php";
-      
+
     }
 
- }   
+ }
 
 ?>

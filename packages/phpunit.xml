@@ -12,7 +12,7 @@
          stopOnFailure="false"
          syntaxCheck="true"
          verbose="true">
-         
+
             <testsuites>
                 <testsuite name="Jollof App Test Suite">
                     <directory suffix="Test.php">../system/tests</directory>

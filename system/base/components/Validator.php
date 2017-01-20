@@ -46,7 +46,7 @@ final class Validator{
         if(static::$instance == NULL){
             static::$instance = new Validator();
             return static::$instance;
-        }    
+        }
     }
 
     public static function getErrors(){
@@ -70,7 +70,7 @@ final class Validator{
          $callbacks = NULL;
          $fieldvalue = '';
          $pattern = '';
-         
+
          // extract all callbacks
 
          foreach($fieldRules as $fieldname => $rule){
@@ -93,7 +93,7 @@ final class Validator{
                $_rule = $rule;
                $patternIndex = index_of($rule, '/');
                $maxMinIndex = index_of($rule, 'bounds:');
-               
+
 
                if($patternIndex > -1){
                   $endIndex = index_of($rule, '|', $patternIndex);
@@ -118,10 +118,10 @@ final class Validator{
 
                $callbacks = array_merge((array) $boundary, explode("|", $_rule));
             }else{
-               
+
                 throw new Exception("Validator: could not process ['". $rule['rule'] . "'] for $fieldname");
             }
-  
+
             // setup callbacks to work on each field(s)
             foreach($callbacks as $callback){
                $fieldvalue = $data[$fieldname];
@@ -141,19 +141,19 @@ final class Validator{
             }
 
             $magic_quotes_active = get_magic_quotes_gpc();
-             
+
             if($magic_quotes_active){
 
                   $fieldvalue = stripslashes($fieldvalue);
             }
-             
+
             $results[$fieldname] = $fieldvalue;
-            
+
          }
 
-         return $results;   
+         return $results;
     }
-    
+
 
 }
 

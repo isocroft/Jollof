@@ -51,7 +51,7 @@ final class Comms {
           $messenger_token = $messagingOptions['token'];
           $this->messageNumber = $messagingOptions['number'];
           $this->callNumber = $messagingOptions['number'];
-         
+
           switch($mailer_driver){
           	  case '#php-mailer':
                  $this->isMailDriverLoadable = class_exists('PHPMailer');
@@ -97,11 +97,11 @@ final class Comms {
           if(static::$instance == NULL){
                static::$instance = new Comms($mailOptions, $connectionOptions, $messagingOptions);
                return static::$instance;
-          } 
+          }
      }
 
      private function getMailer(){
-        
+
           return $this->mailer;
      }
 
@@ -208,7 +208,7 @@ final class Comms {
      public static function sendMail($domain = 'example.com'){
         $mailer = static::$instance->getMailer();
         $params = static::$instance->getMailgunParameters();
-        
+
         switch(get_class($mailer)){
             case  "Mailgun\Mailgun": // Mailgun
                 $mailer->sendMessage($domain, array(
@@ -225,18 +225,18 @@ final class Comms {
             break;
             case "stdClass":
                 $headers = "From: ". $mailer->From ."\n"; // noreply@learnsty.com
-                //$headers .= "Reply-To: "; 
+                //$headers .= "Reply-To: ";
                 try{
                     if(!mail($mailer->To, $mailer->Subject, $mailer->Body,  $headers)){
                         \Logger::error("Native Mailer couldn't send mail");
-                    } 
+                    }
                 }catch(\Exception $e){
                     \Logger::error($e->getMessage());
                 }
             break;
         }
 
-     }  
+     }
 
      private function setMailCredentials(){
 
@@ -247,40 +247,40 @@ final class Comms {
                 if($this->mailOptions['protocol'] === "SMTP"){
                      $this->mailer->isSMTP();
                      $this->mailer->SMTPAuth = TRUE;
-                }  
+                }
 
                 if($this->mailOptions['encryption']){
                      // requires TLS Encryption
                      $this->mailer->SMTPSecure = $this->mailOptions['encryption_type'];
-                }       
+                }
 
                 $this->mailer->Username = $this->mailOptions['username'];
                 $this->mailer->Password = $this->mailOptions['password'];
-                $this->mailer->Port = $this->mailOptions['port']; 
+                $this->mailer->Port = $this->mailOptions['port'];
             break;
             case "Mailgun\Mailgun": // Mailgun
                 $this->mailgunParameters->Host = $this->mailOptions['mail_server'];
                 $this->mailgunParameters->Username = $this->mailOptions['username'];
                 $this->mailgunParameters->Password = $this->mailOptions['password'];
                 $this->mailgunParameters->Port = $this->mailOptions['port'];
-            break;  
+            break;
             case "stdClass":
                 if($this->mailer->type == "native"){
                     $this->mailer->Username = $this->mailOptions['username'];
                     $this->mailer->Password = $this->mailOptions['password'];
                     $this->mailer->Port = $this->mailOptions['port'];
                 }
-            break;  
-        }    
+            break;
+        }
 
-        
+
 
      }
 
      public static function setMailParameters(array $from, array $to, array $body, array $params){
-          
-         $mailer = static::$instance->getMailer(); 
-         
+
+         $mailer = static::$instance->getMailer();
+
          switch (get_class($mailer)) {
             case 'PHPMailer': // PHPMailer
                $mailer->From = $from['email'];
@@ -297,7 +297,7 @@ final class Comms {
                //$mailer->AltBody = $body['alt'];
 
                if(array_key_exists('lang', $params)){
-                   $mailer->addLanguage($params['lang']); 
+                   $mailer->addLanguage($params['lang']);
                }
             break;
             case "Mailgun\Mailgun": // Mailgun
@@ -316,7 +316,7 @@ final class Comms {
                $mailer->Body = $body['main'];
             break;
          }
-              
+
      }
 
 }

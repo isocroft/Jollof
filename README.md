@@ -1,4 +1,4 @@
-# Jollof 
+# Jollof
 
 This is a very lighweight PHP framework built to cater to very busy backend-developers who have very little time to deliver on the job. It is also very configurable as most of the boilerplate code you need to get up and running on a serious project has already been baked in. Web development has never been this easy!
 
@@ -25,7 +25,7 @@ The philosophy of **Jollof** is very simple. _Routes_ are very tightly knitted t
 
 It's a new way of thinking about the way applications could be crafted!
 
-All you need to setup can be found in the **documentation** folder(s) of the project starter folder. 
+All you need to setup can be found in the **documentation** folder(s) of the project starter folder.
 
 ## Contributing
 
@@ -37,7 +37,7 @@ _Thanks to **Micheal Akpobome**, **Shuaib Afegbua**, **Abraham Yusuf**, **Stephe
 
 ## Trademarks
 
-_Trademark(s) for this PHP framework are a joint effort of [Mobicent, Ltd](http://www.collegemobile.net) and [Abuja Dev Meetup](http://www.abujadevmeetup.com)_  
+_Trademark(s) for this PHP framework are a joint effort of [Mobicent, Ltd](http://www.collegemobile.net) and [Abuja Dev Meetup](http://www.abujadevmeetup.com)_
 
 ## License
 

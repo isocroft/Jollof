@@ -32,7 +32,7 @@ class Reporter {
     public function __construct(Comms $communicator){
 
     	$this->communicator = $communicator;
-  
+
     }
 
     /**

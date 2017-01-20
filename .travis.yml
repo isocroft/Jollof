@@ -6,7 +6,7 @@ php:
  - 6.0
  - 7.0
  - "hhvm"
- 
+
 before_script:
  - curl -s http://getcomposer.org/installer | php
  - php jollof run:install composer *listed

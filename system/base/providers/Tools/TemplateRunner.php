@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Providers\Tools;
 
@@ -8,7 +8,7 @@ use \Router;
 
 class TemplateRunner {
 
-    private $viewRoot;	
+    private $viewRoot;
 
     private $compiledViewRoot;
 
@@ -27,13 +27,13 @@ class TemplateRunner {
     }
 
     private function getCompiledFileName($name){
-       
-       if($this->compileFileName === NULL){ 
-          
+
+       if($this->compileFileName === NULL){
+
            $this->compileFileName = $this->compiledViewRoot . preg_replace('/\//', '_', $name) . '.php';
        }
-       
-       return $this->compileFileName;   
+
+       return $this->compileFileName;
 
     }
 
@@ -43,9 +43,9 @@ class TemplateRunner {
 
 		if(!isset($name__)){
 
-		      throw new \Exception("No View File For Compilation");	
+		      throw new \Exception("No View File For Compilation");
 		}
-		try{ 
+		try{
        $view__path = ($this->viewRoot . (starts_with($name__, '/')? substr($name__, 1) : $name__) . '.view');
 
 		   $view__string  = file_get_contents($view__path);
@@ -62,20 +62,20 @@ class TemplateRunner {
 
         if(array_key_exists('script', $this->viewNonces)
             || array_key_exists('style', $this->viewNonces)){
-             
+
             $view__string = preg_replace(array('/<(script|style)[ ]*([\w\S\s]|[^>]*)>([\w\S\s]|[^<]+)<\/\1>/'), array('<${1} ${2} nonce="<?php echo $_nce[\'${1}\'] ?>">${3}</${1}>'), $view__string);
         }
 
         $templateFileIncludeToken = '/\[!import\((.*?)\);?\]/i';
 
-    	$templateBaseTokens = array('/\[\s*?(if|elseif)\:([\w\S]+)?\@(\w+)(.+)\s*?\]/i', '/(?<!\[)\=\@(\w+)(?!\])/i', '/\[\@(\w+)\]/', '/\[\@(\w+)\=(\w+)\]/i', '/\[\s*?loop\:\@(\w+)\s*?\]/i', '/\[\s*?\/if\s*?\]/i', '/\[\s*?\/loop\s*?\]/i', '/\[\s*?choose\:\@(\w+)([\S\s\w]*)?\]/i', '/\[\s*?\/choose\s*?\]/i', '/\[\s*?when\:([\w\S ]+)\s*?\]/i', '/\[\s*?\/when\s*?\]/i', '/\[\!asset\((.*?)\);?\]/i', '/\[\!url\((.*?)\);?\]/i'); 
+    	$templateBaseTokens = array('/\[\s*?(if|elseif)\:([\w\S]+)?\@(\w+)(.+)\s*?\]/i', '/(?<!\[)\=\@(\w+)(?!\])/i', '/\[\@(\w+)\]/', '/\[\@(\w+)\=(\w+)\]/i', '/\[\s*?loop\:\@(\w+)\s*?\]/i', '/\[\s*?\/if\s*?\]/i', '/\[\s*?\/loop\s*?\]/i', '/\[\s*?choose\:\@(\w+)([\S\s\w]*)?\]/i', '/\[\s*?\/choose\s*?\]/i', '/\[\s*?when\:([\w\S ]+)\s*?\]/i', '/\[\s*?\/when\s*?\]/i', '/\[\!asset\((.*?)\);?\]/i', '/\[\!url\((.*?)\);?\]/i');
         $templateBaseTokensReplace  = array('<?php ${1}(${2}$${3}${4}): ?>', '<?php echo $${1}; ?>', '<?php echo $${1}; ?>', '<?php echo $${1}[\'${2}\']; ?>', '<?php foreach($${1} as $${1}_index => $${1}_value): ?>', '<?php endif; ?>', '<?php endforeach; ?>', '<?php switch ($${1}${2}): ?>', '<?php endswitch; ?>', '<?php case ${1}: ?>', '<?php ; ?>', '<?php echo asset(\$__url, \'${1}\'); ?>', '<?php echo url(\$__url, \'${1}\'); ?>');
-		$templateRenderedOnce = preg_replace($templateBaseTokens, $templateBaseTokensReplace, $view__string);   
+		$templateRenderedOnce = preg_replace($templateBaseTokens, $templateBaseTokensReplace, $view__string);
 
         $renderCallback = function($matches) use ($compileFn, $compileRoot){
 
                 $compiled = $compileFn($matches[1]); // indirect recursion here
-                    
+
                 return '<?php include_once(__DIR__ . \'' . str_replace($compileRoot, '', $compiled) . '\'); ?>';
 
         };
@@ -92,7 +92,7 @@ class TemplateRunner {
 
     public function render($view__name, array $data__array = array()){
 
-		
+
         $__file0 = $this->getCompiledFileName($view__name);
 
         $__viewss = Session::get('__views');
@@ -119,7 +119,7 @@ class TemplateRunner {
 
                      $__file0 = $this->compile($view__name); // comiple the view
                 }
-            }     
+            }
         }else{
 
         	$__file0 = $this->compile($view__name); // compile the view
@@ -138,7 +138,7 @@ class TemplateRunner {
 
 	private function draw($__file, $__name, array $vars){
 
-	     // variables created by 'extract()' are not visible in outer or global scope	
+	     // variables created by 'extract()' are not visible in outer or global scope
          // so this is a safe operation within this function method (__FUNCTION__)
 
         $vars['_nce'] = $this->viewNonces;
@@ -156,7 +156,7 @@ class TemplateRunner {
         }
 
 
-	   extract($vars); 
+	   extract($vars);
 
        try{
 
@@ -169,7 +169,7 @@ class TemplateRunner {
 
  	   }
 
-        $___drawn =  ob_get_contents();  
+        $___drawn =  ob_get_contents();
 
         return $___drawn;
 

@@ -12,7 +12,7 @@ interface SessionAccessInterface {
 
      public function getName();
 
-     public function destroy($name);    
+     public function destroy($name);
 
      public function read($key);
 

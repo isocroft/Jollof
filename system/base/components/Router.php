@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /*!
  * Jollof (c) Copyright 2016
@@ -46,7 +46,7 @@ final class Router {
            $this->request = $request;
 
            $this->response = $response;
-        
+
            $this->routesTable = array();
 
            $this->routeParameters = array();
@@ -56,7 +56,7 @@ final class Router {
            $this->hasOverrideMethod = FALSE;
 
            $this->overrideMethod = 'get';
-          
+
      }
 
       /**
@@ -67,7 +67,7 @@ final class Router {
        *
        * @param void
        * @return object $instance
-       * @api 
+       * @api
        */
 
      public static function createInstance(Request $req, Response $res){
@@ -75,7 +75,7 @@ final class Router {
           if(static::$instance === NULL){
                static::$instance = new Router($req, $res);
                return static::$instance;
-          }     
+          }
      }
 
      private function addToRoutesTable($routeUrl, array $settings){
@@ -111,7 +111,7 @@ final class Router {
             if(in_array($method, array('get', 'post', 'put', 'delete', 'head'))){
 
                 $this->overrideMethod = $method;
-            } 
+            }
 
      }
 
@@ -130,7 +130,7 @@ final class Router {
      	  // more code here ---> remove 'NULL' keys and values...
 
           /*$cleanedRouteParameters = array_filter($this->routeParameters, function($param){
-                
+
           });*/
 
           //$this->routeParameters = $cleanedRouteParameters;
@@ -139,10 +139,10 @@ final class Router {
      public static function bind($routeUrl, array $settings = array()){
 
           if(static::$instance !== NULL){
-               
+
                static::$instance->addToRoutesTable($routeUrl, $settings);
           }
-     
+
      }
 
      public static function resolve($routeUrl, $routeMethod, $requestParameters){
@@ -174,7 +174,7 @@ final class Router {
      public function findRoute($uri){
 
          $routeUrlParts = explode('/', preg_replace('/^\/|\/$/', '', $uri));
- 
+
          $routes = array_keys($this->routesTable);
 
      	 foreach ($routes as $route){
@@ -188,8 +188,8 @@ final class Router {
 
                          if($hasKey){
 				 $index = index_of($routeParts[$i], '@');
-                         }   
-	     	 	 	     // validation: 
+                         }
+	     	 	 	     // validation:
                          if($index === 0 && $i === 0){ // No route parameter should be at the beginning of a route url
                              throw new \Exception("Invalid Route URL >> [" . $route . "] ");
                          }
@@ -199,29 +199,29 @@ final class Router {
                          }
 
 			    $urlPart = $routeUrlParts[$i];
-                         
+
                          // detect a route parameter
                          if($index > -1){
                              $criteria = array_slice($checks, 0, $i);
 
     		     	 	 	        if(($i === ($len - 1)) // The parameter must be the last thing about defined route
-                                 && (count($criteria) === ($len - $i))){ 
+                                 && (count($criteria) === ($len - $i))){
                                   $this->setCurrentRouteParameter(substr($routeParts[$i], ($index+1)), $urlPart);
     			     	 	 	  array_splice($routeParts, $i, 1);
-    			     	 	 	  continue; 
+    			     	 	 	  continue;
     			     	 	 }
                          }else{ // detect a route part
-                             
+
                              // match up each segment of the route url
 			     	 	     if($hasKey && $urlPart === $routeParts[$i]){
                                  			$checks[] = TRUE;
 			     	 	     }
-			     	 	 }   
+			     	 	 }
 		     	 }
 		     	 if(count($checks) === count($routeParts)){
 		     	 	  $this->currentRouteUrl = $route;
                       return TRUE;
-		     	 }	 
+		     	 }
      	 }
 
      	 return FALSE;
@@ -233,18 +233,18 @@ final class Router {
          $settingsList = NULL;
 
          $this->purgeParameters();
- 
-         if(array_key_exists($this->currentRouteUrl, $this->routesTable)){  
+
+         if(array_key_exists($this->currentRouteUrl, $this->routesTable)){
      	     $settingsList = $this->routesTable[$this->currentRouteUrl];
      	 }else{
-     	     $settingsList = array(array('verb'=>'', 'params'=>array(), 'models'=>array()));	
+     	     $settingsList = array(array('verb'=>'', 'params'=>array(), 'models'=>array()));
      	 }
 
          $sLen = count($settingsList);
 
-         for($i = 0; $i < $sLen; $i++){  
-              
-             $settings = $settingsList[$i]; 
+         for($i = 0; $i < $sLen; $i++){
+
+             $settings = $settingsList[$i];
 
              if(!array_key_exists('ajax', $settings)){
                 $settings['ajax'] = -1; // '-1' indicates that this setting doesn't really matter
@@ -268,7 +268,7 @@ final class Router {
                  if(gettype($settings['ajax']) === "boolean"){ // AJAX matters
                      if(\Request::isAjax() !== $settings['ajax']){
 
-                         throw new \Exception("Error Processing Request on Route >> ['" . $this->currentRouteUrl . "'] Route Access Must Be AJAX");   
+                         throw new \Exception("Error Processing Request on Route >> ['" . $this->currentRouteUrl . "'] Route Access Must Be AJAX");
                      }
                  }
              }
@@ -279,8 +279,8 @@ final class Router {
                     continue;
                  }else{
                     // we have completed the check (this is the last one) and we still can't find a matching verb
-                    throw new \Exception("Error Processing Request on Route >> ['" . $this->currentRouteUrl . "'] Route Verb is Unknown");      
-                 }   
+                    throw new \Exception("Error Processing Request on Route >> ['" . $this->currentRouteUrl . "'] Route Verb is Unknown");
+                 }
          	 }
 
              if(!$instance->executeAllMiddlewares($this->currentRouteUrl, $auth)){
@@ -304,9 +304,9 @@ final class Router {
                         $models[$modelClass] = NULL;
     	            }
          	 }
-         }   
-         
-         return $models;  
+         }
+
+         return $models;
      }
 
 }

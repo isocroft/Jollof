@@ -1,14 +1,14 @@
-<?php 
+<?php
 
   /*!
    * Jollof (c) Copyright 2016
-   * 
+   *
    * {setup.php}
    *
    */
 
   /*!
-   * @TODO: This separate functions for 
+   * @TODO: This separate functions for
    *
    * -- This will be the new implementation format as of v1.0.0 for validation rules.
    *
@@ -30,12 +30,12 @@
   function email($value, $fieldname, $validator, $pattern = ''){
 	     $valid = $validator->filterEmail($value);
 		   if($valid === FALSE){
-		     return "This is not a valid '{$fieldname}'"; 
+		     return "This is not a valid '{$fieldname}'";
 		   }
 		   return $valid;
-		
+
   }
-	
+
   function useAllowed($value, $fieldname, $validator, $pattern = ''){
        if(is_null($validator->allowed)){
   	       return "Field options not accessible for '{$fieldname}'";
@@ -61,7 +61,7 @@
       if($valid === FALSE){
           return "'{$fieldname}' is out of bounds";
       }
-    
+
       return $valid;
   }
 

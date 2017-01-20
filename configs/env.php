@@ -1,7 +1,7 @@
-<?php   
+<?php
 
   /*!------------------------------------------------------
-    ! 
+    !
     ! This is the config section for all ENV related settings
     !
     !
@@ -27,9 +27,9 @@
              'session_driver' => "#native",  #options: ("#native", "#redis")
 
              'session_name' => "JOLLOF_SESS_ID", # change the session name
-          
+
               'sessions_host' => '127.0.0.1',
-          
+
               'sessions_port' => 6379
         ),
 
@@ -54,7 +54,7 @@
         "app_paths" => array (
 
             'base' => __DIR__ . '/../',
-            
+
             'public' => __DIR__ . '/../public',
 
             'storage' =>  __DIR__ . '/../storage',
@@ -75,7 +75,7 @@
 
             'cspro' => FALSE, // #options: (FALSE, TRUE, array(...)) ;Content-Security-Policy-Reporting-Only:
 
-            'noncify-inline-source' => FALSE // Generates a nonce value for each <script> and <style> tag code in your views 
+            'noncify-inline-source' => FALSE // Generates a nonce value for each <script> and <style> tag code in your views
 
         ),
 
@@ -87,10 +87,10 @@
 
              'port' => 11211
 
-        ),     
+        ),
 
         "app_auth" => array (
- 
+
             'auth_users_model' => 'User',
 
             'auth_throttles_model' => 'UserThrottle',
@@ -113,18 +113,18 @@
                  '/account/register/',
                  '/account/signup/@mode/',
                  '/account/signin/@provider/'
-            )          
+            )
         ),
 
         "app_cookies" => array(
-             
+
             'secure' => false, # {secure} HTTP or HTTPS
 
-            'server_only' => true, # {httpOnly} hidden from client-side or not hidden from client-side 
+            'server_only' => true, # {httpOnly} hidden from client-side or not hidden from client-side
 
-            'domain_factor' => 'localhost', # {domain} 
+            'domain_factor' => 'localhost', # {domain}
 
-            'max_life' =>  246000 # {expires} 
+            'max_life' =>  246000 # {expires}
         ),
 
         "app_uploads" => array(
@@ -133,8 +133,8 @@
 
             'uploads_enabled'=> true, #options: (false, true)
 
-            'upload_settings' => array( 
-                    
+            'upload_settings' => array(
+
                 'upload_driver'=> "#native", #option: ('#aws-s3', '#imgix', '#cloudinary', '#native')
 
                 'driver_id' => "...", # <enter Driver (Imgix Account ID / Cloudinary Cloud Name) here - if any>
@@ -146,7 +146,7 @@
                 'region' => "...", # <enter Storage Location Name here - if any>
 
                 'bucket' => "..." # <enter Storage Name here - if any>
-            ), 
+            ),
 
             'can_extract_zip' => true, #options: (false, true)
 
@@ -162,13 +162,13 @@
               'encryption' => true,
 
               'encryption_type' => 'tls',
-              
+
               'mail_server' => 'smtp.mailgun.org',
 
               'key' => '...', # <enter API Key here - if any>
-              
+
               'username' => "...",
-              
+
               'password' => "...",
 
               'port' => 587
