@@ -260,8 +260,12 @@ textarea.resize-none {
     visibility: hidden;
 }
 
-.punched-up{
-	margin-top:40px;
+.punched-up {
+	  margin-top:40px;
+}
+
+.punched-up-small {
+    margin-top:15px;
 }
 
 

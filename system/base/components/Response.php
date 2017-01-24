@@ -321,7 +321,7 @@ final class Response {
                $root = "/" . $root;
            }
 
-           $protocol = substr(Request::header('SERVER_PROTOCOL'), 0, 5);
+           $protocol = substr(Request::header('SERVER_PROTOCOL'), 0, 4);
 
            $https = Request::header('HTTPS');
 
@@ -330,11 +330,11 @@ final class Response {
                 $protocol = isset($https)? 'https' : 'http';
             }
 
-            $url = contains(Request::header('REQUEST_URI'), $root)? ($host . $root . $route) : ($host . $route);
+            $url = (contains(Request::header('REQUEST_URI'), $root) && (php_sapi_name() == 'apache' || php_sapi_name() == 'apache2handler'))? ($host . $root . $route) : ($host . $route);
 
            http_response_code(($temporary)? 303 : 302);
 
-           static::header('Location', ($protocol . "://" .  $url));
+           static::header('Location', (strtolower($protocol) . "://" .  $url));
 
            return TRUE;
 

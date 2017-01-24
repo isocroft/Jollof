@@ -46,7 +46,7 @@ Next, Let's create a simple GET route by running the command below. This command
 ```
 
 Let's now create a simple controller file by running the command below.
-This command will drop a _Home.php_ file inside the __routes__ folder.
+This command will drop a _Home.php_ file inside the __controller__ folder.
 
 > NOTE: the name of the controller file <strong>MUST</strong> be the same as the first part of the route url.
 
@@ -69,13 +69,8 @@ Move into the __controllers__ folder (in the root), open up the _Home.php_ file 
       ]);
 ```
 
-Finally, move to the browser and navigate to the route url '/home' from the root folder.
-
-
-### Example 2 - Simple CSP (Content Security Policy) setup
-
-Firstly, move into the __config__ folder and then into the _env.php_. Open it up and scroll to the <q>app_security</q> section. and modify as below.
-
+Next, move into the **configs** folder (in the root), open up the _env.php_ file and add the highlighted line to the **app_auth** config section.
+                
 ```php
   .
   .
@@ -117,4 +112,24 @@ In the view you created in the first example (example/start), add an inline scri
 
 Finally, serve the view in the browser as before using '/home'. Check the view source from the browser and notice CSP 'nonce=' values attached to the inline script tag.
 
-> Jollof supports security response headers on-the-fly. So, you don't have to do too much. CSP hashes will be supported in a later version - v1.0.0 perharps.
+        "app_auth" => array(
+                .
+                .
+                .
+
+                'guest_routes' => array( # These routes can be accessed only if the user is not logged in (guest).
+                     '/',
+                     '/account/login/',
+                     '/account/register/',
+                     '/account/signup/@mode/',
+                     '/account/signin/@provider/',
+                     '/home'
+                )
+        ),
+        
+        .
+        .
+        .        
+```        
+
+Finally, move to the browser and navigate to the root url of the folder.
