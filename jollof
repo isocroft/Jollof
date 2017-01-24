@@ -52,6 +52,20 @@
 
 	$promptList = NULL;
 
+  $services = array(
+     'http', 
+     'ftp', 
+     'ssh', 
+     'telnet', 
+     'imap', 
+     'smtp', 
+     'nicname',
+     'gopher',
+     'finger',
+     'pop3',
+     'www'
+  );
+
 	$colors = array(
 	   "RED" => "\033[31m ",
 	   "GREEN" => "\033[32m ",
@@ -93,18 +107,56 @@
 
       //$host = system("php -r 'echo php_uname(\"n\");'");
 
-      $path = 'http://localhost/' . $root_folder; // = 'http://localhost:8888';
+      $active_ports = array();
+
+      $no_apache = false;
+
+      $path = 'http://localhost/' . $root_folder;
+
+      foreach ($services as $service){
+        $_port = getservbyname($service, 'tcp');
+        if(!in_array($_port, $active_ports))
+            $active_ports[] = $_port; 
+      }
+
+      $isDeafultTaken = in_array(80, $active_ports); // default port => 80
 
       fwrite(STDOUT, PHP_EOL . "Launching Documentation in default browser..." . PHP_EOL);
-
+      
+      // Mac OS (X)
       if(index_of($os, 'darwin') > -1){
-        //exec('php -S localhost:8888 | open -a "Safari" ' . $path . '/documentation/index.html', $out, $errorlevel);
-        exec('open -a "Safari" ' . $path . '/documentation/index.html', $out, $errorlevel);
+        if($isDeafultTaken){
+          exec('php -S localhost:8888 raw.router.php | open -a "Safari" http://localhost:8888/documentation/index.html', $out, $errorlevel);
+        }else{
+            // check existence of an Apache process running (on Mac)
+            exec('ps aux | grep httpd', $out, $errorlevel); 
+            if($errorlevel == 0){  
+            exec('open -a "Safari" ' . $path . '/documentation/index.html', $out, $errorlevel);
+            }else{
+               $no_apache = true;
+            }
+        }  // Windows OS
       }else if(index_of($os, 'win') > -1){
-        //exec('php -S localhost:8888 | start "" "' . $path . '/documentation/index.html"', $out, $errorlevel);
-        exec('start "" "' . $path . '/documentation/index.html"', $out, $errorlevel);
+        if($isDeafultTaken){
+          exec('php -S localhost:8888 raw.router.php | start "" "http://localhost:8888/documentation/index.html"', $out, $errorlevel);
+        }else{ 
+          // check existence of an Apache process running (on Windows) 
+          exec('tasklist | findstr "httpd.exe"', $out, $errorlevel);
+          if($errorlevel == 0){
+              exec('start "" "' . $path . '/documentation/index.html"', $out, $errorlevel);
+          }else{
+              $no_apache = true;
+          }    
+        }
       }else if(index_of($os, 'linux')){
-          ;
+          if($isDeafultTaken){
+                exec('php -S localhost:8888 raw.router.php | x-www-browser ' . $path . '/documentation/index.html');
+          }
+      }  
+
+      if($no_apache){
+          fwrite(STDOUT, PHP_EOL . 'Apache isn\'t running - Jollof cannot launch docs' . PHP_EOL);
+          // @TODO: try to find Nginx - nginx.exe 
       }
 
       sleep(3);

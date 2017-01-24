@@ -185,7 +185,7 @@
                               return;
                           }
 
-                          location.assign(location.protocol + '//' + location.host + (location.pathname.length > 1? location.pathname.replace('/documentation/index.html', '') : '') + location.port + rootPath);
+                          location.assign(location.protocol + '//' + location.host + (location.pathname.length > 1? location.pathname.replace('/documentation/index.html', '') : '') + rootPath);
                     }
                 });
 
