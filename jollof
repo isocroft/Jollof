@@ -52,6 +52,15 @@
 
 	$promptList = NULL;
 
+  $routeVerbs = array(
+      'get',
+      'patch',
+      'head',
+      'post',
+      'put',
+      'delete'
+  );
+
   $services = array(
      'http', 
      'ftp', 
@@ -150,7 +159,7 @@
         }
       }else if(index_of($os, 'linux')){
           if($isDeafultTaken){
-            exec('php -S localhost:8888 raw.router.php | x-www-browser ' . $path . '/documentation/index.html');
+            exec('php -S localhost:8888 raw.router.php | x-www-browser http://localhost:8888/documentation/index.html');
           }
       }  
 
@@ -461,14 +470,35 @@
 			$routeUrl = $tokens[0];
 
 			$routeVerb = array_key_exists(1, $tokens) ? strtolower($tokens[1]) : "get";
+
+      if(!in_array($routeVerb, $routeVerbs)){
+
+          $errorlevel = 1;
+
+          fwrite(STDOUT, PHP_EOL . "Invalid Route Verb : {$routeVerb}" . PHP_EOL);
+
+      }else{
             
-            fwrite(STDOUT, PHP_EOL . "Creating route: $routeUrl" . PHP_EOL);
+            fwrite(STDOUT, PHP_EOL . "Creating Route: {$routeVerb} => {$routeUrl}" . PHP_EOL);
 
-		 	sleep(1);
+		 	      sleep(1);
 			
-			file_put_contents($route_path, PHP_EOL . PHP_EOL . " Router::bind('{$routeUrl}', array('models'=> array(), 'params' => array()" . ($routeVerb != "get" ? ", 'verb' => '{$routeVerb}' " : "") . "));", FILE_APPEND | LOCK_EX);
+			      file_put_contents($route_path, PHP_EOL . PHP_EOL . " Router::bind('{$routeUrl}', array('models'=> array(), 'params' => array()" . ($routeVerb != "get" ? ", 'verb' => '{$routeVerb}' " : "") . "));", FILE_APPEND | LOCK_EX);
 
-			fwrite(STDOUT, PHP_EOL . "All Done. " . PHP_EOL);
+            if(array_key_exists(2, $tokens)){
+
+                 if($tokens[2] === 'set-controller'){
+
+                      exec('php jollof make:controller ' . str_replace('/', '', $routeUrl), $out, $errorlevel);
+
+                 }       
+            }else{
+
+			         fwrite(STDOUT, PHP_EOL . "All Done. " . PHP_EOL);
+
+            }   
+
+      }      
 
 		}	
 			 
@@ -484,7 +514,7 @@
 	if($errorlevel === 0){
 
         // If the {$outline} contains output color formatting, we deal with it here
-		fwrite(STDOUT, str_replace("\e", "\033", $outline));
+		fwrite(STDOUT, PHP_EOL . (str_replace("\e", "\033", $outline)));
 
 		fclose(STDOUT);
 	}
@@ -492,7 +522,7 @@
 	if($errorlevel === 1){ 
         
         // If the {$outline} contains output color formatting, we deal with it here
-        fwrite(STDERR, str_replace('\e', "\033", $outline));
+        fwrite(STDERR, PHP_EOL . (str_replace('\e', "\033", $outline)));
 
 		fclose(STDERR);
 

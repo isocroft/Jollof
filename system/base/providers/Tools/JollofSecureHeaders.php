@@ -66,7 +66,8 @@ class JollofSecureHeaders extends SecureHeaders {
 
 	 private function generateSourceNonces(){
 
-	 	if(count($this->nonceMap) === 0){ // never generate more than once..
+	 	if(count($this->nonceMap) === 0){ 
+	 		// never generate more than once..
 	 		$this->nonceMap['script'] = $this->csp_nonce('script');
 	 		$this->nonceMap['style'] = $this->csp_nonce('style');
 	 	}	
@@ -128,7 +129,14 @@ class JollofSecureHeaders extends SecureHeaders {
 		            "'unsafe-eval'"
 		          )
 		        ),
+		        "img-src" => array(
+		        	"data:",
+		        	"'self'"
+		        ),
 		        "connect-src" => array(
+		        	"'self'"
+		        ),
+		        "frame-ancestors" => array(
 		        	"'self'"
 		        ),
 		        "form-action" => array(
@@ -136,6 +144,7 @@ class JollofSecureHeaders extends SecureHeaders {
 		        ),
 		        "font-src" => array(
 		        	"'self'",
+		        	"https://fonts.googleapis.com",
 		        	"https://fonts.gstatic.com data:"
 		        ),
 		        "base-uri" => array(

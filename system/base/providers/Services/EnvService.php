@@ -42,10 +42,11 @@ class EnvService {
 
            $sockets_enabled = $this->configs['app_connection']['sockets_enabled'];
 
-           if(php_sapi_name() == 'apache'){
-              /*if ($sockets_enabled && !extension_loaded('sockets')) {
+           if(php_sapi_name() == 'apache'
+              || php_sapi_name() == 'apache2handler'){
+              if ($sockets_enabled && !extension_loaded('sockets')) {
                   throw new \Exception("The Sockets Extension is required but not loaded.");
-              }*/
+              }
             }    
         }
 		

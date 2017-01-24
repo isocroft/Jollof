@@ -19,11 +19,9 @@ $ php jollof docs
 
 ## Setting Up
 
-The philosophy of **Jollof** is very simple. _Routes_ are very tightly knitted to the _Controllers_ that service them. For every route, the first part of the URI and/or path is the Controller class name and the second part of the URI and/or path is the Controller class method.
+The philosophy of **Jollof** is very simple. _Routes_ are very tightly knitted to the _Controllers_ that service them. For every route, the first part of the URI and/or path is the **Controller** class name and the second part of the URI and/or path is the **Controller** class method or the **action**. This is exactly similar to what you have for default routes in **ASP.NET** MVC.
 
 > For more on getting up and running, see the [easydocs mark down file](https://raw.githubusercontent.com/isocroft/Jollof/master/EASYDOCS.md).
-
-It's a new way of thinking about the way applications could be crafted!
 
 All you need to setup can be found in the **documentation** folder(s) of the project starter folder. 
 
@@ -37,7 +35,7 @@ _Thanks to **Micheal Akpobome**, **Shuaib Afegbua**, **Abraham Yusuf**, **Stephe
 
 ## Trademarks
 
-_Trademark(s) for this PHP framework are a joint effort of [Mobicent, Ltd](http://www.collegemobile.net) and [Abuja Dev Meetup](http://www.abujadevmeetup.com)_  
+_Trademark(s) for this PHP framework are a joint effort of [Mobicent, Ltd](http://www.learnsty.com) and [Abuja Dev Meetup](http://www.abujadevmeetup.com)_  
 
 ## License
 

@@ -77,33 +77,40 @@
     		<p class="punched-up"><kbd>Jollof</kbd> developers aren't looking for extendablility anymore. they all want a framework with all the needed capabilities built into it and just have to configure these capabilities to suit their needs.</p>
   	    </div>
   </section>
-  <!--<section class="container-fluid">
+  <section class="container-fluid">
       <div class="col-md-7">
           <h3>How to <strike>Install</strike> Begin ? See below</h3>
           <p>
               <ol start="1">
                   <li>
-                      Download a fresh project folder <a href="https://www.jollofframework.com">here</a> and unzip it.
+                      Download a fresh project folder <a target="_blank" title="Get Jollof Project Folder" href="https://www.jollofframework.com/#/project_download">here</a> <kbd>OR</kbd> get the project starter CLI application <a target="_blank" title="Get Project Starter App" href="https://www.jollofframework.com/#/cli_app_download">here</a> and run the following.
+                      <span>
+                         <pre>
+            <code class="language-bash">
+                $ make-project MyApp
+            </code>
+                         </pre>   
+                      </span>
                   </li>
                   <li>
-                      Move to the (uncompressed) folder to a local server - <b class="text-primary">WAMP</b>, <b class="text-primary">MAMP</b>, <b class="text-primary">LAMP</b>, <b class="text-default"></b> e.t.c
+                      Unzip the downloaded folder and move it (the uncompressed folder) to a local server root - <b class="text-primary">WAMP</b>, <b class="text-primary">MAMP</b>, <b class="text-primary">LAMP</b>, <b class="text-default"></b> e.t.c
                   </li>
                   <li>
-                      Finally, load the root path via <em>localhost</em> (or build out a virtual host) into the browser.
+                      Finally, load the root path via <cite>localhost</cite> (or build out a virtual host) into the browser. <em class="text-success"><q>e.g http://localhost/JollofApp/</q></em>
                   </li>
               </ol>
           </p>
       </div>
       <div class="col-md-5">
       </div>
-  </section>-->
+  </section>
   <section class="container-fluid">
       <div class="col-md-5">
 
       </div>
       <div class="col-md-7">
           <h3>Run-Through Example</h3>
-          <article>
+          <article class="punched-up-small">
             <p>
               <blockquote>Here, we will be build a simple page with Jollof.</blockquote>
               <span>Let's open the terminal or console window and create a view file by running the command below. This command will create an <b class="text-success">example</b> folder with a <i class="text-success">start.view</i> file inside it.</span>
@@ -114,7 +121,7 @@
                 </code>
             </pre>
           </article>
-          <article>
+          <article class="punched-up-small">
              <p>
                 Move into the <b class="text-success">views</b> folder (in the root) and into the <b class="text-success">example</b> folder, open up the <i class="text-success">start.view</i> file and add the markup below into the file.
              </p>
@@ -147,10 +154,10 @@
                 </code>
             </pre>
           </article>
-          <article>
+          <article class="punched-up-small">
               <p>
               Let's now create a simple controller file by running the command below.
-              This command will drop a <i class="text-success">Home.php</i> file inside the <b class="text-success">routes</b> folder.
+              This command will drop a <i class="text-success">Home.php</i> file inside the <b class="text-success">controller</b> folder.
               </p>
               <p>
                 <kbd>NOTE: the name of the controller file <strong>MUST</strong> be the same as the first part of the route url.</kbd>
@@ -161,9 +168,9 @@
                   </code>
               </pre>
           </article>
-          <article>
+          <article class="punched-up-small">
              <p>
-                Move into the <b class="text-success">controllers</b> folder (in the root), open up the <i class="text-success">Home.php</i> file and add the code below into the file (within the <i class="">index</i> method).
+                Move into the <b class="text-success">controllers</b> folder (in the root), open up the <i class="text-success">Home.php</i> file and add the code below into the file (within the <i class="text-primary">index</i> method).
              </p>
              <pre class="line-numbers">
                 <code class="language-php">
@@ -176,8 +183,35 @@
               ]);
                 </code>
             </pre>
-          </article>
+          </article class="punched-up-small">
           <article>
+               <p>
+                  Move into the <b class="text-success">configs</b> folder (in the root), open up the <i class="text-success">env.php</i> file and add the highlighted line to the <kbd>app_auth</kbd> config section.
+               </p> 
+               <pre class="line-numbers highlight;12">
+    <code class="language-php">
+        "app_auth" => array(
+                .
+                .
+                .
+
+                'guest_routes' => array( # These routes can be accessed only if the user is not logged in (guest).
+                     '/',
+                     '/account/login/',
+                     '/account/register/',
+                     '/account/signup/@mode/',
+                     '/account/signin/@provider/',
+                     '/home'
+                )
+        ),
+        
+        .
+        .
+        .        
+    </code>
+               </pre>
+          </article>
+          <article class="punched-up-small">
               <p>
                 Finally, move to the browser and navigate to the root url of the folder.
               </p>
