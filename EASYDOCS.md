@@ -69,7 +69,33 @@ Move into the __controllers__ folder (in the root), open up the _Home.php_ file 
       ]);
 ```
 
-Next, move into the **configs** folder (in the root), open up the _env.php_ file and add the highlighted line to the **app_auth** config section.
+Next, move into the **configs** folder (in the root), open up the _env.php_ file and add the last line to the **app_auth** config section (array).
+
+```php
+        "app_auth" => array(
+                .
+                .
+                .
+
+                'guest_routes' => array( # These routes can be accessed only if the user is not logged in (guest).
+                     '/',
+                     '/account/login/',
+                     '/account/register/',
+                     '/account/signup/@mode/',
+                     '/account/signin/@provider/',
+                     '/home'
+                )
+        ),
+        
+        .
+        .
+        .        
+``` 
+Finally, move to the browser and load the route <q>/home</q> to view the page/view.
+
+### Example 2 - Content-Security-Policy (CSP) Activation
+
+Move into the **configs** folder (in the root), open up the _env.php_ file and change the settings under **app_security** to what you have below.
                 
 ```php
   .
@@ -110,26 +136,4 @@ In the view you created in the first example (example/start), add an inline scri
 </head>
 ```
 
-Finally, serve the view in the browser as before using '/home'. Check the view source from the browser and notice CSP 'nonce=' values attached to the inline script tag.
-
-        "app_auth" => array(
-                .
-                .
-                .
-
-                'guest_routes' => array( # These routes can be accessed only if the user is not logged in (guest).
-                     '/',
-                     '/account/login/',
-                     '/account/register/',
-                     '/account/signup/@mode/',
-                     '/account/signin/@provider/',
-                     '/home'
-                )
-        ),
-        
-        .
-        .
-        .        
-```        
-
-Finally, move to the browser and navigate to the root url of the folder.
+Finally, serve the view in the browser as before using '/home'. Check the view source from the browser and notice CSP 'nonce=' values attached to the inline script tag.       
