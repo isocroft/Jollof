@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class Account extends Controller {
 
@@ -7,10 +7,10 @@ class Account extends Controller {
         public function __construct(array $params = array()){
 
              parent::__construct($params);
-             
+
         }
 
-        // @Override 
+        // @Override
 
         public function index($models){
 
@@ -26,7 +26,7 @@ class Account extends Controller {
 
             $inputs = Request::input()->getFields();
 
-            $validInputs = Validator::check( $inputs, 
+            $validInputs = Validator::check( $inputs,
                 array(
                     'email' => "email|required",
                     'password' => "password|required|bounds:8",
@@ -56,16 +56,16 @@ class Account extends Controller {
 
         public function login($models){
 
-             
+
             return Response::view('login/index', array('framework' => 'Jollof', 'title' => 'Login'));
-            
+
         }
 
         public function signin($models){
 
             $inputs = Request::input()->getFields();
 
-            $validInputs = Validator::check( $inputs, 
+            $validInputs = Validator::check( $inputs,
                 array(
                     'email' => "email|required",
                     'password' => "password|required"
@@ -96,7 +96,7 @@ class Account extends Controller {
         }
 
         public function logout($models){
-             
+
             # code ...
         }
 

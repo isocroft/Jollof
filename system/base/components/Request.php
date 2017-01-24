@@ -65,11 +65,11 @@ final class Request {
           if(static::$instance == NULL){
              static::$instance = new Request($config);
              return static::$instance;
-          }   
+          }
      }
 
      public static function header($key){
-         
+
          return static::getInfo($key);
      }
 
@@ -101,9 +101,9 @@ final class Request {
      }
 
      public static function isAjax(){
-         
+
          $x_header = static::getInfo('HTTP_X_REQUESTED_WITH');
-         return (!empty($x_header) && strtolower($x_header) == 'xmlhttprequest'); 
+         return (!empty($x_header) && strtolower($x_header) == 'xmlhttprequest');
 
      }
 
@@ -112,12 +112,12 @@ final class Request {
 
           $this->parameters = array();
           $this->url_elements = explode('/', static::getInfo('PATH_INFO'));
-        
+
           $qs = static::getInfo('QUERY_STRING');
-        
+
           switch($this->method){
                case "JSONP":
-               case "GET": 
+               case "GET":
                     if(isset($qs)){
                         parse_str($qs, $this->parameters);
                     }else if(count($_GET) > 0){
@@ -157,15 +157,15 @@ final class Request {
                       if(count($_POST) > 0){
                           $sliced = array_slice($_POST, 0);
                           array_merge($sliced, $this->parameters);
-                      }    
-                   }   
+                      }
+                   }
                break;
           }
-          if($headerKeys !== NULL){ 
+          if($headerKeys !== NULL){
               foreach ($headerKeys as $hkey) {
-                  $this->parameters[$hkey] = (array_key_exists($hkey, $this->headers)? $this->headers[$hkey] : '');  
-              }  
-          }  
+                  $this->parameters[$hkey] = (array_key_exists($hkey, $this->headers)? $this->headers[$hkey] : '');
+              }
+          }
      }
 
      private function setRequestFormat(){
@@ -184,7 +184,7 @@ final class Request {
      private function getParameters(){
 
          return $this->parameters;
-     } 
+     }
 
      private function getUploadConfig(){
 
@@ -210,7 +210,7 @@ final class Request {
      public static function getHost(){
 
          $host = static::getInfo('HTTP_HOST');
-        
+
          if(preg_match('/^[\d]{2,3}\.[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}(?:\:\d{2,5})?$/', $host)){
 
              $_host = gethostbyaddr($host);
@@ -227,7 +227,7 @@ final class Request {
 
          $manager = static::$instance->getInputManager();
 
-         $upload_map = array_swap_values($file_upload_folder, $manager->getFiles()); 
+         $upload_map = array_swap_values($file_upload_folder, $manager->getFiles());
 
          return $manager->uploadFiles($upload_map, $errors);
 
@@ -237,16 +237,16 @@ final class Request {
            if(static::$instance !== NULL){
                 return static::$instance->getFormat();
            }
-           return NULL;     
+           return NULL;
      }
 
      public static function input($headerKeys = NULL){
 
-         if(is_null(static::$instance->getParameters())){ 
+         if(is_null(static::$instance->getParameters())){
               static::$instance->parseRequestInput($headerKeys);
          }
- 
-         return static::$instance->getInputManager();     
+
+         return static::$instance->getInputManager();
      }
 
      public static function ip(){
@@ -258,46 +258,46 @@ final class Request {
              return $xip;
          }else{
              return static::getInfo('REMOTE_ADDR'); # fallback finally to actual server ip
-         } 
+         }
      }
 
      public static function uri(){
         $uri = static::getInfo('REQUEST_URI');
         $host = static::getInfo('HTTP_HOST');
         $root = $GLOBALS['env']['app.root'];
-        if(index_of($uri, $root) > -1 
+        if(index_of($uri, $root) > -1
           || preg_match('/^[\d]{2,3}\.[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}(?:\:\d{2,5})?$/', $host)){
             return preg_replace('/\/?'.$root.'(?:\/public\/)?/i', '', urldecode(parse_url($uri, PHP_URL_PATH)));
-        }else{  
+        }else{
             return urldecode(parse_url($uri, PHP_URL_PATH));
-        }   
+        }
      }
 
      public static function hasCookie($key){
-        
+
         return array_key_exists($key, $_COOKIE);
      }
 
      public static function getCookie($key){
-           
+
           $queue = array();
 
           if(array_key_exists('app', $GLOBALS)){
 
               $queue = $GLOBALS['app']->getCookieQueue();
 
-          }    
-          
+          }
+
           if(array_key_exists($key, $queue)){
 
               return $queue[$key];
-          } 
+          }
 
           if(static::hasCookie($key)){
-            
+
                return $_COOKIE[$key];
           }
-          
+
           return NULL;
      }
 

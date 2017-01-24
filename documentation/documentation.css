@@ -14,7 +14,7 @@
   * Copyright 2014-2015 Twitter, Inc.
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
   */
-	 
+
 	@-webkit-viewport { width: device-width; }
 	@-moz-viewport    { width: device-width; }
 	@-ms-viewport     { width: device-width; }
@@ -42,7 +42,7 @@
 }
 
 ::-webkit-input-placeholder {
-  color: #ffffff;  
+  color: #ffffff;
 }
 
 input:-moz-placeholder {
@@ -55,7 +55,7 @@ input:-moz-placeholder {
  * A better looking default horizontal rule
  */
 
-hr { 
+hr {
 	display: block;
 	height: 1px;
 	border: none;
@@ -77,13 +77,13 @@ canvas,
 iframe,
 img,
 svg,
-video {   
+video {
   vertical-align: middle;
 }
 
 
 /*
- * Set as `bare` fieldset. 
+ * Set as `bare` fieldset.
  */
 
 fieldset.bare {
@@ -107,7 +107,7 @@ textarea.resize-none {
   resize:none;
 }
 
-/* 
+/*
  *Browser Upgrade Prompt
  */
 
@@ -139,14 +139,14 @@ textarea.resize-none {
 
 .snap-top-right{
    left:auto;
-   bottom:auto;	
+   bottom:auto;
    top:0;
    right:0;
 }
 
 .snap-top-left{
    right:auto;
-   bottom:auto;	
+   bottom:auto;
    top:0;
    left:0;
 }
@@ -199,13 +199,13 @@ textarea.resize-none {
 .line-inline-box{
     display:-moz-inline-stack;
     display:-moz-inline-box;
-    display:inline-block; 
+    display:inline-block;
 }
 
-/* Because IE 6/7/8 do not set "inline-block" on block-level DOM elements */ 
+/* Because IE 6/7/8 do not set "inline-block" on block-level DOM elements */
 
 *+html .line-block-box,
-*html .line-block-box{ 
+*html .line-block-box{
       *display:inline;
       *zoom:1; /* trigger hasLayout */
 }
@@ -241,7 +241,7 @@ textarea.resize-none {
 .visuallyhidden.focusable:active,
 .visuallyhidden.focusable:focus {
    clip: auto;
-   height: auto; 
+   height: auto;
    margin: 0;
    overflow: visible;
    position: static;
@@ -256,7 +256,7 @@ textarea.resize-none {
 
 
 
-.invisible {   
+.invisible {
     visibility: hidden;
 }
 
@@ -362,18 +362,18 @@ textarea.resize-none {
 	border-style: transparent;
 }
 
-.non-selectable{ 
+.non-selectable{
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
 }
 
-.float-left{     
+.float-left{
     float:left;
 }
 
-.float-right{ 
+.float-right{
     float:right;
 }
 
@@ -434,7 +434,7 @@ textarea.resize-none {
 
 .menu-list-item .sub-menu-list{
    margin-left:0;
-   padding-left:15px; 
+   padding-left:15px;
    list-style-type: none;
 }
 
@@ -584,7 +584,7 @@ textarea.resize-none {
     -webkit-border-radius:6px;
     -moz-border-radius:6px;
     border-radius:6px;
-}	
+}
 
 .content-example-line{
   	margin:10px 0 10px 7px;
@@ -608,7 +608,7 @@ textarea.resize-none {
 /* ------------------ FOOTER -------------- */
 
 .footer{
-    padding:20px 0px 40px 0px; 
+    padding:20px 0px 40px 0px;
 	border-top:1px solid #eeeeee;
 }
 

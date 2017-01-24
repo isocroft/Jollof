@@ -2,7 +2,7 @@
 
 /*!
  * Jollof Framework (c) 2016
- * 
+ *
  * {Response.php}
  */
 
@@ -32,16 +32,16 @@ final class Response {
      *
      * @scope private
      */
- 
+
      private function __construct(array $viewNonces){
-            
+
             $this->openOutputBuffers(); // this is done intentionally
 
             $this->runner = new Runner($viewNonces);
      }
 
     /**
-     * Buffers output to the client 
+     * Buffers output to the client
      *
      * @param void
      * @return void
@@ -69,13 +69,13 @@ final class Response {
          if(static::$instance == NULL){
                static::$instance = new Response($viewNonces);
                return static::$instance;
-         }    
+         }
      }
 
     /**
      * Sets up HTTP response header
      *
-     * @param string $key 
+     * @param string $key
      * @param string $value
      * @return void
      *
@@ -85,17 +85,17 @@ final class Response {
      public static function header($key, $value, $replace = TRUE){
 
           if(headers_sent()){
-             
+
               return false;
           }
 
-          return header($key . ': ' . $value, $replace);               
+          return header($key . ': ' . $value, $replace);
      }
 
     /**
-     * Retrieves HTTP Server details 
+     * Retrieves HTTP Server details
      *
-     * @param string $var 
+     * @param string $var
      * @return string $value
      *
      *
@@ -113,9 +113,9 @@ final class Response {
      }
 
     /**
-     * Returns text data back to the client 
+     * Returns text data back to the client
      *
-     * @param string $data 
+     * @param string $data
      * @param int $statusCode
      * @return bool
      *
@@ -127,13 +127,13 @@ final class Response {
         if(Request::isAjax()){
             $xhub = Request::rawHeader('X-Hub-Signature');
 
-            if(strtolower(Request::rawHeader('Connection')) === 'keep-alive' 
+            if(strtolower(Request::rawHeader('Connection')) === 'keep-alive'
                    && empty($xhub)){
-                          
+
                     Response::header("Keep-Alive", "timeout=15, max=100"); // we need to suspend the request for some time
                     Response::header("Connection", "Keep-Alive");
             }
-        }    
+        }
 
         if(index_of(Request::header('HTTP_ACCEPT'), 'text/event-stream') > -1){
 
@@ -142,13 +142,13 @@ final class Response {
               static::header('Cache-Control', 'no-cache');
 
               if(!is_null($data)){
-              
+
                   $data .= PHP_EOL;
               }
         }else{
-      
+
              static::header('Content-type', 'text/plain; charste=UTF-8');
-        }  
+        }
 
           http_response_code(intval($statusCode));
 
@@ -158,7 +158,7 @@ final class Response {
      public static function json(array $data, $statusCode = 200){
 
           static::header('Vary', 'Accept');
-          
+
           if(index_of(Request::header('HTTP_ACCEPT'), 'application/json') > -1){
 
                static::header('Content-type', 'application/json; charset=UTF-8');
@@ -166,12 +166,12 @@ final class Response {
           }else{
 
                static::header('Content-type', 'text/plain; charste=UTF-8');
-          }    
+          }
 
           http_response_code(intval($statusCode));
 
           return static::end(json_encode($data), 'text');
-        
+
      }
 
      public static function error(\Exception $e){
@@ -185,7 +185,7 @@ final class Response {
      public static function file($filename){
 
         $file = preg_replace('/[\x5c]/i', '/', realpath($filename));
-        //$finfo = new finfo(FILEINFO_MIME_TYPE); 
+        //$finfo = new finfo(FILEINFO_MIME_TYPE);
         //$ftype = $finfo->file($file);
         $ftype = mime_content_type($file);
         if($ftype == 'text/x-c++'){
@@ -194,7 +194,7 @@ final class Response {
         static::header('Content-Type', $ftype);
         $contents = File::readChunk($file);
         static::header('Content-Length', (is_string($contents)? strlen($contents) : filesize($file)));
-         
+
         return static::end($contents);
      }
 
@@ -203,7 +203,7 @@ final class Response {
           $file = preg_replace('/[\x5c]/i', '/', realpath($filename));
 
           static::header('Content-Description', 'File Transfer');
-          $finfo = new finfo(FILEINFO_MIME); // FILEINFO_MIME_TYPE 
+          $finfo = new finfo(FILEINFO_MIME); // FILEINFO_MIME_TYPE
           $ftype = $finfo->file($file);
           if($ftype == 'text/x-c++'){
             $ftype = 'text/plain';
@@ -222,31 +222,31 @@ final class Response {
             if($config['asXML'] === TRUE){
                 static::header('Content-Type', 'application/xml'); //;q=0.9
             }
-        }   
+        }
 
         if(array_key_exists('statusCode', $config)){
              http_response_code(intval($config['statusCode']));
-        } 
+        }
 
         return static::end(static::$instance->runner->render($name, $data), 'view');
 
-     } 
+     }
 
      private static function end($data, $from = ''){
-                     
-            if((!is_null($data)) || (!static::isEmpty())){         
+
+            if((!is_null($data)) || (!static::isEmpty())){
                 if($from !== 'view'){
-                    echo $data; 
-                }    
+                    echo $data;
+                }
             }
-             
+
             if(function_exists('fast_cgi_finish_request')) {
                 fast_cgi_finish_request();
             }elseif('cli' !== PHP_SAPI){
                 static::$instance->closeOutputBuffers(0, true, $from);
             }
 
-                 
+
           return exit;
      }
 
@@ -265,12 +265,12 @@ final class Response {
         ) {
             if($flush){
                 if($type === 'text'){
-                    ob_flush(); 
+                    ob_flush();
                     flush();
                 }
             }
 
-        }      
+        }
      }
 
      /**
@@ -309,7 +309,7 @@ final class Response {
                 throw new \InvalidArgumentException("Cannot redirect to unknown destination");
            }
 
-           $root = $GLOBALS['env']['app.root']; 
+           $root = $GLOBALS['env']['app.root'];
 
            $host = $GLOBALS['app']->getHost();
 
@@ -341,7 +341,7 @@ final class Response {
      }
 
      public static function setCookie($key, $value){
- 
+
           $config = $GLOBALS['env']['app.settings.cookie'];
 
           $GLOBALS['app']->pushCookieQueue($key, $value);

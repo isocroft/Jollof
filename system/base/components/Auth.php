@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 /*!
  * Jollof Framework (c) 2016
- * 
+ *
  * {Auth.php}
  *
  */
@@ -35,7 +35,7 @@ final class Auth {
      protected $clientIP;
 
      private function __construct(array $options){
-        
+
          $this->loginFields = array('username', 'password', 'user_id');
 
          $this->clientIP = (Request::ip() || '0.0.0.0');
@@ -64,12 +64,12 @@ final class Auth {
 
                       $this->throttle = new Throttle();
                  }
-          }       
-         
+          }
+
      }
 
      public static function createInstance(array $options){
- 
+
           if(static::$instance == NULL){
                static::$instance = new Auth($options);
                return static::$instance;
@@ -78,7 +78,7 @@ final class Auth {
      }
 
      public static function createUser(Model $user, array $props = array()){
-           
+
            return $user->set($props)->exec();
      }
 
@@ -96,7 +96,7 @@ final class Auth {
      }
 
      private function fetchRequestAction(){
-       
+
          $method = Request::method();
 
          if(array_key_exists($method, $this->actionMap)){
@@ -138,7 +138,7 @@ final class Auth {
               $secret = Helpers::generateRandomByPattern("xxxxxxxxyxxxxxxxyxxxxxxxxxyy");
 
               Session::put("accessLogin", array('id' => 'guest_54773973132539', 'jwt_secret' => $secret, 'role' => 'Guest'));
-             
+
               if($this->options['jwt_enabled']){
 
                    Response::setCookie($this->getJWTCookieName(), Helpers::createJWT($props, $secret));
@@ -186,8 +186,8 @@ final class Auth {
 
                 //throw new \Exception("Jelloff Identity Carrier has been tampered with");
                 return FALSE;
-            } 
-            
+            }
+
 
             if($validStatus !== NULL){
 
@@ -218,7 +218,7 @@ final class Auth {
             }
 
             return FALSE;
-           
+
      }
 
      public function getUserRole(){
@@ -226,7 +226,7 @@ final class Auth {
         $hasSession = $this->hasSession();
 
         if($hasSession){
-             
+
              $session = Session::get("accessLogin");
 
              return $session['role'];
@@ -246,7 +246,7 @@ final class Auth {
 
         $throttle->updateSessionDataStore($session);
 
-        $throtts = array(); 
+        $throtts = array();
 
         if(!$throttle->isUserBanned()){
 
@@ -255,12 +255,12 @@ final class Auth {
         }else{
 
              $credentials = array();
-        }    
+        }
 
-        
+
         if(count($credentials) > 0){
 
-           $secret = Helpers::generateRandomByPattern("xxxxxxxxyxxxxxxxyxxxxxxxxxyy"); 
+           $secret = Helpers::generateRandomByPattern("xxxxxxxxyxxxxxxxyxxxxxxxxxyy");
 
            $clause = array('user_id' => array('=' , $credentials['user_id']));
 
@@ -277,14 +277,14 @@ final class Auth {
 
                 Session::forget("accessLogin");
            }
-          
+
            Session::put("accessLogin", array(
-                    'id' => "user_" . $credentials['user_id'], 
-                    'jwt_secret' => $secret, 
+                    'id' => "user_" . $credentials['user_id'],
+                    'jwt_secret' => $secret,
                     'role' => $permission['role']
            ));
 
-           Response::setCookie(static::$instance->getJWTCookieName(), Helpers::createJWT($props, $secret));       
+           Response::setCookie(static::$instance->getJWTCookieName(), Helpers::createJWT($props, $secret));
 
         }else{
 
@@ -292,18 +292,18 @@ final class Auth {
 
             $throtts = array(
                   'throttle_id' => static::getThrottleId(),
-                  'ip_address' => static::$instance->getClientIP(), 
+                  'ip_address' => static::$instance->getClientIP(),
                   'user_id' => $credentials['user_id']
             );
 
             $throttle->setAttempt($throtts, array('throttle_count')); // UPDATE ON DUPLICATE KEY
-            
+
             if($throttle->attemptLimit()){
                 //$userThrottle->let(array('banned' => 1), $throtts)->exec();
                 $throttle->ban();
             }
 
-        }   
+        }
 
         return (Session::has("accessLogin"));
      }
@@ -336,7 +336,7 @@ final class Auth {
      public static function getReturnToURL(){
 
          $session = Session::get("accessLogin");
-         
+
          $url = (array_key_exists('return_to_url', $session))? $session['return_to_url'] : "";
 
          unset($session['return_to_url']);
@@ -371,7 +371,7 @@ final class Auth {
            $session = ($asType)? $bits[0] : $bits[1];
 
            return $session;
-                    
+
      }
 
      private function getUserCredentials(Model $user, array $fields = array()){
@@ -381,7 +381,7 @@ final class Auth {
         if(count($fields) != count($loginFields)){
             $fields = array_slice($fields, 0, 2, TRUE);
         }
- 
+
         $compositeFieldValues = array();
 
         array_walk($fields, function($value, $key){

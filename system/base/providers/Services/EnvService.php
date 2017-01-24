@@ -1,7 +1,7 @@
 <?php
 /*!
  * Jollof Framework (c) 2016
- * 
+ *
  * {EnvService.php}
  */
 
@@ -9,12 +9,12 @@ namespace Providers\Services;
 
 class EnvService {
 
-	      protected $configs; 
+	      protected $configs;
 
         protected $appPaths;
 
         public function __construct(array $configs){
-       
+
               $this->configs = $configs;
 
               $this->appPaths = new \stdClass();
@@ -24,17 +24,17 @@ class EnvService {
               $this->setupAppPaths();
 
               $this->setAppRawSockets();
-			  
+
 			        $this->setAppMail();
 
         }
 
         public function getConfig($key){
- 
+
            if(array_key_exists($key, $this->configs)){
                  return $this->configs[$key];
            }
-          
+
            return NULL;
         }
 
@@ -49,9 +49,9 @@ class EnvService {
               }
             }    
         }
-		
+
     		private function setAppMail(){
-    		
+
     		    $mail_settings = $this->configs['app_mails'];
     		}
 
@@ -61,7 +61,7 @@ class EnvService {
               $can_upload = $this->configs['app_uploads']['uploads_enabled'];
 
                 if($app_env == "prod"){
-   
+
 					           error_reporting(-1); // don't display PHP error on web page (still need to check this one)
 
 					           ini_set("expose_php", "Off"); // remove PHP stamp from HTTP response Headers
@@ -84,13 +84,13 @@ class EnvService {
 
                 foreach ($app_pths as $key => $value) {
                     if(is_dir($value)){ // it must be a directory to be included as a valid application path
-                         $this->appPaths->{$key} = $value;    
+                         $this->appPaths->{$key} = $value;
                     }
-                }     
+                }
 
         }
 
-      
+
         public function exposeEnvironment($root){
 
            $env_file = $this->appPaths->base . '.env';
@@ -113,7 +113,7 @@ class EnvService {
                   'app.path.base'=>$this->appPaths->base,
                   'app.path.upload'=>$this->appPaths->storage . '/cabinet/uploads/',
                   'app.path.download'=>$this->appPaths->storage . '/cabinet/downloads/',
-                  'app.path.assets'=>$this->appPaths->public . '/assets/', 
+                  'app.path.assets'=>$this->appPaths->public . '/assets/',
                   'app.path.storage'=>$this->appPaths->storage . '/',
                   'app.path.packages'=>$this->appPaths->packages . '/',
                   'app.path.views'=>$this->appPaths->views . '/',

@@ -11,7 +11,7 @@ class ArgvInput {
   private $arguments;
 
   private $command_setup;
-  
+
 
   public function __construct($argv = NULL, $csetup = array()){
 
@@ -23,9 +23,9 @@ class ArgvInput {
 
         if(array_key_exists('argv', $_SERVER))
               $this->command = $_SERVER['argv'];
-         else  
+         else
               $this->command = NULL;
-     } 
+     }
 
      $this->command_setup = $csetup;
   }
@@ -52,10 +52,6 @@ class ArgvInput {
 
   private function parseArgvAsArgument(){
 
- 
-  }
-
-  public function __destruct(){
 
   }
 

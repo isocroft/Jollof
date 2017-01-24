@@ -14,7 +14,7 @@ class UserThrottle extends Model /* implements AuthService */ {
 
         parent::__construct();
     }
-    
+
 
 }
 

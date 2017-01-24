@@ -14,7 +14,7 @@ class UserRole extends Model {
 
         parent::__construct();
     }
-    
+
 
 }
 

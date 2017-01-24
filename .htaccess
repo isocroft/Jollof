@@ -11,10 +11,10 @@
 
 	    	# Prevent Hot-linking (especially for images)
 		# Change "- [F]" to "http://www.jollof.com/public/img/stop.gif [R,L]" in your Jollof App (if needed)
-		
+
 		RewriteCond %{HTTP_REFERER} !^$
 		RewriteCond %{HTTP_REFERER} !^http://(www\.)?(localhost|jollof.com)/.*$ [NC]
-		
+
 		RewriteRule \.(gif|jpg|jpeg|bmp|zip|rar|mp3|flv|swf|xml|php|png|css|pdf)$ - [F]
 
 		# Disallow Dastradly Crawlers And Site-Mirroring Apps
@@ -25,7 +25,7 @@
 		RewriteCond %{HTTP_USER_AGENT} ^Bandit [NC,OR]
 		RewriteCond %{HTTP_USER_AGENT} ^BatchFTP [NC,OR]
 		RewriteCond %{HTTP_USER_AGENT} ^BecomeBot [NC,OR]
-		RewriteCond %{HTTP_USER_AGENT} ^Sponger [NC,OR] 
+		RewriteCond %{HTTP_USER_AGENT} ^Sponger [NC,OR]
 		RewriteCond %{HTTP_USER_AGENT} ^BlackWidow [NC,OR]
 		RewriteCond %{HTTP_USER_AGENT} ^Net\ Vampire [NC]
 
@@ -47,10 +47,10 @@ AddType video/mp4 .mp4 # mp4 codec
 AddType video/webm .webm # theora codec
 
 # Mobile Site/App Version Crawling - This helps googlebot when crawling your web site/app on mobile devices
-	
-<IfModule mod_headers.c> 
+
+<IfModule mod_headers.c>
 	Header append Vary User-Agent
-</IfModule> 
+</IfModule>
 
 # Enable file compression (where possible) - use DEFLATE Compression Scheme
 
@@ -59,8 +59,8 @@ AddType video/webm .webm # theora codec
   AddOutputFilterByType DEFLATE appliation/javascript
   AddOutputFilterByType DEFLATE application/xml
   AddOutputFilterByType DEFLATE text/html
-</IfModule>	  
-	
+</IfModule>
+
 # Enhanced caching for site static assets
 
 <FilesMatch ".(flv|gif|jpg|jpeg|mp3|mp4|avi|ogv|webm|png|ico|swf|js|css|pdf)$">

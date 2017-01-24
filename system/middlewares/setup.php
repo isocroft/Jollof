@@ -3,14 +3,14 @@
  /*--------------------------------------------------------
   !
   ! Application middlewares are needed to ensure that certain
-  ! route requests meetup with special prerequisites before 
+  ! route requests meetup with special prerequisites before
   ! these requests are allowed to PASS and the route activated
   !
   ! We set up middlewares here...
   !
   !
   !* Jollof Framework (c) 2016
-  !* 
+  !*
   !* {setup.php}
   !*
   !* NOTE: DON'T CHANGE THE ORDER OF THE MIDDLEWARES HERE
@@ -23,8 +23,8 @@
 
   System::middleware('redirectIfUser', function($currentRoute, $auth){
       $result = TRUE;
-      
-       /* 
+
+       /*
         * route permissions (Access Reaffirmation)
         * ---------------------------------------
         * Feel free to modify this middleware to
@@ -35,16 +35,16 @@
           if(Auth::check($currentRoute)){
                 $role = $auth->getUserRole();
                 if(Request::method() == 'GET'){
-                    return Response::redirect('/' . $role); 
+                    return Response::redirect('/' . $role);
                 }else{
                     return Response::text("You don't have permission to access this resource");
                 }
-               
+
           }
         }
-       
 
-      return $result;   
+
+      return $result;
   });
 
   System::middleware('redirectIfGuest', function($currentRoute, $auth){
@@ -56,17 +56,17 @@
        * Feel free to modify this middleware to
        * suit the needs of the app
        */
-      
+
       if(!(in_array($currentRoute, $auth->getGuestRoutes()))){
-            if(!Auth::check($currentRoute)){ 
+            if(!Auth::check($currentRoute)){
                 $auth->setReturnToUrl($currentRoute);
                 if(Request::method() == 'GET'){
-                  return Response::redirect('/account/login' . '?return_to=' . urlencode($currentRoute)); 
-                }     
-            }    
+                  return Response::redirect('/account/login' . '?return_to=' . urlencode($currentRoute));
+                }
+            }
       }
 
-      return $result;   
+      return $result;
   });
 
   System::middleware('csrf', function($currentRoute){
@@ -84,13 +84,13 @@
               if(Request::isAjax()){
                   $token = array();
                   $token['_token'] = Request::rawHeader('X-CSRF-Token');
-              }else{ 
+              }else{
                   $token = Request::input()->getFields(array('_token'));
-              }    
-             if(isset($token) 
+              }
+             if(isset($token)
                 && $token['_token'] !== Session::token()){
                   $result = FALSE;
-             }  
+             }
       }
 
       return $result;
@@ -107,8 +107,8 @@
 
           // This overrides {JollofSecureHeaders} feature settings
           Response::header("X-Frame-Options",  "SAMEORIGIN");
-        }  
-        
+        }
+
         return $result;
   });
 

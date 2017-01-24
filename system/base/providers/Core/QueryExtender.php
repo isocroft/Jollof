@@ -14,7 +14,7 @@ use \UnexpectedValueException;
 use \Model;
 
 class QueryExtender {
-     
+
      /**
       * @var string - the actual SQL query string being built out
       */
@@ -44,7 +44,7 @@ class QueryExtender {
       */
 
      protected $connection;
-    
+
      /**
       * @var array - all conjunctions which are allowed in a query
       */
@@ -55,7 +55,7 @@ class QueryExtender {
         'NOT',
         'OR NOT'
      );
-    
+
      /**
       * @var array - all operators which are allowed in a query
       */
@@ -101,9 +101,9 @@ class QueryExtender {
       *
       * @throws UnexpectedValueException
       */
-     
-     public function get($columns, $clauseProps, $conjunction){ 
-     	
+
+     public function get($columns, $clauseProps, $conjunction){
+
         if(!in_array($conjunction, $this->allowedConjunctions)){
             throw new UnexpectedValueException();
         }
@@ -154,7 +154,7 @@ class QueryExtender {
 
         if(count($clauseProps) > 0){
             $this->queryString .= " ON DUPLICATE KEY UPDATE ";
-            $this->queryString .= implode(', ', $this->prepareUpdatePlaceholder($clauseProps);
+            $this->queryString .= implode(', ', $this->prepareUpdatePlaceholder($clauseProps));
         }
 
         return $this;
@@ -165,7 +165,7 @@ class QueryExtender {
       *
       *
       * @param array $columnValues - column/value pairs for SET clause in UPDATE query
-      * @param array $clauseProps - column/value pairs for WHERE clause in UPDATE query 
+      * @param array $clauseProps - column/value pairs for WHERE clause in UPDATE query
       * @param string $conjunction - conjunction for WHERE clause
       * @return \Providers\Tools\QueryExtender -
       *
@@ -193,15 +193,15 @@ class QueryExtender {
         return $this;
      }
 
-      
+
      /**
       * Builds out an delete query
-      * 
       *
       *
-      * @param $columns - columns 
+      *
+      * @param $columns - columns
       * @param $clauseProps - column/value pairs for WHERE clause in UPDATE query
-      * @return \Providers\Tools\QueryExtender - 
+      * @return \Providers\Tools\QueryExtender -
       */
 
      public function del($columns){
@@ -217,11 +217,11 @@ class QueryExtender {
 
      /**
       *
-      * 
+      *
       *
       *
       * @param \Model $model -
-      * @param string $joinType - 
+      * @param string $joinType -
       * @return \Providers\Tools\QueryExtender -
       */
 
@@ -255,7 +255,7 @@ class QueryExtender {
 
      /**
       *
-      * 
+      *
       *
       *
       * @param array $colums - ordering columns for SELECT query
@@ -279,17 +279,17 @@ class QueryExtender {
 
      }
 
-     public function setAttributes($schemaAttribs){ 
+     public function setAttributes($schemaAttribs){
 
      	 $this->attribs = $schemaAttribs;
      }
 
      /**
       * Builds out the HAVING clause to a SELECT query
-      * 
       *
       *
-      * @param array $clauseProps - 
+      *
+      * @param array $clauseProps -
       * @return \Providers\Tools\QueryExtender -
       * @throws \UnexpectedvalueException -
       */
@@ -314,7 +314,7 @@ class QueryExtender {
 
      /**
       *
-      * 
+      *
       *
       *
       * @param array $columns -
@@ -353,7 +353,7 @@ class QueryExtender {
           if($limit > 0){
              $stoppers[] = " LIMIT $limit";
           }
-        
+
           switch (strtolower($type)){
           	case 'select':
                 $this->queryString .= implode(',', $stoppers);
@@ -374,15 +374,15 @@ class QueryExtender {
           	break;
           }
 
-          return $result;   
+          return $result;
      }
 
      /**
-      * Wraps an SQL query attribute [column_name, table_name] in quotes 
+      * Wraps an SQL query attribute [column_name, table_name] in quotes
       *
       *
       *
-      * @param string $attributeName - 
+      * @param string $attributeName -
       * @param string $char -
       * @return string
       * @api private
@@ -398,7 +398,7 @@ class QueryExtender {
      }
 
      private function prepareInsertPlaceholder($props){
-        
+
         $this->paramValues = $props;
 
         return array_fill(0, count($props), "? ");
@@ -413,11 +413,11 @@ class QueryExtender {
         if(is_array($this->paramValues)){
                $this->paramValues = array_merge($this->paramValues, array_pluck($rawValues, 1));
         }else{
-               $this->paramValues = array_pluck($rawValues, 1); 
+               $this->paramValues = array_pluck($rawValues, 1);
         }
 
         $sqlProps = array_combine(array_map(array(&$this, 'wrap'), $rawKeys), $rawValues);
-         
+
         return array_map('update_placeholder', $sqlProps);
      }
 
@@ -430,11 +430,11 @@ class QueryExtender {
         if(is_array($this->paramValues)){
                $this->paramValues = array_merge($this->paramValues, array_pluck($rawValues, 1));
         }else{
-              $this->paramValues = array_pluck($rawValues, 1); 
-        } 
+              $this->paramValues = array_pluck($rawValues, 1);
+        }
 
         $sqlProps = array_combine(array_map(array(&$this, 'wrap'), $rawKeys), $rawValues);
-         
+
         return array_map('update_placeholder', $sqlProps);
      }
 
@@ -447,7 +447,7 @@ class QueryExtender {
         if(is_array($this->paramValues)){
            $this->paramValues = array_merge($this->paramValues, array_pluck($rawValues, 1));
         }else{
-            $this->paramValues = array_pluck($rawValues, 1); 
+            $this->paramValues = array_pluck($rawValues, 1);
         }
 
         $sqlProps = array_combine(array_map(array(&$this, 'wrap'), $rawKeys), $rawValues);
@@ -460,7 +460,7 @@ class QueryExtender {
           foreach ($params as $value) {
           	  $type = substr(gettype($value), 0, 3);
           	  $values[$type] = $this->escapeSQLTokenChars($value);
-          } 
+          }
           return $values;
      }
 

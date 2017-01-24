@@ -19,11 +19,11 @@ class RedisStroage {
 	 protected $port;
 
      public function __construct($host, $port){
-     	
+
      		// PredisAutoloader::register();
 
      		try{
-     		
+
      			$this->client = new PredisClient(array(
      				"scheme" => "tcp",
      				"host" => $host,

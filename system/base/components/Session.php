@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use \Providers\Services\NativeSessionService as NativeService;
 use \Providers\Services\RedisSessionService as RedisService;
@@ -10,7 +10,7 @@ final class Session {
      private  $session_service;
 
      private $driver;
- 
+
      private function __construct(array $config){
 
         // @TODO: use {SessioManager} class in the next code update to do the below more efficiently...
@@ -18,7 +18,7 @@ final class Session {
 
         if($this->driver === '#native'){
 
-             $this->session_service = new NativeService($config['session_name']);  
+             $this->session_service = new NativeService($config['session_name']);
 
         }else if($this->driver === '#redis'){
 
@@ -33,9 +33,9 @@ final class Session {
      *
      *
      * @param void
-     * @return string 
+     * @return string
      */
-    
+
     public function getDriver(){
 
         return $this->session_service;
@@ -47,7 +47,7 @@ final class Session {
           if(static::$instance == NULL){
                static::$instance = new Session($config);
                return static::$instance;
-          }     
+          }
      }
 
      public static function has($key){
@@ -64,7 +64,7 @@ final class Session {
      }
 
      public static function get($key){
-       
+
         return static::$instance->session_service->read($key);
      }
 
@@ -98,9 +98,9 @@ final class Session {
      public static function token(){
 
      	$_token;
-       
+
         if(static::$instance->session_service->hasKey('_token')){
-           
+
             $_token =  static::$instance->session_service->read('_token');
         }else{
 

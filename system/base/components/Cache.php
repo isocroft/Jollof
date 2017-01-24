@@ -19,7 +19,7 @@ final class Cache {
 
        $driver = $options['cache_driver'];
 
-       if($driver === "memcached"){  
+       if($driver === "memcached"){
 
             $this->cache_service = new CacheService($options);
        }

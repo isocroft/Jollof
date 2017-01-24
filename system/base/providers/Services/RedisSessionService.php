@@ -2,7 +2,7 @@
 
 /*!
  * Jollof Framework (c) 2016
- * 
+ *
  * {RedisSessionService.php}
  *
  */
@@ -49,14 +49,14 @@ class RedisSessionService implements SessionAccessInterface {
         $this->storage = new RedisStorage($sessionHost, $sessionPort);
 
         $this->encrypter = new Encrypter($GLOBALS['env']['app.key']);
- 
+
 		if(!$GLOBALS['app']->inCLIMode()){
 
                if($sessionName !== ""){
                		$this->sessionName = $sessionName;
                }
 
-			   $this->setSessionCookie(); 
+			   $this->setSessionCookie();
 
 			   $this->open();
 
@@ -64,9 +64,9 @@ class RedisSessionService implements SessionAccessInterface {
 	    }
 	}
 
-	
+
 	public function __destruct(){
-		
+
 		$this->close();
 	}
 
@@ -87,9 +87,9 @@ class RedisSessionService implements SessionAccessInterface {
          if(!isset($reqtime)){
          	$reqtime = time()-2; // just an estimation... no biggie!
          }
-         
+
          $this->previousReqTime = intval($this->getSessionData('_lastreq'));
-         
+
          if($this->previousReqTime === FALSE){
          	 $this->previousReqTime = 0;
          }
@@ -101,22 +101,22 @@ class RedisSessionService implements SessionAccessInterface {
      *
      *
      * @param void
-     * @return string 
+     * @return string
      */
-	
+
 	public function getId(){
 
 		return $this->sessionId;
 	}
-    
+
     /**
      *
      *
      *
      * @param void
-     * @return string 
+     * @return string
      */
-	
+
 	public function getName(){
 
 		return $this->sessionName;
@@ -134,7 +134,7 @@ class RedisSessionService implements SessionAccessInterface {
 		$sessionId = $this->encrypter->decrypt($this->sessionId);
 
 		try{
-        
+
         	$this->sessionBag = unserialize($this->storage->get($sessionId));
 
         }catch(\Exception $e){
@@ -147,7 +147,7 @@ class RedisSessionService implements SessionAccessInterface {
         $params = $GLOBALS['env']['app.settings.cookie'];
 $this->sessionId = (array_key_exists($this->sessionName, $_COOKIE))? $_COOKIE[$this->sessionName] : $this->encrypter->encrypt(custom_session_id(TRUE));
         // regenerate id manually for large diff in request times (This handles browsers which dont support {httpOnly})
-		 /*if(($this->previousReqTime - $this->novelReqTime) >= 400){ 
+		 /*if(($this->previousReqTime - $this->novelReqTime) >= 400){
 	           $this->sessionId = custom_session_id(TRUE);
 	           session_id($this->sessionId); // manually inform PHP that the session id has been updated/regenrated!!
          }*/
@@ -239,7 +239,7 @@ setcookie($this->sessionName, $this->sessionId, $this->sessionCookieExpires, '/'
 		return FALSE;
 	}
 
-	
+
 	private function forgetSessionData($key){
 
 		if ($this->hasKey($key) && isset($this->sessionBag[$key])){

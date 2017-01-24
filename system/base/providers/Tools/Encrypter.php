@@ -19,13 +19,13 @@ class Encrypter {
        protected $iv;
 
        protected $key;
-       
+
        public function __construct($app_key){
 
            $this->key = $app_key;
 
            $this->createIV();
-              
+
        }
 
        private function createIV(){
@@ -37,7 +37,7 @@ class Encrypter {
 
        		$payload = mcrypt_encrypt($this->algorithm, $this->key, $plain_text, $this->mode, $this->iv);
 
-       		return $this->wrapPayload($payload); 
+       		return $this->wrapPayload($payload);
        }
 
        public function decrypt($encoded_text){
@@ -62,7 +62,7 @@ class Encrypter {
 
        	    return mcrypt_get_iv_size($this->algorithm, $this->mode);
        }
-	
+
 }
 
 ?>

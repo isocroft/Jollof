@@ -2,7 +2,7 @@
 
 /*!
  * Jolloff Framework (c) 2016
- * 
+ *
  * {NativeSessionService.php}
  */
 
@@ -57,13 +57,13 @@ class NativeSessionService implements SessionAccessInterface {
 
 			   $this->cacheRequestTime();
 
-			   $this->setSessionCookie(); 
+			   $this->setSessionCookie();
 	    }
 	}
 
-	
+
 	public function __destruct(){
-		
+
 		$this->close();
 	}
 
@@ -74,7 +74,7 @@ class NativeSessionService implements SessionAccessInterface {
 	 *
 	 *
 	 * @param string $key
-	 * @return bool 
+	 * @return bool
 	 */
 
 	public function hasKey($key){
@@ -112,9 +112,9 @@ class NativeSessionService implements SessionAccessInterface {
          if(!isset($reqtime)){
          	$reqtime = time()-2; // just an estimation... no biggie!
          }
-         
+
          $this->previousReqTime = intval($this->getSessionData('_lastreq'));
-         
+
          if($this->previousReqTime === FALSE){
          	 $this->previousReqTime = 0;
          }
@@ -126,7 +126,7 @@ class NativeSessionService implements SessionAccessInterface {
         $params = $GLOBALS['env']['app.settings.cookie'];
 $this->sessionId = (array_key_exists($this->sessionName, $_COOKIE))? $_COOKIE[$this->sessionName] : custom_session_id(TRUE);
         // regenerate id manually for large diff in request times (This handles browsers which don't support {httpOnly})
-		 /*if(($this->previousReqTime - $this->novelReqTime) >= 400){ 
+		 /*if(($this->previousReqTime - $this->novelReqTime) >= 400){
 	           $this->sessionId = custom_session_id(TRUE);
 	           session_id($this->sessionId); // manually inform PHP that the session id has been updated/regenrated!!
          }*/
@@ -139,10 +139,10 @@ setcookie($this->sessionName, $this->sessionId, $this->sessionCookieExpires, '/'
      *
      *
      * @param void
-     * @return string 
+     * @return string
      * @api
      */
-	
+
 	public function getName(){
 
 		return ($this->sessionName || session_name());
@@ -201,7 +201,7 @@ setcookie($this->sessionName, $this->sessionId, $this->sessionCookieExpires, '/'
 
 	public function erase($key){
 
-         return $this->forgetSessionData($key);		
+         return $this->forgetSessionData($key);
 	}
 
 	/**
@@ -212,10 +212,10 @@ setcookie($this->sessionName, $this->sessionId, $this->sessionCookieExpires, '/'
 	 */
 
 	public function open(){
-         
+
         // Interfering here to protect client user from XSS attack vectors -- via JavaScript document.cookie)
         $this->sessionBag = array();
-        // lets' get the session ready 
+        // lets' get the session ready
         if (session_id() == $this->sessionId){
 session_cache_limiter('private_no_expire'); // enable caching of response on the client (disallow on proxies)
 session_cache_expire($this->sessionCacheExpires); // setup Cache-Control to secs value (response meant for single user)
@@ -230,9 +230,9 @@ session_start();
 	 * @param void
 	 * @return void
 	 */
-	
+
 	public function close(){
-		
+
 		 session_write_close();
 	}
 
@@ -251,7 +251,7 @@ session_start();
 		return FALSE;
 	}
 
-	
+
 	private function forgetSessionData($key){
 
 		if ($this->hasKey($key) && isset($_SESSION[$key])){

@@ -1,7 +1,7 @@
 <?php
 /*!
  * Vyke Mini Framework (c) 2016
- * 
+ *
  * {TextStream.php}
  */
 
@@ -37,7 +37,7 @@ class TextStream {
           $this->maxNoUploadCount = 5;
 
           $this->columns = array('subject', 'verb', 'object', 'time', 'activity_type');
-      
+
       }
 
       public static function createInstance(){
@@ -45,7 +45,7 @@ class TextStream {
           if(static::$instance == NULL){
                static::$instance = new TextStream();
                return static::$instance;
-          }  
+          }
       }
 
       public function setForAjax(){
@@ -59,7 +59,7 @@ class TextStream {
 
           $combined['activity_id'] = Helpers::generateCode();
 
-          return $activities->setOccurence($combined);          
+          return $activities->setOccurence($combined);
 
       }
 
@@ -73,15 +73,15 @@ class TextStream {
 
           while((!connection_aborted() || !connection_timeout())){
 
-                if(Cache::has('app_activities')){ // 
-                
-                     static::$instance->setEventDataBlocks(Cache::get('app_activities'));
-                } 
+                if(Cache::has('app_activities')){ //
 
-                if(!static::$instance->isUpdateAvailable()){ 
+                     static::$instance->setEventDataBlocks(Cache::get('app_activities'));
+                }
+
+                if(!static::$instance->isUpdateAvailable()){
 
                      static::$instance->setEventDataBlocks($activities->getOccurence($this->columns, array('id'=> array('>', $lastEventId)), $this->eventDataBlockSize));
-                }     
+                }
 
                 if(static::$instance->isUpdateAvailable()){
 
@@ -106,7 +106,7 @@ class TextStream {
                            static::$instance->includeStreamHeading('noupdate', self::EVENT_HEADING);
 
                            if($noUpdateCount >= static::$instance->getMaxNoUpdateCount()){
-          
+
                               $noUpdateCount = 0;
 
                               $events->noupdateCount = $noUpdateCount;
@@ -124,17 +124,17 @@ class TextStream {
                            }
 
                            $events->data = static::$instance->getStreamText();
-                  
+
                            break;
                       }
-                     
+
                       sleep(3); // wait for 3 seconds [max -worst case: 6 seconds]
                 }
           }
 
           return $events;
 
-      } 
+      }
 
       private function getStreamText(){
 
@@ -147,7 +147,7 @@ class TextStream {
       }
 
       private function includeStreamHeading($line, $type = -1){
-          
+
           $heading = '';
 
           if(is_string($line)){
@@ -173,7 +173,7 @@ class TextStream {
 
           foreach($lineArray as $ln){
              $this->streamText .=  $heading . $ln . PHP_EOL;
-          }   
+          }
       }
 
       public function setEventDataBlocks(array $eventData){
@@ -182,7 +182,7 @@ class TextStream {
 
                 $this->eventDataBlocks[] = $eventData;
 
-           }     
+           }
       }
 
       public function isUpdateAvailable(){

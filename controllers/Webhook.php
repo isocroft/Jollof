@@ -1,6 +1,6 @@
 <?php
 
-class Webhook extends Controller { 
+class Webhook extends Controller {
 
        protected $params = array();
 
@@ -27,18 +27,18 @@ class Webhook extends Controller {
             $payload = Request::input()->getFields();
 
             $signature = Request::rawHeader('X-Hub-Signature');
-			
+
 			      if(!$signature){
-               
+
                  return Response::text("Somethings' not Right!", 401);
             }
 
             list($algos, $hash) = explode('=', $signature);
 
-            $verified = Helpers::verifyHmac($algos,(json_encode($payload)), $secret, $hash); 
+            $verified = Helpers::verifyHmac($algos,(json_encode($payload)), $secret, $hash);
 
             if(!$verfied){
-               
+
                 return Response::text("Somethings' not Right!", 401);
             }
 
@@ -52,7 +52,7 @@ class Webhook extends Controller {
             }
 
             return Response::text(NULL, 204);
-                     
+
        }
 
 }

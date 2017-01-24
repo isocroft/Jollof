@@ -1,19 +1,19 @@
- <?php 
+ <?php
 
- class Admin extends Controller { 
+ class Admin extends Controller {
 
-	 protected $params; 
+	 protected $params;
 
-	 public function __construct(array $params = array()){ 
+	 public function __construct(array $params = array()){
 
-		 parent::__construct($params); 
+		 parent::__construct($params);
 
-	 } 
+	 }
 
-	 public function index($models){  
+	 public function index($models){
 
 		 return Response::view('admin/index', array());
 
-	 } 
+	 }
 
- } ?> 
+ } ?>

@@ -20,7 +20,7 @@ final class File {
      * @param void
      * @api
      */
- 
+
     private function __construct(){
 
     }
@@ -33,15 +33,15 @@ final class File {
      *
      * @param void
      * @return object $instance
-     * @api 
+     * @api
      */
 
     public static function createInstance(){
-       
+
         if(static::$instance === NULL){
             static::$instance = new File();
             return static::$instance;
-        }    
+        }
     }
 
     /**
@@ -51,11 +51,11 @@ final class File {
      *
      *
      * @param string $key
-     * @return bool 
+     * @return bool
      */
 
     public static function read($file_path){
-       
+
         return read_from_file($file_path);
     }
 
@@ -66,11 +66,11 @@ final class File {
      *
      *
      * @param string $key
-     * @return bool 
+     * @return bool
      */
 
     public static function readAsArray($file_path){
-        
+
         return file($file_path);
     }
 
@@ -81,7 +81,7 @@ final class File {
      *
      *
      * @param string $key
-     * @return bool 
+     * @return bool
      */
 
     public static function write($file_path, $content, $overwrite){
@@ -96,7 +96,7 @@ final class File {
      *
      *
      * @param string $key
-     * @return bool 
+     * @return bool
      */
 
     public static function makeFile($file_path){
@@ -111,7 +111,7 @@ final class File {
      *
      *
      * @param string $key
-     * @return bool 
+     * @return bool
      */
 
     public static function deleteFile($file_path){
@@ -126,7 +126,7 @@ final class File {
      *
      *
      * @param string $key
-     * @return bool 
+     * @return bool
      */
 
     public static function makeFolder($folder_name, $hide = false){
@@ -141,7 +141,7 @@ final class File {
      *
      * @param string $file_path
      * @param array $file_context_options
-     * @return string $content; 
+     * @return string $content;
      * @api
      */
 
@@ -150,10 +150,10 @@ final class File {
         $content = NULL;
         $context = NULL;
         $include = NULL;
-       
+
         if(array_key_exists('http', $file_context_options)){
             $context = stream_context_create($file_context_options);
-        }    
+        }
 
         // Open the file using the HTTP headers set above
         if($context === NULL){
@@ -165,10 +165,10 @@ final class File {
                 $include = true;
             }else{
                 $include = FILE_USE_INCLUDE_PATH;
-            } 
+            }
             $content = file_get_contents($file_path, $include, $context);
         }
-        
+
         sleep(2);
 
         return $content;
@@ -182,7 +182,7 @@ final class File {
      *
      * @param string $file_path
      * @param string $file_content
-     * @return bool 
+     * @return bool
      * @api
      */
 

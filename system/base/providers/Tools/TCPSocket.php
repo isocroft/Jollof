@@ -10,7 +10,7 @@ class TCPSocket {
 
 	const SOCKET_EXTENSIONS = 2;
 
-	protected $ip_address_scheme = '/^[\d]{3}(?:(\.[\d]{1,3}){3})$/'; 
+	protected $ip_address_scheme = '/^[\d]{3}(?:(\.[\d]{1,3}){3})$/';
 
 	protected $ip_address;
 
@@ -97,7 +97,7 @@ class TCPSocket {
           }
 
           $this->reads = $this->writes = array($this->socket);
-          
+
           $this->socketStarted = TRUE;
 
           stream_set_blocking($this->socket, 0); // set to non-blocking mode
@@ -114,15 +114,15 @@ class TCPSocket {
                  fwrite();
 			 	 $ipList[] = $connection->getIp();
 			}
-		}	
+		}
 
 		foreach ($ipList as $ip) {
-			 fwrite(STDOUT, "s " . count($ipList))
+			 fwrite(STDOUT, "s " . count($ipList));
 			 try{
 		 	    unset($this->connections[$ip]);
 		 	 }catch(\Exception $e){}
 		}
-	}	
+	}
 
 	private function read($connection){
 
@@ -142,9 +142,9 @@ class TCPSocket {
 		         $read .= fread($socket, $this->minReadBytes);
 
 		      }
-		 }   
-		 
-		 return $read;   
+		 }
+
+		 return $read;
 	}
 
 	public function getClientAddresses(){
@@ -175,7 +175,7 @@ class TCPSocket {
 
 
           if(!$this->socketStarted){
-                
+
                 $error = new \UnexpectedValueException($this->errNo . ": Could not create socket: " . $this->errMsg);
                 fwrite(STDERR, $error->getMessage());
                 throw $error;
@@ -186,12 +186,12 @@ class TCPSocket {
           }
 
     }
-    
-    public function blockAndWait(callable $handle){      
 
-            
+    public function blockAndWait(callable $handle){
+
+
             if(!is_resource($this->socket)){
-            	
+
             	 return false;
             }
 
@@ -200,9 +200,9 @@ class TCPSocket {
             $timeout = 1337; // seconds
             $localIp = stream_socket_get_name($this->socket, FALSE);
             /* check if ther's a new connection waiting to be accepted (non-blocking mode with {$timeout} = 0 or higher) --- (blocking mode with {$timeout} = -1) */
-            
+
             $changed = @stream_select($this->reads, $this->writes, $this->writes, $timeout);
-              
+
   	   	    if($changed === FALSE){
 
   	   	    	 $this->reads = $this->writes = array($this->socket);
@@ -212,17 +212,17 @@ class TCPSocket {
   	   	   	     return true;
   	   	    }
 
-  	   	    for($i = 0; $i < $changed; $i++){  
-            
+  	   	    for($i = 0; $i < $changed; $i++){
+
                 if($this->reads[$i] === $this->socket){
-		            // this line below blocks the thread of execution until a client socket connects or it times out! 
+		            // this line below blocks the thread of execution until a client socket connects or it times out!
 		            // this times out immediatelly because of the 0 as second argument
 				  	$client = @stream_socket_accept($this->socket, -1, $remoteIp); // "-1"
 
-                    
+
                     // if {$client} socket doesn't connect or the socket times out, {$client} equals NULL
 				  	if(isset($client)){
-                          
+
 				  	      $this->reads[] = $client;
 
 				  	      if(!isset($remoteIp)){
@@ -235,16 +235,16 @@ class TCPSocket {
 					  	       $this->connections[$remoteIp] = new SocketConnection($client, $remoteIp);
 			              }
 
-				  	}      
+				  	}
 
-				}  	
+				}
 
-			}  	
-               
-		  	if(count($this->connections) > 0){ 
+			}
+
+		  	if(count($this->connections) > 0){
 
 		  	   	foreach($this->connections as $connection){
-                            
+
                           // set the write size in bytes
 	                      $connection->setBucketSize($this->maxWriteBytes);
 
@@ -256,17 +256,17 @@ class TCPSocket {
 	                      //stream_set_blocking($connection->getSocket(), true);
 
 	                      $handle($connection);
-	                      
+
 	                      // we unblock the client socket so it can prepare to recieve data
 	                      //stream_set_blocking($connection->getSocket(), false);
 
 	                      $this->write($connection);
 
 	                      $this->finish($connection);
-                }   
+                }
 		  	}
 
-		    return true;  	
+		    return true;
 	}
 
 	public function drop(){
@@ -274,7 +274,7 @@ class TCPSocket {
 		 fclose($this->socket);
 
 		 if(is_resource($this->socket)){
-		 	 stream_socket_shutdown($this->scoket, \STREAM_SHUT_RDWR); 
+		 	 stream_socket_shutdown($this->scoket, \STREAM_SHUT_RDWR);
 		 }
 	}
 
@@ -284,7 +284,7 @@ class TCPSocket {
 		$socket = $connection->getSocket();
 
         //if(count($this->writes) && in_array($socket, $this->writes)){
-            
+
             $data = $connection->getResponse()->payload;
 
             fwrite(STDOUT, $data);
@@ -294,7 +294,7 @@ class TCPSocket {
     		$connection->flush();
 
 		    fclose($socket);
-		//}    
+		//}
 
 	}
 
@@ -303,7 +303,7 @@ class TCPSocket {
         $socket = $connection->getSocket();
         if(is_resource($socket)){
 		 	stream_socket_shutdown($socket, \STREAM_SHUT_RDWR);
-		} 
+		}
         // {stream_select} modifies the contents of {$this->reads} & {$this->writes} so... we reset them back to their initial state
         $this->reads = $this->writes = array($this->socket);
 	}

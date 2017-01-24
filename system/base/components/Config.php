@@ -2,13 +2,13 @@
 
 /*!
  * Jollof Framework (c) 2016
- * 
+ *
  * {Config.php}
  *
  */
 
 final class Config {
-	
+
 	/**
      * @var Auth
      */
@@ -29,7 +29,7 @@ final class Config {
      }
 
      public static function createInstance(array $envs){
- 
+
           if(static::$instance == NULL){
                static::$instance = new Config($envs);
                return static::$instance;

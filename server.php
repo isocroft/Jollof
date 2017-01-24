@@ -16,7 +16,7 @@ $server->onConnection(function(&$connection) use ($env){
 	 $modified = false;
 
 	 fwrite(STDOUT, "$uri : $method: \r\n\n  " . implode(PHP_EOL, $headers));
- 
+
      if(array_key_exists('Cookie', $headers)){
          $modified = Session::setCookieValue($headers['Cookie']); // only to be used when the driver is "redis"
      }
@@ -51,8 +51,8 @@ $server->onConnection(function(&$connection) use ($env){
      	    if($connection->isAjax()){
                 $connection->send('{"record":"_8ae0c31d23445"}', 200, "application/json");
             }else{
-                $connection->send('Hello World', 200);	
-            }   
+                $connection->send('Hello World', 200);
+            }
      	break;
      }
 

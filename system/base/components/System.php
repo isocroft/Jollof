@@ -16,7 +16,7 @@ final class System {
      */
 
     private static $instance = NULL;
- 
+
     private $errorHandler;
 
     private $blindRouteHandler;
@@ -24,15 +24,15 @@ final class System {
     private $faultedMiddlewares;
 
     private $middlewares;
-   
+
     private function __construct(){
- 
+
         $this->middlewares = array();
 
         $this->errorHandler = NULL;
 
         $this->blindRouteHandler = NULL;
-        
+
         $this->faultedMiddlewares = array();
 
         $this->customEventHandlers = array();
@@ -56,9 +56,9 @@ final class System {
          if(static::$instance == NULL){
                static::$instance = new System();
                return static::$instance;
-         }     
+         }
     }
-   
+
     public function shutdown(){
          $fatalError = error_get_last();
          if((!headers_sent()) && $fatalError !== NULL){
@@ -68,16 +68,16 @@ final class System {
 
     // A custom error handler
     public function error_handler($errno, $errstr, $errfile, $errline){
-      
+
        $handler = self::$instance->getErrorHandler();
 
        if($GLOBALS['app']->inCLIMode()){
            fwrite(STDERR, "Learnsty App Exception => " . PHP_EOL . " $errstr in [$errfile] on :$errline" . PHP_EOL);
-       } 
- 
+       }
+
        if(isset($handler) && is_callable($handler)){
            $handler($errno, $errstr, $errfile, $errline);
-       }     
+       }
     }
 
     private function setErrorHandler($callback){
@@ -111,7 +111,7 @@ final class System {
     }
 
     public function fireCallback($callbackName, array $callbackArgs){
-        
+
         $result = NULL;
         switch($callbackName){
             case 'BLIND_ROUTE_CALLBACK':
@@ -168,7 +168,7 @@ final class System {
                      $this->faultedMiddlewares[] = $name;
                 }else{
                     if(array_key_exists('HTTP_CODE', $GLOBALS)){
-                        if($GLOBALS['HTTP_CODE'] === 303 
+                        if($GLOBALS['HTTP_CODE'] === 303
                             || $GLOBALS['HTTP_CODE'] === 302){
                             exit;
                         }
@@ -181,13 +181,13 @@ final class System {
     }
 
     public static function onAppError(callable $callback){
-      
+
         static::$instance->setErrorHandler($callback);
     }
 
     public static function middleware($middleware_name, callable $callback){
-           
-       static::$instance->addMiddlewares($middleware_name,  $callback);           
+
+       static::$instance->addMiddlewares($middleware_name,  $callback);
     }
 
     public static function onBlindRoute(callable $callback){

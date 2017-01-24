@@ -35,12 +35,12 @@ class Model implements DBInterface {
           }else{
 
                throw new \Exception("Cannot create Model Instance >> Database Settings Not Found");
-               
-          }    
+
+          }
      }
 
      protected function setBuilder(Builder $builder){
- 
+
           $this->builder = $builder;
      }
 
@@ -54,7 +54,7 @@ class Model implements DBInterface {
      }
 
      protected function set(array $values = array(), array $clauseProps = array()){
-        
+
         return $this->builder->insert($values, $clauseProps);
      }
 

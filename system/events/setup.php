@@ -1,7 +1,7 @@
 <?php
 
 /*-------------------------------------------------------
- ! This is where application-wide events are setup. 
+ ! This is where application-wide events are setup.
  !
  !
  !
@@ -15,11 +15,11 @@
  --------------------------------------------------------*/
 
  System::onAppError(function($code, $message, $file, $line){
-      
+
        $status = $GLOBALS['env']['app.status'];
 
        $reporter = $GLOBALS['app']->getRemoteErrorReporter();
-       
+
        Logger::error("[Jollof - " . $code . "]  " . $message . " in " . $file . " on line " . $line);
 
        switch ($status) {
@@ -36,14 +36,14 @@
               $descriptors = array(
                   'method' => 'GET',
                   'client_id' => Session::id(),
-                  'path' => '', 
+                  'path' => '',
                   'params' => array(
                      'browser' => Request::header('HTTP_USER_AGENT'),
                      'timing' => Request::header('REQUEST_TIME'),
                      'details' => json_encode((compact('code', 'message', 'file', 'line')))
                   )
                );
-               
+
                $reporter->sendError($ex, $descriptors, function($response){
 
                });
