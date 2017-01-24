@@ -91,11 +91,11 @@ Next, move into the **configs** folder (in the root), open up the _env.php_ file
         .
         .        
 ``` 
-Finally, move to the browser and load the route <q>/home</q> to view the page/view.
+Finally, move to the browser and load the route <q>/home</q> to view the page or view.
 
 ### Example 2 - Content-Security-Policy (CSP) Activation
 
-Move into the **configs** folder (in the root), open up the _env.php_ file and change the settings under **app_security** to what you have below.
+Move into the **configs** folder (in the root), open up the _env.php_ file and edit the settings under **app_security** config section (array) to what you have below.
                 
 ```php
   .
