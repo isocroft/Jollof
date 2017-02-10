@@ -8,6 +8,7 @@ Thumbs.db
 
 # skip base files/folders
 
+_temp
 hooks
 packages/vendor
 packages/node_modules

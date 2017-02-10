@@ -1,5 +1,12 @@
 <?php
 
+/*!
+ * Jollof Framework (c) 2016
+ *
+ *
+ * {HTTPResolver.php}
+ */
+
 namespace Providers\Core;
 
 use \Router;
@@ -10,9 +17,25 @@ use \Auth;
 
 class HTTPResolver{
 
+    /**
+     * @var Controller
+     */
+
 	 protected $currentController;
 
+    /**
+     * @var string
+     */ 
+
 	 private  $resolverMethod;
+
+     /**
+      * Constructor
+      *
+      *
+      * @param void
+      * 
+      */
 
 	 public function __construct(){
 
@@ -22,11 +45,29 @@ class HTTPResolver{
 
 	 }
 
+    /**
+     *
+     *
+     *
+     *
+     * @param string $method
+     * @return void 
+     */
+
 	 public function draftRouteHandler($method){
 
 	 	  $this->resolverMethod = $method;
 
  	 }
+
+    /**
+     *
+     *
+     *
+     *
+     * @param string $url
+     * @return array 
+     */
 
  	 private function getResolverURIParts($url){
 
@@ -36,18 +77,47 @@ class HTTPResolver{
 
  	 }
 
+    /**
+     *
+     *
+     *
+     *
+     * @param void
+     * @return string $resolverMethod 
+     */
+
  	 public function getResolverMethod(){
 
          return $this->resolverMethod;
 
  	 }
 
+    /**
+     *
+     *
+     *
+     *
+     * @param Router $router
+     * @param System $sys
+     * @param Auth $auth
+     * @return mixed 
+     */
+
      public function handleCurrentRoute(Router $router, System $sys, Auth $auth){
 
             $uri = Request::uri();
 
             if(preg_match('/\.(?:[a-z]{1,5})$/i', $uri)){
+
+                    /* if the requested file (or route) is a real file on disk, 
+                     * then serve it using PHP (Apache/Nginx not involved)
+                     */
+
                     if(file_exists(realpath($uri))){
+                           /* 
+                            * This serves back the file from disk to the client 
+                            * -- can be very slow though
+                            */ 
                           return $router->fromDisk($uri);
                     }
             }

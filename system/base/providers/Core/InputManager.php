@@ -1,17 +1,35 @@
 <?php
 
-namespace Providers\Core;
+/*!
+ * Jollof Framework (c) 2016
+ *
+ *
+ * {InputManager.php}
+ */
 
+namespace Providers\Core;
 
 class InputManager {
 
+     /**
+      * @var integer
+      */
+
      protected $maxUploadSize;
+
+     /**
+      * @var array
+      */
 
      protected $binaryFilesAllowed = array(
         IMAGETYPE_GIF,
         IMAGETYPE_JPEG,
         IMAGETYPE_PNG
      );
+
+     /**
+      * @var array
+      */
 
      protected $textFilesAllowed = array(
          "application/zip",
@@ -22,6 +40,10 @@ class InputManager {
          "application/xml",
          "text/html"
      );
+
+     /**
+      * @var array
+      */
 
      protected $allowedFileExtentions = array(
          'zip',
@@ -43,11 +65,31 @@ class InputManager {
          'xlsx'
      );
 
+     /**
+      * @var array
+      */
+
      protected $uploadSettings;
+
+     /**
+      * @var string
+      */
 
      protected $uploadTempDir;
 
+     /**
+      * @var array
+      */
+
      protected $httpInput = array('fields'=>array(), 'files'=>NULL);
+
+     /**
+      * Constructor
+      *
+      *
+      * @param void
+      * 
+      */
 
      public function __construct(array $httpInput = array(), array $uploadConfig = array()){
 
@@ -67,6 +109,16 @@ class InputManager {
           }
 
      }
+
+    /**
+     *
+     *
+     *
+     *
+     * @param array $upload_path_map
+     * @param array $errors
+     * @return array $results
+     */
 
      public function uploadFiles(array $upload_path_map, array &$errors){
 
@@ -259,6 +311,15 @@ class InputManager {
            return $results;
      }
 
+    /**
+     *
+     *
+     *
+     *
+     * @param string $file_tmp_name
+     * @return bool
+     */
+
      private function isAllowedBinary($file_tmp_name){
 
            $file_type = exif_imagetype($file_tmp_name);
@@ -266,15 +327,42 @@ class InputManager {
            return in_array($file_type, $this->binaryFilesAllowed);
      }
 
+    /**
+     *
+     *
+     *
+     *
+     * @param array $field_keys
+     * @return array 
+     */
+
      public function getFields(array $field_keys = array()){
 
          return $this->filterInput($field_keys, $this->httpInput['fields']);
      }
 
+    /**
+     *
+     *
+     *
+     *
+     * @param array $field_keys
+     * @return array 
+     */
+
      public function getFiles(array $file_keys = array()){
 
         return $this->filterInput($file_keys, $this->httpInput['files']);
      }
+
+    /**
+     *
+     *
+     *
+     *
+     * @param array $vars
+     * @return array $parameters
+     */
 
      private function filterInput(array $vars = array(), $parameters){
             $filtered = NULL;

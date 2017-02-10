@@ -3,6 +3,7 @@
 /*!
  * Jollof (c) Copyright 2016
  *
+ *
  * {QueryBuilder.php}
  *
  */

@@ -11,7 +11,7 @@ namespace Providers\Core;
 
 use \PDO;
 use \UnexpectedValueException;
-use \Model;
+use \ReflectionClass;
 
 class QueryExtender {
 
@@ -59,6 +59,7 @@ class QueryExtender {
      /**
       * @var array - all operators which are allowed in a query
       */
+
     protected $allowedOperators = array(
         'LIKE',
         'BETWEEN',
@@ -68,6 +69,12 @@ class QueryExtender {
         '=',
         '<'
     );
+
+    /**
+     * @var ReflectionClass - for obtaining the object of a class with just the class name
+     */ 
+
+     protected $reflClass;
 
     /**
      * Constructor
@@ -88,6 +95,8 @@ class QueryExtender {
 
          $this->connection = $connection;
 
+         $this->reflClass = NULL;
+
      }
 
      /**
@@ -97,7 +106,7 @@ class QueryExtender {
       * @param array $columns - columns for SELECT query
       * @param array $clauseProps - column/value pairs for WHERE clause in SELECT query
       * @param string $conjunction - conjunction for WHERE clause
-      * @return \Providers\Tools\QueryExtender -
+      * @return \Providers\Core\QueryExtender -
       *
       * @throws UnexpectedValueException
       */
@@ -139,7 +148,7 @@ class QueryExtender {
       * @param array $columns - columns for INSERT query
       * @param array $values -  values for the columns for INSERT query
       * @param array $clauseProps - columns for update where duplicate key exists
-      * @return \Providers\Tools\QueryExtender -
+      * @return \Providers\Core\QueryExtender -
       */
 
      public function set($columns, $values, $clauseProps = array()){
@@ -167,7 +176,7 @@ class QueryExtender {
       * @param array $columnValues - column/value pairs for SET clause in UPDATE query
       * @param array $clauseProps - column/value pairs for WHERE clause in UPDATE query
       * @param string $conjunction - conjunction for WHERE clause
-      * @return \Providers\Tools\QueryExtender -
+      * @return \Providers\Core\QueryExtender -
       *
       * @throws UnexpectedValueException
       */
@@ -201,7 +210,7 @@ class QueryExtender {
       *
       * @param $columns - columns
       * @param $clauseProps - column/value pairs for WHERE clause in UPDATE query
-      * @return \Providers\Tools\QueryExtender -
+      * @return \Providers\Core\QueryExtender -
       */
 
      public function del($columns){
@@ -220,12 +229,12 @@ class QueryExtender {
       *
       *
       *
-      * @param \Model $model -
+      * @param string $modelName -
       * @param string $joinType -
-      * @return \Providers\Tools\QueryExtender -
+      * @return \Providers\Core\QueryExtender -
       */
 
-     public function with(Model $model, $joinType = 'inner'){
+     public function with($modelName, $joinType = 'inner'){
 
          if(strlen($this->queryString) == 0){
 
@@ -234,7 +243,11 @@ class QueryExtender {
 
          $joinType = strtoupper($joinType);
 
-         $__atrribs = $model->getAttributes();
+         $this->reflClass = new ReflectionClass($modelName);
+
+         $object = $reflClass->newInstanceWithoutContructor(); 
+
+         $__atrribs = $object->getAttributes();
 
          # wrap the table name with quotes like so: `table`
          $table = $this->wrap($this->attribs['table']);
@@ -243,7 +256,7 @@ class QueryExtender {
 
          $parentReference = $this->wrap($this->attribs['key']);
 
-         $childReference = $this->wrap($__attribs['relations'][get_class($model)]);
+         $childReference = $this->wrap($__attribs['relations'][$modelName]);
 
          # start building query string -> {INNER|LEFT|OUTER RIGHT|OUTER LEFT|CROSS} JOIN
      	   $joinExp = " {$joinType} JOIN `{$joinTable}` ON `{$table}`.`{$parentReference}` = `{$joinTable}`.`{$childReference}`";
@@ -260,7 +273,7 @@ class QueryExtender {
       *
       * @param array $colums - ordering columns for SELECT query
       * @param bool $ascending - flag to specify sorting preference
-      * @return \Providers\Tools\QueryExtender -
+      * @return \Providers\Core\QueryExtender -
       */
 
      public function ordering(array $columns, $ascending = FALSE){
@@ -290,7 +303,7 @@ class QueryExtender {
       *
       *
       * @param array $clauseProps -
-      * @return \Providers\Tools\QueryExtender -
+      * @return \Providers\Core\QueryExtender -
       * @throws \UnexpectedvalueException -
       */
 
@@ -318,7 +331,7 @@ class QueryExtender {
       *
       *
       * @param array $columns -
-      * @return \Providers\Tools\QueryExtender -
+      * @return \Providers\Core\QueryExtender -
       */
 
      public function grouping(array $columns){

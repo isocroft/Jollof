@@ -193,7 +193,7 @@ class App {
 
      public function getOS(){
 
-     	return $this->os;
+     	    return $this->os;
      }
 
      /**
@@ -206,21 +206,16 @@ class App {
 
      public function getHost($appendChar = ''){
 
-     	return $this->apphost . $appendChar;
+     	    return $this->apphost . $appendChar;
      }
 
      /**
       * Sets up the connection for the database.
       *
       *
-      * @param string $env_path
-      * @return void
+      * @param void
+      * @return array
       */
-
-     public function setDBConnection($env_path){
-
-         $this->dbservice->connect($env_path);
-     }
 
      public function getCookieQueue(){
 
@@ -257,9 +252,9 @@ class App {
 
          $auth = $this->getInstance('Auth');
 
-     	 $this->resolver->draftRouteHandler($router->getMethod());
+     	   $this->resolver->draftRouteHandler($router->getMethod());
 
-     	 return $this->resolver->handleCurrentRoute($router, $system, $auth);
+     	   return $this->resolver->handleCurrentRoute($router, $system, $auth);
 
      }
 
@@ -275,7 +270,7 @@ class App {
 
         if($this->hasCachedModels === FALSE){
 
-            $this->dbservice->setModelsToBuilder($models);
+            $this->dbservice->bindSchema($models);
 
             $this->hasCachedModels = TRUE;
 
@@ -295,6 +290,19 @@ class App {
 
          return $this->envservice->exposeEnvironment($root);
 
+     }
+
+     /**
+      *
+      *
+      *
+      * @param
+      * @return
+      */
+
+     public function getBuilder(array $attribs){
+
+          return $this->dbservice->getBuilder($attribs);
      }
 
      /**
@@ -331,20 +339,24 @@ class App {
      }
 
      /**
-      * Registers all core components for the application.
-      *
+      * Registers all core components and ancillary
+      * services for the application. 
       *
       * @param void
       * @return void
       */
 
      public function registerCoreComponents(){
+
+            $this->dbservice->connect($GLOBALS['env']['app.path.base'] . '.env');
+
+            $this->jheaders->installConfig($this->envservice->getConfig("app_security"));
+
           /*
            * Setup all Singletons for the application
            */
 
          // @TODO: later, try to do the below in a loop! it probably will be a much cleaner code
-               $this->jheaders->installConfig($this->envservice->getConfig("app_security"));
 
                $this->instances['Logger'] = Logger::createInstance();
                $this->instances['System'] = System::createInstance();

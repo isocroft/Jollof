@@ -299,7 +299,7 @@ final class Router {
          	 // build out models and return models array
          	 foreach ($settings['models'] as $modelClass) {
     	            if(class_exists($modelClass)){
-    	     	 	    $models[$modelClass] = new $modelClass();
+    	     	 	          $models[$modelClass] = new $modelClass();
     	            }else{
                         $models[$modelClass] = NULL;
     	            }

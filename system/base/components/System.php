@@ -143,6 +143,11 @@ final class System {
         static::$instance->setCustomEvent($eventName, $eventHandler);
     }
 
+    public static function getRequestingDeviceType(){
+
+         ;
+    }
+
     public function getFaultedMiddlewares(){
 
        return $this->faultedMiddlewares;
