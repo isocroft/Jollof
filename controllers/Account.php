@@ -45,7 +45,6 @@ class Account extends Controller {
                           $json['result'] = Validator::getErrors();
                      }else{
 
-                        Auth::createNewContext( $models );
                         $json['result'] = Auth::register( $validInputs );
                      }
                  break;
@@ -86,7 +85,7 @@ class Account extends Controller {
                         $json['status'] = 'error';
                         $json['result'] = Validator::getErrors();
                     }else{
-                        Auth::createNewContext( $models );
+
                         $json['result'] = Auth::login( $validInputs );
                     }
                  break;
@@ -100,7 +99,7 @@ class Account extends Controller {
             # code ...
         }
 
-        public function passwordreset($models){
+        public function reset_password($models){
 
             # code ...
         }
@@ -108,6 +107,19 @@ class Account extends Controller {
         public function activate($models){
 
             # code ...
+        }
+
+        public function deactivate($models){
+
+            # code ...
+        }
+
+        public function forced_logout($models){
+
+            $user = Auth::user();
+
+            // return Response::view('forcedlogout/index', array('user' => $user));
+            return Response::text('You have to log out first', 200);
         }
 }
 

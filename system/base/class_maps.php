@@ -68,6 +68,7 @@ return array(
      "\\Response" => $compDir . "/components/Response",
      "\\Logger" => $compDir . "/components/Logger",
      "\\Comms" => $compDir . "/components/Comms",
+     "\\Config" => $compDir . "/components/Config",
      "\\Cache" => $compDir . "/components/Cache",
      "\\TextStream" => $compDir . "/components/TextStream",
      "\\Helpers" => $compDir . "/components/Helpers",
@@ -84,6 +85,7 @@ return array(
      /* Controllers */
 
      "\\Controller" => $compDir . "/../../controllers/Controller",
+     "\\Chats" => $compDir . "/../../controllers/Chats",
      "\\Admin" => $compDir . "/../../controllers/Admin",
      "\\Account" => $compDir . "/../../controllers/Account",
      "\\Webhook" => $compDir . "/../../controllers/Webhook"

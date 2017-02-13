@@ -3,35 +3,64 @@
 /*!
  * Jollof Framework (c) 2016
  *
- * {Config.php}
  *
+ * {Config.php}
  */
 
 final class Config {
 
 	/**
-     * @var Auth
-     */
+      * @var Config
+      */
 
      private static $instance = NULL;
 
-    /**
-     * Constructor.
-     *
-     * @param void
-     *
-     * @scope public
-     */
+     /**
+      * @var array
+      */
 
-     private function __construct(array $envs){
+     private $configBlock;
 
+     /**
+      * 
+      *
+      *
+      * @param stirng $key
+      * @return mixed
+      * @api
+      */
+
+
+     /**
+      * Constructor.
+      *
+      *
+      * @param void
+      * @api
+      */
+
+     private function __construct(array $cblock){
+
+          $this->configBlock = $cblock;
 
      }
 
-     public static function createInstance(array $envs){
+
+      /**
+       *
+       *
+       *
+       *
+       *
+       * @param void
+       * @return object $instance
+       * @api
+       */
+
+     public static function createInstance(array $cblock){
 
           if(static::$instance == NULL){
-               static::$instance = new Config($envs);
+               static::$instance = new Config($cblock);
                return static::$instance;
           }
 

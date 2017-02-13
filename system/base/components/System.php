@@ -8,22 +8,53 @@
  */
 
 use \Response;
+use \Request;
 
 final class System {
 
-    /*
+    /**
      * @var System
      */
 
     private static $instance = NULL;
 
+    /**
+     * @var callable
+     */
+
     private $errorHandler;
+
+    /**
+     * @var callable
+     */
 
     private $blindRouteHandler;
 
+    /**
+     * @var array
+     */
+
     private $faultedMiddlewares;
 
+    /**
+     * @var array
+     */
+
     private $middlewares;
+
+    /**
+     * @var callable
+     */
+
+    private $customEventHandlers;
+
+    /**
+     * Constructor.
+     *
+     *
+     * @param void
+     * @api
+     */
 
     private function __construct(){
 
@@ -145,7 +176,16 @@ final class System {
 
     public static function getRequestingDeviceType(){
 
-         ;
+         $tabletRgx = '/(tablet|ipad|playbook|(andriod(?!.*(?:mobi|opera mini)))/i';
+         $mobileRgx = '/(up.browser|up.link|symbian|widp|wap|phone|andriod|iemobile)/i';
+
+         $acceptable = Request::header('HTTP_ACCEPT');
+         $mobile_ua = Request::header('HTTP_X_OPERAMINI_PHONE_UA') || Request::header('HTTP_DEVICE_STOCK_UA');
+         $wap_proflie = Request::wapProfile();
+
+         if(contains($acceptable, 'application/vnd.wap.xhtml+xml')){
+                ;
+         }
     }
 
     public function getFaultedMiddlewares(){

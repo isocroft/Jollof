@@ -145,8 +145,9 @@ class TemplateRunner {
 
         $appRoot = $GLOBALS['env']['app.root'];
         $appHost = $GLOBALS['app']->getHost('/');
+        $uri = Request::header('REQUEST_URI');
 
-        if(index_of(Request::header('REQUEST_URI'), $appRoot) > -1){
+        if(index_of($uri, $appRoot) > -1){
 
             $vars['__url'] = '//' . $appHost . $appRoot .'/';
 
@@ -155,8 +156,9 @@ class TemplateRunner {
             $vars['__url'] = '//' . $appHost;
         }
 
+        unset($uri);
 
-	   extract($vars);
+	    extract($vars, EXTR_SKIP);
 
        try{
 
@@ -168,6 +170,10 @@ class TemplateRunner {
 		   throw new \Exception("Error in View File >> [" . $__name . "] => " . $e->getMesage());
 
  	   }
+
+       /* @TODO: Change ob_get_contents() to ob_get_clean() to enable the removal
+                 of the conditional around the {echo} statement in {Response::view()} 
+        */       
 
         $___drawn =  ob_get_contents();
 

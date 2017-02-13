@@ -202,6 +202,15 @@ final class Request {
 
      }
 
+     public static function wapProfile(){
+
+          $profile = static::getInfo('HTTP_X_WAP_PROFILE');
+          if(!isset($profile)){
+              $profile = static::getInfo('HTTP_PROFILE');
+          }
+          return $profile;
+     }
+
      public static function referer(){
 
          return static::getInfo('HTTP_REFERER');

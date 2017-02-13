@@ -91,12 +91,6 @@
 
         "app_auth" => array (
 
-            'auth_users_model' => 'User',
-
-            'auth_throttles_model' => 'UserThrottle',
-
-            'auth_roles_model' => 'UserRole',
-
             'jwt_enabled' => true,
 
             'jwt_as_signed_cookie' => true,
@@ -109,6 +103,9 @@
 
             'guest_routes' => array( # These routes can be accessed only if the user is not logged in (guest).
                  '/',
+                 '/webhook/git-payload',
+                 '/account/reset-password',
+                 '/account/forgot-password',
                  '/account/login/',
                  '/account/register/',
                  '/account/signup/@mode/',

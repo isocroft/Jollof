@@ -1,15 +1,43 @@
 <?php
 
+
+/*!
+ * Jollof (c) Copyright 2016
+ *
+ * {Session.php}
+ *
+ */
+
 use \Providers\Services\NativeSessionService as NativeService;
 use \Providers\Services\RedisSessionService as RedisService;
 
 final class Session {
 
+     /**
+      * @var Session
+      */
+
      private static $instance = NULL;
+
+     /**
+      * @var Contracts\Policies\SessionAccessInterface
+      */
 
      private  $session_service;
 
+     /**
+      * @var string
+      */
+
      private $driver;
+
+     /**
+      * Constructor.
+      *
+      *
+      * @param void
+      * @api
+      */
 
      private function __construct(array $config){
 
@@ -30,6 +58,7 @@ final class Session {
      }
 
     /**
+     * Retrieve the core session service.
      *
      *
      * @param void
@@ -41,8 +70,17 @@ final class Session {
         return $this->session_service;
     }
 
+    /**
+     *
+     *
+     *
+     *
+     * @param void
+     * @return object $instance
+     * @api
+     */
 
-     public static function createInstance(array $config){
+    public static function createInstance(array $config){
 
           if(static::$instance == NULL){
                static::$instance = new Session($config);
@@ -50,43 +88,108 @@ final class Session {
           }
      }
 
+     /**
+      * Checks if an item exists in the session using its' 
+      * {$key}
+      *
+      *
+      * @param string $key
+      * @return bool
+      * @api
+      */
+
+
      public static function has($key){
 
         return static::$instance->session_service->hasKey($key);
      }
 
-     public static function setCookieValue($cookies){
-
-          if(static::$instance->driver !== "#redis"){
-
-               return FALSE;
-          }
-     }
+     /**
+      * 
+      *
+      *
+      * @param string $key
+      * @return mixed
+      * @api
+      */
 
      public static function get($key){
 
         return static::$instance->session_service->read($key);
      }
 
+     /**
+      * Inserts an item into the session using a 
+      * {$key}
+      *
+      *
+      * @param string $key
+      * @param mixed $value
+      * @return bool
+      * @api
+      */
+
      public static function put($key, $value){
 
         return static::$instance->session_service->write($key, $value);
      }
+
+     /**
+      * Deletes an item from the session using its' 
+      * {$key}
+      *
+      *
+      * @param string $key
+      * @return bool
+      * @api
+      */
+
 
      public static function forget($key){
 
         return static::$instance->session_service->erase($key);
      }
 
+     /**
+      * Destroys the entire session data and cookie. 
+      *
+      *
+      *
+      * @param void
+      * @return bool
+      * @api
+      */
+
      public static function drop(){
 
          return static::$instance->session_service->destroy(static::$instance->session_service->getName());
      }
 
+     /**
+      * Retrieves session id. 
+      *
+      *
+      *
+      * @param void
+      * @return string
+      * @api
+      */
+
      public static function id(){
 
         return static::$instance->session_service->getId();
+
      }
+
+     /**
+      * Check if session data and cookie has been properly 
+      * destroyed
+      *
+      *
+      * @param void
+      * @return mixed
+      * @api
+      */
 
      public static function hasDropped(){
 
@@ -95,6 +198,16 @@ final class Session {
          return (!array_key_exists($name, $_COOKIE));
      }
 
+     /**
+      * Retrieves the session CSRF token 
+      *
+      *
+      *
+      * @param void
+      * @return mixed
+      * @api
+      */
+
      public static function token(){
 
      	$_token;
@@ -102,6 +215,7 @@ final class Session {
         if(static::$instance->session_service->hasKey('_token')){
 
             $_token =  static::$instance->session_service->read('_token');
+
         }else{
 
             $_token = get_random_as_range(TRUE);

@@ -4,9 +4,7 @@ require_once './app.php';
 
 $port = 8888;
 
-fwrite(STDOUT, "Jollof Mini Server Listening on Port: $port");
-
-$server = new Providers\Core\HttpServer('127.0.0.1', $port);
+/*$server = new Providers\Core\HttpServer('127.0.0.1', $port);
 
 $server->onConnection(function(&$connection) use ($env){
 
@@ -56,8 +54,57 @@ $server->onConnection(function(&$connection) use ($env){
      	break;
      }
 
-});
+});*/
 
+
+use Ratchet\Server\IoServer;
+use Ratchet\Http\HttpServer;
+use Ratchet\WebSocket\WsServer;
+
+use Predis\Async\Client;
+
+use Jollof\SocketService\Chat;
+use Jollof\SocketService\Push;
+
+
+switch ($_SERVER['argv']) {
+    case 'value':
+    $chat = new Chat($env['app.session.name']);
+
+    $server = IoServer::factory(
+     new HttpServer(
+         new WsServer(  
+            $chat
+         )  
+     ),
+            $port
+    );
+
+    $redis = new Client('tcp://127.0.0.1:6379', $server->loop);
+    $redis->connect(function ($redis) use ($chat) {
+        
+        echo "Connected to Redis, now listening for incoming messages...\n";
+
+        $chat->init($redis);
+    });
+
+    $server->run();
+
+    break;
+    case 'value':
+
+    $push = new Push($env['app.session.name']);
+
+
+    break;
+    default:
+
+        return;
+
+    break;    
+}
+
+    echo "Jollof [Ratchet] WebSocket Chat Server Listening on Port: $port \n";
 
 ?>
 

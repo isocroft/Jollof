@@ -884,7 +884,7 @@ if(! function_exists('db_put') ){ ## SQL INSERT
 
                   $pdo->rollBack();
                   return NULL;
-              }
+            }
 
           }catch(\Exception $e){
                  throw $e;

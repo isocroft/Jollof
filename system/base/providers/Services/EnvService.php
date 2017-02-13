@@ -38,6 +38,11 @@ class EnvService {
            return NULL;
         }
 
+        public function getAllConfig(){
+
+            return $this->configs;
+        }
+
         private function setAppRawSockets(){
 
            $sockets_enabled = $this->configs['app_connection']['sockets_enabled'];
@@ -95,6 +100,7 @@ class EnvService {
 
            $env_file = $this->appPaths->base . '.env';
            $app_key = '';
+
            if(file_exists($env_file)){
                // get the contents of the file
                $settings = file($env_file);
@@ -122,6 +128,7 @@ class EnvService {
                   /* app specifics */
                   'app.root'=> $root,
                   'app.key'=> $app_key,
+                  'app.session.name' => $this->configs['app_session']['session_name'],
                   'app.status' => $this->configs['app_environment'],
                   'app.settings.cookie'=> $this->configs['app_cookies']
              );

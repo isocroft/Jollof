@@ -14,7 +14,8 @@
   !* {setup.php}
   !*
   !* NOTE: DON'T CHANGE THE ORDER OF THE MIDDLEWARES HERE
-  !*       ADD YOUR CUSTOM MIDDLEWARES AT THE END
+  !*       ADD YOUR CUSTOM MIDDLEWARES AT THE BOTTOM OF THIS
+  !*       FILE
   !-------------------------------------------------------*/
 
   /*
@@ -35,9 +36,18 @@
           if(Auth::check($currentRoute)){
                 $role = $auth->getUserRole();
                 if(Request::method() == 'GET'){
-                    return Response::redirect('/' . $role);
+                    if($currentRoute == '/account/reset-password'){
+
+                        return Response::redirect('/account/forced-logout');
+                    }
+
+                    return Response::redirect('/' . strtolower($role));
                 }else{
-                    return Response::text("You don't have permission to access this resource");
+                    /*
+                     * Modify this section if you would like to do something custom
+                     * for other HTTP request types (e.g. POST, PUT, DELETE, PATCH)
+                     */
+                    return Response::text("Access-Control: You don't have permission to access this resource");
                 }
 
           }
@@ -61,7 +71,7 @@
             if(!Auth::check($currentRoute)){
                 $auth->setReturnToUrl($currentRoute);
                 if(Request::method() == 'GET'){
-                  return Response::redirect('/account/login' . '?return_to=' . urlencode($currentRoute));
+                  return Response::redirect('/account/login' . '?return_to=' . rawurlencode($currentRoute));
                 }
             }
       }

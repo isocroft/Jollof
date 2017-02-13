@@ -45,13 +45,13 @@ final class File {
     }
 
     /**
+     * Reads out the contents of a file all at once.
      *
      *
      *
-     *
-     *
-     * @param string $key
-     * @return bool
+     * @param string $file_path
+     * @return string
+     * @api
      */
 
     public static function read($file_path){
@@ -60,43 +60,47 @@ final class File {
     }
 
     /**
+     * Reads out the contents of a file line by line 
+     * as an array of lines
      *
      *
-     *
-     *
-     *
-     * @param string $key
-     * @return bool
+     * @param string $file_path
+     * @return array $file_bits
+     * @api
      */
 
     public static function readAsArray($file_path){
 
-        return file($file_path);
+        $file_bits =  file($file_path);
+
+        return $file_bits;
     }
 
     /**
+     * Writes into a file all at once
      *
      *
      *
-     *
-     *
-     * @param string $key
+     * @param string $file_path
+     * @param string $contents
+     * @param bool $overwrite
      * @return bool
+     * @api
      */
 
-    public static function write($file_path, $content, $overwrite){
+    public static function write($file_path, $contents, $overwrite){
 
-        return write_to_file($content, $file_path, $overwrite);
+        return write_to_file($contents, $file_path, $overwrite);
     }
 
     /**
+     * Creates a file in the server file system.
      *
      *
      *
-     *
-     *
-     * @param string $key
+     * @param string $file_path
      * @return bool
+     * @api
      */
 
     public static function makeFile($file_path){
@@ -105,13 +109,14 @@ final class File {
     }
 
     /**
+     * Deletes a file from the server file system
      *
      *
      *
      *
-     *
-     * @param string $key
+     * @param string $file_path
      * @return bool
+     * @api
      */
 
     public static function deleteFile($file_path){
@@ -120,13 +125,13 @@ final class File {
     }
 
     /**
+     * Creates a folder in server file system
      *
      *
-     *
-     *
-     *
-     * @param string $key
+     * @param string $folder_name
+     * @param bool $hide
      * @return bool
+     * @api
      */
 
     public static function makeFolder($folder_name, $hide = false){
@@ -135,7 +140,7 @@ final class File {
     }
 
     /**
-     *
+     * Reads out a file in chunks.
      *
      *
      *
@@ -166,6 +171,7 @@ final class File {
             }else{
                 $include = FILE_USE_INCLUDE_PATH;
             }
+
             $content = file_get_contents($file_path, $include, $context);
         }
 
@@ -176,7 +182,7 @@ final class File {
     }
 
     /**
-     *
+     * Writes out a file in chunks.
      *
      *
      *

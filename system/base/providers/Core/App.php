@@ -20,6 +20,7 @@ use Request;
 use Router;
 use Session;
 use Auth;
+use Config;
 use System;
 use Cache;
 use Helpers;
@@ -356,9 +357,12 @@ class App {
            * Setup all Singletons for the application
            */
 
-         // @TODO: later, try to do the below in a loop! it probably will be a much cleaner code
+         /*
+          @TODO: later, try to do the below in a loop! it probably will be a much cleaner code
+          */
 
                $this->instances['Logger'] = Logger::createInstance();
+               $this->instances['Config'] = Config::createInstance($this->envservie->getAllConfig());
                $this->instances['System'] = System::createInstance();
                $this->instances['Session'] = Session::createInstance($this->envservice->getConfig('app_session'));
                $this->instances['Response'] = Response::createInstance($this->jheaders->getSourceNonces());

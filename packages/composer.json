@@ -7,7 +7,7 @@
           {
             "name":"Ifeora Okechukwu"
           },
-	  {
+	        {
             "name":"Micheal Akpobome"
           }
         ],
@@ -32,16 +32,18 @@
           ]
         },
         "suggest":{
-		"aws/aws-sdk-php":"Optionally required to use the [Request] components' upload functionality (~2.3).",
-		"pusher/pusher-php-server":"Required to use the [Comms] components' real-time messaging functionaity (~2.2)",
-		"guzzlehttp/guzzle":"Required to use the Mailgun drivers for the [Comms] components' mailing functionality (~5.0).",
-		"cloudinary/cloudinary_php":"Optionally required to use the [Request] components' upload functionality (~1.4)",
-		"twilio/sdk":"Required to use the [Comms] components' mobile calls/messaging functionality (~5.2)",
-		"predis/predis":"Required to use the [Session] components' redis driver (~1.1)",
-		"auth0/auth0-php":"Optionally required to use the [Auth] authentication/authorization functionality (~4.0)",
-		"mailgun/mailgun-php":"Optionally required to use the [Comms] components' mailing functionality (~2.1)",
-		"phpmailer/phpmailer":"Optionally required to use the [Comms] components' mailing functionality (~5.2)",
-		"bugsnag/bugsnag":"Optionally required to use the Jollof Error Reporter (~3.4)"
-	},
+          "predis/predis-async":"(~0.2)",
+          "cboden/ratchet":"(~0.4)",
+      		"aws/aws-sdk-php":"Optionally required to use the [Request] components' upload functionality (~2.3).",
+      		"pusher/pusher-php-server":"Required to use the [Comms] components' real-time messaging functionaity (~2.2)",
+      		"guzzlehttp/guzzle":"Required to use the Mailgun drivers for the [Comms] components' mailing functionality (~5.0).",
+      		"cloudinary/cloudinary_php":"Optionally required to use the [Request] components' upload functionality (~1.4)",
+      		"twilio/sdk":"Required to use the [Comms] components' mobile calls/messaging functionality (~5.2)",
+      		"predis/predis":"Required to use the [Session] components' redis driver (~1.1)",
+      		"auth0/auth0-php":"Optionally required to use the [Auth] authentication/authorization functionality (~4.0)",
+      		"mailgun/mailgun-php":"Optionally required to use the [Comms] components' mailing functionality (~2.1)",
+      		"phpmailer/phpmailer":"Optionally required to use the [Comms] components' mailing functionality (~5.2)",
+      		"bugsnag/bugsnag":"Optionally required to use the Jollof Error Reporter (~3.4)"
+      	},
         "minimum-stability": "stable"
 }

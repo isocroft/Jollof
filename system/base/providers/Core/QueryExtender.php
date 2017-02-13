@@ -142,6 +142,21 @@ class QueryExtender {
      }
 
      /**
+      * Builds out a create table query
+      *
+      *
+      * 
+      * 
+      * @param 
+      * @return \Providers\Core\QueryExtender -
+      */
+
+     public function table(){
+
+          return;
+     }
+
+     /**
       * Builds out an insert query
       *
       *

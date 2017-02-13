@@ -185,11 +185,18 @@ class DBService {
 
     	   $settings = file($env_file);
 
+         if(!is_array($settings)){
+
+              return;
+         }
+
          foreach ($settings as $line){
-         	$split = explode('=', $line);
+         	  
+            $split = explode('=', $line);
             if(index_of($split[0], 'db_') === 0){
                 $engine[substr($split[0], 2)] = $split[1];
             }
+
          }
 
          try {

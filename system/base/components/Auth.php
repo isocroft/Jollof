@@ -12,31 +12,74 @@ use \Request;
 use \Response;
 use \Helpers;
 
+use \User;
+use \UserRole;
+use \UserThrottle;
+
 use Providers\Tools\LoginThrottle as Throttle;
 use Providers\Tools\Hasher as Hasher;
 
 final class Auth {
 
+     /**
+      * @var Auth
+      */ 
 
      private static $instance = NULL;
 
+     /**
+      * @var array
+      */ 
+
      protected $loginFields;
+
+     /**
+      * @var array -
+      */ 
 
      protected $options;
 
+     /**
+      * @var string - the name for the Auth JWT cookie name
+      */ 
+
      protected $JWTCookieName;
+
+     /**
+      * @var array - all routes that dont have an access-control guard 
+      */ 
 
      protected $guestRoutes;
 
+     /**
+      * @var Providers\Tools\LoginThrottle - 
+      */ 
+
      protected $throttle;
+
+     /**
+      * @var Providers\Tools\Hasher
+      */ 
 
      protected $hasher;
 
+     /**
+      * @var string - IP address of the client machine
+      */ 
+
      protected $clientIP;
+
+     /**
+      * Constructor
+      *
+      *
+      * @param void
+      * @api
+      */
 
      private function __construct(array $options){
 
-         $this->loginFields = array('username', 'password', 'user_id');
+         $this->loginFields = array('email', 'password', 'username', 'user_id');
 
          $this->clientIP = (Request::ip() || '0.0.0.0');
 
@@ -52,7 +95,7 @@ final class Auth {
          // These routes can be accessed only if the user is not logged in.
          $this->guestRoutes = $this->options['guest_routes'];
 
-         $this->JWTCookieName = '_jelloff_ic'; # Jelloff Identity Carrier
+         $this->JWTCookieName = '_jollof_ic'; # Jollof Identity Carrier
 
          $this->hasher = new Hasher();
 
@@ -62,25 +105,90 @@ final class Auth {
 
                  if($this->options['throttle_enabled']){
 
-                      $this->throttle = new Throttle();
+                      $this->throttle = new Throttle(UserThrottle::$class, Session::id());
                  }
           }
 
      }
 
+
+    /**
+     *
+     *
+     *
+     *
+     * @param void
+     * @return object $instance
+     * @api
+     */
+
      public static function createInstance(array $options){
 
           if(static::$instance == NULL){
+
                static::$instance = new Auth($options);
                return static::$instance;
           }
 
      }
 
-     public static function createUser(Model $user, array $props = array()){
+     /**
+      * 
+      *
+      *
+      *
+      * @param array $props
+      * @return array
+      * @api
+      */
 
-           return $user->set($props)->exec();
+     public static function user(){
+
+         $session = Session::get("accessLogin");
+
+         if(!is_array($session)){
+
+              $session = array();
+         }
+
+         if(array_key_exists('info', $session)){
+
+              return $session['info'];
+         }
+
+         return NULL;
      }
+
+     /**
+      * 
+      *
+      *
+      *
+      * @param array $props
+      * @return bool
+      * @api
+      */
+
+     public static function register(array $props = array(), $role = 'user'){
+
+
+          $isOk = User::create($props);
+
+          if(is_array($isOk)){
+              UserRole::create(array('user_id' => $isOk['pkey'], 'role' => $props['role'] || $role));
+          }
+
+          return $isOk['pkey'];
+     }
+
+     /**
+      * 
+      *
+      *
+      *
+      * @param void 
+      * @return bool
+      */
 
      private function hasSession(){
 
@@ -90,22 +198,51 @@ final class Auth {
           return ($isLogged && $hasSignedCookie);
      }
 
+     /**
+      * 
+      *
+      *
+      *
+      * @param void
+      * @return array
+      */
+
      public function getGuestRoutes(){
 
         return $this->guestRoutes;
      }
 
+     /**
+      * 
+      *
+      *
+      *
+      * @param void
+      * @return string $action
+      */
+
      private function fetchRequestAction(){
 
          $method = Request::method();
 
+         $action = '';
+
          if(array_key_exists($method, $this->actionMap)){
 
-             return $this->actionMap[$method];
+             $action = $this->actionMap[$method];
          }
 
-         return '';
+         return $action;
      }
+
+     /**
+      *
+      *
+      *
+      *
+      * @param void
+      * @param array
+      */
 
      private function getLoginFields(){
 
@@ -117,12 +254,30 @@ final class Auth {
          return $this->JWTCookieName;
      }
 
+     /**
+      *
+      *
+      *
+      *
+      * @param void
+      * @param string
+      */
+
      private function getClientIP(){
 
          return $this->clientIP;
      }
 
-     private function logGuest($issuer = 'JELLOFF_AUTH'){
+     /**
+      *
+      *
+      *
+      *
+      * @param string $issuer
+      * @return void 
+      */
+
+     private function logGuest($issuer = 'JOLLOF_AUTH'){
 
           $hasSession = $this->hasSession();
 
@@ -146,24 +301,19 @@ final class Auth {
           }
      }
 
-     /**
-     * Handle dynamic method calls into the method.
+
+    /**
+     * Checks if a given route is allowed to access the  
+     * request route {$routeToPermit} and whether or not 
+     * the route can be accessed without an active user
+     * session
      *
-     * @param  string  $method
-     * @param  array   $parameters
-     * @return mixed
-     * @throws \BadMethodCallException
+     * @param string $routeToPermit
+     * @return bool
+     * @api
      */
-    public function __call($method, $parameters){
-        /*if (isset($this->user))
-        {
-            return call_user_func_array(array($this->user, $method), $parameters);
-        }*/
 
-        throw new \BadMethodCallException("Method [$method] is not supported by Sentry or no User has been set on Sentry to access shortcut method.");
-    }
-
-     public static function check($routeToPermit = NULL){
+    public static function check($routeToPermit = NULL){
 
            $hasSession = static::$instance->hasSession();
 
@@ -184,7 +334,7 @@ final class Auth {
             if((!array_key_exists('sub', $payload))
                 || ($payload['sub'] !== $session['id'])){
 
-                //throw new \Exception("Jelloff Identity Carrier has been tampered with");
+                //throw new \Exception("Jollof Identity Carrier has been tampered with");
                 return FALSE;
             }
 
@@ -221,101 +371,169 @@ final class Auth {
 
      }
 
+     /**
+      * 
+      *
+      *
+      *
+      * @param void
+      * @return string $role
+      */
+
      public function getUserRole(){
 
         $hasSession = $this->hasSession();
+
+        $role = '';
 
         if($hasSession){
 
              $session = Session::get("accessLogin");
 
-             return $session['role'];
+             $role = $session['role'];
         }
 
-        return '';
+        return $role;
 
      }
 
-     public static function logUser(Model $user, Model $userRole, Model $userThrottle, array $fields = array()){
+     /**
+      * Creates an active login session for the user.
+      *
+      *
+      *
+      * @param array $fields
+      * @return bool
+      * @api
+      */
+
+     public static function login(array $fields = array()){
 
         $hasSession = static::$instance->hasSession();
 
-        $session = Session::get("accessLogin");
-
-        $throttle = static::$instance->getThrottle($userThrottle);
-
-        $throttle->updateSessionDataStore($session);
+        $throttle = NULL;
 
         $throtts = array();
 
-        if(!$throttle->isUserBanned()){
+        $credentials = array();
 
-             $credentials = static::$instance->getUserCredentials($user, $fields);
+        if(static::$instance->options['throttle_enabled']){
+
+            $throttle = static::$instance->getThrottle();
+        }    
+
+        if($hasSession){
+
+            $session = Session::get("accessLogin");
+
+            Session::forget("accessLogin");
+
+            if(isset($throttle)){
+
+                $throttle->updateSessionDataStore($session);
+
+            }    
+        }
+
+        Session::put("accessLogin", $session);
+
+        if(isset($throttle)){
+
+              if(!$throttle->isUserBanned()){
+
+                    $credentials = static::$instance->getUserCredentials($fields);
+
+              }
 
         }else{
 
-             $credentials = array();
-        }
+              $credentials = static::$instance->getUserCredentials($fields);
+
+        }      
 
 
         if(count($credentials) > 0){
 
            $secret = Helpers::generateRandomByPattern("xxxxxxxxyxxxxxxxyxxxxxxxxxyy");
 
-           $clause = array('user_id' => array('=' , $credentials['user_id']));
+           $clause = array('user_id' => array('=' , $credentials['id']));
 
-           $permissions = $userRole->get(array('role', 'permissions'), $clause)->exec();
+           $permissions = UserRole::whereBy($clause, array('role', 'permissions'));
 
            $props = array(
-                'iss' => "JELLOFF_AUTH",
-                'sub' => "user_" . $credentials['user_id'],
+                'iss' => "JOLLOF_AUTH",
+                'sub' => "user_" . $credentials['id'],
                 'jti' => Helpers::randomCode(20),
                 'routes' => $permission['permissions'],
            );
 
            if($hasSession){
 
+                $session = Session::get("accessLogin");
+
                 Session::forget("accessLogin");
+
+                $session['id'] = "user_" . $credentials['id'];
+
+                unset($credentials['id']);
+
+                $session['info'] = $credentials;
+                $session['jwt_secret'] = $secret;
+                $session['role'] => $permission['role'];
            }
 
-           Session::put("accessLogin", array(
-                    'id' => "user_" . $credentials['user_id'],
-                    'jwt_secret' => $secret,
-                    'role' => $permission['role']
-           ));
+           Session::put("accessLogin", $session);
 
            Response::setCookie(static::$instance->getJWTCookieName(), Helpers::createJWT($props, $secret));
 
         }else{
 
             # more code ...
+            if(isset($throttle)){
 
-            $throtts = array(
-                  'throttle_id' => static::getThrottleId(),
-                  'ip_address' => static::$instance->getClientIP(),
-                  'user_id' => $credentials['user_id']
-            );
+                $throtts = array(
+                      'throttle_id' => static::getThrottleId(),
+                      'ip_address' => static::$instance->getClientIP(),
+                      'user_id' => $credentials['user_id']
+                );
 
-            $throttle->setAttempt($throtts, array('throttle_count')); // UPDATE ON DUPLICATE KEY
+                // UPDATE ON DUPLICATE KEY
+                $throttle->setAttempt($throtts, array('throttle_count')); 
 
-            if($throttle->attemptLimit()){
-                //$userThrottle->let(array('banned' => 1), $throtts)->exec();
-                $throttle->ban();
-            }
+                if($throttle->isAttemptLimitReached()){
+
+                    $throttle->ban(array('banned' => 1), $throtts);
+                }
+            }     
 
         }
 
         return (Session::has("accessLogin"));
      }
 
+     /**
+      *
+      *
+      *
+      *
+      *
+      * @param string $id
+      * @return void
+      */
+
      public static function setThrottleId($id){
 
-
+          static::$instance->throttle->setThrottleId($id);
      }
 
-     public static function getThrottleId(){
-
-     }
+     /**
+      * 
+      *
+      *
+      * @param string $url
+      * @return bool
+      * @api
+      */
 
      public static function willBeReturnedToURL($url = ''){
 
@@ -332,6 +550,16 @@ final class Auth {
          return (array_key_exists('return_to_url', $session) && $url === $session['return_to_url']);
 
      }
+
+     /**
+      * 
+      *
+      *
+      *
+      * @param void
+      * @return string
+      * @api
+      */
 
      public static function getReturnToURL(){
 
@@ -364,6 +592,16 @@ final class Auth {
             Session::put("accessLogin", $session);
      }
 
+     /**
+      * 
+      *
+      *
+      *
+      * @param string $id
+      * @param bool $asType
+      * @return string
+      */
+
      private function getSession($id, $asType = TRUE){
 
            $bits = explode('_', $id);
@@ -374,25 +612,38 @@ final class Auth {
 
      }
 
-     private function getUserCredentials(Model $user, array $fields = array()){
+     /**
+      * 
+      *
+      *
+      *
+      *
+      * @param array $fields
+      * @return array
+      */
+
+     private function getUserCredentials(array $fields = array()){
 
         $loginFields = $this->getLoginFields();
 
         if(count($fields) != count($loginFields)){
+
             $fields = array_slice($fields, 0, 2, TRUE);
         }
 
         $compositeFieldValues = array();
 
         array_walk($fields, function($value, $key){
+
             if($key == 'password'){
-                 ; // Hash the password with the Hasher object
+
+                 $value = $this->hasher->hash($value);
             }
 
             $compositeFieldValues[] = array('=', $value);
         });
 
-        $credentials = $user->get($loginFields, array_combine($loginFields,  $compositeFieldValues))->exec();
+        $credentials = User::whereBy(array_combine($loginFields,  $compositeFieldValues));
 
         return $credentials;
 

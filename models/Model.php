@@ -9,6 +9,7 @@
  */
 
 use \Contracts\Policies\DBAccessInterface as DBInterface;
+use \Providers\Tools\SchemaObject as SchemaObject;
 
 class Model implements DBInterface {
 
@@ -26,9 +27,15 @@ class Model implements DBInterface {
 
      );
 
-     public function __construct(){
+     protected $autoPrimaryKey = true;
+
+     protected $schema = array(
+
+     );
+
+     public function __construct(SchemaObject $schemaObject){
       
-              static::setInstance($this);
+              static::setInstance($this, $schemaObject);
     
      }
 
@@ -45,7 +52,7 @@ class Model implements DBInterface {
               }
      }
 
-     protected static function setInstance(Model $m){
+     protected static function setInstance(Model $m, array $scma){
     
             /* 
              *  A trick to instantiate an class without calling the constructor 
@@ -55,6 +62,8 @@ class Model implements DBInterface {
              */
 
             if(!isset(static::$instance)){
+
+                  $m->$schema = $scma;
               
                   $m->builder = $app->getBuilder($m->getAttributes());
 
@@ -166,7 +175,23 @@ class Model implements DBInterface {
 
      public function getAttributes(){
 
-         return array('table' => $this->table, 'key' => $this->primaryKey, 'relations' => $this->relations);
+         return array('table' => $this->table, 'key' => $this->primaryKey, 'relations' => $this->relations, 'autoKey' => $this->autoPrimaryKey);
+     }
+
+    /**
+     *
+     *
+     *
+     *
+     * @param void
+     * @return void 
+     */
+
+     public function installSchema($mode = 'nosql'){
+
+          $this->builder->setMode($mode);
+
+          return $this->builder->tableCreate($this->schema);
      }
 
 
@@ -193,9 +218,13 @@ class Model implements DBInterface {
      * @return void 
      */
 
-     public static function whereBy(array $clause){
+     public static function whereBy(array $clause, array $cols = array('*')){
 
-          return static::$instance->get(array('*'), $clause)->exec();
+          $attrs = static::$instance->getAttributes();
+
+          $pkey = $attrs['key'];
+
+          return static::$instance->get($cols, $clause)->exec();
      }
 
     /**
@@ -226,7 +255,7 @@ class Model implements DBInterface {
 
           $attr = static::$instance->getAttributes();
           $clause = array();
-          $clause[$attr['key']] = $id;
+          $clause[$attr['key']] = array('=' =>$id);
 
           return static::$instance->let(array('*'), $clause)->exec(0);
      } 
@@ -245,7 +274,7 @@ class Model implements DBInterface {
 
           $attr = static::$instance->getAttributes();
           $clause = array();
-          $clause[$attr['key']] = $id;
+          $clause[$attr['key']] = array('=' => $id);
 
           return static::$instance->del(array('*'), $clause)->exec(0);
      }
@@ -264,7 +293,7 @@ class Model implements DBInterface {
 
           $attr = static::$instance->getAttributes();
           $clause = array();
-          $clause[$attr['key']] = $id;
+          $clause[$attr['key']] = array('=' => $id);
 
           return static::$instance->get(array('*'), $clause)->exec();
      }
@@ -285,7 +314,21 @@ class Model implements DBInterface {
           return static::$instance->get(array('*'))->exec($limit, $offset);
      }
 
-     /**
+    /**
+     * Updates a tuple/row in the Model table
+     *
+     *
+     *
+     * @param array $tuple
+     * @return array 
+     */
+
+     public static function update(array $clause, array $cols){
+
+          return static::$instance->let($cols, $clause)->exec(0);
+     }
+
+    /**
      * Inserts OR Updates a tuple/row in the Model table
      *
      *
@@ -296,7 +339,11 @@ class Model implements DBInterface {
 
      public static function createOrUpdate(array $tuple, array $clause){
 
-          return static::$instance->set($tuple, $clause)->exec(0);
+          if(count($clause) == 0){
+                $clause = NULL;
+          }
+
+          return static::create($tuple, $clause);
      }
 
     /**
@@ -308,9 +355,41 @@ class Model implements DBInterface {
      * @return array 
      */
 
-     public static function create(array $tuple){
+     public static function create(array $tuple, array $updateCols = NULL){
 
-          return static::$instance->set($tuple)->exec(0);
+          $attrs = static::$instance->getAttributes();
+
+          /* 
+            check if the primary key field is included in
+            the tuple/row info passed in as argument.
+          */ 
+
+          if(!$attrs['autoKey']){  
+
+              if(!array_key_exists($attrs['key'], $tuple)){
+
+                    $tuple[$attr['key']] = Helpers::randomCode(); 
+              }
+
+          }
+
+
+          $rowId;
+
+          if($updateCols === NULL){
+
+                $rowId = static::$instance->set($tuple)->exec(0);
+          }else{
+
+               $rowId = static::$instance->set($tuple, $updateCols)->exec(0);
+          }     
+
+          if(is_integer($rowId) && $rowId === 0){
+
+                return array('pkey' => $tuple[$attr['key']]);
+          }
+
+          return array('pkey' => strval($rowId)); // If it is NULL, the atomic operation wasn't completed (rolled-back)
      }
 
 }
