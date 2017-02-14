@@ -33,7 +33,7 @@ class Model implements DBInterface {
 
      );
 
-     public function __construct(SchemaObject $schemaObject){
+     public function __construct(SchemaObject $schemaObject = NULL){
       
               static::setInstance($this, $schemaObject);
     

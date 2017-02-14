@@ -33,6 +33,15 @@ _If you wish to contribute to this project, you can take a peep at the [contribu
 
 _Thanks to **Micheal Akpobome**, **Shuaib Afegbua**, **Abraham Yusuf**, **Stephen Igwue** and **Umar Binkabir** for their individual and collective efforts in this project. Jollof would not be the way it is without you guys._
 
+## Minimum Requirements (Running Jollof)
+
+- Have PHP 5.3.8 and above Installed
+
+- Have Composer 1.0.0 and above Installed
+
+- Have NPM 4.2.0 and above Installed
+
+
 ## Trademarks
 
 _Trademark(s) for this PHP framework are a joint effort of [Mobicent, Ltd](http://www.learnsty.com) and [Abuja Dev Meetup](http://www.abujadevmeetup.com)_

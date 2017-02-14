@@ -38,6 +38,8 @@
 
 	$model_path = __DIR__ . '/models/';
 
+    $migrations_path = __DIR__ . '/storage/migrations/';
+
     $ctrl_path = __DIR__ . '/controllers/';
 
     $views_path = __DIR__ . '/views/';
@@ -427,6 +429,8 @@
 
              file_put_contents($class_maps_path . 'class_maps.php', implode('', $class_map_arr), LOCK_EX);
 
+             File::makeFile($migrations_path . ucfirst($token) . '_Migrations.php');
+
 		}
 
 		fwrite(STDOUT, PHP_EOL . "All Done. " . PHP_EOL);
@@ -439,7 +443,7 @@
 
         	$in = $ctrl_path . ucfirst($token) . '.php';
 
-	    	fwrite(STDOUT, 'Creating Controller File: ' . ucfirst($token) . '.php' . PHP_EOL);
+	    	  fwrite(STDOUT, 'Creating Controller File: ' . ucfirst($token) . '.php' . PHP_EOL);
 
         	make_file($in);
 
@@ -506,6 +510,30 @@
   if($command === 'make:component'){
 
 
+  }
+
+  if($command === 'sockets-server'){
+
+       if(count($tokens[0]) > 0){
+
+            $type = $tokens[0];
+
+            switch ($type) {
+              case '-push':
+                
+                  exec('php server.php push', $out, $errorlevel);
+
+              break;
+              case '-chat':
+
+                  exec('php server.php chat', $out, $errorlevel);
+
+              break;
+              default:
+              
+              break;
+            }
+       }
   }
 
 	$outline = join($out);

@@ -494,7 +494,7 @@ final class Auth {
                 $throtts = array(
                       'throttle_id' => static::getThrottleId(),
                       'ip_address' => static::$instance->getClientIP(),
-                      'user_id' => $credentials['user_id']
+                      'user_id' => $credentials['id']
                 );
 
                 // UPDATE ON DUPLICATE KEY
@@ -502,7 +502,7 @@ final class Auth {
 
                 if($throttle->isAttemptLimitReached()){
 
-                    $throttle->ban(array('banned' => 1), $throtts);
+                      $throttle->ban(array('banned' => 1), $throtts);
                 }
             }     
 
@@ -576,10 +576,28 @@ final class Auth {
          return $url;
      }
 
+     /**
+      * 
+      *
+      *
+      *
+      * @param void
+      * @return Provider\Tools\LoginThrottle
+      */
+
      private function getThrottle(){
 
          return $this->throttle;
      }
+
+     /**
+      * 
+      *
+      *
+      *
+      * @param string $route
+      * @return void
+      */
 
      public function setReturnToUrl($route){
 
