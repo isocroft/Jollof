@@ -20,7 +20,7 @@ class Push implements WampServerInterface {
 	public function timedCallback(){
 
 		if(array_key_exists('debug', $this->subscribedThreads)){
-			$thread = $this->subscribedThread['debug'];
+			$thread = $this->subscribedThreads['debug'];
 			$thread->broadcast('timestamp', time());
 		}
 
@@ -33,8 +33,23 @@ class Push implements WampServerInterface {
 
 	}
 
-	public function onSubscribe(){
+	public function onSubscribe(ConnectionInterface $conn, $thread){
 
+		 echo "on Subscribe => {$conn->WAMP->sessionId}";
+
+		 if(!array_key_exists($thread->getId(), $this->subscribedThreads)){
+		 	 $this->subscribedThreads[$thread->getId()] = $thread;
+		 	 $pubSubContext = $this->redis->pubsub($thread->getId(), array(&$this, 'pubsub'));
+
+		 }
+	}
+
+	public function pubsub($event, $pubsub){
+
+		if(!array_key_exists($event->channel, $this->subscribedThreads)){
+
+			;
+		}
 	}
 
 	public function onPublish(){

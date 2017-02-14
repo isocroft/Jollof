@@ -201,7 +201,7 @@ class DBService {
 
          try {
 
-            $this->connectionString = 'mysql:host=' . $engine['hostname'] . $this->connectionString;
+            $this->connectionString = 'mysql:host=' . $engine['hostname']. $this->connectionString;
 
             $this->connectionHandle = new PDO($this->connectionString, $engine['username'], $engine['password'], $engine['settings']);
 
