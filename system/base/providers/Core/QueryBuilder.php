@@ -36,9 +36,9 @@ class QueryBuilder {
 	 * @api
 	 */
 
-	public function __construct(PDO $connection, array $paramTypes){
+	public function __construct(PDO $connection, array $paramTypes, $modelName){
 
-       $this->extender = new QueryExtender($connection, $paramTypes);
+       $this->extender = new QueryExtender($connection, $paramTypes, $modelName);
 
 	}
 

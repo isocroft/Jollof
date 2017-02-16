@@ -458,10 +458,10 @@ if(! function_exists('starts_with') ){
        $slen = strlen($str);
        $sub = substr($str, 0, $len);
        if((gettype($str) == 'string' && gettype($begin) == 'string') && ($slen > $len)){
-	        if($ignorecase){
-		       $begin = strtolower($begin);
-			   $sub = strtolower($sub);
-		    }
+	           if($ignorecase){
+		            $begin = strtolower($begin);
+			           $sub = strtolower($sub);
+		         }
              if(strcmp($sub, $begin) == 0){
                  return TRUE;
              }else{
@@ -561,6 +561,18 @@ if(! function_exists('get_file_name') ){
 if(! function_exists('custom_session_id') ){
     function custom_session_id($native = FALSE){
          return substr(generate_uniq_string(NULL), 1, ($native? 31 : 23));
+    }
+}
+
+if(!function_exists('is_multi_array')){
+    function is_multi_array($array){
+        $result = false;
+        $filtered;
+        if(count($array) != count($array, COUNT_RECURSIVE)){
+            $filtered = array_filter($array, 'is_array');
+            $result = is_array(current($array)) || (count($filtered) > 0);  
+        }
+        return $result;
     }
 }
 

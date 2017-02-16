@@ -297,13 +297,14 @@ class App {
       *
       *
       *
-      * @param
-      * @return
+      * @param array $atrribs
+      * @param string $modelName
+      * @return \Providers\Core\QueryBuilder
       */
 
-     public function getBuilder(array $attribs){
+     public function getBuilder(array $attribs, $modelName){
 
-          return $this->dbservice->getBuilder($attribs);
+          return $this->dbservice->getBuilder($attribs, $modelName);
      }
 
      /**

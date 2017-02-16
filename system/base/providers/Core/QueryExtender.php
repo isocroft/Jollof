@@ -11,6 +11,7 @@ namespace Providers\Core;
 
 use \PDO;
 use \UnexpectedValueException;
+use \Exception;
 use \ReflectionClass;
 
 class QueryExtender {
@@ -46,6 +47,26 @@ class QueryExtender {
      protected $connection;
 
      /**
+      * @var string -
+      */
+
+     protected $ownerModel;
+
+     /**
+      * @var array - all join types which are allowed in a query
+      */
+
+     protected $allowedJoinTypes = array(
+        'INNER',
+        'RIGHT OUTER',
+        'RIGHT',
+        'LEFT OUTER',
+        'LEFT',
+        'FULL OUTER',
+        'CROSS'
+     );
+
+     /**
       * @var array - all conjunctions which are allowed in a query
       */
 
@@ -57,11 +78,12 @@ class QueryExtender {
      );
 
      /**
-      * @var array - all operators which are allowed in a query
+      * @var array - all operators which are allowed in the {WHERE} clause of a query
       */
 
     protected $allowedOperators = array(
         'LIKE',
+        'NOT LIKE',
         'BETWEEN',
         'IN',
         '>',
@@ -85,7 +107,7 @@ class QueryExtender {
      * @api public
      */
 
-     public function __construct(PDO $connection, array $paramTypes){
+     public function __construct(PDO $connection, array $paramTypes, $modelName = NULL){
 
          $this->queryString = '';
 
@@ -96,6 +118,8 @@ class QueryExtender {
          $this->connection = $connection;
 
          $this->reflClass = NULL;
+
+         $this->ownerModel = $modelName;
 
      }
 
@@ -117,14 +141,14 @@ class QueryExtender {
             throw new UnexpectedValueException();
         }
 
-        $conjunction = " ". strtoupper($conjunction) ." ";
+        $conjunction = " " . strtoupper($conjunction) . " ";
 
         # wrap the table name with quotes like so: `table`
         $table = $this->wrap($this->attribs['table']);
 
-        $_columns = implode(', ', array_map(array(&$this, 'wrap'), $columns));
+        $_columns = implode(', ', array_map(array(&$this, 'addTablePrefix'), $columns));
 
-        foreach ($clauseProps as $key => $value) {
+        foreach($clauseProps as $key => $value){
             if(is_array($value)){
                 if(count($value) > 0){
                     # check that WHERE clause operator supplied is allowed !!
@@ -136,7 +160,7 @@ class QueryExtender {
         }
 
         # start building query string -> SELECT
-        $this->queryString .= "SELECT " . $_columns . " FROM " . $table . (count($clauseProps) > 0? " <;join> WHERE " . implode($conjunction, $this->prepareSelectPlaceholder($clauseProps)) : " <;join>");
+        $this->queryString .= "SELECT <;distinct> " . $_columns . " FROM " . $table . (count($clauseProps) > 0? " <;join> WHERE " . implode($conjunction, $this->prepareSelectPlaceholder($clauseProps)) : " <;join>");
 
         return $this;
      }
@@ -151,9 +175,29 @@ class QueryExtender {
       * @return \Providers\Core\QueryExtender -
       */
 
+     public function distinct(){
+
+          if(starts_with($this->queryString, 'SELECT')){
+
+              $this->queryString = str_replace(' <;distinct>', ' DISTINCT', $this->queryString);
+          
+          }    
+          return $this;
+     }
+
+     /**
+      * Builds out a create table query
+      *
+      *
+      * 
+      * 
+      * @param ----
+      * @return \Providers\Core\QueryExtender -
+      */
+
      public function table(){
 
-          return;
+          return $this;
      }
 
      /**
@@ -171,7 +215,7 @@ class QueryExtender {
         # wrap the table name with quotes like so: `table`
         $table = $this->wrap($this->attribs['table']);
 
-        $_columns = implode(', ', array_map(array(&$this, 'wrap'), $columns));
+        $_columns = implode(', ', array_map(array(&$this, 'addTablePrefix'), $columns));
 
         # start building query string -> INSERT
         $this->queryString .= "INSERT INTO " . $table . "(" . $_columns . ") VALUES (" .  implode(', ', $this->prepareInsertPlaceholder($values)) . ")";
@@ -202,7 +246,7 @@ class QueryExtender {
             throw new UnexpectedValueException();
         }
 
-        $conjunction = " ".strtoupper($conjunction) ." ";
+        $conjunction = " " . strtoupper($conjunction) . " ";
 
         # wrap the table name with quotes like so: `table`
         $table = $this->wrap($this->attribs['table']);
@@ -224,17 +268,23 @@ class QueryExtender {
       *
       *
       * @param $columns - columns
-      * @param $clauseProps - column/value pairs for WHERE clause in UPDATE query
+      * @param $clauseProps - column/value pairs for WHERE clause in DELETE query
       * @return \Providers\Core\QueryExtender -
       */
 
-     public function del($columns){
+     public function del(array $columns, array $clauseProps){
 
         # wrap the table name with quotes like so: `table`
         $table = $this->wrap($this->attribs['table']);
 
+        $columns = implode(', ', array_map(array(&$this, 'addTablePrefix'), $columns));
+
         # start building query string -> DELETE
-     	  $this->queryString .= "DELETE " . implode(', ', $columns) . " FROM " . $table;
+     	  $this->queryString .= "DELETE " . $columns . " FROM " . $table;
+
+        if(count($clauseProps) > 0){
+              ;
+        }
 
         return $this;
      }
@@ -247,6 +297,7 @@ class QueryExtender {
       * @param string $modelName -
       * @param string $joinType -
       * @return \Providers\Core\QueryExtender -
+      * @throws Exception, UnxepectedValueException
       */
 
      public function with($modelName, $joinType = 'inner'){
@@ -260,7 +311,7 @@ class QueryExtender {
 
          $this->reflClass = new ReflectionClass($modelName);
 
-         $object = $reflClass->newInstanceWithoutContructor(); 
+         $object = $this->reflClass->newInstanceWithoutContructor(); 
 
          $__atrribs = $object->getAttributes();
 
@@ -271,14 +322,29 @@ class QueryExtender {
 
          $parentReference = $this->wrap($this->attribs['key']);
 
-         $childReference = $this->wrap($__attribs['relations'][$modelName]);
+         $relations = $__attribs['relations'];
 
-         # start building query string -> {INNER|LEFT|OUTER RIGHT|OUTER LEFT|CROSS} JOIN
-     	   $joinExp = " {$joinType} JOIN `{$joinTable}` ON `{$table}`.`{$parentReference}` = `{$joinTable}`.`{$childReference}`";
+         $parentModelName = $this->ownerModel;
+
+         if(!array_key_exists($parentModelName, $relations)){
+
+              throw new Exception("No relations exists between Model -> {$parentModelName} and Model -> {$modelName}");
+         }
+
+         $childReference = $this->wrap($relations[$parentModelName]);
+
+         /* if the join type isn't valid, throw an error */
+
+         if(!in_array($joinType, $this->allowedJoinTypes)){
+
+              throw new UnexpectedValueException("Invalid join type found");
+         }
+         # start building query string -> JOIN
+     	   $joinExp = " {$joinType} JOIN {$joinTable} ON {$table}.{$parentReference} = {$joinTable}.{$childReference}";
 
          $this->queryString = str_replace(' <;join>', $joinExp, $this->queryString);
 
-     	 return $this;
+     	   return $this;
      }
 
      /**
@@ -386,6 +452,7 @@ class QueryExtender {
           	case 'select':
                 $this->queryString .= implode(',', $stoppers);
                 $this->queryString = str_replace(' <;join>', '', $this->queryString);
+                $this->queryString = str_replace(' <;distinct>', '', $this->queryString);
                 $result = db_get($this->connection, $this->paramTypes, $this->queryString, $this->parmeterizeValues($this->paramValues));
           	break;
           	case 'insert':
@@ -423,6 +490,11 @@ class QueryExtender {
           }
 
           return $char.$attributeName.$char;
+     }
+
+     private function addTablePrefix($column){
+
+          return $this->wrap($this->attribs['table']) . '.' . $this->wrap($column);
      }
 
      private function prepareInsertPlaceholder($props){

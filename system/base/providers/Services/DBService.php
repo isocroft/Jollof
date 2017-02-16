@@ -10,6 +10,8 @@
 namespace Providers\Services;
 
 use \PDO;
+use \Exception;
+use \PDOException;
 use \Providers\Core\QueryBuilder as Builder;
 
 class DBService {
@@ -211,9 +213,9 @@ class DBService {
 
               $this->config['engines']['mysql'] = $engine;
 
-         }catch (\Exception $e) { ## PDOException ##
+         }catch (PDOException $e) { 
 
-             ; //($e->getMessage());
+             throw $e;
 
          }
     }
@@ -241,7 +243,7 @@ class DBService {
    * @return \Providers\Core\QueryBuilder $builder; 
    */
 
-    public function getBuilder(array $modelAttributes){
+    public function getBuilder(array $modelAttributes, $modelName){
 
         $db_connection = $this->getConnection();
 
@@ -256,11 +258,11 @@ class DBService {
 
         if(is_null($db_collection)){
 
-              throw new \Exception("No Database Connection Found, .env File Probably Missing");
+              throw new Exception("No Database Connection Found, .env File Probably Missing");
 
         }
 
-        $builder = $this->builders[$table] = new Builder($db_collection, $p_types);
+        $builder = $this->builders[$table] = new Builder($db_collection, $p_types, $modelName);
 
         $builder->setAttributes($modelAttributes);
 

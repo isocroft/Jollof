@@ -2,7 +2,7 @@
 
 namespace Providers\Core\DBConnection;
 
-class MySqlConnectionAdapter extends BaseConnectionAdapter{
+class PgSqlConnectionAdapter extends BaseConnectionAdapter{
 	
 	public function __construct($dbName = NULL, $unixSocket = NULL){
 

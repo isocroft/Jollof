@@ -2,7 +2,7 @@
 
 namespace Providers\Core\DBConnection;
 
-class MySqlConnectionAdapter extends BaseConnectionAdapter{
+class SqlLiteConnectionAdapter extends BaseConnectionAdapter{
 	
 	public function __construct($dbName = NULL, $unixSocket = NULL){
 

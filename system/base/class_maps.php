@@ -40,6 +40,7 @@ return array(
      "\\Providers\\Tools\\ArgvOutput" => $compDir . "/providers/Tools/ArgvOutput",
      "\\Providers\\Tools\\Console" => $compDir . "/providers/Tools/Console",
      "\\Providers\\Tools\\JollofSecureHeaders" => $compDir . "/providers/Tools/JollofSecureHeaders",
+     "\\Providers\\Tools\\SchemaObject" => $compDir . "/providers/Tools/SchemaObject",
      "\\Providers\\Tools\\SecureHeaders" => $compDir . "/providers/Tools/SecureHeaders",
      "\\Providers\\Tools\\AuthContext" => $compDir . "/providers/Tools/AuthContext",
      "\\Providers\\Tools\\InputFilter" => $compDir . "/providers/Tools/InputFilter",

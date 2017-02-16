@@ -35,11 +35,19 @@ _Thanks to **Micheal Akpobome**, **Shuaib Afegbua**, **Abraham Yusuf**, **Stephe
 
 ## Minimum Requirements (Running Jollof)
 
-- Have PHP 5.3.8 and above Installed
+* Have PHP 5.3.8 and above Installed
 
-- Have Composer 1.0.0 and above Installed
+	1. Have the PHP *mb_string* extension enabled
+	2. Have the PHP *openssl* extension enabled
+	3. Have the PHP *pdo_mysql* extension enabled
+	4. Have the PHP *pdo_sqlite* extension enabled
+	5. Have the PHP *sockets* extension enabled
+	6. Have the PHP *zip* extension enabled
+	7. Have the PHP *curl* extension enabled
 
-- Have NPM 4.2.0 and above Installed
+* Have Composer 1.0.0 and above Installed
+
+* Have Npm 4.2.0 and above Installed
 
 
 ## Trademarks

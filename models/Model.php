@@ -63,12 +63,14 @@ class Model implements DBInterface {
 
             if(!isset(static::$instance)){
 
+                  $name = get_class($m);  
+
                   $m->$schema = $scma;
               
-                  $m->builder = $app->getBuilder($m->getAttributes());
+                  $m->builder = $app->getBuilder($m->getAttributes(), $name);
 
                   static::$instance = unserialize(
-                    sprintf('O:%d:"%s":0:{}', strlen(get_called_class()), get_class($m))
+                    sprintf('O:%d:"%s":0:{}', strlen(get_called_class()), $name)
                   );
 
                   static::$class = get_class(static::$instance);
@@ -227,6 +229,39 @@ class Model implements DBInterface {
           return static::$instance->get($cols, $clause)->exec();
      }
 
+
+    /**
+     * Retrieves the very first tuple/row from a Model table 
+     * based on conditions.
+     *
+     *
+     * @param void
+     * @return void 
+     */
+
+     public static function first(array $clause, array $cols = array('*')){
+
+          $attrs = static::$instance->getAttributes();
+
+          return static::$instance->get($cols, $clause)->exec(1);
+     }
+
+    /**
+     * Retrieves distinct columns from a Model table 
+     *
+     *
+     *
+     * @param void
+     * @return void 
+     */
+
+     public static function fetchDistinct(array $cols = array('*')){
+
+          $attrs = static::$instance->getAttributes();
+
+          return static::$instance->get($cols, array())->distinct()->exec();
+     }
+
     /**
      *
      *
@@ -236,7 +271,7 @@ class Model implements DBInterface {
      * @return
      */
 
-     public static function fetchAllWith($modelName, array $clause){
+     public static function fetchAllWith($modelName, array $clause){  
 
           return static::$instance->get(array('*'), $clause)->with($modelName)->exec();
      }
@@ -255,7 +290,7 @@ class Model implements DBInterface {
 
           $attr = static::$instance->getAttributes();
           $clause = array();
-          $clause[$attr['key']] = array('=' =>$id);
+          $clause[$attr['key']] = array('=' => $id);
 
           return static::$instance->let(array('*'), $clause)->exec(0);
      } 
@@ -303,15 +338,34 @@ class Model implements DBInterface {
      *
      *
      *
+     * @param array $clause
      * @param integer $limit
      * @param integer $offset
      * @return array 
      * @api
      */
 
-     public static function fetchAll($limit = -1, $offset = -1){
+     public static function fetchAll(array $clause, $limit = -1, $offset = -1){
 
-          return static::$instance->get(array('*'))->exec($limit, $offset);
+          return static::$instance->get(array('*'), $clause)->exec($limit, $offset);
+     }
+
+     /**
+     * Retrieves all tuples/rows in an ordered manner 
+     * from the Model table.
+     *
+     *
+     * @param array $clause -
+     * @param array $orderCols -
+     * @param integer $limit -
+     * @param integer $offset -
+     * @return array 
+     * @api
+     */
+
+     public static function fetchAllOrdered(array $clause, array $orderCols = array(), $limit = -1, $offset = -1){
+
+          return static::$instance->get(array('*'), $clause)->ordering($orderCols, true)->exec($limit, $offset);
      }
 
     /**

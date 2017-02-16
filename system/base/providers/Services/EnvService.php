@@ -81,6 +81,10 @@ class EnvService {
 
                     ini_set("file_uploads", "Off");
                 }
+
+                $extensions = get_loaded_extensions();
+
+               // More code here...
         }
 
         private function setupAppPaths(){
