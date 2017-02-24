@@ -1,5 +1,7 @@
 # Jollof
 
+<img src="jollof.png"></img>
+
 This is a very lighweight PHP framework built to cater to very busy backend-developers who have very little time to deliver on the job. It is also very configurable as most of the boilerplate code you need to get up and running on a serious project has already been baked in. Web development has never been this easy!
 
 The aim of the framework is to make it very easy to develop applications with little or no friction as regards the ever changing landscape of web development.

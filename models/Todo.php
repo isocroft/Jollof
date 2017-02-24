@@ -7,8 +7,11 @@ class Todo extends Model {
     protected $primaryKey = 'id';
 
     protected $relations = array(
- 		'TodoList' => 'list_id'
+ 		
+ 		'TodoList' => '@list_id' // <OutSide Model> =====> hasMany ====> <@ThisModelForeginKey> , <OuttSideModel> ======> belongsTo =======> <#ThisModelPrimaryKey>
     );
+
+    protected $autoPrimaryKey = false;
 
     public function __construct(){
 

@@ -388,10 +388,11 @@ class Model implements DBInterface {
      *
      *
      * @param array $tuple
+     * @param array $clause
      * @return array 
      */
 
-     public static function createOrUpdate(array $tuple, array $clause){
+     public static function upsert(array $tuple, array $clause){
 
           if(count($clause) == 0){
                 $clause = NULL;
