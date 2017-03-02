@@ -7,8 +7,12 @@ class User extends Model {
     protected $primaryKey = 'id';
 
     protected $relations = array(
- 		'TodoList' => 'id'
+
+ 		'TodoList' => '#id', // <OuttSideModel> ======> belongsTo =======> <#ThisModelPrimaryKey>
+ 		'UserRole' => '#id' // <OuttSideModel> ======> belongsTo =======> <#ThisModelPrimaryKey>
     );
+
+    protected $autoPrimaryKey = false;
 
     public function __construct(){
 

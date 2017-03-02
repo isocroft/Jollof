@@ -300,7 +300,7 @@ class Model implements DBInterface {
      * value of the tables' primary key {$id}
      *
      *
-     * @param string $id
+     * @param string $id - value for primary key for Model table
      * @return array
      * @api 
      */
@@ -319,7 +319,7 @@ class Model implements DBInterface {
      * value of the tables' primary key {$id}
      *
      *
-     * @param string $id
+     * @param string $id - value for primary key for Model table
      * @return array 
      * @api 
      */
@@ -338,9 +338,9 @@ class Model implements DBInterface {
      *
      *
      *
-     * @param array $clause
-     * @param integer $limit
-     * @param integer $offset
+     * @param array $clause - column values for where clause
+     * @param integer $limit - limit for number of rows retrieved
+     * @param integer $offset - offset for number of rows retrieved 
      * @return array 
      * @api
      */
@@ -355,10 +355,10 @@ class Model implements DBInterface {
      * from the Model table.
      *
      *
-     * @param array $clause -
-     * @param array $orderCols -
-     * @param integer $limit -
-     * @param integer $offset -
+     * @param array $clause - column value(s) for where clause
+     * @param array $orderCols - column name(s) for orderby clause
+     * @param integer $limit - limit for number of rows retrieved
+     * @param integer $offset - offset for number of rows retrieved
      * @return array 
      * @api
      */
@@ -373,7 +373,8 @@ class Model implements DBInterface {
      *
      *
      *
-     * @param array $tuple
+     * @param array $clause - coulmn(s) values for where clause
+     * @param array $cols - column(s) to update
      * @return array 
      */
 
@@ -387,8 +388,8 @@ class Model implements DBInterface {
      *
      *
      *
-     * @param array $tuple
-     * @param array $clause
+     * @param array $tuple - 
+     * @param array $clause -
      * @return array 
      */
 
@@ -406,7 +407,8 @@ class Model implements DBInterface {
      *
      *
      *
-     * @param array $tuple
+     * @param array $tuple -
+     * @param array $updateCols -
      * @return array 
      */
 

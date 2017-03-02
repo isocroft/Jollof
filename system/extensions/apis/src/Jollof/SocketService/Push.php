@@ -48,8 +48,10 @@ class Push implements WampServerInterface {
 
 		if(!array_key_exists($event->channel, $this->subscribedThreads)){
 
-			;
+			return;
 		}
+
+		$thread = $this->subscribedThreads[$event->channel]
 	}
 
 	public function onPublish(){

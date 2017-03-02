@@ -7,8 +7,11 @@ class UserRole extends Model {
     protected $primaryKey = 'id';
 
     protected $relations = array(
-       'User' => 'user_id'
+
+       'User' => '@user_id' // <OutSide Model> =====> hasMany ====> <@ThisModelForeginKey>
     );
+
+    protected $autoPrimaryKey = false;
 
     public function __construct(){
 

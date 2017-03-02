@@ -398,6 +398,20 @@ final class Auth {
      }
 
      /**
+      * Creates an active login session for the user (via OAuth).
+      *
+      *
+      *
+      * @param array $token
+      * @return bool
+      * @api
+      */
+
+     public static function oauth($token){
+
+     }
+
+     /**
       * Creates an active login session for the user.
       *
       *

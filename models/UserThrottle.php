@@ -1,6 +1,6 @@
 <?php
 
-class UserThrottle extends Model /* implements AuthService */ {
+class UserThrottle extends Model /* implements Verifiable */ {
 
     protected $table = 'tbl_user_throttles';
 
@@ -9,6 +9,8 @@ class UserThrottle extends Model /* implements AuthService */ {
     protected $relations = array(
 
     );
+
+    protected $autoPrimaryKey = false;
 
     public function __construct(){
 
