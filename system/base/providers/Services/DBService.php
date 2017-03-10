@@ -9,24 +9,18 @@
 
 namespace Providers\Services;
 
-use \PDO;
 use \Exception;
 use \PDOException;
+use \Providers\Core\DBConnection\BaseConnectionAdapter as BaseConnectionAdapter;
 use \Providers\Core\QueryBuilder as Builder;
 
 class DBService {
 
   /**
-   * @var object
+   * @var object (PDO/Mongo)
    */
 
 	protected $connectionHandle = NULL;
-
-  /**
-   * @var string
-   */
-
-	protected $connectionString = '';
 
   /**
    * @var array
@@ -56,34 +50,64 @@ class DBService {
   protected $mObjects = array();
 
   /**
-   * @var array
+   * @var bool
    */
 
 	protected $isMSREnabled; // Master-Slave Replication - {Not In Use Now}
+
+  /**
+   * @var string
+   */
+
+  protected $db_engine;
+
+  /**
+   * @var BaseConnectionAdapter
+   */
+
+  protected $connectionAdapter;
+
+  /**
+   * @var array
+   */
+
+  protected $engineAdapterMap = array(
+      'mysql' => '\Providers\Core\DBConnection\MySqlConnectionAdapter',
+      'pgsql' => '\Providers\Core\DBConnection\PgSqlConnectionAdapter',
+      'sqlite' => '\Providers\Core\DBConnection\SqlLiteConnectionAdapter',
+      'mssql' => '\Providers\Core\DBConnection\MsSqlConnectionAdapter',
+      'mongo' => '\Providers\Core\DBConnection\MongoConnectionAdapter'
+  );
 
   /**
    * Constructor
    *
    *
    * @param array $config
-   * 
+   *
    */
 
-  public function __construct(array $config){
+  public function __construct(array $configs){
 
-          $this->config = $config;
 
-          $this->isMSREnabled = (bool) $this->config['msr_enabled'];
+          $this->isMSREnabled = (bool) $configs['msr_enabled'];
 
-          $engines = $this->config['engines'];
+          $this->db_engine = $configs['db_engine'];
 
-          $engine = $engines['mysql'];
+          $engines = $configs['engines'];
 
-          switch($engine['driver']){
+          $this->config = $engines[$this->db_engine]; 
+
+          switch($this->config['driver']){
 
           	   case "PDO":
-          	       $this->connectionString = ';dbname='.$engine['accessname'].';charset='.$engine['charset'];
+               case "mongo":
+                    $this->createConnectionAdapter($this->config['driver']);
           	   break;
+
+               default:
+                  return;
+               break;
 
           }
 
@@ -138,6 +162,25 @@ class DBService {
     } 
 
   /**
+   *
+   *
+   *
+   */
+
+    protected function createConnectionAdapter($name){
+
+        $adapter = ''; 
+
+        if(isset($this->engineAdapterMap[$this->db_engine])){
+
+              $adapter = $this->engineAdapterMap[$this->db_engine];
+
+              $this->connectionAdapter = new $adapter($this->config['accessname'], ucfirst($name));
+        }
+
+    }   
+
+  /**
    * Retrieves the query parameter types for a given PDO
    * connection which can either be an [integer] or a [string]
    *
@@ -181,9 +224,6 @@ class DBService {
               }
          }
 
-    	   $engines = $this->config['engines'];
-
-    	   $engine = $engines['mysql'];
 
     	   $settings = file($env_file);
 
@@ -195,25 +235,26 @@ class DBService {
          foreach ($settings as $line){
          	  
             $split = explode('=', $line);
+
             if(index_of($split[0], 'db_') === 0){
-                $engine[substr($split[0], 2)] = $split[1];
+
+                $this->config[substr($split[0], 2)] = $split[1];
             }
 
          }
 
          try {
 
-            $this->connectionString = 'mysql:host=' . $engine['hostname']. $this->connectionString;
 
-            $this->connectionHandle = new PDO($this->connectionString, $engine['username'], $engine['password'], $engine['settings']);
+            $this->connectionHandle = $this->connectionAdapter->connect($this->config);
 
-              #$this->connectionHandle->setAttribute(PDO::FETCH_CLASS);
-              #$this->connectionHandle->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-              #$this->connectionHandle->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            #$this->connectionHandle->setAttribute(PDO::FETCH_CLASS);
+            #$this->connectionHandle->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            #$this->connectionHandle->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-              $this->config['engines']['mysql'] = $engine;
+           // $this->config['engines']['mysql'] = $engine;
 
-         }catch (PDOException $e) { 
+         }catch (Exception $e) { /* PDOException */
 
              throw $e;
 
@@ -282,8 +323,24 @@ class DBService {
 
           $this->builders = array();
 
+          unset($this->connectionHandle);
+
           $this->connectionHandle = NULL;
     }
+
+  /**
+   *
+   *
+   *
+   *
+   * @param void
+   * @return string
+   */
+
+  public function getDBEngine(){
+
+      return $this->db_engine;
+  }   
 
   /**
    * Retrieves the database connection object from memory

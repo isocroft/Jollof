@@ -135,24 +135,35 @@ class App {
       *
       * @param array $DBCONFIG
       * @return void
+      * @throws Exception
       */
 
      public function installDBService(array $DBCONFIG){
 
-            $engine = $DBCONFIG['engines']['mysql'];
-
-            if (! extension_loaded($engine['driver'])
-          	   || ! extension_loaded(strtolower($engine['driver']) . "_mysql")){
-
-	           exit(1);
-            }
-
-			if(!is_array($DBCONFIG)){
+            if(!is_array($DBCONFIG)){
 
                 exit(1);
-			}
+            }
 
-			$this->dbservice = new DBService($DBCONFIG); // extract($DBCONFIG, EXTR_PREFIX_ALL , "db");
+            $engine_type = $DBCONFIG['db_engine'];
+
+            $engines = $DBCONFIG['engines'];
+            
+            if(!array_key_exists($engine_type, $engines)){
+
+                throw new \Exception("Database Engine not Found");
+            }
+
+            $engine = $engines[$engine_type];
+
+            if (! extension_loaded($engine['driver']) 
+                || ! extension_loaded(($engine_type != $engine['driver']? strtolower($engine['driver']) . "_" : "") . $engine_type)){
+
+                exit(1);
+            }   
+          
+
+			      $this->dbservice = new DBService($DBCONFIG); // extract($DBCONFIG, EXTR_PREFIX_ALL , "db");
      }
 
      /**
@@ -175,11 +186,11 @@ class App {
                  exit(1);
             }
 
-	     	if(!is_array($ENVCONFIG)){
+    	     	if(!is_array($ENVCONFIG)){
 
-	            exit(1);
+    	            exit(1);
 
-			}
+    			  }
 
             $this->envservice = new EnvService($ENVCONFIG);
      }
@@ -291,6 +302,22 @@ class App {
 
          return $this->envservice->exposeEnvironment($root);
 
+     }
+
+     /**
+      *
+      *
+      *
+      *
+      *
+      * @param void
+      * @return string
+      *
+      */
+
+     public function getDBDriver(){
+
+          return $this->dbservice->getDBEngine();
      }
 
      /**

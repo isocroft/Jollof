@@ -24,6 +24,13 @@ return array(
      "\\Providers\\Core\\QueryExtender" => $compDir . "/providers/Core/QueryExtender",
      "\\Providers\\Core\\QueryBuilder" => $compDir . "/providers/Core/QueryBuilder",
 
+     "\\Providers\\Core\\DBConnection\\BaseConnectionAdapter" => $compDir . "/providers/Core/DBConnection/BaseConnectionAdapter",
+     "\\Providers\\Core\\DBConnection\\MySqlConnectionAdapter" => $compDir . "/providers/Core/DBConnection/MySqlConnectionAdapter",
+     "\\Providers\\Core\\DBConnection\\MsSqlConnectionAdapter" => $compDir . "/providers/Core/DBConnection/MsSqlConnectionAdapter",
+     "\\Providers\\Core\\DBConnection\\PgSqlConnectionAdapter" => $compDir . "/providers/Core/DBConnection/PgSqlConnectionAdapter",
+     "\\Providers\\Core\\DBConnection\\SqlLiteConnectionAdapter" => $compDir . "/providers/Core/DBConnection/SqlLiteConnectionAdapter",
+     "\\Providers\\Core\\DBConnection\\MongoConnectionAdapter" => $compDir . "/providers/Core/DBConnection/MongoConnectionAdapter",
+
      /* Services */
 
      "\\Providers\\Services\\DBService" => $compDir . "/providers/Services/DBService",

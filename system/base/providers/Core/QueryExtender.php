@@ -14,6 +14,8 @@ use \UnexpectedValueException;
 use \Exception;
 use \ReflectionClass;
 
+/* This query extender is for SQL databases */
+
 class QueryExtender {
 
      /**
@@ -331,7 +333,9 @@ class QueryExtender {
               throw new Exception("No relations exists between Model -> {$parentModelName} and Model -> {$modelName}");
          }
 
-         $childReference = $this->wrap($relations[$parentModelName]);
+         $relation = $relations[$parentModelName];
+
+         $childReference = $this->wrap((index_of($relation, '@'))? substr($relation, 1) : NULL);
 
          /* if the join type isn't valid, throw an error */
 
@@ -339,6 +343,12 @@ class QueryExtender {
 
               throw new UnexpectedValueException("Invalid join type found");
          }
+
+         if(is_null($childReference)){
+
+              throw new UnexpectedValueException("Invalid join reference found");
+         }
+
          # start building query string -> JOIN
      	   $joinExp = " {$joinType} JOIN {$joinTable} ON {$table}.{$parentReference} = {$joinTable}.{$childReference}";
 
@@ -484,6 +494,13 @@ class QueryExtender {
       */
 
      private function wrap($attributeName, $char = "`"){
+
+          $db_driver = $GLOBALS['app']->getDBDriver();
+
+          if($db_driver != "mysql"){
+
+                $char = '"';
+          }
 
           if(strlen($attributeName) === 0){
                 return $attributeName;

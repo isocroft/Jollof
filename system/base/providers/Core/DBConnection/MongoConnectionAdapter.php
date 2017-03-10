@@ -2,7 +2,7 @@
 
 namespace Providers\Core\DBConnection;
 
-class SqlLiteConnectionAdapter extends BaseConnectionAdapter{
+class MongoConnectionAdapter extends BaseConnectionAdapter{
 	
 	public function __construct($dbName = NULL, $driverClass = ''){
 
@@ -16,14 +16,14 @@ class SqlLiteConnectionAdapter extends BaseConnectionAdapter{
 
 		$type = $this->getType();
 
-		$connectionString = 'sqlite:' . $dbname;
+		$connectionString = 'mongodb://' . $config['hostname'] . ':' . $config['port'] . '/' . $dbname;
 
 		if(!isset($type)){
 
 			return NULL;
 		}
 
-		$dbo = new $type($connectionString, null, null, $config['settings']);
+		$dbo = new $type($connectionString, array('username'=>$config['username'], 'password'=>$config['password']));
 
 		return $dbo;
 	}

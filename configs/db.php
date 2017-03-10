@@ -15,9 +15,10 @@
     ! *
     --------------------------------------------------------*/
 
-    # ("mysql", "sqlite", "mongodb")
 
     return array(
+
+      "db_engine" => "mysql", # ("mysql", "pgsql", "mssql" "sqlite", "mongo")
 
       "msr_enabled" => false, // Master-Slave Replication
 
@@ -30,6 +31,8 @@
                      "accessname" => "*******", #  Database Name
 
           	         "driver" =>  "PDO",
+
+                     "port" => "", # Database Port
 
                 	   "charset"   => 'utf8',
 
@@ -44,7 +47,7 @@
 
                 				      PDO::ATTR_AUTOCOMMIT => false,
 
-                              PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
+                              /* PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8", */
 
                               PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 
@@ -60,15 +63,58 @@
 
           "pgsql" => array(
           
+                      "hostname" => "********", # Database Host Name
+
+                      "accessname" => "*******", #  Database Name
+
+                      "driver" =>  "PDO",
+
+                      "port" => "", # Database Port
+
+                      "charset"   => 'utf8',
+
+                      "collation" => 'utf8_unicode_ci',
+
+                      "settings" => array(
+
+                      )
           ),  
 
           "sqlite" => array (
 
+                      "accessname" => __DIR__ . "../*******", #  Database Name (Path)
 
+                      "driver" =>  "PDO"
            ),
 
-          "mongodb" => array(
+          "mssql" => array(
 
+                      "hostname" => "********", # Database Host Name
+
+                      "accessname" => "*******", #  Database Name
+
+                      "driver" =>  "PDO",
+
+                      "port" => "", # Database Port
+           ),
+
+          /* First: Download MongoDB Driver from 
+                      [https://github.com/mongodb/mongo-php-driver/downloads]
+
+             Second: extract the zip file and copy out [php_mongo.dll]
+
+             Last: include line [extension=php_mongo.dll] in php.ini file
+          */
+
+          "mongo" => array(
+
+                      "hostname" => "********", # Database Host Name
+
+                      "accessname" => "*******", #  Database Name
+
+                      "driver" =>  "mongo",
+
+                      "port" => "" # Database Port
 
           )
 

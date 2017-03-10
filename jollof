@@ -101,6 +101,8 @@
 
 	$in = NULL;
 
+  $_in = '';
+
 	$errormsg = "";
 
 	$errorlevel = 0;
@@ -167,7 +169,7 @@
 
       if($no_apache){
           fwrite(STDOUT, PHP_EOL . 'Apache isn\'t running - Jollof cannot launch docs' . PHP_EOL);
-          // @TODO: try to find Nginx - nginx.exe 
+          // @TODO: try to find for Nginx - nginx.exe 
       }
 
       sleep(3);
@@ -298,11 +300,11 @@
 
         make_file('.env');
 
-		$promptList = array(
-			'db_hostname= ',
-			'db_username= ',
-      'db_password= '
-		);
+    		$promptList = array(
+    			'db_hostname= ',
+    			'db_username= ',
+          'db_password= '
+    		);
 
 		fwrite(STDOUT, PHP_EOL . "Please enter details for database: " . PHP_EOL);
 
@@ -407,17 +409,43 @@
 
 	if($command === 'make:model'){
 
+      $promptList = array(
+        'entity_name (Table/Collection)= ',
+        'primary_key (Id/Key)= '
+      );
+
 	    while(NULL !== ($token = array_shift($tokens))){
 
 	    	 $in = $model_path . ucfirst($token) . '.php';
 
 	    	 fwrite(STDOUT, 'Creating Model File: ' . ucfirst($token) . '.php' . PHP_EOL);
 
-			 make_file($in);
+			   make_file($in);
 
 			 sleep(1);
 
-			 file_put_contents($in, "<?php \n\n class " . ucfirst($token) . " extends Model { \n\n\t protected \$table = '...'; \n\n\t protected \$primaryKey = '...'; \n\n\t protected \$relations = array(); \n\n\t public function __construct(){ \n\n\t\t parent::__construct(); \n\n\t }  \n\n } \n\n ?> ", LOCK_EX);
+       fwrite(STDOUT, ' ' . PHP_EOL);
+
+       foreach ($promptList as $prompt) {
+
+           fwrite(STDOUT, $prompt);
+
+           $_in = fgets(STDIN);
+
+           //fflush(STDIN);
+           switch($prompt){
+              case "entity_name (Table/Collection)= ": 
+                $stdinLines['table'] =  trim($_in);
+              break;
+              case "primary_key (Id/Key)= ":
+                $stdinLines['key'] =  trim($_in);
+              break;  
+           }   
+        }
+
+       sleep(1);
+
+			 file_put_contents($in, "<?php \n\n class " . ucfirst($token) . " extends Model { \n\n\t protected \$table = \"{$stdinLines['table']}\"; \n\n\t protected \$primaryKey = \"{$stdinLines['key']}\"; \n\n\t protected \$relations = array(); \n\n\t public function __construct(){ \n\n\t\t parent::__construct(); \n\n\t }  \n\n } \n\n ?> ", LOCK_EX);
 
 			 $marker = '     "\\\\Model" => $compDir . "/../../models/Model",' . PHP_EOL;
 

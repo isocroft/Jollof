@@ -16,22 +16,42 @@ use \InvalidArgumentException;
 
 abstract class BaseConnectionAdapter{
 	
+
+	  /**
+	   * @var string
+	   */
 		protected $type;
 
+
+	  /**
+	   * @var string
+	   */
 		protected $dbname;
 
-		protected $unixsocket;
+		/**
+		 * Constructor
+		 *
+		 *
+		 * @param string $db_name
+		 * @param string $driver_class_name
+		 * @throws InvalidArgumentException
+		 *
+		 */
 
-		public function __construct($dbName, $unixSocket = NULL){
+		public function __construct($db_name, $driver_class_name){
 
-			if(empty($dbName) || !isset($dbName) || !is_string($dbName)){
+			if(empty($db_name) || !isset($db_name) || !is_string($db_name)){
 
 				throw new InvalidArgumentException("Expected [string] got [null]");
 			}
 
-			$this->dbname = $dbName;
+			if(class_exists('\\' . $driver_class_name)){
 
-			$this->unixsocket = $unixSocket;
+				$this->type = '\\' . $driver_class_name;
+			}
+
+			$this->dbname = $db_name;
+
 		}
 
 		public function getType(){
@@ -44,8 +64,15 @@ abstract class BaseConnectionAdapter{
 			return $this->dbname;
 		}
 
+		/**
+		 *
+		 *
+		 *
+		 * @param $config
+		 *
+		 */
 
-		public function connect(array $config){ /* Will include only {hostname} {port} {username} {password} {charset} */
+		public function connect(array $config){ 
 
 			if(!array_key_exists('settings', $config)){
 

@@ -2,7 +2,7 @@
 
 namespace Providers\Core\DBConnection;
 
-class MySqlConnectionAdapter extends BaseConnectionAdapter{
+class MsSqlConnectionAdapter extends BaseConnectionAdapter{
 	
 	public function __construct($dbName = NULL, $driverClass = ''){
 
@@ -16,15 +16,18 @@ class MySqlConnectionAdapter extends BaseConnectionAdapter{
 
 		$type = $this->getType();
 
-		$connectionString = 'mysql:host=' . $config['hostname'] . ';dbname=' . $dbname . ';charset=' . $config['charset'];
+		if(get_os() === 'windows'){
 
-		if(isset($config['port'])){
-			$connectionString .= ';port=' . $config['port'];
+			$connectionString = 'mssql:host=' . $config['hostname'] . ',' . $config['port'];
+
+		}else{
+
+			$connectionString = 'mssql:host=' . $config['hostname'] . ':' . $config['port'];
+
 		}
+
 		
-		if(isset($config['unix_socket'])){
-			$connectionString .= ';unix_socket' . $config['unix_socket'];
-		}	
+		$connectionString .= ';dbname=' . $dbname;	
 
 		if(!isset($type)){
 
