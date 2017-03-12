@@ -8,21 +8,26 @@
  *
  */
 
-namespace Providers\Core;
+use \Contracts\Policies\QueryProvider as QueryProvider;
 
-use \PDO;
-use Providers\Core\QueryExtender as QueryExtender;
+namespace Providers\Core;
 
 class QueryBuilder {
 
-	/**
-	 * @var Providers\Core\QueryExtender
+	/** 
+	 * @var string - 
 	 */
 
-    protected $extender;
+	protected $db_driver;
+
+	/**
+	 * @var object - Providers\Core\QueryProvider
+	 */
+
+    protected $provider;
 
     /**
-     * @var array
+     * @var array - 
      */
 
     protected $schemaAttribs;
@@ -31,15 +36,14 @@ class QueryBuilder {
 	 * Constructor
 	 *
 	 *
-	 * @param PDO $connection
-	 * @param array $paramTypes
+	 *
+	 * @param \Contracts\Policies\QueryProvider $provider
 	 * @api
 	 */
 
-	public function __construct(PDO $connection, array $paramTypes, $modelName){
+	public function __construct(QueryProvider $provider){
 
-       $this->extender = new QueryExtender($connection, $paramTypes, $modelName);
-
+       		$this->provider = $provider;
 	}
 
 	/**
@@ -51,9 +55,9 @@ class QueryBuilder {
 	 * @return void
 	 */
 
-	public function setAttributes(array $attribs){
+	public function setAttributes(array $attribs = array()){
 
-        $this->extender->setAttributes($attribs);
+        $this->provider->setAttributes($attribs);
 	}
 
 	/**
@@ -62,12 +66,12 @@ class QueryBuilder {
 	 *
 	 *
 	 *
-	 * @return \Providers\Core\QueryExtender
+	 * @return \Contracts\Policies\QueryProvider
 	 */
 
 	public function select(array $columns, array $clauseProps, $conjunction){
 
-        return $this->extender->get($columns, $clauseProps, $conjunction);
+        return $this->provider->get($columns, $clauseProps, $conjunction);
 	}
 
 	/**
@@ -76,12 +80,12 @@ class QueryBuilder {
 	 *
 	 *
 	 *
-	 * @return \Providers\Core\QueryExtender
+	 * @return \Contracts\Policies\QueryProvider
 	 */
 
 	public function insert(array $values, array $clauseProps){
 
-       return $this->extender->set(array_keys($values), array_values($values), $clauseProps);
+       return $this->provider->set(array_keys($values), array_values($values), $clauseProps);
 	}
 
 	/**
@@ -90,12 +94,12 @@ class QueryBuilder {
 	 *
 	 *
 	 *
-	 * @return \Providers\Core\QueryExtender
+	 * @return \Contracts\Policies\QueryProvider
 	 */
 
 	public function update(array $columnValues, array $clauseProps, $conjunction){
 
-        return $this->extender->let($columnValues, $clauseProps);
+        return $this->provider->let($columnValues, $clauseProps);
 	}
 
 	/**
@@ -104,12 +108,38 @@ class QueryBuilder {
 	 *
 	 *
 	 *
-	 * @return \Providers\Core\QueryExtender
+	 * @return \Contracts\Policies\QueryProvider
 	 */
 
 	public function delete(array $columns, array $clauseProps){
 
-       return $this->extender->del($columns, $clauseProps);
+       return $this->provider->del($columns, $clauseProps);
+	}
+
+	/**
+	 *
+	 *
+	 *
+	 * @return void 
+	 *
+	 */
+
+	public function setDriver($db_driver){
+
+		$this->db_driver = $db_driver;
+	}
+
+	/**
+	 *
+	 *
+	 *
+	 *
+	 * @return object
+	 */
+
+	public function createEntity(array $schema){
+
+		;
 	}
 
 

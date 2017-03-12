@@ -22,6 +22,7 @@ return array(
      "\\Providers\\Core\\SessionManager" => $compDir . "/providers/Core/SessionManager",
      "\\Providers\\Core\\InputManager" => $compDir . "/providers/Core/InputManager",
      "\\Providers\\Core\\QueryExtender" => $compDir . "/providers/Core/QueryExtender",
+     "\\Providers\\Core\\QueryParser" => $compDir . "/providers/Core/QueryParser",
      "\\Providers\\Core\\QueryBuilder" => $compDir . "/providers/Core/QueryBuilder",
 
      "\\Providers\\Core\\DBConnection\\BaseConnectionAdapter" => $compDir . "/providers/Core/DBConnection/BaseConnectionAdapter",
@@ -60,6 +61,7 @@ return array(
 
      /* Policies */
 
+     "\\Contracts\\Policies\\QueryProvider" => $compDir . "/contracts/policies/DB/QueryProvider",
      "\\Contracts\\Policies\\CacheAccessInterface" => $compDir . "/contracts/policies/Cache/CacheAccessInterface",
      "\\Contracts\\Policies\\DBAccessInterface" => $compDir . "/contracts/policies/DB/DBAccessInterface",
      "\\Contracts\\Policies\\SessionAccessInterface" => $compDir . "/contracts/policies/Session/SessionAccessInterface",
@@ -89,6 +91,7 @@ return array(
      "\\UserThrottle" => $compDir . "/../../models/UserThrottle",
      "\\Todo" => $compDir . "/../../models/Todo",
      "\\TodoList" => $compDir . "/../../models/TodoList",
+     "\\Project" => $compDir . "/../../models/Project",
 
      /* Controllers */
 

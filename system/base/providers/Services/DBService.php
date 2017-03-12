@@ -9,10 +9,15 @@
 
 namespace Providers\Services;
 
+use \PDO;
 use \Exception;
 use \PDOException;
 use \Providers\Core\DBConnection\BaseConnectionAdapter as BaseConnectionAdapter;
 use \Providers\Core\QueryBuilder as Builder;
+
+
+use \Providers\Core\QueryExtender as QueryExtender;
+use \Providers\Core\QueryParser as QueryParser;
 
 class DBService {
 
@@ -169,13 +174,13 @@ class DBService {
 
     protected function createConnectionAdapter($name){
 
-        $adapter = ''; 
+        $adapterClass = ''; 
 
         if(isset($this->engineAdapterMap[$this->db_engine])){
 
-              $adapter = $this->engineAdapterMap[$this->db_engine];
+              $adapterClass = $this->engineAdapterMap[$this->db_engine];
 
-              $this->connectionAdapter = new $adapter($this->config['accessname'], ucfirst($name));
+              $this->connectionAdapter = new $adapterClass($this->config['accessname'], ucfirst($name));
         }
 
     }   
@@ -183,6 +188,7 @@ class DBService {
   /**
    * Retrieves the query parameter types for a given PDO
    * connection which can either be an [integer] or a [string]
+   *
    *
    *
    * @param void
@@ -234,27 +240,22 @@ class DBService {
 
          foreach ($settings as $line){
          	  
-            $split = explode('=', $line);
+              $split = explode('=', $line);
 
-            if(index_of($split[0], 'db_') === 0){
+              if(index_of($split[0], 'db_') === 0){
 
-                $this->config[substr($split[0], 2)] = $split[1];
-            }
+                  $this->config[substr($split[0], 2)] = $split[1];
+              }
 
          }
 
          try {
 
 
-            $this->connectionHandle = $this->connectionAdapter->connect($this->config);
+              $this->connectionHandle = $this->connectionAdapter->connect($this->config);
 
-            #$this->connectionHandle->setAttribute(PDO::FETCH_CLASS);
-            #$this->connectionHandle->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-            #$this->connectionHandle->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-           // $this->config['engines']['mysql'] = $engine;
-
-         }catch (Exception $e) { /* PDOException */
+         }catch (Exception $e) { /* PDOException, MongoException */
 
              throw $e;
 
@@ -281,6 +282,7 @@ class DBService {
    *
    *
    * @param array $modelAttributes
+   * @param string $modelName
    * @return \Providers\Core\QueryBuilder $builder; 
    */
 
@@ -290,6 +292,8 @@ class DBService {
 
         $p_types = $this->getParamTypes();
 
+        $db_engine = $this->getDBEngine();
+
         $table = (!array_key_exists('table', $modelAttributes))?: $modelAttributes['table'];
 
         if(empty($table) || !isset($table)){
@@ -297,15 +301,27 @@ class DBService {
               return NULL;
         }
 
-        if(is_null($db_collection)){
+        if(is_null($db_connection)){
 
               throw new Exception("No Database Connection Found, .env File Probably Missing");
 
         }
 
-        $builder = $this->builders[$table] = new Builder($db_collection, $p_types, $modelName);
+        if($db_engine != 'mongo'){
+
+              $provider = new QueryExtender($db_connection, $p_types, $modelName);
+
+        }else{
+
+              $provider = new QueryParser($db_connection, array(), $modelName);
+
+        }
+
+        $builder = $this->builders[$table] = new Builder($provider);
 
         $builder->setAttributes($modelAttributes);
+
+        $builder->setDriver($db_engine);
 
         return $builder;
     }
@@ -357,5 +373,10 @@ class DBService {
     }
 
 }
+
+
+            #$this->connectionHandle->setAttribute(PDO::FETCH_CLASS);
+            #$this->connectionHandle->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            #$this->connectionHandle->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 ?>

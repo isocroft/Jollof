@@ -12,6 +12,8 @@ class User extends Model {
  		'UserRole' => '#id' // <OuttSideModel> ======> belongsTo =======> <#ThisModelPrimaryKey>
     );
 
+    protected $pivotTable = null;
+
     protected $autoPrimaryKey = false;
 
     public function __construct(){

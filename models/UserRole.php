@@ -8,8 +8,10 @@ class UserRole extends Model {
 
     protected $relations = array(
 
-       'User' => '@user_id' // <OutSide Model> =====> hasMany ====> <@ThisModelForeginKey>
+       'User' => '@user_id' // <OutSideModel> =====> hasMany ====> <@ThisModelForeignKey>
     );
+
+    protected $pivotTable = null;
 
     protected $autoPrimaryKey = false;
 

@@ -9,14 +9,15 @@
 
 namespace Providers\Core;
 
-use \PDO;
+use \Contracts\Policies\QueryProvider as QueryProvider;
+// use \PDO;
 use \UnexpectedValueException;
 use \Exception;
 use \ReflectionClass;
 
-/* This query extender is for SQL databases */
+/* This query provider is for SQL databases */
 
-class QueryExtender {
+class QueryExtender implements QueryProvider {
 
      /**
       * @var string - the actual SQL query string being built out
@@ -25,7 +26,7 @@ class QueryExtender {
      protected $queryString;
 
      /**
-      * @var array - attributes of the base model [primary_key, table_name, foreign_key]
+      * @var array - attributes of the base model [primary_key, table_name, relations]
       */
 
      protected $attribs;
@@ -49,7 +50,7 @@ class QueryExtender {
      protected $connection;
 
      /**
-      * @var string -
+      * @var string - Model calss with relation
       */
 
      protected $ownerModel;
@@ -109,7 +110,7 @@ class QueryExtender {
      * @api public
      */
 
-     public function __construct(PDO $connection, array $paramTypes, $modelName = NULL){
+     public function __construct($connection, array $paramTypes, $modelName = NULL){
 
          $this->queryString = '';
 
@@ -148,7 +149,13 @@ class QueryExtender {
         # wrap the table name with quotes like so: `table`
         $table = $this->wrap($this->attribs['table']);
 
-        $_columns = implode(', ', array_map(array(&$this, 'addTablePrefix'), $columns));
+        // $_columns = implode(', ', array_map(array(&$this, 'addTablePrefix'), $columns));
+
+        if(count($columns) == 1 && $columns[0] == '*'){
+            $_columns = $columns[0];
+        }else{
+            $_columns = implode(', ', $columns);
+        }    
 
         foreach($clauseProps as $key => $value){
             if(is_array($value)){
@@ -212,12 +219,16 @@ class QueryExtender {
       * @return \Providers\Core\QueryExtender -
       */
 
-     public function set($columns, $values, $clauseProps = array()){
+     public function set(array $columns, array $values, array $clauseProps = array()){
 
         # wrap the table name with quotes like so: `table`
         $table = $this->wrap($this->attribs['table']);
 
-        $_columns = implode(', ', array_map(array(&$this, 'addTablePrefix'), $columns));
+        if(count($columns) == 1 && $columns[0] == '*'){
+            $_columns = $columns[0];
+        }else{
+            $_columns = implode(', ', array_map(array(&$this, 'addTablePrefix'), $columns));
+        }
 
         # start building query string -> INSERT
         $this->queryString .= "INSERT INTO " . $table . "(" . $_columns . ") VALUES (" .  implode(', ', $this->prepareInsertPlaceholder($values)) . ")";
@@ -279,7 +290,11 @@ class QueryExtender {
         # wrap the table name with quotes like so: `table`
         $table = $this->wrap($this->attribs['table']);
 
-        $columns = implode(', ', array_map(array(&$this, 'addTablePrefix'), $columns));
+        if(count($columns) == 1 && $columns[0] == '*'){
+            $_columns = $columns[0];
+        }else{
+            $_columns = implode(', ', array_map(array(&$this, 'addTablePrefix'), $columns));
+        }
 
         # start building query string -> DELETE
      	  $this->queryString .= "DELETE " . $columns . " FROM " . $table;
@@ -313,7 +328,7 @@ class QueryExtender {
 
          $this->reflClass = new ReflectionClass($modelName);
 
-         $object = $this->reflClass->newInstanceWithoutContructor(); 
+         $object = $this->reflClass->newInstanceWithoutConstructor(); 
 
          $__atrribs = $object->getAttributes();
 
@@ -352,6 +367,8 @@ class QueryExtender {
          # start building query string -> JOIN
      	   $joinExp = " {$joinType} JOIN {$joinTable} ON {$table}.{$parentReference} = {$joinTable}.{$childReference}";
 
+         // $this->queryString = str_replace(" FROM {$table}", " FROM {$table}, {$joinTable}", $this->queryString);
+
          $this->queryString = str_replace(' <;join>', $joinExp, $this->queryString);
 
      	   return $this;
@@ -362,7 +379,7 @@ class QueryExtender {
       *
       *
       *
-      * @param array $colums - ordering columns for SELECT query
+      * @param array $columns - ordering columns for SELECT query
       * @param bool $ascending - flag to specify sorting preference
       * @return \Providers\Core\QueryExtender -
       */
@@ -383,9 +400,9 @@ class QueryExtender {
 
      }
 
-     public function setAttributes($schemaAttribs){
+     public function setAttributes(array $schemaAttribs){
 
-     	 $this->attribs = $schemaAttribs;
+     	  $this->attribs = $schemaAttribs;
      }
 
      /**
@@ -444,7 +461,7 @@ class QueryExtender {
       * @return mixed
       */
 
-     public function exec($limit = 0, $offset = 0){
+     public function exec($limit, $offset){
 
      	  $type = substr($this->queryString, 0, index_of($this->queryString, " ", 0));
      	  $result = NULL;

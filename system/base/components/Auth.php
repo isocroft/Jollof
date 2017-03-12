@@ -165,6 +165,7 @@ final class Auth {
       *
       *
       * @param array $props
+      * @param string $role
       * @return bool
       * @api
       */

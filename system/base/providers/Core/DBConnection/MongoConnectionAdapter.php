@@ -25,6 +25,11 @@ class MongoConnectionAdapter extends BaseConnectionAdapter{
 
 		$dbo = new $type($connectionString, array('username'=>$config['username'], 'password'=>$config['password']));
 
+		if(method_exists($dbo, 'selectDB')){
+
+			$dbo = $dbo->selectDB($dbname);
+		}
+
 		return $dbo;
 	}
 }

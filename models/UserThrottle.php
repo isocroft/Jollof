@@ -10,6 +10,8 @@ class UserThrottle extends Model /* implements Verifiable */ {
 
     );
 
+    protected $pivotTable = null;
+
     protected $autoPrimaryKey = false;
 
     public function __construct(){

@@ -4,15 +4,11 @@ namespace Contracts\Policies;
 
 interface DBAccessInterface {
 
-      public function get(\array $columns, \array $clauseProps, $conjunction);
+      function getAttributes();
 
-      public function set(\array $values, \array $clauseProps);
+      function installSchema();
 
-      public function let(\array $columnValues, \array $clauseProps, $conjunction);
-
-      public function del(\array $columns, \array $clauseProps);
-
-      public function rawGet($query, \array $columns, \array $clauseProps);
+      function bindSchema();
 
 }
 
