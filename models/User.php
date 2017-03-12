@@ -8,6 +8,8 @@ class User extends Model {
 
     protected $relations = array(
 
+    	'Todo' => '#id', // <OuttSideModel> ======> belongsTo =======> <#ThisModelPrimaryKey>
+
  		'TodoList' => '#id', // <OuttSideModel> ======> belongsTo =======> <#ThisModelPrimaryKey>
  		'UserRole' => '#id' // <OuttSideModel> ======> belongsTo =======> <#ThisModelPrimaryKey>
     );

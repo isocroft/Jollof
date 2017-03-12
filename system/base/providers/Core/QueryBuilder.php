@@ -47,7 +47,7 @@ class QueryBuilder {
 	}
 
 	/**
-	 *
+	 * Setting entity/collection for Model
 	 *
 	 *
 	 *

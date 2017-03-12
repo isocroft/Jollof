@@ -99,7 +99,8 @@
            ),
 
           /* First: Download MongoDB Driver from 
-                      [https://github.com/mongodb/mongo-php-driver/downloads]
+                      
+                    [https://github.com/mongodb/mongo-php-driver/downloads]
 
              Second: extract the zip file and copy out [php_mongo.dll]
 
@@ -114,7 +115,7 @@
 
                       "driver" =>  "mongo",
 
-                      "port" => "" # Database Port
+                      "port" => "27017" # Database Port
 
           )
 
