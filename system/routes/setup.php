@@ -21,7 +21,7 @@
 
  Router::bind('/chats/messaging', array('verb' => 'post', 'model' => array()));
 
- Router::bind('/admin', array('models' => array('Todo', 'TodoList')));
+ Router::bind('/admin', array('models' => array('Todo', 'TodoList', 'Project')));
 
  Router::bind('/account/login/', array('models' => array()));
 
