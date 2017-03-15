@@ -95,7 +95,7 @@
 
             'jwt_as_signed_cookie' => true,
 
-            'throttle_enabled' => true,
+            'throttle_enabled' => false,
 
             'extension' => array(
 

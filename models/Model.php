@@ -181,7 +181,7 @@ class Model implements DBInterface {
      *
      *
      * @param void
-     * @return void 
+     * @return array [result] 
      */
 
      public function installSchema(){
@@ -206,12 +206,13 @@ class Model implements DBInterface {
 
     /**
      * Retrieves one or more tuples/rows from a Model entity/collection 
-     * based on conditions.
+     * based on conditions and operator (AND).
      *
      *
      * @param array $clause -
      * @param array $cols -
      * @return array [resultset] 
+     * @api
      */
 
      public static function whereBy(array $clause = array(), array $cols = array('*')){
@@ -223,14 +224,36 @@ class Model implements DBInterface {
           return static::$instance->get($cols, $clause)->exec();
      }
 
+     /**
+     * Retrieves one or more tuples/rows from a Model entity/collection 
+     * based on conditions and operator (OR).
+     *
+     *
+     * @param array $clause -
+     * @param array $cols -
+     * @return array [resultset] 
+     * @api
+     */
+
+     public static function whereByOr(array $clause = array(), array $cols = array('*')){
+
+          $attrs = static::$instance->getAttributes();
+
+          $pkey = $attrs['key'];
+
+          return static::$instance->get($cols, $clause, 'or')->exec();
+     }
+
 
     /**
      * Retrieves the very first tuple/row from a Model entity/collection
-     * based on conditions.
+     * based on conditions and operator (AND).
      *
      *
-     * @param void
-     * @return void 
+     * @param $clause - 
+     * @param $cols - 
+     * @return array [resultset]
+     * @api
      */
 
      public static function first(array $clause = array(), array $cols = array('*')){
@@ -240,6 +263,24 @@ class Model implements DBInterface {
           return static::$instance->get($cols, $clause)->exec(1);
      }
 
+     /**
+     * Retrieves the very first tuple/row from a Model entity/collection
+     * based on conditions and operator (OR).
+     *
+     *
+     * @param $clause - 
+     * @param $cols - 
+     * @return array [resultset]
+     * @api
+     */
+
+     public static function firstOr(array $clause = array(), array $cols = array('*')){
+
+          $attrs = static::$instance->getAttributes();
+
+          return static::$instance->get($cols, $clause, 'or')->exec(1);
+     }
+
     /**
      * Retrieves distinct columns from a Model entity/collection
      *
@@ -247,6 +288,7 @@ class Model implements DBInterface {
      *
      * @param array $cols
      * @return array [resultset] 
+     * @api
      */
 
      public static function fetchDistinct(array $cols = array('*')){
@@ -261,7 +303,6 @@ class Model implements DBInterface {
      *
      *
      *
-     *
      * @param string $modelName - class name of join Model
      * @param array $clause -
      * @return array [resultset]
@@ -269,7 +310,9 @@ class Model implements DBInterface {
 
      public static function fetchWith($modelName, array $clause = array(), $limit = 0){  
 
-          return static::$instance->get(array('*'), $clause)->with($modelName)->exec($limit, 0);
+          return static::$instance->get(array('*'), $clause)
+                        ->with($modelName)
+                            ->exec($limit, 0);
      }
 
     /**
@@ -299,13 +342,14 @@ class Model implements DBInterface {
      *
      *
      * @param string $id
-     * @return array
+     * @return array [resultset]
      * @api 
      */
 
      public static function updateById($id = ''){
 
           $attr = static::$instance->getAttributes();
+          
           $clause = array();
           $clause[$attr['key']] = array('=' => $id);
 
@@ -318,13 +362,14 @@ class Model implements DBInterface {
      *
      *
      * @param string $id - value for primary key for Model table
-     * @return array
+     * @return array [resultset]
      * @api 
      */
 
      public static function removeById($id = ''){
 
           $attr = static::$instance->getAttributes();
+          
           $clause = array();
           $clause[$attr['key']] = array('=' => $id);
 
@@ -337,7 +382,7 @@ class Model implements DBInterface {
      *
      *
      * @param string $id - value for primary key for Model table
-     * @return array 
+     * @return array [resultset]
      * @api 
      */
 
@@ -409,7 +454,8 @@ class Model implements DBInterface {
      *
      * @param array $tuple - 
      * @param array $clause -
-     * @return array 
+     * @return array [result]
+     * @api
      */
 
      public static function upsert(array $tuple = array(), array $clause = array()){
@@ -428,7 +474,8 @@ class Model implements DBInterface {
      *
      * @param array $tuple -
      * @param array $updateCols -
-     * @return array 
+     * @return array [result]
+     * @api
      */
 
      public static function create(array $tuple = array(), array $updateCols = array()){

@@ -8,9 +8,8 @@ class Todo extends Model {
 
     protected $relations = array(
 
-    	'TodoList' => '#id', // <OutSideModel> =====> belongsTo ====> <@ThisModelPrimaryKey>
+    	'TodoList' => '#id' // <OutSideModel> =====> belongsTo ====> <@ThisModelPrimaryKey>
  		
- 		'User' => '@author' // <OutSideModel> =====> hasMany ====> <@ThisModelForeignKey> 
     );
     
     protected $pivotTable = null;

@@ -31,7 +31,7 @@ use Logger;
 use TextStream;
 use Comms;
 
-class App {
+final class App {
 
     /**
      * @var string
@@ -305,8 +305,7 @@ class App {
      }
 
      /**
-      *
-      *
+      * Retrieve the name of the current DB driver
       *
       *
       *
@@ -321,7 +320,8 @@ class App {
      }
 
      /**
-      *
+      * Creates the query builder for each (requesting) Model
+      * (Proxy API)
       *
       *
       * @param array $atrribs

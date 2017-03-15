@@ -2,13 +2,13 @@
 
 <?php
 
-  # @TODO: I really need to clean this out and make use of Classes. I
+  # @TODO: I really need to clean this out and make use of Classes (OOP). I
   #        also need to make sure that custom commands can be included
   #        easily by Jollof developers
 
 
   /**
-   * -- This will be the new implementation format as of v1.0.0.
+   * -- This will be the new implementation format as of v0.0.7.
    *
    * require_once 'system/boot.php';
    *
@@ -23,7 +23,7 @@
    *        $stdInData = array();
    *        $stdOuts = array('datbase_host=', 'data_password=');
    *
-   *        $tokens = $prompt->getArguments();
+   *        $tokens = $prompt->getLineArguments();
    *
    *        // $prompt->execute('cd packages');
    *
@@ -36,7 +36,7 @@
 
 	require_once 'system/boot.php';
 
-	$model_path = __DIR__ . '/models/';
+	  $model_path = __DIR__ . '/models/';
 
     $migrations_path = __DIR__ . '/storage/migrations/';
 
@@ -414,42 +414,46 @@
         'primary_key (Id/Key)= '
       );
 
+      // $dbdrv = $app->getDBDriver(); @TODO: remove this line
+
 	    while(NULL !== ($token = array_shift($tokens))){
 
 	    	 $in = $model_path . ucfirst($token) . '.php';
+
+         fwrite(STDOUT, );
 
 	    	 fwrite(STDOUT, 'Creating Model File: ' . ucfirst($token) . '.php' . PHP_EOL);
 
 			   make_file($in);
 
-			 sleep(1);
+			   sleep(1);
 
-       fwrite(STDOUT, ' ' . PHP_EOL);
+         fwrite(STDOUT, ' ' . PHP_EOL);
 
-       foreach ($promptList as $prompt) {
+         foreach ($promptList as $prompt) {
 
-           fwrite(STDOUT, $prompt);
+              fwrite(STDOUT, $prompt);
 
-           $_in = fgets(STDIN);
+              $_in = fgets(STDIN);
 
-           //fflush(STDIN);
-           switch($prompt){
-              case "entity_name (Table/Collection)= ": 
-                $stdinLines['table'] =  trim($_in);
-              break;
-              case "primary_key (Id/Key)= ":
-                $stdinLines['key'] =  trim($_in);
-              break;  
-           }   
-        }
+             //fflush(STDIN);
+             switch($prompt){
+                  case "entity_name (Table/Collection)= ": 
+                    $stdinLines['table'] =  trim($_in);
+                  break;
+                  case "primary_key (Id/Key)= ":
+                    $stdinLines['key'] =  trim($_in);
+                  break;  
+             }   
+         }
 
-       sleep(1);
+        sleep(1);
 
-			 file_put_contents($in, "<?php \n\n class " . ucfirst($token) . " extends Model { \n\n\t protected \$table = \"{$stdinLines['table']}\"; \n\n\t protected \$primaryKey = \"{$stdinLines['key']}\"; \n\n\t protected \$relations = array(); \n\n\t public function __construct(){ \n\n\t\t parent::__construct(); \n\n\t }  \n\n } \n\n ?> ", LOCK_EX);
+			  file_put_contents($in, "<?php \n\n class " . ucfirst($token) . " extends Model { \n\n\t protected \$table = \"{$stdinLines['table']}\"; \n\n\t protected \$primaryKey = \"{$stdinLines['key']}\"; \n\n\t protected \$relations = array(); \n\n\t public function __construct(){ \n\n\t\t parent::__construct(); \n\n\t }  \n\n } \n\n ?> ", LOCK_EX);
 
-			 $marker = '     "\\\\Model" => $compDir . "/../../models/Model",' . PHP_EOL;
+			  $marker = '     "\\\\Model" => $compDir . "/../../models/Model",' . PHP_EOL;
 
-			 $class_map_arr = file($class_maps_path . '/class_maps.php'); // FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
+			  $class_map_arr = file($class_maps_path . '/class_maps.php'); // FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
 
              $key = array_search($marker, $class_map_arr);
 
@@ -519,7 +523,8 @@
 
             if(array_key_exists(2, $tokens)){
 
-                 if($tokens[2] === 'set-controller'){
+                 if($tokens[2] === '--controller'
+                    || $tokens[2] === '--c'){
 
                       exec('php jollof make:controller ' . str_replace('/', '', $routeUrl), $out, $errorlevel);
 

@@ -25,8 +25,15 @@ class TodoList extends Model {
 
         // Example usage (1):
 
-        // $resultset = Project::fetchWithOrder(TodoList::$class, array('author' => '13420202303393'), array('created_at'));
-        	// The above code fetches the list of all [todo-lists] for all projects created by a given user (logged user)
+        // $resultset = User::fetchWith(TodoList::class, array('email' => 'user@example.com'));
+        	// The above code fetches the list of all [todo-lists] for all projects created by a given user (logged user - email)
+
+            // SELECT * FROM `tbl_users` LEFT JOIN `tbl_todos_list` ON `tbl_users`.`id` = `tbl_todos_list`.`user_id` WHERE `email` = 'user@example.com'
+
+
+        // $wheres = array_pluck($resultset, 'project_id', 'id');
+
+        // $resultset = Project::whereByOr(array_flatten($wheres), array('id', name'));
     }
 
 }

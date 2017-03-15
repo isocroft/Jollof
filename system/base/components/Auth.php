@@ -19,6 +19,8 @@ use \UserThrottle;
 use Providers\Tools\LoginThrottle as Throttle;
 use Providers\Tools\Hasher as Hasher;
 
+// use Providers\Tools\AuthContext as AuthContext;
+
 final class Auth {
 
      /**
@@ -172,6 +174,10 @@ final class Auth {
 
      public static function register(array $props = array(), $role = 'user'){
 
+          if(isset($props['password'])){
+
+               $props['password'] = $this->hasher->hash($props['password']);
+          }
 
           $isOk = User::create($props);
 
@@ -302,6 +308,62 @@ final class Auth {
           }
      }
 
+    /**
+     * Automatically log user in
+     *
+     *
+     *
+     * @param string/integer $id
+     * @param array $details
+     * @return void
+     * @api
+     */
+
+
+    public static function auto($id, array $details){
+
+        $session = NULL;
+
+        $clause = NULL;
+
+        $hasSession = Session::has("accessLogin");
+
+        if(!is_null($id)){
+
+           $secret = Helpers::generateRandomByPattern("xxxxxxxxyxxxxxxxyxxxxxxxxxyy");
+
+           $clause = array('user_id' => array('=' , $id));
+
+           $permissions = UserRole::whereBy($clause, array('role', 'permissions'));
+
+           $props = array(
+                'iss' => "JOLLOF_AUTH",
+                'sub' => "user_" . $id,
+                'jti' => Helpers::randomCode(20),
+                'routes' => $permission['permissions'],
+           );
+
+           if($hasSession){
+
+                $session = Session::get("accessLogin");
+
+                Session::forget("accessLogin");
+
+                $session['id'] = "user_" . $id;
+
+                $session['info'] = $details;
+                $session['jwt_secret'] = $secret;
+                $session['role'] => $permission['role'];
+           }
+
+           Session::put("accessLogin", $session);
+
+           Response::setCookie(static::$instance->getJWTCookieName(), Helpers::createJWT($props, $secret));
+
+        }
+    }
+
+
 
     /**
      * Checks if a given route is allowed to access the  
@@ -319,6 +381,7 @@ final class Auth {
            $hasSession = static::$instance->hasSession();
 
            if($routeToPermit === NULL){
+
                return $hasSession;
            }
 
@@ -467,7 +530,7 @@ final class Auth {
         }      
 
 
-        if(count($credentials) > 0){
+        if(!is_null($credentials['id'])){
 
            $secret = Helpers::generateRandomByPattern("xxxxxxxxyxxxxxxxyxxxxxxxxxyy");
 
@@ -659,10 +722,17 @@ final class Auth {
 
         $loginFields = $this->getLoginFields();
 
-        if(count($fields) != count($loginFields)){
+        // validate
+        foreach ($fields as $fkey => $fvalue) {
+              if(!array_key_exists($fkey, $loginFields)){
+                  unset($fields[$fkey]);
+              }
+        }
+
+        /*if(count($fields) != count($loginFields)){
 
             $fields = array_slice($fields, 0, 2, TRUE);
-        }
+        }*/
 
         $compositeFieldValues = array();
 
@@ -676,9 +746,9 @@ final class Auth {
             $compositeFieldValues[] = array('=', $value);
         });
 
-        $credentials = User::whereBy(array_combine($loginFields,  $compositeFieldValues));
+        $credentials = User::whereBy(array_combine($fields,  $compositeFieldValues));
 
-        return $credentials;
+        return (count($credentials) > 0)? $credentials[0] : array('id' => NULL, 'email' => NULL);
 
      }
 

@@ -19,7 +19,7 @@ use \Providers\Core\QueryBuilder as Builder;
 use \Providers\Core\QueryExtender as QueryExtender;
 use \Providers\Core\QueryParser as QueryParser;
 
-class DBService {
+final class DBService {
 
   /**
    * @var object (PDO/Mongo)
@@ -88,7 +88,7 @@ class DBService {
    * Constructor
    *
    *
-   * @param array $config
+   * @param array $configs
    *
    */
 
@@ -167,8 +167,11 @@ class DBService {
     } 
 
   /**
+   * Sets up a DB connecton interface structure using (PDO/Mongo)
+   * and returns a representative object (adapter)
    *
-   *
+   * @param string $name
+   * @return void
    *
    */
 
@@ -201,8 +204,8 @@ class DBService {
     }
 
   /**
-   * Establishes a valid database connection
-   *
+   * Establishes a valid database connection using the adapter
+   * and {$env_file} (environment file which contains the db user/pass)
    *
    *
    * @param string $env_file
@@ -213,10 +216,13 @@ class DBService {
 
          if($this->hasConnection()){
 
-              /* do not try to connect to the DB if 
-                we already have an active connection */
+              /* do not try to connect to the database if 
+                we already have a valid and active connection */
               return;  
          } 
+
+         /* do not try to establish connection without
+              requisite database credentials */
 
          if(empty($env_file) || !isset($env_file)){
 
@@ -249,13 +255,13 @@ class DBService {
 
          }
 
-         try {
+         try{
 
 
-              $this->connectionHandle = $this->connectionAdapter->connect($this->config);
+             $this->connectionHandle = $this->connectionAdapter->connect($this->config);
 
 
-         }catch (Exception $e) { /* PDOException, MongoException */
+         }catch (Exception $e){ /* PDOException, MongoException */
 
              throw $e;
 
@@ -294,11 +300,11 @@ class DBService {
 
         $db_engine = $this->getDBEngine();
 
-        $table = (!array_key_exists('table', $modelAttributes))?: $modelAttributes['table'];
+        $table = (!array_key_exists('table', $modelAttributes))? NULL : $modelAttributes['table'];
 
-        if(empty($table) || !isset($table)){
+        if(is_null($table)){
 
-              return NULL;
+              return $table; // just returning [NULL]
         }
 
         if(is_null($db_connection)){
@@ -326,51 +332,51 @@ class DBService {
         return $builder;
     }
 
-  /**
-   * Manually destroys the database connection object
-   * and the cached builder objects
-   *
-   *
-   * @param void
-   * @return void 
-   */
+      /**
+       * Manually destroys the database connection object
+       * and the cached builder objects
+       *
+       *
+       * @param void
+       * @return void 
+       */
 
-    protected function disconnect(){
+        protected function disconnect(){
 
-          $this->builders = array();
+              $this->builders = array();
 
-          unset($this->connectionHandle);
+              unset($this->connectionHandle);
 
-          $this->connectionHandle = NULL;
-    }
+              $this->connectionHandle = NULL;
+        }
 
-  /**
-   *
-   *
-   *
-   *
-   * @param void
-   * @return string
-   */
+      /**
+       * Retrieve the name of the current DB driver
+       * (Proxy API)
+       *
+       *
+       * @param void
+       * @return string
+       */
 
-  public function getDBEngine(){
+      public function getDBEngine(){
 
-      return $this->db_engine;
-  }   
+          return $this->db_engine;
+      }   
 
-  /**
-   * Retrieves the database connection object from memory
-   *
-   *
-   *
-   * @param void
-   * @return array $connectionHandle 
-   */
+      /**
+       * Retrieves the database connection object from memory
+       *
+       *
+       *
+       * @param void
+       * @return array $connectionHandle 
+       */
 
-    protected function getConnection(){
+        protected function getConnection(){
 
-          return $this->connectionHandle;
-    }
+              return $this->connectionHandle;
+        }
 
 }
 

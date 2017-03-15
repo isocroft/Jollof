@@ -3,7 +3,7 @@
 
 
 Codename : JMF-132
-Version : 0.9.9-beta
+Version : 0.0.4-beta
 BuildID : LP-56hrtd679dhje7784bzva
 GUID : 2648-0a43-687b-75382654-c142
 Author(s): Ifeora Okechukwu Patrick
@@ -18,7 +18,7 @@ SIDE NOTE
 
 
 
-CHANGE LOG (8) - v0.9.9-beta
+CHANGE LOG (8) - v0.0.3-alpha
  - Changed views file from '.php' to '.view' and included logic for view 'compilation'
  - Completed strict sepration of concerns for controllers and models and views
  - Made Session cookie hidden from client (browser) to prevent possible XSS attacks
@@ -35,32 +35,44 @@ CHANGE LOG (8) - v0.9.9-beta
 
 
 
-CHANGE LOG (0) - v1.0.0-beta
+CHANGE LOG (0) - v0.0.4-beta
+ - Added support for controller creation flag in Route Creation CLI command [--controller] [--c]
+ - Added support for Content Security Policy (CSP) headers in view reponses 
+ - Added support for [Ratchet] async I/O Chat/Push server (Chat can be used via a built-in controller)
+ - Added support for more DB engines (pgsql, sqlite, mssql, mongodb)
+ - Added full support for Authentication/Authorization using the {Auth} component
+
+CHANGE LOG (0) - v0.0.5-beta
  - No details yet
 
-CHANGE LOG (0) - v1.0.1-beta
+CHANGE LOG (0) - v0.0.6-beta
  - No details yet
 
-CHANGE LOG (0) - v1.0.2-beta
+CHANGE LOG (0) - v0.0.7-beta
  - No details yet
 
-CHANGE LOG (0) - v1.0.3-rc
+CHANGE LOG (0) - v0.0.8-rc
  - No details yet
 
 
 
 
-KNOWN BUGS (0) - v1.0.0-beta
+KNOWN BUGS (0) - v0.0.4-beta
+ - Mongo DB driver quite unstable
+
+
+KNOWN BUGS (0) - v0.0.5-beta
+ - Mongo DB driver quite unstable
+
+KNOWN BUGS (0) - v0.0.6-beta
  - No details for now
 
-KNOWN BUGS (0) - v1.0.1-beta
- - No details for now
-
-KNOWN BUGS (0) - v1.0.2-beta
+KNOWN BUGS (0) - v0.0.7-beta
  - No details yet
 
-KNOWN BUGS (0) - v1.0.3-rc
+KNOWN BUGS (0) - v0.0.8-rc
  - No details yet
+
 
 
 
@@ -70,19 +82,19 @@ CAVEATS (0)
 
 
 
-FINAL UPDATES FOR THIS VERSION (v1.0.0-beta) - [{beta}] timeline early 2017
- - Enhance the current query builder functionality and rewrite and arrange database query builder class files
+UPCOMING UPDATES FOR THIS VERSION (v0.0.5-beta) - [{beta}] timeline early 2017
+ - Implement mature ORM with Database Migrations for Jollof
  - Implement Faker.ng command via the exposed API (faker.abujadevmeetup.com) for Jollof Framework
- - Hot fixes for any known bugs for 2016 build
 
-COMING UPDATES FOR NEXT VERSION (v1.0.1-beta) - [patch 1 {beta}] - timeline mid 2017
- - Implement the PHP DOM Renderer for ReactJS server-side rendering (https://reactjs/react-php-v8js)
+UPCOMING UPDATES FOR NEXT VERSION (v0.0.6-beta) - [patch 1 {beta}] - timeline mid 2017
+ - Enhance the current query builder functionality and rewrite entire query builder class (files)
+ - Add Mail Client service that uses Redis pipelines with {lpush} and {brpop} command(s)
  - Final fixes for any known bugs for 2016/2017 builds
 
-COMING UPDATES FOR NEXT VERSION (v1.0.2-beta) - [patch 2 {release candidate}] - timeline late 2017
- - Implement mature ORM and Database Migrations for Jollof
+UPCOMING UPDATES FOR NEXT VERSION (v0.0.7-beta) - [patch 2 {release candidate}] - timeline late 2017
+ - Implement the PHP DOM Renderer for ReactJS server-side rendering (https://reactjs/react-php-v8js)
  - Improve performace for 2016/2017 build
 
-COMING UPDATES FOR NEXT VERSION (v1.0.3-rc) - [patch 3 {release candidate}] - timeline early 2018
+UPCOMING UPDATES FOR NEXT VERSION (v0.0.8-rc) - [patch 3 {release candidate}] - timeline early 2018
  - No details for now
 

@@ -1,4 +1,4 @@
-# EasyDocs for Jollof
+# EasyDocs for Jollof PHP Framework
 
 This is a temporary location for accessing a very simple <q>How to</q> on using Jollof to develop apps.
 
@@ -60,13 +60,17 @@ Move into the __controllers__ folder (in the root), open up the _Home.php_ file 
 
 ```php
 
-      $words = ['Jollof', 'Make', 'Sense!'];
+  public function index($models){
+
+      $words = array('Jollof', 'Make', 'Sense!');
       $heading = 'About Jollof';
-      return Response::view('example/start', [
+      return Response::view('example/start', array(
                 'title' => 'Example',
                 'words' => $words,
                 'heading' => $heading
-      ]);
+      ));
+  }
+
 ```
 
 Next, move into the **configs** folder (in the root), open up the _env.php_ file and add the last line to the **app_auth** config section (array).
@@ -166,6 +170,129 @@ Finally, serve the view in the browser as before using '/home'. Check the view s
 
 ### Example 3 - Register and use a GIT webhook for pushing new code to your hosted website
 
-Assuming you have uploaded a small website built with __Jollof__ (see Example 1) to a host provider (e.g Digital Ocean, Hostgator, Bluehost, ) , go to the __GitHub__ _dashboard_ for your small website (under the **Settings** tab) and click _Webhooks_. Then, enter the below URL into the webhook endpoint (make sure you have SSL setup).
+Assuming you have uploaded a small website built with __Jollof__ (see Example 1) to a host provider (e.g Digital Ocean, Hostgator, Bluehost, WhoGoHost) , go to the __GitHub repository__ _dashboard_ for your/the small website (under the **Settings** tab) and click _Webhooks_. Then, enter the below URL into the webhook endpoint (make sure you have SSL setup).
 
-https://{domain}/webhook/git-payload/{gitaccountname}/{gitprojectname} 
+Choose a domain e.g [https://www.example.com]
+
+https://www.exapmle.com/webhook/git-payload/{gitaccountname}/{gitprojectname}
+
+Save all changes to the GitHub **Settings** tab and you are good to go.
+
+### Example 4 - Creating a user
+
+Using the route **[/account/signup/@mode/]** which has already been setup in the routes *[setip.php]* file and also the  _todo-app.sql_ file in the root, follow the steps below:
+
+- Run the following command (take note of the database name you entered into the cli)
+
+```bash
+
+    $ php jollof make:env
+
+```
+
+- Create a MySQL database and name it the same as in the command above
+
+- Import the **todo-app.sql** file into the already created database 
+
+- Open up the **Account** controller file and edit the _signup_ method like so
+
+```php
+
+  public function signup($models){
+
+            $inputs = Request::input()->getFields(); /* get POST params */
+
+            $validInputs = Validator::check( $inputs, /* validate POST params */
+                array(
+                    'email' => "email|required",
+                    'password' => "password|required|bounds:8",
+                    'first_name' => 'name|required',
+                    'last_name' => 'name|required',
+                    'mobile' => 'mobile_number|required'
+                )
+            );
+
+            $json = array('status' => 'ok', 'result' => NULL); /* setting up resposne JSON */
+
+            switch($this->params['mode']) {
+                 case 'create':
+                     if(Validator::hasErrors()){
+                          $json['status'] = 'error';
+                          $json['result'] = Validator::getErrors();
+                     }else{
+
+                        $json['result'] = Auth::register( $validInputs );
+                     }
+                 break;
+            }
+
+            if($json['status'] == 'ok'){
+                if(isset($validInputs['auto-login'])
+                   && $validInputs['auto-login'] === 'true'){
+                        unset($validInputs['password'])
+                        Auth::auto($json['result'], $validInputs);
+                }
+            }    
+
+            $json['result'] = array();
+
+            return Response::json( $json );
+  }
+
+```
+
+- Also, edit the _signin_ method like so
+
+```php
+
+    public function signin($models){
+
+            $inputs = Request::input()->getFields();
+
+            $validInputs = Validator::check( $inputs,
+                array(
+                    'email' => "email|required",
+                    'password' => "password|required"
+                )
+            );
+
+            $json = array( 'status' => 'ok', 'result' => NULL );
+
+            switch($this->params['provider']) {
+                 case 'oauth-facebook':
+                     # code...
+                 break;
+                 case 'oauth-instagram':
+                     # code...
+                 break;
+                 case 'email':
+                    if(Validator::hasErrors()){
+                        $json['status'] = 'error';
+                        $json['result'] = Validator::getErrors();
+                    }else{
+
+                        $json['result'] = Auth::login( $validInputs );
+                    }
+                 break;
+             }
+
+             return Response::json( $json );
+
+    }
+
+```
+
+- Okay now, edit the _logout_ method like so
+
+```php
+
+  public function logout($models){
+
+        Auth::logout();
+
+        return Response::view('index', array('framework' => 'Jollof', 'title' => 'PHP MVC Framework'));
+  }
+
+```
+
+- Finally, serve the register view in the browser as before using '/account/register'

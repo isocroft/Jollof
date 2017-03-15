@@ -8,6 +8,11 @@
  *--------------------------------*/
 
 
+if(!defined('COUNT_RECURSIVE')){
+
+    define('COUNT_RECURSIVE', true);
+}
+
 if(!defined('PHP_VERSION_ID')){
     $version = explode('.', PHP_VERSION);
 
@@ -95,21 +100,62 @@ if(! function_exists('array_shuffle')){
     }
 }
 
+if(!function_exists('is_multi_array')){
+    function is_multi_array($array){
+        $result = false;
+        $filtered;
+        if(count($array) != count($array, COUNT_RECURSIVE)){
+            $filtered = array_filter($array, 'is_array');
+            $result = is_array(current($array)) || (count($filtered) > 0);  
+        }
+        return $result;
+    }
+}
+
 if(! function_exists('array_select')){
   function array_select($input, $select_keys){
 
   }
 }
 
+if(! function_exists('array_flatten')){
+  function array_flatten($input){
+      if(!is_multi_array($input)){
+          return $input;
+      }
+
+      $return = array();
+      foreach($input as $key => $value){
+          if(is_array($value)){
+              foreach($value as $k => $v){
+                  $return[$k] = $v;
+              }
+              continue;  
+          }
+
+          $return[$key] = $value;  
+      } 
+      return $return;    
+  }
+}
+
 if(! function_exists('array_pluck')){
-    function array_pluck($array, $index){
+    function array_pluck($array, $index, $as = ''){
        $return = array();
        foreach ($array as $key => $value) {
-           if(is_array($value)){
-               if((count($array) - 1) <= $index){
+           if(is_array($value)){ 
+               if(isset($value[$index])){
                   $return[$key] = $value[$index];
                }else{
                   $return[$key] = $value;
+               }
+           }else{
+               if($index === $key){
+                  if($as === ''){
+                      $return[$key] = $value;
+                  }else{
+                      $return[$as] = $value;
+                  }
                }
            }
        }
@@ -561,18 +607,6 @@ if(! function_exists('get_file_name') ){
 if(! function_exists('custom_session_id') ){
     function custom_session_id($native = FALSE){
          return substr(generate_uniq_string(NULL), 1, ($native? 31 : 23));
-    }
-}
-
-if(!function_exists('is_multi_array')){
-    function is_multi_array($array){
-        $result = false;
-        $filtered;
-        if(count($array) != count($array, COUNT_RECURSIVE)){
-            $filtered = array_filter($array, 'is_array');
-            $result = is_array(current($array)) || (count($filtered) > 0);  
-        }
-        return $result;
     }
 }
 

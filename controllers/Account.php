@@ -14,7 +14,7 @@ class Account extends Controller {
 
         public function index($models){
 
-            # code ...
+            return Response::text('You are not loggged in', 403);
         }
 
         public function register($models){
@@ -24,33 +24,7 @@ class Account extends Controller {
 
         public function signup($models){
 
-            $inputs = Request::input()->getFields();
-
-            $validInputs = Validator::check( $inputs,
-                array(
-                    'email' => "email|required",
-                    'password' => "password|required|bounds:8",
-                    'first_name' => 'name|required',
-                    'last_name' => 'name|required',
-                    'mobile' => 'mobile_number|required'
-                )
-            );
-
-            $json = array('status' => 'ok', 'result' => NULL);
-
-            switch($this->params['mode']) {
-                 case 'create':
-                     if(Validator::hasErrors()){
-                          $json['status'] = 'error';
-                          $json['result'] = Validator::getErrors();
-                     }else{
-
-                        $json['result'] = Auth::register( $validInputs );
-                     }
-                 break;
-            }
-
-            return Response::json( $json );
+            # code ...
         }
 
         public function login($models){
@@ -62,36 +36,7 @@ class Account extends Controller {
 
         public function signin($models){
 
-            $inputs = Request::input()->getFields();
-
-            $validInputs = Validator::check( $inputs,
-                array(
-                    'email' => "email|required",
-                    'password' => "password|required"
-                )
-            );
-
-            $json = array( 'status' => 'ok', 'result' => NULL );
-
-            switch($this->params['provider']) {
-                 case 'oauth-facebook':
-                     # code...
-                 break;
-                 case 'oauth-instagram':
-                     # code...
-                 break;
-                 case 'email':
-                    if(Validator::hasErrors()){
-                        $json['status'] = 'error';
-                        $json['result'] = Validator::getErrors();
-                    }else{
-
-                        $json['result'] = Auth::login( $validInputs );
-                    }
-                 break;
-             }
-
-             return Response::json( $json );
+            # code ...
         }
 
         public function logout($models){
@@ -118,8 +63,12 @@ class Account extends Controller {
 
             $user = Auth::user();
 
-            // return Response::view('forcedlogout/index', array('user' => $user));
-            return Response::text('You have to log out first', 200);
+            if($user === NULL){
+
+                return Response::view('forcedlogout/index', array('user' => array()));
+            }
+
+            return Response::view('forcedlogout/index', array('user' => $user));
         }
 }
 
