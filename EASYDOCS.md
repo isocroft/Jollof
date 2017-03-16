@@ -28,9 +28,12 @@ Move into the __views__ folder (in the root) and into the __example__ folder, op
                     	</head>
                     	<body>
                         	<h1>=@heading</h1>
+                            [if:@heading == 'About Jollof']
+                                <p>This is the caption</p>
+                            [/if]
                         	<ul>
                         		[loop:@words]
-                          			<li> @words_value </li>
+                          			<li> [@words_value] </li>
                         		[/loop]
                         	</ul>
                     	</body>
@@ -208,7 +211,7 @@ Using the route **[/account/signup/@mode/]** which has already been setup in the
                     'password' => "password|required|bounds:8",
                     'first_name' => 'name|required',
                     'last_name' => 'name|required',
-                    'mobile' => 'mobile_number|required'
+                    'mobile_number' => 'mobile_number|required'
                 )
             );
 
@@ -234,9 +237,9 @@ Using the route **[/account/signup/@mode/]** which has already been setup in the
                 }
             }    
 
-            $json['result'] = array();
+            // $json['result'] = array();
 
-            return Response::json( $json );
+            return Response::redirect( '/admin');
   }
 
 ```
@@ -296,3 +299,348 @@ Using the route **[/account/signup/@mode/]** which has already been setup in the
 ```
 
 - Finally, serve the register view in the browser as before using '/account/register'
+
+### Example 5 - Data source read and writes
+
+Using the _admin/index_ view in the **views** folder, open it up in a text editor or IDE and edit as below:
+
+```html
+
+    <!DOCTYPE html>
+    <html data-x-path="[!asset(/offline.html)]" lang="en">
+    <head>
+        <title>=@framework &dash; =@title</title>
+        <meta charset="utf-8">
+        <meta name="csrftoken" content="=@csrftoken">
+
+        <link rel="icon" type="text/x-icon" href="[!asset(/favicon.ico)]">
+
+        <link rel="manifest" type="application/manifest+json" href="[!asset(/manifest.json)]">
+        <link rel="stylesheet" type="text/css" href="[!asset(/css/bootstrap.min.css)]">
+        <link rel="stylesheet" type="text/css" href="[!asset(/css/bootstrap-theme.min.css)]">
+
+        <style type="text/css">
+
+                /**
+                 *  NORMALIZE CSS 
+                 */
+
+                article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display:block; }
+                audio, canvas, video { display: inline-block; *display: inline; *zoom: 1; }
+                audio:not([controls]), [hidden] { display:none; }
+
+                /** Base Styles **/
+
+                html { font-size: 100%; overflow-y: scroll; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+                body { margin: 0; font-size: 13px; line-height: 1.5; }
+                body, button, input, select, textarea { font-family: sans-serif; color: #000; }
+
+                /** IE Fixes **/
+
+                img { border: 0; -ms-interpolation-mode: bicubic; }
+                svg:not(:root) { overflow: hidden; }
+                figure { margin: 0; }
+
+                /** Links **/
+                a:focus { outline: thin dotted; }
+                a:hover, a:active { outline: 0; }
+
+                /** Typography **/
+                h1 { font-size: 2em; } /* fixes html5 bug */
+                p { -webkit-hyphens: auto; -moz-hyphens: auto; -epub-hyphens: auto; hyphens: auto; }
+                abbr[title] { border-bottom: 1px dotted; }
+                b, strong, .strong { font-weight: bold; }
+                dfn, em, .em { font-style: italic; }
+                small, .small, sub, sup { font-size: 75%; }
+                ins, .ins { background: #ff9; color: #000; text-decoration: none; }
+                mark, .mark { background: #ff0; color: #000; font-style: italic; font-weight: bold; }
+                hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; }
+                pre, code, kbd, samp { font-family: monospace, serif; _font-family: 'courier new', monospace; font-size: 1em; }
+                pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; }
+                blockquote { margin: 1.5em 40px; }
+                q { quotes: none; }
+                q:before, q:after { content: ''; content: none; }
+                ul, ol { margin: 1.5em 0; padding: 0; }
+                dd { margin: 0; }
+                nav ul, nav ol, .widget ol, .widget ul, .commentlist { list-style: none; list-style-image: none; margin: 0; }
+
+                /* Position subscript and superscript content without affecting line-height: gist.github.com/413930 */
+                sub, sup { line-height: 0; position: relative; vertical-align: baseline; }
+                sup { top: -0.5em; }
+                sub { bottom: -0.25em; bottom:1ex; }
+
+                /** Forms **/
+
+                form, fieldset, form ul, form ol, fieldset ol, fieldset ul { margin: 0; border: 0; }
+                legend { border: 0; *margin-left: -7px; }
+                button, input, select, textarea { font-size: 100%; margin: 0; vertical-align: baseline; *vertical-align: middle; }
+                button, input { line-height: normal; }
+                button, input[type="button"], input[type="reset"], input[type="submit"] { cursor: pointer; -webkit-appearance: button; *overflow: visible; }
+                input[type="checkbox"], input[type="radio"] { box-sizing: border-box; padding: 0; }
+                input[type="search"] { -webkit-appearance: textfield; -moz-box-sizing: content-box; -webkit-box-sizing: content-box; box-sizing: content-box; }
+                input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
+                button::-moz-focus-inner, input::-moz-focus-inner { border: 0; padding: 0; }
+                textarea { overflow: auto; vertical-align: top; }
+                textarea:focus, textarea:active { outline:none; outline:0;  }
+
+                /* Colors for form validity */
+                input:invalid, textarea:invalid { background-color: #f0dddd; }
+
+                /** Tables **/
+                table { border-collapse: collapse; border-spacing: 0; }
+
+                .clear-fx:before,
+                .clear-fx:after{
+                    content: "\0020";
+                    height:0;
+                    display:block;
+                    overflow: hidden;
+                    visibility:hidden;
+                    line-height:0;
+                }
+
+                .clear-fx:after {
+                    clear: both;
+                }
+
+                *+html .clear-fx { 
+                    /* IE less than 8 (6/7) */
+                    zoom: 1;
+                } 
+
+                html, body{
+                    margin:0;
+                    padding:0;
+                    border:none;
+                    min-width:100%;
+                    /* using IE star hack for fallback */
+                    *width:100%;
+                    height:100%;
+                    overflow:hidden !important;
+                    position:relative !important;
+                }
+
+                .row-box{
+                    padding:0 10px;
+                }
+
+                .main-row{
+                    position:relative;
+                    width:auto !important;
+                    padding-left:0;
+                    padding-right:0;
+                    height:100%;
+                }
+
+                .aside-col{
+                    float:left;
+                    position:relative !important;
+                    width:180px;
+                    height:100%;
+                } 
+
+                .main-col{
+                    position:relative !important;
+                    width:auto !important;
+                    overflow:hidden !important;
+                    height:100%;
+                    background-color:#f5f5f5;
+                    color:#888888;
+                    padding-left:10px;
+                }
+
+                .x-left-col{
+                    background-color:#fefefe;
+                    color:#d5d5d5;
+                }
+
+                .x-right-col{
+                    background-color:#3cefa1;
+                    color:#ffffff;
+                }
+        </style>
+    </head>
+    <body>
+
+        <div class="row-box main-row clear-fx">
+            <aside class="aside-col x-left-col">
+
+            </aside>
+            <main class="main-col x-right-col">
+                <ul class="">
+                    [loop:@user]
+                        <li>
+                            <label>
+                                [@user_index]
+                            </label>
+                            <span>
+                                [@user_value]
+                            </span>
+                        </li>
+                    [/loop]
+                </ul>
+            </main>
+        </div>
+
+        <script type="text/javascript" src="[!asset(/js/browsengine.js)]"></script>
+        <script type="text/javascript" src="[!asset(/js/manup.js)]"></script>
+        <script type="text/javascript" src="[!asset(/js/jquery-1.10.2.js)]"></script>
+        <script type="text/javascript" src="[!asset(/js/bootstrap.js)]"></script>
+    </body>
+    </html>
+
+```
+
+Open up the _Admin_ controller from the **controllers** folder and edit as follows:
+
+```php
+
+    public function index($models){
+
+        $user = Auth::user(); /* user from session */
+
+        if(!is_array($user)){
+
+            $user = array();
+        }
+
+        return Response::view('admin/index', array('user' => $user, 'framework' => Jollof', 'title' => 'PHP MVC Framework'));
+    }
+
+```
+
+Next, create a route and a controller together (at the same time) by running the below commands:
+
+```bash
+
+    $ php jollof make:route /tasks GET --controller
+
+```
+
+```bash
+
+    $ php jollof make:route /tasks/create/@type POST
+
+```
+
+Then, open up the _Tasks_ controller from the **controllers** folder and edit the index file as follows:
+
+```php
+
+    public function index($models){
+
+        $user = Auth::user();
+        
+        $resultset = TodoList::fetchWith(Todo::class, array(
+                                                    'user_id' => array('=', $user['id']), 
+                                                    'project_id' => array('=', '45a2cd23f08bbd6477d2ff89715cba32de')
+                                            )
+                     );
+
+        return Response::json(array(
+                            'status' => 'ok', 
+                            'result' = array(
+                                'todos' => $resultset
+                            )
+                )); 
+    }
+
+    public function create($models){
+
+         $input = Request::input()->getFields(); /* get post params - 'name' */
+
+         $type = $this->params['type'];
+
+         $user = Auth::user(); /* user from session */
+
+         if(!is_array($user)){
+
+                return Response::json(array(
+                                            'status' => 'error', 
+                                            'result' => 'not logged in'
+                                        )
+                        );
+         }
+
+         $project = Project::whereBy(array(
+                                    'name' => array('=', 'personal'),
+                                     array('id', 'mode')
+                    );
+
+         $list = array();
+
+         switch($type){
+            case "list": /* for route -> 'tasks/create/list' */
+
+                $list = TodoList::create(array(
+                                    'name' => $input['name'], 
+                                    'user_id' => $user['id']
+                                )
+                        );
+            break;
+         }
+
+         return Response::json(array('status' => 'ok', 'result' => $list));
+
+    }
+
+```
+
+Afterwards, open up the _setup.php_ file in the **routes** folder (at the bottom of the file)...
+
+```php
+
+    Router::bind('/tasks', array('models' => array('TodoList', 'Todo'), 'params' => array()));
+
+    Router::bind('/tasks/create/@type', array('models' => array('Project', TodoList'), 'params' => array('type' => '/^list$/'), 'verb' => 'post'));
+
+```
+
+Fianlly, move in the **configs** folder (in the root), scroll down the _env.php_ file and add the last 3 lines to the **app_auth** config section (array).
+
+```php
+        "app_auth" => array(
+                .
+                .
+                .
+
+                'guest_routes' => array( # These routes can be accessed only if the user is not logged in (guest).
+                     '/',
+                     '/account/login/',
+                     '/account/register/',
+                     '/account/signup/@mode/',
+                     '/account/signin/@provider/',
+                     '/home',
+                     '/tasks',
+                     '/tasks/create/@type',
+                )
+        ),
+        
+        .
+        .
+        .        
+``` 
+
+```php 
+
+         $resultset = TodoList::fetchWithOrder(Todo::class, array('user_id' => array('=', '1e253fc4672bcdd61369aab8c1534bd1f08c'), 'project_id' => array('=', '45a2cd23f08bbd6477d2ff89715cba32de')), array('created_at'));   
+            
+            /* The above code will retrieve all [todos] created by a given user (logged user) for a given project (logged user) */
+
+            /* SELECT * FROM `tbl_todos_list` LEFT JOIN `tbl_todos` ON `tbl_todos_list`.`id` = `tbl_todos`.`list_id` WHERE `user_id` = '1e253fc4672bcdd61369aab8c1534bd1f08c' AND `project_id` = '45a2cd23f08bbd6477d2ff89715cba32de' ORDER BY `created_at` ASC */
+
+
+
+         $resultset = User::fetchWith(TodoList::class, array('email' => 'user@example.com'));
+            
+            /* The above code fetches the list of all [todo-lists] for all projects created by a given user (logged user - email) */
+
+            /* SELECT * FROM `tbl_users` LEFT JOIN `tbl_todos_list` ON `tbl_users`.`id` = `tbl_todos_list`.`user_id` WHERE `email` = 'user@example.com' */
+
+
+         $wheres = array_pluck($resultset, 'project_id', 'id');
+
+         $resultset = Project::whereByOr(array_flatten($wheres), array('id', name'));
+
+```
+

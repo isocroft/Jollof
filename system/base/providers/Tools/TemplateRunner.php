@@ -69,7 +69,9 @@ class TemplateRunner {
         $templateFileIncludeToken = '/\[!import\((.*?)\);?\]/i';
 
     	$templateBaseTokens = array('/\[\s*?(if|elseif)\:([\w\S]+)?\@(\w+)(.+)\s*?\]/i', '/(?<!\[)\=\@(\w+)(?!\])/i', '/\[\@(\w+)\]/', '/\[\@(\w+)\=(\w+)\]/i', '/\[\s*?loop\:\@(\w+)\s*?\]/i', '/\[\s*?\/if\s*?\]/i', '/\[\s*?\/loop\s*?\]/i', '/\[\s*?choose\:\@(\w+)([\S\s\w]*)?\]/i', '/\[\s*?\/choose\s*?\]/i', '/\[\s*?when\:([\w\S ]+)\s*?\]/i', '/\[\s*?\/when\s*?\]/i', '/\[\!asset\((.*?)\);?\]/i', '/\[\!url\((.*?)\);?\]/i');
+
         $templateBaseTokensReplace  = array('<?php ${1}(${2}$${3}${4}): ?>', '<?php echo $${1}; ?>', '<?php echo $${1}; ?>', '<?php echo $${1}[\'${2}\']; ?>', '<?php foreach($${1} as $${1}_index => $${1}_value): ?>', '<?php endif; ?>', '<?php endforeach; ?>', '<?php switch ($${1}${2}): ?>', '<?php endswitch; ?>', '<?php case ${1}: ?>', '<?php ; ?>', '<?php echo asset(\$__url, \'${1}\'); ?>', '<?php echo url(\$__url, \'${1}\'); ?>');
+        
 		$templateRenderedOnce = preg_replace($templateBaseTokens, $templateBaseTokensReplace, $view__string);
 
         $renderCallback = function($matches) use ($compileFn, $compileRoot){

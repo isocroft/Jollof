@@ -351,6 +351,14 @@ final class Auth {
 
                 $session['id'] = "user_" . $id;
 
+                if(!isset($details['id'])){
+                    $details['id'] = $id;
+                }    
+
+                if(isset($details['password'])){
+                    unset($$details['password']);
+                } 
+
                 $session['info'] = $details;
                 $session['jwt_secret'] = $secret;
                 $session['role'] => $permission['role'];
@@ -473,6 +481,7 @@ final class Auth {
 
      public static function oauth($token){
 
+        ;
      }
 
      /**
@@ -553,7 +562,12 @@ final class Auth {
 
                 $session['id'] = "user_" . $credentials['id'];
 
-                unset($credentials['id']);
+                //unset($credentials['id']);
+
+                if(isset($credentials['password'])){
+
+                    unset($credentials['password']);
+                }    
 
                 $session['info'] = $credentials;
                 $session['jwt_secret'] = $secret;
@@ -567,7 +581,8 @@ final class Auth {
         }else{
 
             # more code ...
-            if(isset($throttle)){
+            if(!is_null($throttle) 
+                && isset($throttle)){
 
                 $throtts = array(
                       'throttle_id' => static::getThrottleId(),
@@ -723,7 +738,7 @@ final class Auth {
         $loginFields = $this->getLoginFields();
 
         // validate
-        foreach ($fields as $fkey => $fvalue) {
+        foreach ($fields as $fkey => $fvalue){
               if(!array_key_exists($fkey, $loginFields)){
                   unset($fields[$fkey]);
               }

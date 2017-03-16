@@ -85,6 +85,7 @@ CAVEATS (0)
 UPCOMING UPDATES FOR THIS VERSION (v0.0.5-beta) - [{beta}] timeline early 2017
  - Implement mature ORM with Database Migrations for Jollof
  - Implement Faker.ng command via the exposed API (faker.abujadevmeetup.com) for Jollof Framework
+ - Hotfix on MongoDB QueryParser
 
 UPCOMING UPDATES FOR NEXT VERSION (v0.0.6-beta) - [patch 1 {beta}] - timeline mid 2017
  - Enhance the current query builder functionality and rewrite entire query builder class (files)
@@ -93,6 +94,7 @@ UPCOMING UPDATES FOR NEXT VERSION (v0.0.6-beta) - [patch 1 {beta}] - timeline mi
 
 UPCOMING UPDATES FOR NEXT VERSION (v0.0.7-beta) - [patch 2 {release candidate}] - timeline late 2017
  - Implement the PHP DOM Renderer for ReactJS server-side rendering (https://reactjs/react-php-v8js)
+ - Implement the Console::setCommand() functionality to allow for inclusion of custom commands
  - Improve performace for 2016/2017 build
 
 UPCOMING UPDATES FOR NEXT VERSION (v0.0.8-rc) - [patch 3 {release candidate}] - timeline early 2018

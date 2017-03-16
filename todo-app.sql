@@ -3,14 +3,15 @@
 
 CREATE TABLE IF NOT EXISTS `tbl_users` (
   `id` varchar(200) NOT NULL, 
-  `profile_pic` char(100) NOT NULL, 
+  `profile_pic` char(100) NULL, 
   `email` unique varchar(220) NOT NULL,
-  `about_me` text,
+  `password` unque varchar(50) NOT NULL,
+  `about_me` text NULL,
   `persist_code` varchar(150) NULL,
   `activation_code`  varchar(150) NULL,
-  `mobile_number` NOT NULL,
-  `reset_password_code` varchar(220) NULL
-  `full_name` varchar(220) NOT NULL,
+  `mobile_number` char(20) NOT NULL,
+  `reset_password_code` varchar(220) NULL,
+  `full_name` varchar(220) NULL,
   `first_name` varchar(220) NOT NULL,
   `last_name` varchar(220) NOT NULL,
   `gender` enum('male', 'female') NOT NULL DEFAULT 'male',
@@ -72,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `tbl_todos` (
 
 CREATE TABLE IF NOT EXISTS `tbl_todos_list` (
   `id` varchar(200) NOT NULL,
-  `name` text NOT NULL DEFAULT 'general',
+  `name` varchar(250) NOT NULL DEFAULT 'general',
   `user_id` varchar(200) NOT NULL,
   `project_id` varchar(200) NOT NULL DEFAULT '45a2cd23f08bbd6477d2ff89715cba32de',
   `priority` enum('urgent', 'upcoming') NOT NULL DEFAULT 'upcoming',
@@ -93,5 +94,6 @@ CREATE TABLE IF NOT EXISTS `tbl_projects` (
   `mode` enum('short-term', 'long-term') NOT NULL DEFAULT 'long-term',
   PRIMARY KEY(`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf-8 COLLATE=utf8_unicode_ci;
+
 
 INSERT INTO `tbl_projects` (`id`) VALUES ('45a2cd23f08bbd6477d2ff89715cba32de');
