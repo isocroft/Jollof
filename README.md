@@ -46,6 +46,7 @@ _Thanks to **Micheal Akpobome**, **Shuaib Afegbua**, **Abraham Yusuf**, **Stephe
 	5. Have the PHP *sockets* extension enabled
 	6. Have the PHP *zip* extension enabled
 	7. Have the PHP *curl* extension enabled
+	8. Have the PHP *mongodb* extension installed and enabled (optional)
 
 * Have Composer 1.0.0 and above Installed
 

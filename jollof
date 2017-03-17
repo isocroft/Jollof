@@ -524,7 +524,7 @@
             if(array_key_exists(2, $tokens)){
 
                  if($tokens[2] === '--controller'
-                    || $tokens[2] === '--c'){
+                    || $tokens[2] === '-c'){
 
                       exec('php jollof make:controller ' . str_replace('/', '', $routeUrl), $out, $errorlevel);
 
