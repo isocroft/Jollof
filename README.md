@@ -23,13 +23,13 @@ $ php jollof docs
 
 The philosophy of **Jollof** is very simple. _Routes_ are very tightly knitted to the _Controllers_ that service them. For every route, the first part of the URI and/or path is the **Controller** class name and the second part of the URI and/or path is the **Controller** class method or the **action**. This is exactly similar to what you have for default routes in **ASP.NET** MVC.
 
-> For more on getting up and running, see the [easydocs mark down file](https://raw.githubusercontent.com/isocroft/Jollof/master/EASYDOCS.md).
+> For more on getting up and running, see the [easydocs mark down file](https://github.com/isocroft/Jollof/blob/master/EASYDOCS.md).
 
 All you need to setup can be found in the **documentation** folder(s) of the project starter folder.
 
 ## Contributing
 
-_If you wish to contribute to this project, you can take a peep at the [contributing mark down file](https://raw.githubusercontent.com/isocroft/Jollof/master/CONTRIBUTING.md) or the [release notes text file](https://raw.githubusercontent.com/isocroft/Jollof/master/release notes.txt) to get guidance. Plus, any issues and pull requests should be filed on the [Jollof](https://github.com/isocroft/Jollof/) repository._
+_If you wish to contribute to this project, you can take a peep at the [contributing mark down file](https://raw.githubusercontent.com/isocroft/Jollof/master/CONTRIBUTING.md) or the [release notes text file](https://github.com/isocroft/Jollof/blob/master/release_notes.txt) to get guidance. Plus, any issues and pull requests should be filed on the [Jollof](https://github.com/isocroft/Jollof/) repository._
 
 ## Credits
 
