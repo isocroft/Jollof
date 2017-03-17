@@ -28,9 +28,9 @@ Move into the __views__ folder (in the root) and into the __example__ folder, op
                     	</head>
                     	<body>
                         	<h1>=@heading</h1>
-                            [if:@heading == 'About Jollof']
-                                <p>This is the caption</p>
-                            [/if]
+				[if:@heading == 'About Jollof']
+				<p>This is the caption</p>
+				[/if]
                         	<ul>
                         		[loop:@words]
                           			<li> [@words_value] </li>
@@ -232,7 +232,7 @@ Using the route **[/account/signup/@mode/]** which has already been setup in the
             if($json['status'] == 'ok'){
                 if(isset($validInputs['auto-login'])
                    && $validInputs['auto-login'] === 'true'){
-                        unset($validInputs['password'])
+                        unset($validInputs['password']);
                         Auth::auto($json['result'], $validInputs);
                 }
             }    
@@ -504,7 +504,7 @@ Open up the _Admin_ controller from the **controllers** folder and edit as follo
             $user = array();
         }
 
-        return Response::view('admin/index', array('user' => $user, 'framework' => Jollof', 'title' => 'PHP MVC Framework'));
+        return Response::view('admin/index', array('user' => $user, 'framework' => 'Jollof', 'title' => 'PHP MVC Framework'));
     }
 
 ```
@@ -592,7 +592,7 @@ Afterwards, open up the _setup.php_ file in the **routes** folder (at the bottom
 
     Router::bind('/tasks', array('models' => array('TodoList', 'Todo'), 'params' => array()));
 
-    Router::bind('/tasks/create/@type', array('models' => array('Project', TodoList'), 'params' => array('type' => '/^list$/'), 'verb' => 'post'));
+    Router::bind('/tasks/create/@type', array('models' => array('Project', 'TodoList'), 'params' => array('type' => '/^list$/'), 'verb' => 'post'));
 
 ```
 
@@ -612,7 +612,7 @@ Fianlly, move in the **configs** folder (in the root), scroll down the _env.php_
                      '/account/signin/@provider/',
                      '/home',
                      '/tasks',
-                     '/tasks/create/@type',
+                     '/tasks/create/@type/',
                 )
         ),
         
