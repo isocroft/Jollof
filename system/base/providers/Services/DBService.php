@@ -212,7 +212,7 @@ final class DBService {
    * @return void 
    */
 
-    protected function connect($env_file = ''){
+    public function connect($env_file = ''){
 
          if($this->hasConnection()){
 
