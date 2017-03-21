@@ -42,11 +42,15 @@ _Thanks to **Micheal Akpobome**, **Shuaib Afegbua**, **Abraham Yusuf**, **Stephe
 	1. Have the PHP *mb_string* extension enabled
 	2. Have the PHP *openssl* extension enabled
 	3. Have the PHP *pdo_mysql* extension enabled
-	4. Have the PHP *pdo_sqlite* extension enabled
-	5. Have the PHP *sockets* extension enabled
-	6. Have the PHP *zip* extension enabled
-	7. Have the PHP *curl* extension enabled
-	8. Have the PHP *mongodb* extension installed and enabled (optional)
+	4. Have the PHP *pdo_pgsql* extension enabled
+	5. Have the PHP *pdo_sqlite* extension enabled
+	6. Have the PHP *sockets* extension enabled
+	7. Have the PHP *zip* extension enabled
+	8. Have the PHP *curl* extension enabled
+	9. Have the PHP *zlib* extension enabled (optional - built-in)
+	10. Have the PHP *mongodb* extension installed and enabled (optional - pecl)
+	11. Have the PHP *memcache* extension installed and enabled (optional - pecl)
+	12. Have the PHP *v8js* extension installed and enabled (optional - pecl)
 
 * Have Composer 1.0.0 and above Installed
 
