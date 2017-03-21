@@ -361,7 +361,7 @@ final class Auth {
 
                 $session['info'] = $details;
                 $session['jwt_secret'] = $secret;
-                $session['role'] => $permission['role'];
+                $session['role'] = $permission['role'];
            }
 
            Session::put("accessLogin", $session);
@@ -571,7 +571,7 @@ final class Auth {
 
                 $session['info'] = $credentials;
                 $session['jwt_secret'] = $secret;
-                $session['role'] => $permission['role'];
+                $session['role'] = $permission['role'];
            }
 
            Session::put("accessLogin", $session);
