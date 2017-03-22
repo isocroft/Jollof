@@ -171,13 +171,11 @@ class TemplateRunner {
 
 		   throw new \Exception("Error in View File >> [" . $__name . "] => " . $e->getMesage());
 
- 	   }
-
-       /* @TODO: Change ob_get_contents() to ob_get_clean() to enable the removal
-                 of the conditional around the {echo} statement in {Response::view()} 
-        */       
+ 	   }       
 
         $___drawn =  ob_get_contents();
+		
+	ob_end_clean();
 
         return $___drawn;
 
