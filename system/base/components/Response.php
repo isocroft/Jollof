@@ -20,10 +20,16 @@ final class Response {
      private static $instance = NULL;
 
     /**
-     * @var
+     * @var \Providers\Tools\TemplateRunner
      */
 
      private $runner;
+
+    /**
+     * @var bool
+     */
+
+     private $compressionStatus;
 
     /**
      * Constructor.
@@ -35,7 +41,7 @@ final class Response {
 
      private function __construct(array $viewNonces){
 
-            $this->openOutputBuffers(); // this is done intentionally
+            $this->openOutputBuffers();
 
             $this->runner = new Runner($viewNonces);
      }
@@ -50,11 +56,35 @@ final class Response {
      */
 
      private function openOutputBuffers(){
-         if(index_of(static::getInfo('HTTP_ACCEPT_ENCODING'), 'gzip') > -1){
-              ob_start("ob_gzhandler");
+
+          $encodingList = explode(', ', static::getInfo('HTTP_ACCEPT_ENCODING'));
+          $supportsCompression = false;
+
+          if(!is_array($encodingList)
+              || count($encodingList) == 0){
+
+              $encodingList = array("");
+          }
+
+         if(index_of($encodingList[0], 'gzip') > -1){
+              $supportsCompression = ob_start("ob_gzhandler");
+              /*
+                setting "Content-Encoding" to 'gzip' when a browser can't handle gzip-ed content 
+                makes the browser choke on the byte stream so it's better to avoid it completely
+              */
+              if(!$supportsCompression){
+                  ob_start();
+                  ob_implicit_flush(0); // stop implicit flush from happening so we can set response headers
+              }
+         }else if(index_of($encodingList[0], 'deflate') > -1){
+              ob_start("ob_deflatehandler"); 
          }else{
-              ob_start();
+              if(ob_get_level() == 0){
+                  ob_start();
+              }    
          }
+
+         $this->compressionStatus = $supportsCompression;
      }
 
     /**
@@ -125,6 +155,7 @@ final class Response {
      public static function text($data, $statusCode = 200){
 
         if(Request::isAjax()){
+
             $xhub = Request::rawHeader('X-Hub-Signature');
 
             if(strtolower(Request::rawHeader('Connection')) === 'keep-alive'
@@ -188,9 +219,12 @@ final class Response {
         //$finfo = new finfo(FILEINFO_MIME_TYPE);
         //$ftype = $finfo->file($file);
         $ftype = mime_content_type($file);
+
         if($ftype == 'text/x-c++'){
-            $ftype = 'text/plain';
+
+                $ftype = 'text/plain';
         }
+        
         static::header('Content-Type', $ftype);
         $contents = File::readChunk($file);
         static::header('Content-Length', (is_string($contents)? strlen($contents) : filesize($file)));
@@ -205,9 +239,12 @@ final class Response {
           static::header('Content-Description', 'File Transfer');
           $finfo = new finfo(FILEINFO_MIME); // FILEINFO_MIME_TYPE
           $ftype = $finfo->file($file);
+          
           if($ftype == 'text/x-c++'){
-            $ftype = 'text/plain';
+            
+              $ftype = 'text/plain';
           }
+          
           static::header('Content-Type', $ftype);
           static::header('Content-Disposition', 'attachment; filename="' . get_file_name($file, true) . '"');
 
@@ -217,43 +254,72 @@ final class Response {
      public static function view($name, $data = array(), $config = array()){
 
         if(!array_key_exists('asXML', $config)){
+
             static::header('Content-Type', 'text/html; charset=UTF-8');
+
         }else{
             if($config['asXML'] === TRUE){
-                static::header('Content-Type', 'application/xml'); //;q=0.9
+
+                static::header('Content-Type', 'application/xml'); 
             }
         }
 
+        $content = static::$instance->runner->render($name, $data);
+
+        if(!static::$instance->compressionStatus){
+
+            static::header('Content-Length', strlen($content)); // @TODO: see if ob_get_length(); works better than strlen(xxx);
+
+            static::header('Content-Encoding', 'none');
+
+        }
+
         if(array_key_exists('statusCode', $config)){
+
              http_response_code(intval($config['statusCode']));
         }
 
-        return static::end(static::$instance->runner->render($name, $data), 'view');
+        return static::end($content, 'view');
 
      }
 
      private static function end($data, $from = ''){
 
-            if((!is_null($data)) || (!static::isEmpty())){
-                if($from !== 'view'){
-                    echo $data;
-                }
-            }
-
             if(function_exists('fast_cgi_finish_request')) {
+
                 fast_cgi_finish_request();
-            }elseif('cli' !== PHP_SAPI){
+
+            }else if('cli' !== PHP_SAPI){
+
                 static::$instance->closeOutputBuffers(0, true, $from);
             }
 
 
-          return exit;
+            if((!is_null($data)) || (!static::isEmpty())){
+                    echo $data;
+            }
+
+            return exit;
      }
 
      private function closeOutputBuffers($targetLevel, $flush, $type){
 
-        $status = ob_get_status(true);
-        $level = count($status);
+        $status = ob_get_status(true); 
+        $level = count($status); 
+        
+        // @TODO: check if {ob_get_status(FULL_STATUS);} works as well as {ob_get_level();}
+        $oLevel = ob_get_level();
+        
+        $contentLen = 0;
+
+        /*
+            while(--$oLevel != 0){
+
+                $contentLen += ob_get_length();
+            }
+
+            header('Content-Length: ' . $contentLen);
+        */
 
         while ($level-- > $targetLevel
             && (!empty($status[$level]['del'])
@@ -263,14 +329,25 @@ final class Response {
                 )
             )
         ) {
+
+            /* 
+                @TODO: See how CUSTOM "Content-Length" header can be set for buffered
+                        gzip-ed (compressed) output so certain browsers don't choke on the byte stream
+                        using {ob_get_length()}  for each open output buffer [$contentLen]
+            */
+
+            $contentLen += ob_get_length(); 
+
             if($flush){
-                if($type === 'text'){
-                    ob_flush();
+                if($type === 'text'
+                    || $type === 'view'){
+                    ob_flush(); // this will trigger "ob_gzhandler" callback
                     flush();
                 }
             }
 
         }
+
      }
 
      /**
