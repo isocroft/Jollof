@@ -392,8 +392,8 @@ final class App {
                $this->instances['Logger'] = Logger::createInstance();
                $this->instances['Config'] = Config::createInstance($this->envservice->getAllConfig());
                $this->instances['System'] = System::createInstance();
-               $this->instances['Session'] = Session::createInstance($this->envservice->getConfig('app_session'));
                $this->instances['Response'] = Response::createInstance($this->jheaders->getSourceNonces());
+               $this->instances['Session'] = Session::createInstance($this->envservice->getConfig('app_session'));
                $this->instances['Request'] = Request::createInstance($this->envservice->getConfig('app_uploads'));
                $this->instances['Cache'] = Cache::createInstance($this->envservice->getConfig('app_cache'));
                $this->instances['Router'] = Router::createInstance($this->getInstance('Request'), $this->getInstance('Response'));
