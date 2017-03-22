@@ -47,7 +47,7 @@ _Thanks to **Micheal Akpobome**, **Shuaib Afegbua**, **Abraham Yusuf**, **Stephe
 	6. Have the PHP *sockets* extension enabled
 	7. Have the PHP *zip* extension enabled
 	8. Have the PHP *curl* extension enabled
-	9. Have the PHP *zlib* extension enabled (optional - built-in)
+	9. Have the PHP *zlib* extension enabled (required - built-in)
 	10. Have the PHP *mongodb* extension installed and enabled (optional - pecl)
 	11. Have the PHP *memcache* extension installed and enabled (optional - pecl)
 	12. Have the PHP *v8js* extension installed and enabled (optional - pecl)
