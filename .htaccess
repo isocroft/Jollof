@@ -57,8 +57,6 @@ AddType video/webm .webm # theora codec
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/css
   AddOutputFilterByType DEFLATE appliation/javascript
-  AddOutputFilterByType DEFLATE application/xml
-  AddOutputFilterByType DEFLATE text/html
 </IfModule>
 
 # Enhanced caching for site static assets
