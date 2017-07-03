@@ -163,7 +163,7 @@
         }
       }else if(index_of($os, 'linux')){
           if($isDeafultTaken){
-            exec('php -S localhost:8888 raw.router.php | x-www-browser http://localhost:8888/documentation/index.html');
+            exec("php -S localhost:8888 raw.router.php | x-www-browser http://localhost:8888/documentation/index.html?uriRoot={$root_folder}");
           }
       }  
 
