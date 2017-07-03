@@ -17,9 +17,9 @@ class Model implements DBInterface {
 
      protected static $instance = NULL;
 
-     protected $table = 'NULL';
+     protected $table = '';
 
-     protected $primaryKey = 'NULL';
+     protected $primaryKey = '_id';
 
      protected $builder = NULL;
 
@@ -29,7 +29,7 @@ class Model implements DBInterface {
 
      protected $pivotTable = null;
 
-     protected $autoPrimaryKey = true;
+     protected $autoPrimaryKey = false;
 
      protected $schema = array(
 
@@ -70,11 +70,13 @@ class Model implements DBInterface {
              * -- This trick has been modified for use in Jollof
              */
 
+            global $app;
+
             if(!isset(static::$instance)){
 
                   $name = get_class($m);  
 
-                  $m->$schema = $scma;
+                  $m->schema = $scma;
               
                   $m->builder = $app->getBuilder($m->getAttributes(), $name);
 
@@ -104,9 +106,14 @@ class Model implements DBInterface {
      * @param array $clauseProps
      * @param string $conjunction
      * @return Contracts\Policies\QueryProvider 
+     * @throws RuntimeException
      */
 
      protected function get(array $columns = array(), array $clauseProps = array(), $conjunction = 'and'){
+
+         if(is_null($this->builder)){
+                throw new \RuntimeException("No Database Connection Found, Jollof [.env] File Probably Missing");
+         }   
 
          return $this->builder->select($columns, $clauseProps, $conjunction);
      }
@@ -120,9 +127,14 @@ class Model implements DBInterface {
      * @param array $values
      * @param array $clauseProps
      * @return Contracts\Policies\QueryProvider 
+     * @throws RuntimeException 
      */
 
      protected function set(array $values = array(), array $clauseProps = array()){
+
+        if(is_null($this->builder)){
+                throw new \RuntimeException("No Database Connection Found, Jollof [.env] File Probably Missing");
+        }
 
         return $this->builder->insert($values, $clauseProps);
      }
@@ -137,9 +149,14 @@ class Model implements DBInterface {
      * @param array $clauseProps
      * @param string $conjunction
      * @return Contracts\Policies\QueryProvider 
+     * @throws RuntimeException
      */
 
      protected function let(array $columnValues = array(), $clauseProps = array(), $conjunction = 'and'){
+
+            if(is_null($this->builder)){
+                throw new \RuntimeException("No Database Connection Found, Jollof [.env] File Probably Missing");
+            }
 
         return $this->builder->update($columnValues, $clauseProps, $conjunction);
      }
@@ -153,16 +170,21 @@ class Model implements DBInterface {
      * @param array $columns
      * @param array $clauseProps
      * @return \Contracts\Policies\QueryProvider
+     * @throws RuntimeException
      */
 
      protected function del(array $columns = array(), $clauseProps = array()){
+
+        if(is_null($this->builder)){
+            throw new \RuntimeException("No Database Connection Found, Jollof [.env] File Probably Missing");
+        }
 
         return $this->builder->delete($columns, $clauseProps);
      }
 
 
     /**
-     *
+     * Retrieves all attributes of the model
      *
      *
      *
@@ -181,10 +203,15 @@ class Model implements DBInterface {
      *
      *
      * @param void
-     * @return array [result] 
+     * @return array
+     * @throws RuntimeException 
      */
 
      public function installSchema(){
+
+          if(is_null($this->builder)){
+                throw new \RuntimeException("No Database Connection Found, [.env] File Probably Missing");
+         }
 
           return $this->builder->createEntity($this->schema);
      }
@@ -196,16 +223,16 @@ class Model implements DBInterface {
      *
      *
      * @param void
-     * @return void 
+     * @return bool 
      */
 
      public function bindSchema(){
 
-          ;
+          return true;
      }
 
     /**
-     * Retrieves one or more tuples/rows from a Model entity/collection 
+     * Retrieves one or more tuples/rows from a Model table/entity/collection 
      * based on conditions and operator (AND).
      *
      *
@@ -219,13 +246,13 @@ class Model implements DBInterface {
 
           $attrs = static::$instance->getAttributes();
 
-          $pkey = $attrs['key'];
+          $pkey = $attrs['autoKey']? intval($attrs['key']) :  $attrs['key'];
 
           return static::$instance->get($cols, $clause)->exec();
      }
 
      /**
-     * Retrieves one or more tuples/rows from a Model entity/collection 
+     * Retrieves one or more tuples/rows from a Model table/entity/collection 
      * based on conditions and operator (OR).
      *
      *
@@ -239,14 +266,14 @@ class Model implements DBInterface {
 
           $attrs = static::$instance->getAttributes();
 
-          $pkey = $attrs['key'];
+          $pkey = $attrs['autoKey']? intval($attrs['key']) :  $attrs['key'];
 
           return static::$instance->get($cols, $clause, 'or')->exec();
      }
 
 
     /**
-     * Retrieves the very first tuple/row from a Model entity/collection
+     * Retrieves the very first tuple/row from a Model table/entity/collection
      * based on conditions and operator (AND).
      *
      *
@@ -264,7 +291,7 @@ class Model implements DBInterface {
      }
 
      /**
-     * Retrieves the very first tuple/row from a Model entity/collection
+     * Retrieves the very first tuple/row from a Model table/entity/collection
      * based on conditions and operator (OR).
      *
      *
@@ -282,7 +309,7 @@ class Model implements DBInterface {
      }
 
     /**
-     * Retrieves distinct columns from a Model entity/collection
+     * Retrieves distinct columns from a Model table/entity/collection
      *
      *
      *
@@ -295,11 +322,13 @@ class Model implements DBInterface {
 
           $attrs = static::$instance->getAttributes();
 
-          return static::$instance->get($cols, array())->distinct()->exec(0, 0);
+          return static::$instance->get($cols, array())
+                                        ->distinct()
+                                            ->exec(0, 0);
      }
 
     /**
-     * Retrieves all tuples/rows from a Model entity/collection using a join
+     * Retrieves all tuples/rows from a Model table/entity/collection using a join
      *
      *
      *
@@ -331,9 +360,9 @@ class Model implements DBInterface {
      public static function fetchWithOrder($modelName, array $clause = array(), array $orderCols = array(), $limit = 0){
 
           return static::$instance->get(array('*'), $clause)
-                    ->with($modelName)
-                    ->ordering($orderCols, true)
-                    ->exec($limit, 0);
+                            ->with($modelName)
+                                ->ordering($orderCols, true)
+                                    ->exec($limit, 0);
      } 
 
     /**
@@ -348,12 +377,14 @@ class Model implements DBInterface {
 
      public static function updateById($id = ''){
 
-          $attr = static::$instance->getAttributes();
+          $attrs = static::$instance->getAttributes();
           
           $clause = array();
-          $clause[$attr['key']] = array('=' => $id);
+          $pkey = $attrs['autoKey']? intval($attrs['key']) :  $attrs['key'];
+          $clause[$pkey] = array('=' => $id);
 
-          return static::$instance->let(array('*'), $clause)->exec(0, 0);
+          return static::$instance->let(array('*'), $clause)
+                                        ->exec(0, 0);
      } 
 
     /**
@@ -368,16 +399,17 @@ class Model implements DBInterface {
 
      public static function removeById($id = ''){
 
-          $attr = static::$instance->getAttributes();
+          $attrs = static::$instance->getAttributes();
           
+          $pkey = $attrs['autoKey']? intval($attrs['key']) :  $attrs['key'];
           $clause = array();
-          $clause[$attr['key']] = array('=' => $id);
+          $clause[$pkey] = array('=' => $id);
 
           return static::$instance->del(array('*'), $clause)->exec(0, 0);
      }
 
     /**
-     * Retrieves a tuple/row from the Model entity/collection using the
+     * Retrieves a tuple/row from the Model table/entity/collection using the
      * value of the tables' primary key {$id}
      *
      *
@@ -388,10 +420,11 @@ class Model implements DBInterface {
 
      public static function findById($id = ''){
 
-          $attr = static::$instance->getAttributes();
+          $attrs = static::$instance->getAttributes();
           
+          $pkey = $attrs['autoKey']? intval($attrs['key']) :  $attrs['key'];
           $clause = array();
-          $clause[$attr['key']] = array('=' => $id);
+          $clause[$pkey] = array('=' => $id);
 
           return static::$instance->get(array('*'), $clause)->exec(0, 0);
      }
@@ -410,13 +443,14 @@ class Model implements DBInterface {
 
      public static function fetchAll(array $clause = array(), $limit = 0, $offset = 0){
 
-          return static::$instance->get(array('*'), $clause)->exec($limit, $offset);
+          return static::$instance->get(array('*'), $clause)
+                                        ->exec($limit, $offset);
 
      }
 
     /**
      * Retrieves all tuples/rows in an ordered manner 
-     * from the Model entity/collection.
+     * from the Model table/entity/collection.
      *
      *
      * @param array $clause - column value(s) for where clause
@@ -429,11 +463,13 @@ class Model implements DBInterface {
 
      public static function fetchAllOrdered(array $clause = array(), array $orderCols = array(), $limit = 0, $offset = 0){
 
-          return static::$instance->get(array('*'), $clause)->ordering($orderCols, true)->exec($limit, $offset);
+          return static::$instance->get(array('*'), $clause)
+                                        ->ordering($orderCols, true)
+                                            ->exec($limit, $offset);
      }
 
     /**
-     * Updates a tuple/row in the Model entity/collection
+     * Updates a tuple/row in the Model table/entity/collection
      *
      *
      *
@@ -444,11 +480,12 @@ class Model implements DBInterface {
 
      public static function update(array $clause = array(), array $cols = array()){
 
-          return static::$instance->let($cols, $clause)->exec(0, 0);
+          return static::$instance->let($cols, $clause)
+                                            ->exec(0, 0);
      }
 
     /**
-     * Inserts OR Updates a tuple/row in the Model entity/collection
+     * Inserts OR Updates a tuple/row in the Model table/entity/collection
      *
      *
      *
@@ -468,7 +505,7 @@ class Model implements DBInterface {
      }
 
     /**
-     * Inserts a tuple/row into the Model entity/collection
+     * Inserts a tuple/row into the Model table/entity/collection
      *
      *
      *

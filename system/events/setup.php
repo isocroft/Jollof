@@ -27,11 +27,11 @@
        	   return Response::view('errors/report', array('err' => $code, 'msg' => $message, 'file' => $file, 'line' => $line));
        	break;
        	case 'prod': # Staging/Production Environment
+           
            # use the native reporter or any external reporters e.g. BugSnag
+          if($reporter !== NULL){
 
-           /* uncomment this code when needed
-
-              $ex = new \Exception($message, $code);
+              $ex = new ErrorException($message, 0, $code, $file, $line);
 
               $descriptors = array(
                   'method' => 'GET',
@@ -44,16 +44,15 @@
                   )
                );
 
-               $reporter->sendError($ex, $descriptors, function($response){
+               return $reporter->sendError($ex, $descriptors, function($response){
 
                });
-           */
+          }
        	break;
        	default:
        		 # code ...
        	break;
        }
-
  });
 
  System::onBlindRoute(function($route){

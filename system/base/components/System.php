@@ -7,8 +7,8 @@
  *
  */
 
-use \Response;
-use \Request;
+use \Config;
+
 
 final class System {
 
@@ -40,6 +40,12 @@ final class System {
      * @var array
      */
 
+    private $superGlobals;
+
+    /**
+     * @var array
+     */
+
     private $middlewares;
 
     /**
@@ -49,6 +55,12 @@ final class System {
     private $customEventHandlers;
 
     /**
+     * @var bool
+     */
+
+    private $errorHandleRequested;
+
+    /**
      * Constructor.
      *
      *
@@ -56,7 +68,7 @@ final class System {
      * @api
      */
 
-    private function __construct(){
+    private function __construct(Config $config){
 
         $this->middlewares = array();
 
@@ -64,14 +76,42 @@ final class System {
 
         $this->blindRouteHandler = NULL;
 
+        $this->errorHandleRequested = FALSE;
+
         $this->faultedMiddlewares = array();
 
         $this->customEventHandlers = array();
 
-        // Plain Text message instead of HTML messages.. Thank you!
+        $this->superGlobals = array(
+            '_GET', 
+            '_POST', 
+            '_COOKIE', 
+            '_FILES', 
+            '_SERVER', 
+            '_REQUEST', 
+            '_ENV', 
+            'GLOBALS'
+        );
+        // System Kill
+        if(function_exists('pcntl_signal')){
+
+            pcntl_signal(SIGTERM, array(&$this, 'shutdown'));
+        }
+
+        // CTRL+C
+        if(function_exists('pcntl_signal')){ 
+
+            pcntl_signal(SIGINT, array(&$this, 'shutdown'));
+        }
+
+        // Set to plain text message instead of HTML messages ...
         ini_set('html_errors', '0');
-        // Tell PHP to use the CLI error handler
+
+        // Tell PHP to use the [CLI] error handler
         set_error_handler(array(&$this, 'error_handler'));
+
+        // Tell PHP when an {Exception} occurs
+        set_exception_handler(array(&$this, 'exception_handler'));
         // Surpress Warnings
         assert_options(ASSERT_WARNING, 0);
         // Cacth fatal Errors
@@ -80,35 +120,95 @@ final class System {
 
     public function __destruct(){
 
+
     }
 
-    public static function createInstance(){
+    public static function createInstance(Config $config){
 
          if(static::$instance == NULL){
-               static::$instance = new System();
+               static::$instance = new System($config);
                return static::$instance;
          }
     }
 
-    public function shutdown(){
+    public function shutdown($signal = null){
          $fatalError = error_get_last();
-         if((!headers_sent()) && $fatalError !== NULL){
-             $this->error_handler($fatalError['type'], $fatalError['message'], $fatalError['file'], $fatalError['line']);
+         $globs = array_keys($GLOBALS);
+
+
+         if((!headers_sent()) && is_array($fatalError)){
+            if(!$this->hasErrorHandlerBeenRequested()){
+                $this->error_handler($fatalError['type'], $fatalError['message'], $fatalError['file'], $fatalError['line']);
+            }    
+         }
+
+         // ensure that __destruct() calls are made for all existing class objects still in memory
+         foreach($globs as $var){
+            if(in_array($var, $this->superGlobals)){ 
+                    continue;
+            }
+            unset($GLOBALS[$var]); 
          }
     }
 
     // A custom error handler
     public function error_handler($errno, $errstr, $errfile, $errline){
 
-       $handler = self::$instance->getErrorHandler();
+       $handler = $this->getErrorHandler();
 
        if($GLOBALS['app']->inCLIMode()){
-           fwrite(STDERR, "Learnsty App Exception => " . PHP_EOL . " $errstr in [$errfile] on :$errline" . PHP_EOL);
+           fwrite(STDERR, "Jollof App Exception: => " . PHP_EOL . PHP_EOL . " $errstr in [$errfile] on :$errline" . PHP_EOL);
        }
 
        if(isset($handler) && is_callable($handler)){
-           $handler($errno, $errstr, $errfile, $errline);
+           
+           $this->register_error($handler($errno, $errstr, $errfile, $errline));
        }
+
+    }
+
+    public function exception_handler($ex){
+
+        $handler = $this->getErrorHandler();
+
+        if($GLOBALS['app']->inCLIMode()){
+           fwrite(STDERR, "Jollof App Exception: => " . PHP_EOL . PHP_EOL . " {$ex->getMessage()} in [{$ex->getFile()}] on :{$ex->getLine()}" . PHP_EOL);
+        }
+
+        if(isset($handler) && is_callable($handler)){
+           $handler($ex->getCode(), $ex->getMessage(), $ex->getFile(), $ex->getLine());
+        }
+
+        $this->register_error($ex);
+
+    }
+
+    private function register_error(\Exception $e, $asMail = FALSE){
+        
+        $errmsg = "PHP Fatal Error: Uncaught Exception '%s' with message '%s' in %s:%s \n\n\t Stack Trace: \n\n%s\n thrown in %s on line %s";
+
+        $errmsg = sprintf($errmsg, 
+            get_class($e),
+            $e->getMessage(),
+            $e->getFile(),
+            $e->getLine(),
+            $e->getTraceAsString(),
+            $e->getFile(),
+            $e->getLine());
+
+        if(error_reporting()){
+            if($asMail === FALSE){
+                error_log($errmsg);
+            }else{
+                error_log($errmsg, 1, 'admin@example.com');
+            }
+
+        }
+    }
+
+    private function hasErrorHandlerBeenRequested(){
+
+        return $this->errorHandleRequested;
     }
 
     private function setErrorHandler($callback){
@@ -117,6 +217,8 @@ final class System {
     }
 
     private function getErrorHandler(){
+
+        $this->errorHandleRequested = TRUE;
 
        return $this->errorHandler;
     }
@@ -174,20 +276,6 @@ final class System {
         static::$instance->setCustomEvent($eventName, $eventHandler);
     }
 
-    public static function getRequestingDeviceType(){
-
-         $tabletRgx = '/(tablet|ipad|playbook|(andriod(?!.*(?:mobi|opera mini)))/i';
-         $mobileRgx = '/(up.browser|up.link|symbian|widp|wap|phone|andriod|iemobile)/i';
-
-         $acceptable = Request::header('HTTP_ACCEPT');
-         $mobile_ua = Request::header('HTTP_X_OPERAMINI_PHONE_UA') || Request::header('HTTP_DEVICE_STOCK_UA');
-         $wap_proflie = Request::wapProfile();
-
-         if(contains($acceptable, 'application/vnd.wap.xhtml+xml')){
-                ;
-         }
-    }
-
     public function getFaultedMiddlewares(){
 
        return $this->faultedMiddlewares;
@@ -219,7 +307,7 @@ final class System {
                         }
                     }
                 }
-             }catch(\Exception $e){}
+             }catch(\Exception $e){ exit; }
            }
 
            return (bool) array_reduce($result, 'reduce_boolean', TRUE);
@@ -241,7 +329,7 @@ final class System {
     }
 
     public static function onFiltered(callable $callback){
-
+        ;
     }
 
 }

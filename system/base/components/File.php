@@ -7,22 +7,45 @@
  *
  */
 
+use \Cache;
+
 final class File {
+
+    /**
+      * @var File
+      */
 
     private static $instance = NULL;
 
-    protected $file_name;
+    /**
+      * @var Cache - For caching file related information across requests
+      */
+
+    protected $file_cache;
 
     /**
      * Constructor
      *
      *
-     * @param void
+     * @param Cache $cache
      * @api
      */
 
-    private function __construct(){
+    private function __construct(Cache $cache){
 
+        $this->file_cache = $cache;
+    }
+
+    /**
+     *
+     *
+     *
+     *
+     */
+
+    public function __destruct(){
+
+        $this->file_cache = NULL;
     }
 
     /**
@@ -31,17 +54,32 @@ final class File {
      *
      *
      *
-     * @param void
+     * @param Cache $cache
      * @return object $instance
      * @api
      */
 
-    public static function createInstance(){
+    public static function createInstance(Cache $cache){
 
         if(static::$instance === NULL){
-            static::$instance = new File();
+            static::$instance = new File($cache);
             return static::$instance;
         }
+    }
+
+    /**
+     * Checks if a file path exists on the file system 
+     *
+     *
+     *
+     *
+     * @param string $file_path
+     * @return bool
+     */
+
+    public static function exists($file_path){
+
+            return file_exists($file_path);
     }
 
     /**
@@ -95,7 +133,7 @@ final class File {
 
     /**
      * Creates a file in the server file system.
-     *
+     * 
      *
      *
      * @param string $file_path
@@ -113,7 +151,6 @@ final class File {
      *
      *
      *
-     *
      * @param string $file_path
      * @return bool
      * @api
@@ -125,22 +162,50 @@ final class File {
     }
 
     /**
-     * Creates a folder in server file system
+     * Creates a folder on  the server file system
      *
      *
-     * @param string $folder_name
-     * @param bool $hide
+     * @param string $folder_name - name of the folder to be create on the file system
+     * @param bool $hide - if the folder will be hidden and non-writable on the file system
+     * @param int $mode - permissions for the folder be created on the file system
+     * @param bool $depth -
      * @return bool
      * @api
      */
 
-    public static function makeFolder($folder_name, $hide = false){
+    public static function makeFolder($folder_name, $hide = FALSE, $mode = 0755, $depth = TRUE){
 
-        return (bool) make_folder($folder_name, $hide);
+
+        if($hide === TRUE){
+
+            $mode = 0777;
+        }
+
+        if(is_dir($folder_name)){
+
+            return false;
+        }   
+
+        return (bool) make_folder($folder_name, $hide, $mode, $depth);
+        
     }
 
     /**
-     * Reads out a file in chunks.
+     *
+     *
+     *
+     * @param string $folder_name
+     * @return bool
+     * @api
+     */
+
+    public static function deleteFolder($folder_name) {
+
+        return (bool) del_folder($folder_name);            
+    }
+
+    /**
+     * Reads out a file as a stream.
      *
      *
      *
@@ -150,7 +215,7 @@ final class File {
      * @api
      */
 
-    public static function readChunk($file_path, array $file_context_options = array()){
+    public static function readStream($file_path, array $file_context_options = array()){
 
         $content = NULL;
         $context = NULL;
@@ -182,28 +247,59 @@ final class File {
     }
 
     /**
-     * Writes out a file in chunks.
+     * Read file as chunks
      *
      *
      *
-     * @param string $file_path
-     * @param string $file_content
-     * @return bool
+     * @param string $file_name - file name/path
+     * @param integer $offset - offset in bytes
+     * @return mixed
      * @api
      */
 
-    public static function writeChunk($file_path, $file_content){
-
-        if(!isset($file_path)){
-            return false;
-        }
-
-        if(!isset($file_content)){
-            $file_content = " " . PHP_EOL;
-        }
-
-        return file_put_contents($file_path, $file_content, LOCK_EX);
+    public static function readChunk($file_name, $offset = 0){
+        
+        $hdle = fopen($file_name, 'r');
+        
+        /* fseek($hdle, $offset); */
     }
+
+    /**
+     * Fetch file(s) that have file names/extension
+     * as that which is depicted by the pattern
+     * within the top-level folder and sub folders
+     *
+     *
+     * @param string $pattern - a glob pattern (does not support braces for now)
+     * @return array
+     * @api
+     */
+
+    public static function grepFiles($pattern){
+
+        return rglob($pattern, GLOB_NOSORT);
+    }
+
+    /**
+     * Writes out to a file in chunks.
+     * (used especially for chunked file uploads)
+     *
+     *
+     *
+     * @param string $file_name - filename
+     * @param string $chunk_content - the chunk data itself
+     * @param integer $offset - offset in bytes
+     * @param bool $replace - if the chunk data will overwrite existing data in the file
+     * @return mixed (integer|bool) - number of bytes written or write operation failure status
+     * @api
+     */
+
+    public static function writeChunk($file_name, $chunk_content, $offset = 0, $replace = FALSE){
+
+        return write_file_chunk($file_name, $chunk_content, $replace);
+    }
+
+
 
 }
 

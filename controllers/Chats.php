@@ -1,6 +1,6 @@
 <?php
 
-use Predis\Client;
+use Predis\Client as Client;
 
 class Chats extends Controller{
 	
@@ -11,7 +11,7 @@ class Chats extends Controller{
 		 parent::__construct($params);
 	}
 
-	public function messaging($models){
+	public function messaging(){
 
 		$input = Request::input()->getFields();
 
@@ -20,6 +20,7 @@ class Chats extends Controller{
 			'data' => $input['message']
 		);
 
+		/* Redis: default setup for development [host/port]  */
 		$redis = new Client('tcp://127.0.0.1:6379');
 		$redis->publish('chat', json_encode($data));
 

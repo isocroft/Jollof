@@ -149,7 +149,7 @@ class QueryExtender implements QueryProvider {
         # wrap the table name with quotes like so: `table`
         $table = $this->wrap($this->attribs['table']);
 
-        // $_columns = implode(', ', array_map(array(&$this, 'addTablePrefix'), $columns));
+        // @TODO: this line is still important --- $_columns = implode(', ', array_map(array(&$this, 'addTablePrefix'), $columns));
 
         if(count($columns) == 1 && $columns[0] == '*'){
             $_columns = $columns[0];
@@ -160,8 +160,9 @@ class QueryExtender implements QueryProvider {
         foreach($clauseProps as $key => $value){
             if(is_array($value)){
                 if(count($value) > 0){
+                    $keys = array_keys($value);
                     # check that WHERE clause operator supplied is allowed !!
-                    if(!(in_array(strtoupper($value[0]), $this->allowedOperators))){
+                    if(!(in_array(strtoupper($keys[0]), $this->allowedOperators))){
                         throw new UnexpectedValueException();
                     }
                 }
@@ -175,7 +176,7 @@ class QueryExtender implements QueryProvider {
      }
 
      /**
-      * Builds out a create table query
+      * Filters out distinct values in a SELECT query
       *
       *
       * 
@@ -330,12 +331,12 @@ class QueryExtender implements QueryProvider {
 
          $object = $this->reflClass->newInstanceWithoutConstructor(); 
 
-         $__atrribs = $object->getAttributes();
+         $__attribs = $object->getAttributes();
 
          # wrap the table name with quotes like so: `table`
          $table = $this->wrap($this->attribs['table']);
 
-         $joinTable = $this->wrap($__atrribs['table']);
+         $joinTable = $this->wrap($__attribs['table']);
 
          $parentReference = $this->wrap($this->attribs['key']);
 
@@ -387,14 +388,14 @@ class QueryExtender implements QueryProvider {
      public function ordering(array $columns, $ascending = FALSE){
 
         $direction = ($ascending? 'ASC' : 'DESC');
-        $orders = array();
+        $columnOrder = array();
 
         foreach ($columns as $column) {
 
-            $orders[] = " ORDER BY " . $this->wrap($column) . " $direction";
+            $columnOrder[] = " ORDER BY " . $this->wrap($column) . " $direction";
         }
 
-        $this->queryString .= (implode(', ', $orders));
+        $this->queryString .= (implode(', ', $columnOrder));
 
      	  return $this;
 
@@ -468,11 +469,11 @@ class QueryExtender implements QueryProvider {
           $stoppers = array();
 
           if($offset > 0){
-             $stoppers[] = " OFFSET $offset";
+             $stoppers[] = " OFFSET {$offset}";
           }
 
           if($limit > 0){
-             $stoppers[] = " LIMIT $limit";
+             $stoppers[] = " LIMIT {$limit}";
           }
 
           switch (strtolower($type)){
@@ -514,16 +515,22 @@ class QueryExtender implements QueryProvider {
 
           $db_driver = $GLOBALS['app']->getDBDriver();
 
+          if(!isset($char) || empty($char)){
+
+                $char = "`";
+          }
+
           if($db_driver != "mysql"){
 
                 $char = '"';
           }
 
           if(strlen($attributeName) === 0){
+                
                 return $attributeName;
           }
 
-          return $char.$attributeName.$char;
+          return ($char.$attributeName.$char);
      }
 
      private function addTablePrefix($column){
@@ -552,7 +559,7 @@ class QueryExtender implements QueryProvider {
 
         $sqlProps = array_combine(array_map(array(&$this, 'wrap'), $rawKeys), $rawValues);
 
-        return array_map('update_placeholder', $sqlProps);
+        return array_mapper('update_placeholder', $sqlProps);
      }
 
      private function prepareSelectPlaceholder($props){
@@ -569,7 +576,7 @@ class QueryExtender implements QueryProvider {
 
         $sqlProps = array_combine(array_map(array(&$this, 'wrap'), $rawKeys), $rawValues);
 
-        return array_map('update_placeholder', $sqlProps);
+        return array_mapper('update_placeholder', $sqlProps);
      }
 
      private function prepareUpdatePlaceholder($props){
@@ -579,18 +586,22 @@ class QueryExtender implements QueryProvider {
         $rawKeys = array_keys($props);
 
         if(is_array($this->paramValues)){
-           $this->paramValues = array_merge($this->paramValues, array_pluck($rawValues, 1));
+          
+            $this->paramValues = array_merge($this->paramValues, array_pluck($rawValues, 1));
         }else{
+
             $this->paramValues = array_pluck($rawValues, 1);
         }
 
         $sqlProps = array_combine(array_map(array(&$this, 'wrap'), $rawKeys), $rawValues);
 
-        return array_map('update_placeholder', $sqlProps);
+        return array_mapper('update_placeholder', $sqlProps);
      }
 
      private function parmeterizeValues($params){
-     	    $values = array();
+     	    
+          $values = array();
+          
           foreach ($params as $value) {
           	  $type = substr(gettype($value), 0, 3);
           	  $values[$type] = $this->escapeSQLTokenChars($value);

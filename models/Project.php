@@ -1,6 +1,6 @@
 <?php
 
-class Todo extends Model {
+class Project extends Model {
 
     protected $table = 'tbl_projects';
 

@@ -9,9 +9,17 @@
 
 use \Providers\Tools\InputFilter as Filter;
 
-final class Validator{
+final class Validator {
+
+    /**
+     * @var string | FAILED -
+     */
 
     const FAILED = "failed!";
+
+    /**
+     * @var Validator -
+     */
 
     protected static $instance = NULL;
 
@@ -64,7 +72,19 @@ final class Validator{
         return count(static::$instance->errors) > 0;
     }
 
-    public static function check(array $data, array $fieldRules){ // $data should be the data from GET / POST / PUT always...
+    /**
+     *
+     *
+     *
+     * @param array $data
+     * @param array $fieldRules
+     *
+     * @return array 
+     * @throws Exception
+     * @api
+     */
+
+    public static function check(array $data, array $fieldRules){ // $data should be the data from GET / POST / PUT / DELETE always...
          $valid = TRUE;
          $results = array();
          $callbacks = NULL;
@@ -88,7 +108,12 @@ final class Validator{
             if(is_array($rule)){
                static::$instance->allowed = $rule['allowed'];
                $callbacks = explode("|", $rule['rule']);
-			   $callbacks[] = 'useAllowed';
+               
+               if(!is_array($callbacks)){
+                  $callbacks = array();
+               }
+
+			         $callbacks[] = 'useAllowed';
             }else if(is_string($rule)){
                $_rule = $rule;
                $patternIndex = index_of($rule, '/');
@@ -117,6 +142,7 @@ final class Validator{
                }
 
                $callbacks = array_merge((array) $boundary, explode("|", $_rule));
+
             }else{
 
                 throw new Exception("Validator: could not process ['". $rule['rule'] . "'] for $fieldname");
@@ -126,8 +152,13 @@ final class Validator{
             foreach($callbacks as $callback){
                $fieldvalue = $data[$fieldname];
                $fieldvalue = trim(strip_tags(htmlspecialchars($fieldvalue, ENT_QUOTES, 'UTF_8')));
-               if($callback == ''){ continue; }
+               
+               if($callback == ''){ 
+                   continue; 
+               }
+
                $valid = $callback($fieldvalue, $fieldname, static::$instance, $pattern);
+
                if(!is_bool($valid)){
                     static::$instance->errors[] = $valid; // read out the error message in $valid first!!
 				            $valid = TRUE; // then set it to the default boolean value
@@ -137,6 +168,7 @@ final class Validator{
             }
 
             if(static::$instance->fieldHasError){
+                
                 continue;
             }
 

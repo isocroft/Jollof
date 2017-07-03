@@ -2,15 +2,46 @@
 
 namespace Jollof\SocketService;
 
+/**
+ * Jollof Framework - (c) 2016
+ *
+ *
+ * @author Ifeora Okechukwu
+ * @license    MIT License
+ * @copyright   Mobicent, Ltd.
+ * @link htps://github.com/isocroft/Jollof
+ */
+
 use Ratchet\Wamp\WampServerInterface;
 use Ratchet\ConnectionInterface;
 
 class Push implements WampServerInterface {
 
+	/**
+     * @var array -
+     */
+
 	public $subscribedThreads = array();
+
+	/**
+     * @var Predis\Predis -
+     */
+
 	protected $redis;
 
+	/**
+     * @var string -
+     */
+
 	private $sessionName;
+
+	/**
+     * Constructor.
+     *
+     * @param void
+     *
+     * @scope private
+     */
 
 	public function __construct($sessionName){
 
@@ -20,8 +51,10 @@ class Push implements WampServerInterface {
 	public function timedCallback(){
 
 		if(array_key_exists('debug', $this->subscribedThreads)){
+
 			$thread = $this->subscribedThreads['debug'];
 			$thread->broadcast('timestamp', time());
+
 		}
 
 	}

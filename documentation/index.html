@@ -3,11 +3,11 @@
 <head>
  <title>Home - Jollof</title>
  <meta charset="utf-8">
+
  <link rel="stylesheet" type="text/css" href="./bootstrap.css">
  <link rel="stylesheet" type="text/css" href="./prism.css">
  <link rel="stylesheet" type="text/css" href="./documentation.css">
  <!--<link rel="stylesheet" type="text/css" href="./mobile.css">-->
-
 </head>
 <body class="surface relative non-selectable">
   <div class="menu fixed snap-top-left" id="menu">
@@ -45,7 +45,7 @@
   <header class="header fixed snap-top-left clear-fix" id="header">
   	   <div class="header-branding pull-left">
   	   	  <ul class="nav navbar-nav">
-  	   	  	  <li><a href="javascript:void(0);" class="btn btn-menu btn-plain nav-btn"><strong>&#9776;</strong></a></li>
+  	   	  	  <li><a href="javascript:void(0);" id="nav-btn" class="btn btn-menu btn-plain nav-btn"><strong>&#9776;</strong></a></li>
   	   	  	  <li><b>Jollof</b></li>
   	   	  </ul>
   	   </div>
@@ -77,7 +77,7 @@
     		<p class="punched-up"><kbd>Jollof</kbd> developers aren't looking for extendablility anymore. they all want a framework with all the needed capabilities built into it and just have to configure these capabilities to suit their needs.</p>
   	    </div>
   </section>
-  <section class="container-fluid">
+  <!--<section class="container-fluid">
       <div class="col-md-7">
           <h3>How to <strike>Install</strike> Begin ? See below</h3>
           <p>
@@ -103,7 +103,7 @@
       </div>
       <div class="col-md-5">
       </div>
-  </section>
+  </section>-->
   <section class="container-fluid">
       <div class="col-md-5">
 
@@ -157,7 +157,7 @@
           <article class="punched-up-small">
               <p>
               Let's now create a simple controller file by running the command below.
-              This command will drop a <i class="text-success">Home.php</i> file inside the <b class="text-success">controller</b> folder.
+              This command will drop a <i class="text-success">Home.php</i> file inside the <b class="text-success">controllers</b> folder.
               </p>
               <p>
                 <kbd>NOTE: the name of the controller file <strong>MUST</strong> be the same as the first part of the route url.</kbd>
@@ -172,7 +172,7 @@
              <p>
                 Move into the <b class="text-success">controllers</b> folder (in the root), open up the <i class="text-success">Home.php</i> file and add the code below into the file (within the <i class="text-primary">index</i> method).
              </p>
-             <pre class="line-numbers">
+             <pre class="">
                 <code class="language-php">
               $words = ['Jollof', 'Make', 'Sense!'];
               $heading = 'About Jollof';

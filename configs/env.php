@@ -7,7 +7,7 @@
     !
     !
     !
-    ! * Jollof (c) Copyright 2016
+    ! * Jollof (c) Copyright 2016 - 2017
     ! *
     ! *
     ! *
@@ -57,13 +57,17 @@
 
             'public' => __DIR__ . '/../public',
 
-            'storage' =>  __DIR__ . '/../storage',
+            'storage' =>  __DIR__ . '/../storage', # chnage the 'storage' folder location
 
-            'packages' => __DIR__ . '/../packages', # change the packages folder
+            'packages' => __DIR__ . '/../packages', # change the 'packages' folder location
 
-            'views' => __DIR__ . '/../views' # change the views folder
+            'views' => __DIR__ . '/../views' # change the 'views' folder location
 
         ),
+
+        /*"app_view" => array(
+
+        ),*/
 
         "app_security" => array(
 
@@ -75,8 +79,12 @@
 
             'cspro' => FALSE, // #options: (FALSE, TRUE, array(...)) ;Content-Security-Policy-Reporting-Only:
 
-            'noncify-inline-source' => FALSE // Generates a nonce value for each <script> and <style> tag code in your views
+            'noncify-inline-source' => FALSE, // #Generates a nonce value for each <script> and <style> tag code in your views
 
+            "cors_origin_whitelist" => array(
+
+                    'https://localhost'
+            )
         ),
 
         "app_cache" => array(
@@ -99,6 +107,26 @@
 
             'extension' => array(
 
+            ),
+
+            'cors' => array(
+                
+                    'credentials_pass' => FALSE,
+                    'max_age' => 86400,
+                    'exposed_headers' => array(
+
+                    ),
+                    /* HTTP methods must be listed in uppercase */
+                    'allowed_methods' => array(
+                        'HEAD'
+                    ),
+                    'allowed_headers' => array(
+                        'X-Requested-With',
+                        'Authorization'
+                    ),
+                    'allowed_origins' => array(
+                        '*' # This can also be set to 'http://localhost'
+                    )
             ),
 
             'guest_routes' => array( # These routes can be accessed only if the user is not logged in (guest).
@@ -126,7 +154,7 @@
 
         "app_uploads" => array(
 
-            'temp_upload_dir'=> NULL,
+            'temp_upload_dir'=> NULL, # change the temporary upload directory path e.g  'public/stuffs' the temporary upload directory path is always relative to the [base] path
 
             'uploads_enabled'=> true, #options: (false, true)
 
@@ -198,6 +226,7 @@
 
         ),
 
+        /* 2D image binarization, 2D image segmentation, 2D face localization */
         "image_processing_enabled" => false #options: (true, false)
 
     );

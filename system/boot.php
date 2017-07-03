@@ -7,7 +7,7 @@
     ! if at least one of the packages/modules is available.
     !
     !
-    ! * Jollof (c) Copyright 2016
+    ! * Jollof (c) Copyright 2016 - 2017
     ! *
     ! *
     ! *
@@ -38,9 +38,9 @@
 
    /*!------------------------------------------------------
     ! 
-    ! Lets' continue by including the Jelloff class loader 
-    ! from its location
-    !
+    ! Lets' continue by including the Jollof class loader 
+    ! from its location to load all component / model /
+    ! controller class files  
     !
     !
     ! *

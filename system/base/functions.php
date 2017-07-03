@@ -1,11 +1,15 @@
 <?php
 
-/*--------------------------------
- * Jollof Framework (c) 2016
+/**
+ * Jollof Framework - (c) 2016 - 2017
  *
  * {functions.php}
  *
- *--------------------------------*/
+ * @author Jollof Community
+ * @license    MIT License
+ * @copyright   Mobicent, Ltd.
+ * @link htps://github.com/isocroft/Jollof
+ */
 
 
 if(!defined('COUNT_RECURSIVE')){
@@ -19,6 +23,7 @@ if(!defined('PHP_VERSION_ID')){
     define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
 
     if(PHP_VERSION_ID < 50207){ // PHP 5.2.7
+
         define('PHP_MAJOR_VERSION', $version[0]);
         define('PHP_MINOR_VERSION', $version[1]);
         define('PHP_RELEASE_VERSION', $version[2]);
@@ -40,10 +45,171 @@ if(! function_exists('char_at') ){
 	}
 }
 
-if(! function_exists('getallheaders')){
-   function getallheaders(){
-       return array();
-   }
+if(!function_exists('apache_request_headers')){
+
+  function apache_request_headers(){
+
+      $headers = array();
+
+      foreach($_SERVER as $name => $value){
+
+        if(substr($name, 0, 5) == 'HTTP_'){
+
+            $name = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))));
+
+            $headers[$name] = $value;
+        }else{
+
+            $headers[$name] = $value; 
+        }
+      }
+
+      return $headers;
+  }
+}
+
+if(! function_exists('get_gravatar_link')){
+
+    function get_gravatar_link($email = '', $default='mm', $size=80, $rating='g'){
+
+      return sprintf("https://www.gravatar.com/avatar.php?gravatar_id=%s&default=%s&size=%srating=%s", md5(strtolower(trim($email))), $default, $size, $rating);
+    }
+}
+
+if(! function_exists('fast_in_array')){
+  /*
+    Perf: roughly 2x faster than native PHP 'in_array' function 
+
+    -- Reason: too many C-based functions in use 
+  */
+  function fast_in_array($needle, $haystack){   
+        $arr = array_flip($haystack);
+        return isset($arr[$needle]);
+  }
+}
+
+if(! function_exists('array_pick')){
+      function array_pick($collection, $index){
+          if(array_key_exists($index, $collection)){
+              return $collection[$index];
+          }
+          return NULL;
+      }
+}
+
+if(! function_exists('ordinal') ){
+    function ordinal($cardinal){
+        $test_c = abs($cardinal) % 10;
+        $ext = ((abs($cardinal) % 100 < 21 && abs($cardinal) % 100 > 4)
+            ? 'th'
+            : (($test_c < 4)
+                ? ($test_c < 3)
+                    ? ($test_c < 2)
+                        ? ($test_c < 1)
+                            ? 'th'
+                            : 'st'
+                        : 'nd'
+                    : 'rd'
+                : 'th'));
+        return $cardinal.$ext;
+    }
+}
+
+
+if(! function_exists('days_in_month') ){ 
+    function days_in_month($month = 0, $year = 0){
+        if ($month < 1 or $month > 12) {
+            return 0;
+        }
+        if (!is_numeric($year) or strlen($year) != 4) {
+            $year = date('Y');
+        }
+        if ($month == 2) {
+            if ($year % 400 == 0 or ($year % 4 == 0 and $year % 100 != 0)) {
+                return 29;
+            }
+        }
+        $days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        return $days_in_month[$month - 1];
+    }
+}
+
+
+if(!function_exists('tiny_url')){
+    function tiny_url($url){
+        if (strpos($url, 'http') !== 0) {
+            $url = urlencode('http://'.$url);
+        }
+        $gettiny = file_get_contents("http://tinyurl.com/api-create.php?url={$url}");
+        if (isset($gettiny) && !empty($gettiny)) {
+            return $gettiny;
+        }
+        return false;
+    }
+    
+}
+
+if(! function_exists('simple_encode')){
+    function simple_encode($string, $passkey = null){
+        $key = $passkey;
+        if (!isset($passkey) || empty($passkey)) {
+            $key = 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
+        }
+        $result = '';
+        for ($i = 0; $i < strlen($string); $i++) {
+            $char = substr($string, $i, 1);
+            $keychar = substr($key, ($i % strlen($key)) - 1, 1);
+            $char = chr(ord($char) + ord($keychar));
+            $result .= $char;
+        }
+        return base64_encode($result);
+    }
+}
+
+if(! function_exists('simple_decode')){
+    function simple_decode($string, $passkey = null){
+        $key = $passkey;
+        if (!isset($passkey) || empty($passkey)) {
+            $key = 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
+        }
+        $result = '';
+        $string = base64_decode($string);
+        for ($i = 0; $i < strlen($string); $i++) {
+            $char = substr($string, $i, 1);
+            $keychar = substr($key, ($i % strlen($key)) - 1, 1);
+            $char = chr(ord($char) - ord($keychar));
+            $result .= $char;
+        }
+        return $result;
+    }
+}
+
+if(!function_exists('getallheaders')){
+
+    function getallheaders(){
+
+        $headers = array();
+
+        foreach($_SERVER as $name => $value){
+
+            if(substr($name, 0, 5) == 'HTTP_'){
+
+                $name = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))));
+
+                $headers[$name] = $value;
+
+            }else if($name == "CONTENT_TYPE"){
+
+                $headers['Content-Type'] = $value;
+      
+            }else if($name == "CONTENT_LENGTH"){
+
+                $headers['Content-Length'] = $value;
+            }
+        }
+
+        return $headers;
+    }
 }
 
 // Fix for overflowing signed 32 bit integers,
@@ -217,6 +383,26 @@ if(! function_exists('url')){
         return $fullroute;
     }
 }
+
+if(!function_exists('build_http_path')){
+    function build_http_path($origin, $basefilename){
+      
+      $root_handler = $_SERVER['PHP_SELF'];
+
+      if(!empty($_SERVER['CONTEXT_PREFIX'])){
+        $origin .= $_SERVER['CONTEXT_PREFIX'];
+
+        $origin .= substr(realpath($basefilename), strlen($_SERVER['CONTEXT_DOCUMENT_ROOT']));
+      }else{
+
+        $origin .= substr(realpath($basefilename), strlen($_SERVER['DOCUMENT_ROOT']));
+      }
+      
+      $origin .= '/';
+    }
+}
+
+# build_http_path(Request::getOrigin(), 'public/assets/js/src/built.js');
 
 if(! function_exists('http_response_code') ){
    function http_response_code($code = NULL){
@@ -431,6 +617,22 @@ if(! function_exists('last_index_of') ){
     }
 }
 
+if(! function_exists('array_mapper')){
+    function array_mapper($callback, $list = array(), $context = NULL){
+        $_list = array();
+        
+        if(!is_callable($callback)){
+            return $_list;
+        }
+
+        foreach($list as $key => $value){
+            $_list[$key] = $callback($value, $key, $context);
+        }
+
+        return $_list;
+    }
+}
+
 if(! function_exists('all_index_of') ){
     function all_index_of($str, $seed){
 
@@ -467,11 +669,13 @@ if(! function_exists('get_os') ){
 
 if(! function_exists('run_command_deamon')){
     function run_command_deamon($command){
+      
       $php_os = get_os();
+      
       if($php_os == 'windows'){
           $command = 'start "" ' . $command;
       }else{
-          $command = $comannd . '/dev/null &';
+          $command = $command . '/dev/null &';
       }
 
       $handle = popen($command, 'r');
@@ -481,6 +685,18 @@ if(! function_exists('run_command_deamon')){
       }else{
           return false;
       }
+    }
+}
+
+if(! function_exists('http_link_header')){
+    function http_link_header($link_file, $link_key, $context){
+
+          $headerPartStyle = '<~~~>; rel=preload; as=style';
+          $headerPartScript = '<~~~>; rel=preload; as=script';
+
+          list(, $file_assets) = explode('../', $link_file);
+
+          return str_replace('~~~', $context.$file_assets, $headerPartStyle);
     }
 }
 
@@ -551,12 +767,20 @@ if(! function_exists('get_file_extension') ){
         $filename = '';
         if(strpos($file_path,'/') > 0){
             $isdir = true;
-	        $filename = basename($args[0]);
+	          $filename = basename($args[0]);
         }else{
             $filename = $file_path;
         }
-        $ext = explode('.',$filename);
+        $ext = explode('.', $filename);
         return $ext[1];
+    }
+}
+
+if(! function_exists('strip_file_extension')){
+    function strip_file_extension($file_name){
+         // $_ext = get_file_extension($file_name);
+         $_ext = '.php';
+         return str_replace($_ext, '', $file_name);
     }
 }
 
@@ -651,12 +875,12 @@ if(! function_exists('update_placeholder')){
         $range = array();
         if(!is_array($value)){
             if(preg_match('/^\+(?:[\d]+)/', $value)){
-                return '$key = $key + ' . str_replace('+', '', $value);
+                return ('$key = $key + ' . str_replace('+', '', $value));
             }
             return "$key = " . $stub;
         }
 
-        if(ignorecase_index_of($value[0], 'between')){
+        if(ignorecase_index_of($value[0], 'between') > -1){
             if(array_key_exists(1, $value)){
                 $range = explode(',', $value[1]);
                 $range = array_fill(0, count($range), $stub);
@@ -689,14 +913,59 @@ if(! function_exists('make_file') ){
 	}
 }
 
-if(! function_exists('make_folder') ){
-    function make_folder($folder, $hide = FALSE){
-	    $val = mkdir($folder);
-		  if($hide === TRUE)
-		     system('attrib +h +s '.$folder); # TODO: this command may not work on linux check again
+if(! function_exists('write_file_chunk')){
+    function write_file_chunk($file_name, $chunk, $replace){
+          $status = false;
 
+        if(!isset($file_name) 
+            || !file_exists($file_name)){
+            return false;
+        }
+
+        if(!isset($chunk)){
+            $chunk = " " . PHP_EOL;
+        }
+    
+        $file = fopen($file_name, "a");
+
+        if (!$file) return $status;
+
+        if (!flock($file, LOCK_EX)) {
+            return $status;
+        }
+
+        if(!$replace){
+            $status = fwrite($file, $chunk);
+            fclose($file);
+        }else{
+            $status = file_put_contents($file_name, $chunk, LOCK_EX);
+        }    
+    
+        return $status;
+    }
+}
+
+if(! function_exists('make_folder') ){
+    function make_folder($folder, $hide = FALSE, $mode, $depth){
+	    $val = @mkdir($folder, $mode, $depth);
+      $cmd = "";
+		  if($hide === TRUE){
+         if(get_os() == 'windows'){
+            $cmd = "attrib +h +s {$folder}";
+		     }else if(get_os() == 'linux'){
+            $cmd = "mv {$folder} .{$folder}";
+         }
+         system($cmd);
+      }
 		  return $val;
 	}
+}
+
+if(! function_exists('del_folder') ){
+    function del_folder($folder){
+        $val = @rmdir($folder);
+        return $val;
+    }
 }
 
 if(! function_exists('delete_text_from_file') ){
@@ -712,6 +981,39 @@ if(! function_exists('delete_text_from_file') ){
            return FALSE;
     }
 }
+
+/*
+  @from: https://stackoverflow.com/questions/17160696/php-glob-scan-in-subfolders-for-a-file
+*/
+if(! function_exists('rglob')){
+  function rglob($pattern, $flags = 0) {
+      $files = glob($pattern, $flags); 
+      foreach (glob(dirname($pattern).'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir) {
+          $files = array_merge($files, rglob($dir.'/'.basename($pattern), $flags));
+      }
+      return $files;
+  }
+}
+
+/*
+  @from: https://stackoverflow.com/questions/17160696/php-glob-scan-in-subfolders-for-a-file
+*/
+if(! function_exists('rsearch')){
+    function rsearch($folder, $pattern_array) {
+        $return = array();
+        $dir = new RecursiveDirectoryIterator($folder);
+        $ite = new RecursiveIteratorIterator($dir);
+        //$files = new RegexIterator($ite, $pattern, RegexIterator::GET_MATCH);
+        foreach($ite as $file){ # foreach($files as $file){
+            if (in_array(strtolower(array_pop(explode('.', $file))), $pattern_array)){
+                $return[] = $file;
+            }
+        }
+        return $return;
+    }
+}
+
+# rsearch('/public/', array('jpeg', 'png'));
 
 if(! function_exists('make_seed') ){
     function make_seed(){

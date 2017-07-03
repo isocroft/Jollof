@@ -43,7 +43,12 @@
       		"auth0/auth0-php":"Optionally required to use the [Auth] authentication/authorization functionality (~4.0)",
       		"mailgun/mailgun-php":"Optionally required to use the [Comms] components' mailing functionality (~2.1)",
       		"phpmailer/phpmailer":"Optionally required to use the [Comms] components' mailing functionality (~5.2)",
-      		"bugsnag/bugsnag":"Optionally required to use the Jollof Error Reporter (~3.4)"
+      		"bugsnag/bugsnag":"Optionally required to use the Jollof Error Reporter (~3.4)",
+          "guzzle/guzzle":"", 
+          "isocroft/beamzer": "Required to use the [TextStream] components' streams functionality (~0.3).",
+          "league/flysystem-aws-s3-v2": "Required to use the Flysystem S3 driver (~1.0).",
+          "league/flysystem-rackspace": "Required to use the Flysystem Rackspace driver (~1.0).",
+          "pda/pheanstalk": "Required to use the beanstalk queue driver (~3.0)."
       	},
         "minimum-stability": "stable"
 }

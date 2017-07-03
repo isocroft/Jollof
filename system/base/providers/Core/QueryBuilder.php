@@ -8,6 +8,7 @@
  *
  */
 
+use \Cache;
 use \Contracts\Policies\QueryProvider as QueryProvider;
 
 namespace Providers\Core;
@@ -32,6 +33,12 @@ class QueryBuilder {
 
     protected $schemaAttribs;
 
+    /** 
+     * @var Cache -
+     */
+
+    private $queriesAndResultsCache;
+
     /**
 	 * Constructor
 	 *
@@ -44,6 +51,20 @@ class QueryBuilder {
 	public function __construct(QueryProvider $provider){
 
        		$this->provider = $provider;
+	}
+
+	/**
+	 * Setting up builder for Model
+	 *
+	 *
+	 *
+	 *
+	 * @return void
+	 */
+
+	public function setQueryAndResultCache(Cache $cache){
+
+		$this->queriesAndResultsCache = $cache;
 	}
 
 	/**
@@ -139,7 +160,8 @@ class QueryBuilder {
 
 	public function createEntity(array $schema){
 
-		;
+		/* @TODO: */
+		return array();
 	}
 
 

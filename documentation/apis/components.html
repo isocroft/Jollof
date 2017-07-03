@@ -44,11 +44,11 @@
   <header class="header fixed snap-top-left clear-fix" id="header">
   	   <div class="header-branding pull-left">
   	   	  <ul class="nav navbar-nav">
-  	   	  	  <li><a href="javascript:void(0);" class="btn btn-menu btn-plain nav-btn"><strong>&#9776;</strong></a></li>
+  	   	  	  <li><a href="javascript:void(0);" id="nav-btn" class="btn btn-menu btn-plain nav-btn"><strong>&#9776;</strong></a></li>
   	   	  	  <li><b>Jollof</b></li>
   	   	  </ul>
   	   </div>
-       <div class="header-extra pull-right"><a href="javascript:void(0);" class="btn btn-primary">GO TO APP</a></div>
+       <div class="header-extra pull-right"><a href="javascript:void(0);" id="load-app" class="btn btn-primary">GO TO APP</a></div>
   </header>
   <section class="section content relative">
      <div class="content-wrapper">
@@ -92,6 +92,62 @@
                                     </pre>
      	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
+                         <article class="contnet-code">
+                                 <span class="block-box">
+                                     <b class="line-block-box content-desc-line">::getAuth( void );</b>
+                                     <small class="line-block-box content-desc-line">This will retrieve the current HTTP request <kbd>Basic</kbd> OR <kbd>Digest</kbd> authorization credentials</small>
+                                 </span> 
+                                 <span class="block-box content-code-line">
+                                     <var class="line-block-box content-example-line">Example Usage:</var>
+                                     <pre>   
+     <code class="language-php">
+        $authString = Request::getAuth();
+     </code>  
+                                    </pre>
+                                 </span>
+                         </article>
+                         <article class="contnet-code">
+                                 <span class="block-box">
+                                     <b class="line-block-box content-desc-line">::getOrigin( [bool] );</b>
+                                     <small class="line-block-box content-desc-line">This will retrieve the current HTTP request origin</small>
+                                 </span> 
+                                 <span class="block-box content-code-line">
+                                     <var class="line-block-box content-example-line">Example Usage:</var>
+                                     <pre>   
+     <code class="language-php">
+        $endpoint = Request::getOrigin();
+     </code>  
+                                    </pre>
+                                 </span>
+                         </article>
+                         <article class="contnet-code">
+                                 <span class="block-box">
+                                     <b class="line-block-box content-desc-line">::getPort( void );</b>
+                                     <small class="line-block-box content-desc-line">This will retrieve the current server port number</small>
+                                 </span> 
+                                 <span class="block-box content-code-line">
+                                     <var class="line-block-box content-example-line">Example Usage:</var>
+                                     <pre>   
+     <code class="language-php">
+        $port = Request::getPort();
+     </code>  
+                                    </pre>
+                                 </span>
+                         </article>
+                         <article class="contnet-code">
+                                 <span class="block-box">
+                                     <b class="line-block-box content-desc-line">::getProtocol( void );</b>
+                                     <small class="line-block-box content-desc-line">This will retrieve the current server scheme/protocol</small>
+                                 </span> 
+                                 <span class="block-box content-code-line">
+                                     <var class="line-block-box content-example-line">Example Usage:</var>
+                                     <pre>   
+     <code class="language-php">
+        $scheme = Request::getProtocol();
+     </code>  
+                                    </pre>
+                                 </span>
+                         </article>
      	 	 	 	 	  <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::getCookie( string );</b>
@@ -150,7 +206,7 @@
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
-     	 	 	 	 	             <b class="line-block-box content-desc-line">::upload( string [, &amp;array] );</b>
+     	 	 	 	 	             <b class="line-block-box content-desc-line">::upload( string [, &amp;array ] );</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will upload client files to the destination server as setup in the <a href="../getting-started/setting-up-configs.html" class="link">config</a> section for application uploads</small>
      	 	 	 	 	         </span> 
      	 	 	 	 	 	     <span class="block-box content-code-line">
@@ -177,21 +233,64 @@
                                      </pre>
      	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
+                         <article class="contnet-code">
+                                 <span class="block-box">
+                                     <b class="line-block-box content-desc-line">::isPjax( void );</b>
+                                     <small class="line-block-box content-desc-line">This will check if/whether an HTTP request is a pushState asynchronous (AJAX) one</small>
+                                 </span> 
+                                 <span class="block-box content-code-line">
+                                     <var class="line-block-box content-example-line">Example Usage:</var>
+                                     <pre>  
+                 <code class="language-php">
+                     $pJax = Request::isPjax();
+                 </code>    
+                                     </pre>
+                                 </span>
+                         </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::input( void );</b>
-     	 	 	 	 	             <small class="line-block-box content-desc-line">This will retrieve all GET, POST, PUT, DELETE, PATCH inputs to the request. The input methods serves to collect both files and fields</small>
+                                     <small class="line-block-box content-desc-line">This will retrieve all GET, POST, PUT, DELETE, PATCH inputs to the request. The input methods serves to collect both files and fields</small>
      	 	 	 	 	         </span> 
+                                 <span class="block-box">
+                                    <em>status: <strong>DEPRECATED</strong></em>
+                                 </span>
      	 	 	 	 	 	     <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre> 
-     <code class="language-php">  
-      $files = Request::input()->getFiles(); 
-      $fields = Request::input()->getFields();
+     <code class="language-php">
+      /* get the request body (object) */
+      $body = Request::input();
+
+      /* 
+            get all files attached to the request 
+            - POST/PUT requests 
+       */
+      $files = $body->getFiles(); 
+
+      /* 
+            get all fields attached to the request
+            - GET/POST/PUT/PATCH 
+       */
+      $fields = $body->getFields();
      </code>
                                      </pre>
      	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
+                         <article class="contnet-code">
+                                 <span class="block-box">
+                                     <b class="line-block-box content-desc-line">::getDeviceType( void );</b>
+                                     <small class="line-block-box content-desc-line">This will reveal the type of the device which the request originated from</small>
+                                 </span> 
+                                 <span class="block-box content-code-line">
+                                     <var class="line-block-box content-example-line">Example Usage:</var>
+                                     <pre> 
+     <code class="language-php">  
+        $device = Request::getDeviceType();
+     </code>
+                                     </pre>
+                                 </span>
+                         </article>
      	 	 	 	 </main>
      	 	 	 </section>
              </li>
@@ -208,19 +307,47 @@
      	 	 	 	 <main class="contnet-code-list">
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
-     	 	 	 	 	             <b class="line-block-box content-desc-line">::json( string );</b>
-     	 	 	 	 	             <small class="line-block-box content-desc-line">This will send JSON data back to the client</small>
+     	 	 	 	 	             <b class="line-block-box content-desc-line">::json( array, integer );</b>
+     	 	 	 	 	             <small class="line-block-box content-desc-line">This will send JSON data back to the client.The second <q><i>integer</i></q> type argument is <samp class="bg-primary">optional</samp></small>
      	 	 	 	 	         </span>  
      	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre> 
      <code class="language-php">
-       $json = json_encode(array('status' => 'ok'));
-       Response::json($json);
+        /* Return an unauthorized status (401) with JSON data */
+       Response::json(array('status' => 'not-ok'), 401);
      </code>
                                     </pre>
      	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
+                         <article class="contnet-code">
+                                <span class="block-box">
+                                     <b class="line-block-box content-desc-line">::status( integer );</b>
+                                     <small class="line-block-box content-desc-line">This will send the set HTTP status back to the client</small>
+                                 </span>  
+                                 <span class="block-box content-code-line">
+                                     <var class="line-block-box content-example-line">Example Usage:</var>
+                                     <pre> 
+     <code class="language-php">
+       Response::status(401);
+     </code>
+                                    </pre>
+                                 </span>
+                         </article>
+                         <article class="contnet-code">
+                                 <span class="block-box">
+                                     <b class="line-block-box content-desc-line">::redirectBack( void );</b> 
+                                     <small class="line-block-box content-desc-line">This will instruct the client to redirect to the previous route (the previous route is tracked using the session)</small>
+                                 </span> 
+                                 <span class="block-box content-code-line">
+                                     <var class="line-block-box content-example-line">Example Usage:</var>
+                                     <pre> 
+     <code class="language-php">  
+        Response::redirectBack();
+     </code>
+                                     </pre>
+                                 </span>
+                         </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::text( string );</b>
@@ -245,8 +372,24 @@
                                      <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre> 
      <code class="language-php"> 
-     $viewFile = 'app/dashboard'; 
-        Response::view($viewFile, array('id'=>12345678));
+        /* path to a HTML view */
+        $viewHTMLPath = 'app/dashboard'; 
+        Response::view($viewHTMLPath, array('id' => 12345678));
+        
+        /* path to an XML view - Twillio TwiML */
+        $viewXMLPath = 'twillio/callxml';
+        Response::view(
+                $viewXMLPath, 
+                array('calltext' => 'Hello, How are you?'), 
+                array('asXML' => TRUE)
+        );
+
+        /* Setting up HTTP/2 Server-Push for CSS files */
+        Response::view(
+                $viewHTMLPath,
+                array('posts' => array()),
+                array('serverPush' => '.css')
+        );
      </code>
                                      </pre>
      	 	 	 	 	 	     </span>
@@ -281,6 +424,24 @@
                                      </pre>
      	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
+                         <article class="contnet-code">
+                                 <span class="block-box">
+                                     <b class="line-block-box content-desc-line">::isEmpty( void );</b>
+                                     <small class="line-block-box content-desc-line">This will report whether or not the response has an entity body.</small>
+                                 </span> 
+                                 <span class="block-box content-code-line">
+                                     <var class="line-block-box content-example-line">Example Usage:</var>
+                                     <pre> 
+     <code class="language-php">  
+        /* 
+            GET responses are usually not empty 
+            - i.e. GET responses always have an entity body 
+        */
+        $isGETResponse = !Response::isEmpty();
+     </code>   
+                                     </pre>
+                                 </span>
+                         </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::setCookie( string, mixed );</b>
@@ -313,14 +474,14 @@
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	 	     <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::redirect( string );</b>
-     	 	 	 	 	             <small class="line-block-box content-desc-line">This will display the prompt window on the client for a file download</small>
+     	 	 	 	 	             <small class="line-block-box content-desc-line">This will redirect the client to the route path passed in as first argument</small>
      	 	 	 	 	         </span> 
      	 	 	 	 	 	     <span class="block-box content-code-line">
                                      <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre> 
      <code class="language-php">  
-        $path = '/campaigns/tv'; 
-        Response::redirect($path);
+        $route = '/campaigns/tv'; 
+        Response::redirect($route);
      </code>
                                      </pre>
      	 	 	 	 	 	     </span>
@@ -545,8 +706,8 @@
      	 	 	 	 <main class="contnet-code-list">
      	 	 	 	     <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
-     	 	 	 	 	             <b class="line-block-box content-desc-line">::readChunk( string [, array ] );</b>
-     	 	 	 	 	             <small class="line-block-box content-desc-line">This will read the contents of the given file. The second <q><i>array</i></q> type argument is <samp class="bg-primary">optional</samp>. In the example below, the second <q><i>array</i></q> argument is given a value. This value is an array that sets up some HTTP options. Whenever you read files off the hard disk, it is better to use the <samp class="bg-warning">::read( ... );</samp>  method instead.</small>
+     	 	 	 	 	             <b class="line-block-box content-desc-line">::readStream( string [, array ] );</b>
+     	 	 	 	 	             <small class="line-block-box content-desc-line">This will read the contents of the given file as a stream. The second <q><i>array</i></q> type argument is <samp class="bg-primary">optional</samp>. In the example below, the second <q><i>array</i></q> argument is given a value. This value is an array that sets up some HTTP options. Whenever you read files off the hard disk, it is better to use the <samp class="bg-warning">::read( ... );</samp>  method instead.</small>
      	 	 	 	 	         </span>  
      	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
@@ -561,21 +722,35 @@
         );
 
         // Start the web scrapper by reading the JUMIA home page. 
-        $html = File::readChunk("http://www.jumia.com.ng/", $options);
+        $html = File::readStream("http://www.jumia.com.ng/", $options);
     </code>    
                                     </pre>
      	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
+                         <article class="contnet-code">
+                                <span class="block-box">
+                                     <b class="line-block-box content-desc-line">::readChunk( string [, integer] );</b>
+                                     <small class="line-block-box content-desc-line">This will read out a file in chunks when given an offset as the second argument.The second argument is <samp class="bg-primary">optional</samp></small>
+                                 </span>  
+                                 <span class="block-box content-code-line">
+                                     <var class="line-block-box content-example-line">Example Usage:</var>
+                                     <pre> 
+     <code class="language-php">  
+        $chunk = File::readChunk("readme.txt", 8);
+     </code>   
+                                     </pre>
+                                 </span>
+                         </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
-     	 	 	 	 	             <b class="line-block-box content-desc-line">::writeChunk( string , string );</b>
-     	 	 	 	 	             <small class="line-block-box content-desc-line">This will write the contents of the given file. The second <q><i>string</i></q> type argument serves for the content.</small>
+     	 	 	 	 	             <b class="line-block-box content-desc-line">::writeChunk( string , string [, integer [, bool]] );</b>
+     	 	 	 	 	             <small class="line-block-box content-desc-line">This will write the contents of the given file. The second <q><i>string</i></q> type argument serves for the chunked content. The third and fourth arguments are <samp class="bg-primary">optional</samp></small>
      	 	 	 	 	         </span>  
      	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre> 
      <code class="language-php">  
-        $written = File::writeChunk(realpath("readme.txt"), "New Text Content");
+        $bytesWritten = File::writeChunk(realpath("readme.txt"), "New Text Content");
      </code>
                                     </pre>
      	 	 	 	 	 	     </span>
@@ -594,6 +769,20 @@
                                      </pre>
      	 	 	 	 	 	     </span>
      	 	 	 	 	 </article>
+                         <article class="contnet-code">
+                                <span class="block-box">
+                                     <b class="line-block-box content-desc-line">::grepFiles( string );</b>
+                                     <small class="line-block-box content-desc-line">This will find all file names that match the pattern given as the first argument.</small>
+                                 </span>  
+                                 <span class="block-box content-code-line">
+                                     <var class="line-block-box content-example-line">Example Usage:</var>
+                                     <pre> 
+     <code class="language-php">  
+        $allFilesNames = File::grepFiles("*.txt");
+     </code>   
+                                     </pre>
+                                 </span>
+                         </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
      	 	 	 	 	             <b class="line-block-box content-desc-line">::deleteFile( string );</b>
@@ -624,14 +813,14 @@
      	 	 	 	 	 </article>
      	 	 	 	 	 <article class="contnet-code">
      	 	 	 	 	        <span class="block-box">
-     	 	 	 	 	             <b class="line-block-box content-desc-line">::read( string );</b>
+     	 	 	 	 	             <b class="line-block-box content-desc-line">::read( string [, bool]);</b>
      	 	 	 	 	             <small class="line-block-box content-desc-line">This will create a folder with the given file name and file extension. The second <q><i>bool</i></q> type argument is <samp class="bg-primary">optional</samp>. When supplied as TRUE, it will hide the folder.</small>
      	 	 	 	 	         </span>  
      	 	 	 	 	 	     <span class="block-box content-code-line">
      	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
      	 	 	 	 	 	     	 <pre>  
      <code class="language-php">
-      $content = File::read("readme.txt");
+       $content = File::read("readme.txt");
      </code>
                                     </pre>
      	 	 	 	 	 	     </span>

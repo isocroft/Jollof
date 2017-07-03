@@ -9,27 +9,51 @@
 
 final class Router {
 
-     /*
+     /**
       * @var Router
       */
 
      private static $instance = NULL;
 
-     /*
-      * @var array
+     /**
+      * @var array - dictionary for mapping out all routes of the application 
       */
 
      protected $routesTable;
 
+     /**
+      * @var Request - request component object
+      */
+
      protected $request;
+
+     /**
+      * @var Response - response component object
+      */
 
      protected $response;
 
+     /**
+      * @var array - stores all paramters passed into route URL on client
+      */
+
      protected $routeParameters;
+
+     /**
+      * @var string -
+      */
 
      protected $currentRouteUrl;
 
+     /**
+      * @var bool -
+      */
+
      protected $hasOverrideMethod;
+
+     /**
+      * @var string -
+      */
 
      protected $overrideMethod;
 
@@ -56,6 +80,14 @@ final class Router {
            $this->hasOverrideMethod = FALSE;
 
            $this->overrideMethod = 'get';
+
+           $this->response->setCacheValidators(
+                    array(
+                        'etag',
+                        'max-age',
+                        'last_modified'
+                    )
+           );
 
      }
 
@@ -94,6 +126,11 @@ final class Router {
      	   $this->routeParameters[$param_name] = $param_value;
      }
 
+     public function getUri(){
+
+          return $this->request->url();
+     }
+
      public function getCurrentRouteParameters(){
 
           return $this->routeParameters;
@@ -122,7 +159,7 @@ final class Router {
             return $this->overrideMethod;
         }
 
-        return strtolower(Request::method());
+        return strtolower($this->request->getMethod());
      }
 
      private function purgeParameters(){
@@ -171,9 +208,9 @@ final class Router {
             return \Response::file($uri);
      }
 
-     public function findRoute($uri){
+     public function findRoute(){
 
-         $routeUrlParts = explode('/', preg_replace('/^\/|\/$/', '', $uri));
+         $routeUrlParts = explode('/', preg_replace('/^\/|\/$/', '', $this->getUri()));
 
          $routes = array_keys($this->routesTable);
 
@@ -181,15 +218,16 @@ final class Router {
 	     	 	 $routeParts = explode('/',  preg_replace('/^\/|\/$/', '', $route));
 	     	 	 $checks = array();
 	     	 	 $len = count($routeUrlParts);
-                 $index = -1;
+           $index = -1;
 
 	     	 	 for($i = 0; $i < $len; $i++){
                          $hasKey = array_key_exists($i, $routeParts);
 
                          if($hasKey){
-				 $index = index_of($routeParts[$i], '@');
+				                      $index = index_of($routeParts[$i], '@');
                          }
-	     	 	 	     // validation:
+	     	 	 	             
+                         // validation:
                          if($index === 0 && $i === 0){ // No route parameter should be at the beginning of a route url
                              throw new \Exception("Invalid Route URL >> [" . $route . "] ");
                          }
@@ -198,7 +236,7 @@ final class Router {
                              throw new \Exception("Invalid Route URL >> [" . $route . "] ");
                          }
 
-			    $urlPart = $routeUrlParts[$i];
+			                   $urlPart = $routeUrlParts[$i];
 
                          // detect a route parameter
                          if($index > -1){
@@ -207,38 +245,50 @@ final class Router {
     		     	 	 	        if(($i === ($len - 1)) // The parameter must be the last thing about defined route
                                  && (count($criteria) === ($len - $i))){
                                   $this->setCurrentRouteParameter(substr($routeParts[$i], ($index+1)), $urlPart);
-    			     	 	 	  array_splice($routeParts, $i, 1);
-    			     	 	 	  continue;
-    			     	 	 }
+    			     	 	 	               array_splice($routeParts, $i, 1);
+    			     	 	 	               continue;
+    			     	 	         }
                          }else{ // detect a route part
 
                              // match up each segment of the route url
-			     	 	     if($hasKey && $urlPart === $routeParts[$i]){
-                                 			$checks[] = TRUE;
-			     	 	     }
-			     	 	 }
+          			     	 	     if($hasKey && $urlPart === $routeParts[$i]){
+                               			$checks[] = TRUE;
+          			     	 	     }
+			     	 	           }
 		     	 }
+
 		     	 if(count($checks) === count($routeParts)){
-		     	 	  $this->currentRouteUrl = $route;
-                      return TRUE;
+		     	 	    $this->currentRouteUrl = $route;
+                return TRUE;
 		     	 }
      	 }
 
      	 return FALSE;
      }
 
-     public function getRouteSettings($requestMethod, System $instance, Auth $auth){
+     public function getRouteSettings($requestMethod, System $system, Auth $auth){
 
          $models = array();
          $settingsList = NULL;
 
+         $modelsPath = $GLOBALS['env']['app.path.base'] . 'models';
+         $modelClasses = array_map(
+                                'strip_file_extension',
+                                array_values(
+                                      array_diff(
+                                            scandir($modelsPath), 
+                                            array('.', '..')
+                                      )
+                                )
+                        );
+
          $this->purgeParameters();
 
          if(array_key_exists($this->currentRouteUrl, $this->routesTable)){
-     	     $settingsList = $this->routesTable[$this->currentRouteUrl];
-     	 }else{
-     	     $settingsList = array(array('verb'=>'', 'params'=>array(), 'models'=>array()));
-     	 }
+     	        $settingsList = $this->routesTable[$this->currentRouteUrl];
+       	 }else{
+       	      $settingsList = array(array('verb'=>'', 'params'=>array(), 'inject'=>array()));
+       	 }
 
          $sLen = count($settingsList);
 
@@ -258,22 +308,22 @@ final class Router {
                  $settings['params'] = array();
              }
 
-             if(!array_key_exists('models', $settings)){
-                 $settings['models'] = array();
+             if(!array_key_exists('inject', $settings)){
+                 $settings['inject'] = array();
              }
 
              if($settings['ajax'] === -1){
                  unset($settings['ajax']); // AJAX doesn't matter
              }else{
                  if(gettype($settings['ajax']) === "boolean"){ // AJAX matters
-                     if(\Request::isAjax() !== $settings['ajax']){
+                     if($this->request->ajaxRequest() !== $settings['ajax']){
 
                          throw new \Exception("Error Processing Request on Route >> ['" . $this->currentRouteUrl . "'] Route Access Must Be AJAX");
                      }
                  }
              }
 
-	if(strtolower($settings['verb']) !== $requestMethod){
+	           if(strtolower($settings['verb']) !== $requestMethod){
                  if($i !== ($sLen - 1)){
                     // this route may not be the one we are looking for... so keep checking
                     continue;
@@ -283,28 +333,29 @@ final class Router {
                  }
          	 }
 
-             if(!$instance->executeAllMiddlewares($this->currentRouteUrl, $auth)){
-                 throw new \Exception("System Middleware(s) ['" . (implode(', ', $instance->getFaultedMiddlewares())) . "'] have truncated Request on Route >> ['" . $this->currentRouteUrl . "'] ");
+             if(!$system->executeAllMiddlewares($this->currentRouteUrl, $auth)){
+                 throw new \Exception("System Middleware(s) ['" . (implode(', ', $system->getFaultedMiddlewares())) . "'] have truncated Request on Route >> ['" . $this->currentRouteUrl . "'] ");
              }
 
          	 // validate parameters
          	 foreach ($settings['params'] as $param_name => $regex){
                  $param_key_found = array_key_exists($param_name, $this->routeParameters);
                  $param_value = ($param_key_found)? $this->routeParameters[$param_name] : '';
-         	 	 if(!preg_match($regex, $param_value)){
-                      throw new \Exception("Invalid Parameter For Current Route >> ['". $this->currentRouteUrl . "'] ");
-         	 	 }
+             	 	 
+                 if(!preg_match($regex, $param_value)){
+                          throw new \Exception("Invalid Parameter For Current Route >> ['". $this->currentRouteUrl . "'] ");
+             	 	 }
          	 }
 
-         	 // build out models and return models array
-         	 foreach ($settings['models'] as $modelClass) {
-    	            if(class_exists($modelClass)){
-    	     	 	          $models[$modelClass] = new $modelClass();
-    	            }else{
-                        $models[$modelClass] = NULL;
-    	            }
-         	 }
+         	 
          }
+
+         // build out all models and return models array
+           foreach ($modelClasses as $modelClass){
+                  if(class_exists($modelClass) && $modelClass != 'Model'){
+                        $models[$modelClass] = new $modelClass();
+                  }
+           }
 
          return $models;
      }

@@ -181,6 +181,8 @@ https://www.exapmle.com/webhook/git-payload/{gitaccountname}/{gitprojectname}
 
 Save all changes to the GitHub **Settings** tab and you are good to go.
 
+
+
 ### Example 4 - Creating a user
 
 Using the route **[/account/signup/@mode/]** which has already been setup in the routes *[setip.php]* file and also the  _todo-app.sql_ file in the root, follow the steps below:
@@ -300,7 +302,7 @@ Using the route **[/account/signup/@mode/]** which has already been setup in the
 
 - Finally, serve the register view in the browser as before using '/account/register'
 
-### Example 5 - Data source read and writes
+### Example 5 - Data source read(s) and write(s)
 
 Using the _admin/index_ view in the **views** folder, open it up in a text editor or IDE and edit as below:
 
@@ -532,17 +534,18 @@ Then, open up the _Tasks_ controller from the **controllers** folder and edit th
         $user = Auth::user();
         
         $resultset = TodoList::fetchWith(Todo::class, array(
-                                                    'user_id' => array('=', $user['id']), 
-                                                    'project_id' => array('=', '45a2cd23f08bbd6477d2ff89715cba32de')
-                                            )
-                     );
+                            'user_id' => array('=', $user['id']), 
+                            'project_id' => array('=', '45a2cd23f08bbd6477d2ff89715cba32de')
+                        )
+        );
 
         return Response::json(array(
                             'status' => 'ok', 
                             'result' = array(
                                 'todos' => $resultset
                             )
-                )); 
+                )
+        ); 
     }
 
     public function create($models){
@@ -563,11 +566,14 @@ Then, open up the _Tasks_ controller from the **controllers** folder and edit th
          }
 
          $project = Project::whereBy(array(
-                                    'name' => array('=', 'personal'),
+                                    'name' => array(
+                                                    '=', 
+                                                    'personal'
+                                            ),
                                      array('id', 'mode')
                     );
 
-         $list = array();
+         $list = NULL;
 
          switch($type){
             case "list": /* for route -> 'tasks/create/list' */
@@ -590,9 +596,9 @@ Afterwards, open up the _setup.php_ file in the **routes** folder (at the bottom
 
 ```php
 
-    Router::bind('/tasks', array('models' => array('TodoList', 'Todo'), 'params' => array()));
+    Router::bind('/tasks', array('inject' => array(), 'params' => array()));
 
-    Router::bind('/tasks/create/@type', array('models' => array('Project', 'TodoList'), 'params' => array('type' => '/^list$/'), 'verb' => 'post'));
+    Router::bind('/tasks/create/@type', array('inject' => array(), 'params' => array('type' => '/^list$/'), 'verb' => 'post'));
 
 ```
 
@@ -640,7 +646,44 @@ Fianlly, move in the **configs** folder (in the root), scroll down the _env.php_
 
          $wheres = array_pluck($resultset, 'project_id', 'id');
 
-         $resultset = Project::whereByOr(array_flatten($wheres), array('id', name'));
+         $resultset = Project::whereByOr(array_flatten($wheres), array('id', 'name'));
 
+```
+
+### Example 6 - Setting up CORS (Cross Origin Resource Sharing)
+
+Move into the **configs** folder (in the root), open up the _env.php_ file and edit the settings under **app_auth** config section (array) to what you have below.
+
+>This is just an example setup for CORS. 
+                
+```php
+
+        .
+        .
+        .
+        .
+        .
+
+        'cors' => array(
+                
+                    'credentials_pass' => TRUE, // enable recieving cookies from CORS request
+                    'max_age' => 86400,
+                    'exposed_headers' => array(
+                        'Set-Cookie' // exposing the set-cookie header from CORS response
+                    ),
+                    /* HTTP methods must be listed in uppercase */
+                    'allowed_methods' => array(
+                        'GET',
+                        'PUT',
+                        'DELETE'
+                    ),
+                    'allowed_headers' => array(
+                         'X-Document-Hash' // custom header to allow from CORS request
+                    ),
+                    'allowed_origins' => array(
+                        'https://myapp.example.com' // allow CORS request from this origin
+                    )
+        )
+            
 ```
 

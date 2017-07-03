@@ -63,7 +63,7 @@ class TemplateRunner {
         if(array_key_exists('script', $this->viewNonces)
             || array_key_exists('style', $this->viewNonces)){
 
-            $view__string = preg_replace(array('/<(script|style)[ ]*([\w\S\s]|[^>]*)>([\w\S\s]|[^<]+)<\/\1>/'), array('<${1} ${2} nonce="<?php echo $_nce[\'${1}\'] ?>">${3}</${1}>'), $view__string);
+            $view__string = preg_replace(array('/<(script|style)[ ]*([\w\S\s]|[^>]*)>([\w\S\s]|[^<]+)<\/\1>/im'), array('<${1} ${2} nonce="<?php echo $_nce[\'${1}\']; ?>">${3}</${1}>'), $view__string);
         }
 
         $templateFileIncludeToken = '/\[!import\((.*?)\);?\]/i';
@@ -140,8 +140,11 @@ class TemplateRunner {
 
 	private function draw($__file, $__name, array $vars){
 
-	     // variables created by 'extract()' are not visible in outer or global scope
-         // so this is a safe operation within this function method (__FUNCTION__)
+	     /*
+             variables created by 'extract()' are not visible in outer or global scope
+             so this is a safe operation within this function method (__FUNCTION__)
+
+         */
 
         $vars['_nce'] = $this->viewNonces;
 
@@ -173,11 +176,35 @@ class TemplateRunner {
 
  	   }       
 
-        $___drawn =  ob_get_contents();
-		
-	ob_end_clean();
+       /* 
+            remove whitespace chars and other optional chars from html output - minification 
+            
+        */
+       /*
+         This also exculdes IE conditional comments (if any) - all other comments are removed
 
-        return $___drawn;
+        */
+
+        $___drawn =  preg_replace(
+                    array(
+                                '/\>[^\S ]+/s', 
+                                '/[^\S ]+\</s', 
+                                '/(\s)+/s',
+                                '/\>(\s)+(?=\<)/im',
+                                '/\<!--(?:\s*?)[^[>]([^<]*?)-->/im'
+                    ), 
+                    array(
+                                '>', 
+                                '<', 
+                                '\\1',
+                                '>',
+                                ''
+                     ), ob_get_contents()
+        );
+		
+	   ob_end_clean();
+
+       return $___drawn;
 
 	}
 

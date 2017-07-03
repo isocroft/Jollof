@@ -7,6 +7,8 @@ $real_url_endings = array(
 	'jpeg',
 	'js',
 	'zip',
+	'mp4',
+	'mp3',
 	'css',
 	'json',
 	'xml',

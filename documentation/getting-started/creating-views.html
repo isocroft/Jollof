@@ -4,6 +4,7 @@
  <title>Creating Views - Jollof</title>
  <meta charset="utf-8">
  <link rel="stylesheet" type="text/css" href="../bootstrap.css">
+ <link rel="stylesheet" type="text/css" href="../prism.css">
  <link rel="stylesheet" type="text/css" href="../documentation.css">
  <!-- <link rel="stylesheet" type="text/css" href="../mobile.css"> -->
 
@@ -44,7 +45,7 @@
   <header class="header fixed snap-top-left clear-fix"  id="header">
   	   <div class="header-branding pull-left">
   	   	  <ul class="nav navbar-nav">
-  	   	  	  <li><a href="javascript:void(0);" class="btn btn-menu btn-plain nav-btn"><strong>&#9776;</strong></a></li>
+  	   	  	  <li><a href="javascript:void(0);" id="nav-btn" class="btn btn-menu btn-plain nav-btn"><strong>&#9776;</strong></a></li>
   	   	  	  <li><b>Jollof</b></li>
   	   	  </ul>
   	   </div>
@@ -93,25 +94,34 @@
                       <span class="block-box">
                            <b class="line-block-box content-desc-line">[loop: &lt;array&gt; ]</b>
                        </span>
-                     <code class="block-box content-code-line">
+                      <span class="block-box content-code-line">
                          <var class="line-block-box content-example-line">Example Usage:</var>
-                       <pre>   [loop:@posts]
-          &lt;a href="[!url(/postings/=@branch)]" id="[@posts_index]"&gt; [@posts_value] &lt;/a&gt;
-   [/loop]</pre>
-                     </code>
+           <pre class="">
+           <code class="language-markup">
+[loop:@posts]
+      &lt;a href="[!url(/postings/=@branch)]" id="[@posts_index]"&gt; [@posts_value] &lt;/a&gt;
+[/loop]
+           </code>
+           </pre>
+                     </span>
                </article>
                <article class="contnet-code">
                       <span class="block-box">
                            <b class="line-block-box content-desc-line">[if: &lt;array|string|integer&gt; ]</b>
                        </span>
-                     <code class="block-box content-code-line">
+
+                     <span class="block-box content-code-line">
                          <var class="line-block-box content-example-line">Example Usage:</var>
-                       <pre>   [if:@alltasks <= 23]
-          &lt;div class="ramp"&gt; Too low... &lt;/div&gt;
-   [elseif:@alltasks > 90]
-          &lt;div class="ramp"&gt; Off the charts! &lt;/div&gt;
-   [/if]</pre>
-                     </code>
+                       <pre class="">
+       <code class="language-markup"> 
+ [if:@alltasks <= 23]
+      &lt;div class="ramp"&gt; Too low... &lt;/div&gt;
+ [elseif:@alltasks > 90]
+      &lt;div class="ramp"&gt; Off the charts! &lt;/div&gt;
+ [/if]
+ </code>
+                </pre>
+                    </span> 
                </article>
                </main>
            </section>
@@ -125,8 +135,8 @@
   </footer>
   <aside class="table-of-contents fixed snap-top-right" id="aside">
      	<ul class="table-of-contents-list">
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#setup_view_file" class="block-box active">Setup View File</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#view_template_syntax" class="block-box">View Template Syntax</a></li>
+     	   <li class="table-of-contents-list-item"><a href="#setup_view_file" class="block-box active">Setup View File</a></li>
+     	   <li class="table-of-contents-list-item"><a href="#view_template_syntax" class="block-box">View Template Syntax</a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
@@ -135,5 +145,6 @@
      	</ul>
   </aside>
  <script type="text/javascript" src="../documentation.js"></script>
+ <script type="text/javascript" src="../prism.js"></script>
 </body>
 </html>

@@ -134,24 +134,24 @@
 
       $isDeafultTaken = in_array(80, $active_ports); // default port => 80
 
-      fwrite(STDOUT, PHP_EOL . "Launching Documentation in default browser..." . PHP_EOL);
+      fwrite(STDOUT, PHP_EOL . "Launching Jollof Documentation in default browser..." . PHP_EOL);
       
       // Mac OS (X)
       if(index_of($os, 'darwin') > -1){
         if($isDeafultTaken){
-          exec('php -S localhost:8888 raw.router.php | open -a "Safari" http://localhost:8888/documentation/index.html', $out, $errorlevel);
+          exec("php -S localhost:8888 raw.router.php | open -a \"Safari\" http://localhost:8888/documentation/index.html?uriRoot={$root_folder}", $out, $errorlevel);
         }else{
             // check existence of an Apache process running (on Mac)
             exec('ps aux | grep httpd', $out, $errorlevel); 
             if($errorlevel == 0){  
-            exec('open -a "Safari" ' . $path . '/documentation/index.html', $out, $errorlevel);
+                exec('open -a "Safari" ' . $path . '/documentation/index.html', $out, $errorlevel);
             }else{
                $no_apache = true;
             }
         }  // Windows OS
       }else if(index_of($os, 'win') > -1){
         if($isDeafultTaken){
-          exec('php -S localhost:8888 raw.router.php | start "" "http://localhost:8888/documentation/index.html"', $out, $errorlevel);
+          exec("php -S localhost:8888 raw.router.php | start \"\" \"http://localhost:8888/documentation/index.html?uriRoot={$root_folder}\"", $out, $errorlevel);
         }else{ 
           // check existence of an Apache process running (on Windows) 
           exec('tasklist | findstr "httpd.exe"', $out, $errorlevel);
@@ -166,6 +166,8 @@
             exec('php -S localhost:8888 raw.router.php | x-www-browser http://localhost:8888/documentation/index.html');
           }
       }  
+
+      $errorlevel = 0;
 
       if($no_apache){
           fwrite(STDOUT, PHP_EOL . 'Apache isn\'t running - Jollof cannot launch docs' . PHP_EOL);
@@ -420,7 +422,7 @@
 
 	    	 $in = $model_path . ucfirst($token) . '.php';
 
-         fwrite(STDOUT, );
+         fwrite(STDOUT, "");
 
 	    	 fwrite(STDOUT, 'Creating Model File: ' . ucfirst($token) . '.php' . PHP_EOL);
 
@@ -475,13 +477,13 @@
 
         	$in = $ctrl_path . ucfirst($token) . '.php';
 
-	    	  fwrite(STDOUT, 'Creating Controller File: ' . ucfirst($token) . '.php' . PHP_EOL);
+	    	  fwrite(STDOUT, PHP_EOL . 'Creating Controller File: ' . ucfirst($token) . '.php' . PHP_EOL);
 
         	make_file($in);
 
         	sleep(1); /* write_to_file */
 
-        	file_put_contents($in, " <?php \n\n class " . ucfirst($token) ." extends Controller { \n\n\t protected \$params = array(); \n\n\t public function __construct(array \$params = array()){ \n\n\t\t parent::__construct(\$params); \n\n\t } \n\n\t public function index(\$models){  \n\n\t\t # code... \n\n\t } \n\n } \n\n ?> ", LOCK_EX);
+        	file_put_contents($in, " <?php \n\n class " . ucfirst($token) ." extends Controller { \n\n\t protected \$params = array(); \n\n\t public function __construct(array \$params = array()){ \n\n\t\t parent::__construct(\$params); \n\n\t } \n\n\t public function index(){  \n\n\t\t # code... \n\n\t } \n\n } \n\n ?> ", LOCK_EX);
 
         	  $marker = '     "\\\\Controller" => $compDir . "/../../controllers/Controller",' . PHP_EOL;
 
@@ -519,7 +521,7 @@
 
 		 	      sleep(1);
 			
-			      file_put_contents($route_path, PHP_EOL . PHP_EOL . " Router::bind('{$routeUrl}', array('models'=> array(), 'params' => array()" . ($routeVerb != "get" ? ", 'verb' => '{$routeVerb}' " : "") . "));", FILE_APPEND | LOCK_EX);
+			      file_put_contents($route_path, PHP_EOL . PHP_EOL . " Router::bind('{$routeUrl}', array('inject'=> array(), 'params' => array()" . ($routeVerb != "get" ? ", 'verb' => '{$routeVerb}' " : "") . "));", FILE_APPEND | LOCK_EX);
 
             if(array_key_exists(2, $tokens)){
 
@@ -541,6 +543,12 @@
 	}
 
   if($command === 'make:component'){
+
+
+  }
+
+
+  if($command === 'route:list'){
 
 
   }

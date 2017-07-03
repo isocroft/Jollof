@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Jollof Framework (c) 2016
+ * Jollof Framework (c) 2016 - 2017
  *
  *
  * {App.php}
@@ -103,9 +103,7 @@ final class App {
 
              $this->jheaders = new JollofSecureHeaders();
 
-             $this->apphost = Request::getHost();
-
-             $this->os = get_os();
+             $this->os = \get_os();
         }
 
         $this->instances = array();
@@ -156,8 +154,17 @@ final class App {
 
             $engine = $engines[$engine_type];
 
-            if (! extension_loaded($engine['driver']) 
-                || ! extension_loaded(($engine_type != $engine['driver']? strtolower($engine['driver']) . "_" : "") . $engine_type)){
+            $driver = $engine['driver'];
+
+            /*
+              if (!extension_loaded('mongo')) {
+                      ;
+              }
+            */  
+
+            if (! extension_loaded($driver) 
+                || ! extension_loaded(
+                      ($engine_type != $driver? strtolower($driver) . "_" : "") . $engine_type)){
 
                 exit(1);
             }   
@@ -176,7 +183,16 @@ final class App {
 
      public function installENVService(array $ENVCONFIG){
 
-     	    if ( ! extension_loaded($ENVCONFIG['encryption_scheme'])){
+            /*
+
+            if (! extension_loaded('zlib') ){
+
+                exit(1);
+            }
+
+            */
+
+     	      if ( ! extension_loaded($ENVCONFIG['encryption_scheme'])){
 
                  exit(1);
             }
@@ -266,6 +282,19 @@ final class App {
 
      	   $this->resolver->draftRouteHandler($router->getMethod());
 
+         $request = $this->getInstance('Request');
+                    
+         $session = $this->getInstance('Session'); 
+
+         if($router->getMethod() == 'GET' 
+            && !$request->ajaxRequest()){
+
+                  $session->getDriver()->write(
+                          'previousRoute', 
+                          $router->getCurrentRouteUrl()
+                  );
+         }
+
      	   return $this->resolver->handleCurrentRoute($router, $system, $auth);
 
      }
@@ -331,7 +360,14 @@ final class App {
 
      public function getBuilder(array $attribs, $modelName){
 
-          return $this->dbservice->getBuilder($attribs, $modelName);
+          $builder = $this->dbservice->getBuilder($attribs, $modelName);
+
+          if(!is_null($builder)){
+                /* making sure that Jollof [Model] queries and results can be cached */
+                $builder->setQueryAndResultCache($this->getInstance('Cache'));
+          }
+
+          return $builder;
      }
 
      /**
@@ -350,13 +386,15 @@ final class App {
 
          $settings = $errorsConfig['reporter_settings'];
 
+         $request = $this->getInstance('Request');
+
          if(array_key_exists('meta_data', $settings)){
                 if(is_array($settings['meta_data'])){
-                    $settings['meta_data']['browser'] = Request::header('HTTP_USER_AGENT');
-                    $settings['meta_data']['req_time'] = Request::header('REQUEST_TIME');
+                    $settings['meta_data']['browser'] = $request->getInfo('HTTP_USER_AGENT');
+                    $settings['meta_data']['req_time'] = $request->getInfo('REQUEST_TIME');
                     $settings['meta_data']['time_zone'] = 'Africa/Lagos';
 
-                    $settings['meta_data']['exec_id'] = JOLLOF_EXEC_ID;
+                    $settings['meta_data']['exec_session_id'] = JOLLOF_EXEC_ID;
                 }
          }
 
@@ -377,32 +415,45 @@ final class App {
 
      public function registerCoreComponents(){
 
-            $this->dbservice->connect($GLOBALS['env']['app.path.base'] . '.env');
 
-            $this->jheaders->installConfig($this->envservice->getConfig("app_security"));
+            $dotenv = $GLOBALS['env']['app.path.base'] . '.env';
+          
+            /* 
+             *  set up config for Content-Security-Policy HTTP response headers
+             */
 
-          /*
-           * Setup all Singletons for the application
-           */
+              $this->jheaders->installConfig($this->envservice->getConfig("app_security"));
 
-         /*
-          @TODO: later, try to do the below in a loop! it probably will be a much cleaner code
-          */
+            /*
+             * Setup all Singletons for the application
+             */
+
+            /*
+             * @TODO: later, try to do the below in a loop! it probably will 
+             *         be a much cleaner code
+             */
 
                $this->instances['Logger'] = Logger::createInstance();
                $this->instances['Config'] = Config::createInstance($this->envservice->getAllConfig());
-               $this->instances['System'] = System::createInstance();
-               $this->instances['Response'] = Response::createInstance($this->jheaders->getSourceNonces());
+               $this->instances['System'] = System::createInstance($this->getInstance('Config'));
                $this->instances['Session'] = Session::createInstance($this->envservice->getConfig('app_session'));
-               $this->instances['Request'] = Request::createInstance($this->envservice->getConfig('app_uploads'));
-               $this->instances['Cache'] = Cache::createInstance($this->envservice->getConfig('app_cache'));
+               $this->instances['Request'] = Request::createInstance($this->envservice->getConfig('app_uploads'), $this->getInstance('Session'));
+               $this->instances['Response'] = Response::createInstance($this->jheaders->getSourceNonces());
                $this->instances['Router'] = Router::createInstance($this->getInstance('Request'), $this->getInstance('Response'));
+               $this->instances['Cache'] = Cache::createInstance($this->envservice->getConfig('app_cache'));
                $this->instances['Validator'] = Validator::createInstance();
-         	   $this->instances['File'] = File::createInstance();
-         	   $this->instances['Auth'] = Auth::createInstance($this->envservice->getConfig('app_auth'));
+         	   $this->instances['File'] = File::createInstance($this->getInstance('Cache'));
+         	   $this->instances['Auth'] = Auth::createInstance($this->envservice->getConfig('app_auth'), $this->getInstance('Request'));
                $this->instances['Helpers'] = Helpers::createInstance();
                $this->instances['Comms'] = Comms::createInstance($this->envservice->getConfig('app_mails'), $this->envservice->getConfig('app_connection'), $this->envservice->getConfig('app_messaging'));
                $this->instances['TextStream'] = TextStream::createInstance();
+
+               if(File::exists($dotenv)){ 
+                    
+                    $this->dbservice->connect($dotenv);
+               }
+
+               $this->apphost = $this->instances['Request']->host();
      }
 
      public function registerComponent(callable $componentPool){

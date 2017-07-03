@@ -11,6 +11,7 @@
 use \Providers\Services\NativeSessionService as NativeService;
 use \Providers\Services\RedisSessionService as RedisService;
 
+
 final class Session {
 
      /**
@@ -166,7 +167,7 @@ final class Session {
      }
 
      /**
-      * Retrieves session id. 
+      * Retrieves the session id. 
       *
       *
       *
@@ -182,7 +183,7 @@ final class Session {
      }
 
      /**
-      * Check if session data and cookie has been properly 
+      * Checks if session data and cookie has been properly 
       * destroyed
       *
       *

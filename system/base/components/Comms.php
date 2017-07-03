@@ -1,40 +1,105 @@
 <?php
 
+/*!
+ * Jollof Framework (c) 2016
+ *
+ * {Comms.php}
+ *
+ */
+
 use \Providers\Core\HttpClient as Client;
+use \Request;
+use \Auth;
 
 final class Comms {
 
-    /*
+    /**
      * @var Comms
      */
 
      private static $instance = NULL;
 
+    /**
+     * @var array -
+     */ 
+
      protected $mailOptions;
+
+    /**
+     * @var array -
+     */ 
 
      protected $connectionOptions;
 
+    /**
+     * @var array -
+     */ 
+
      protected $messagingOptions;
+
+    /**
+     * @var  -
+     */ 
 
      protected $mailer;
 
      protected $connector;
 
+    /**
+     * @var Providers\Core\HttpClient -
+     */ 
+
      protected $httpclient;
 
      protected $messenger;
 
+    /**
+     * @var bool -
+     */ 
+
      protected $isMailDriverLoadable = FALSE;
+
+    /**
+     * @var bool -
+     */ 
 
      protected $isConnectorDriverLoadable = FALSE;
 
+    /**
+     * @var bool -
+     */ 
+
      protected $isMessengerDriverLoadable = FALSE;
+
+    /**
+     * @var stdClass -
+     */ 
 
      protected $mailgunParameters;
 
+    /**
+     * @var string -
+     */ 
+
+
      protected $messageNumber;
 
+    /**
+     * @var string -
+     */ 
+
      protected $callNumber;
+
+     /**
+      * Constructor
+      *
+      *
+      * @param array $mailOptions -
+      * @param array $connectionOption -
+      * @param array $messageOptions -
+      *
+      * @scope private
+      */
 
      private function __construct(array $mailOptions, array $connectionOptions, array $messagingOptions){
 
@@ -140,7 +205,12 @@ final class Comms {
           return static::$instance->getConnector()->get_channel_info($channelName);
      }
 
-     public static function presenceAuth($channelName, $socketId, $user){
+     public static function presenceAuth($channelName, $socketId, $user = NULL) {
+
+          if(!$user){
+
+                $user = Auth::user();
+          }
 
           $columns = array_keys($user);
           $presence = array();
@@ -184,12 +254,21 @@ final class Comms {
           );
      }
 
-     public function curl($host='http://127.0.0.1', array $config = array(), $port = 80){
+     public function curl($host, array $config = array(), $port = 80){
+
+          $hasMethod = array_key_exists('method', $config);
+          $hasHeaders = array_key_exists('headers', $config);
+          $hasPath = array_key_exists('path', $config);
+
+          if(!$host){
+
+              $host = Request::getOrigin();
+          }
 
           $this->httpclient = NULL;
 
-          $this->httpclient = new Client($host, $port, $config['method']);
-          $this->httpclient->setHeaders($config['headers']);
+          $this->httpclient = new Client($host, $port, !$hasMethod?:$config['method']);
+          $this->httpclient->setHeaders(!$hasHeaders?:$config['headers']);
           $this->httpclient->setRequest($config['path'], $config['client_id'], $config['params']);
 
           if(starts_with($host, 'https:')){
@@ -199,13 +278,29 @@ final class Comms {
           return $this->httpclient->getResponse();
      }
 
-     public static function sendHTTPRequest($host='http://127.0.0.1', array $config = array(), $port = 80){
+     public static function sendHTTPRequest($host, array $config = array(), $port = 80){
 
         return static::$instance->curl($host, $config, $port);
 
      }
 
-     public static function sendMail($domain = 'example.com'){
+
+     public static function createQRImage($image_url, $width, $height, $file){
+
+          $i_url = urlencode($image_url);
+          $url = "http://chart.apis.google.com/chart?chs={$width}x{$height}&cht=qr&chl={$i_url}";
+
+          $rawdata = static::$instance->curl($your_url);
+
+          // convert it to a GD image and save
+          // $img = imagecreatefromstring($rawdata);
+
+          /* @TODO: your image saving functions come here */
+
+          // imagedestroy($img);
+      }
+
+      public static function sendMail($domain = 'example.com'){
         $mailer = static::$instance->getMailer();
         $params = static::$instance->getMailgunParameters();
 

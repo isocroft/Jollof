@@ -4,6 +4,7 @@
  <title>Console Commands - Jellof</title>
  <meta charset="utf-8">
  <link rel="stylesheet" type="text/css" href="../bootstrap.css">
+ <link rel="stylesheet" type="text/css" href="../prism.css">
  <link rel="stylesheet" type="text/css" href="../documentation.css">
  <!-- <link rel="stylesheet" type="text/css" href="../mobile.css"> -->
 
@@ -18,6 +19,8 @@
      	<li class="menu-list-item">
      		<h5 class="sub-menu-heading">GETTING STARTED</h5>
      		<ul class="sub-menu-list">
+                <li class="sub-menu-list-item"><a href="../getting-started/app-lifecycle.html">App LifeCycle</a></li>
+                <li class="sub-menu-list-item"><a href="../getting-started/app-folders.html">App Folders</a></li>
      			<li class="sub-menu-list-item"><a href="../getting-started/setting-up-configs.html">Setting Up Configs</a></li>
                 <li class="sub-menu-list-item"><a href="../getting-started/creating-controllers.html">Creating Controllers</a></li>
                 <li class="sub-menu-list-item"><a href="../getting-started/creating-models.html">Creating Models</a></li>
@@ -42,11 +45,11 @@
   <header class="header fixed snap-top-left clear-fix" id="header">
   	   <div class="header-branding pull-left">
   	   	  <ul class="nav navbar-nav">
-  	   	  	  <li><a href="javascript:void(0);" class="btn btn-menu btn-plain nav-btn"><strong>&#9776;</strong></a></li>
+  	   	  	  <li><a href="javascript:void(0);" id="nav-btn" class="btn btn-menu btn-plain nav-btn"><strong>&#9776;</strong></a></li>
   	   	  	  <li><b>Jollof</b></li>
   	   	  </ul>
   	   </div>
-       <div class="header-extra pull-right"><a href="javascript:void(0);" class="btn btn-primary">GO TO APP</a></div>
+       <div class="header-extra pull-right"><a href="javascript:void(0);" id="load-app" class="btn btn-primary">GO TO APP</a></div>
   </header>
   <section class="section content relative">
     <div class="content-wrapper">
@@ -63,15 +66,19 @@
      	 	 	 	 </div>
      	 	 	 	 <main class="contnet-code-list">
                         <article class="contnet-code">
- 	 	 	 	 	 	     <code class="block-box content-code-line">
+ 	 	 	 	 	 	     <span class="block-box content-code-line">
  	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
- 	 	 	 	 	 	     	 <pre> &gt;  php jollof make:env</pre>
- 	 	 	 	 	 	     </code>
+                             <pre class="">
+<code class="language-terminal"> 
+    &gt;  php jollof make:env
+</code>
+ 	 	 	 	 	 	     </pre>
+                             </span>
      	 	 	 	 	</article>
      	 	 	 	 </main>
      	 	 	</section>
      	 	</li>
-            <li class="content-list-item">
+            <!--<li class="content-list-item">
                 <section class="content-list-panel" id="make:component">
                      <div class="content-list-panel-heading">
                          <h2 class=""><i class="ink-icon">§</i><b> make:component</b> - <span class="ink">arguments: &lt;Component_Name&gt;</span></h2>
@@ -83,14 +90,18 @@
                      </div>
                      <main class="contnet-code-list">
                         <article class="contnet-code">
-                             <code class="block-box content-code-line">
+                             <span class="block-box content-code-line">
                                  <var class="line-block-box content-example-line">Example Usage:</var>
-                                 <pre> &gt;  php jollof make:component ErrorReporter </pre>
-                             </code>
+                                 <pre class="">
+ <code class="language-terminal"> 
+    &gt;  php jollof make:component ErrorReporter 
+ </code>
+                                </pre>
+                             </span>
                         </article>
                      </main>
                 </section>
-            </li>
+            </li>-->
      	 	<li class="content-list-item">
      	 	 	<section class="content-list-panel" id="make:view">
      	 	 	     <div class="content-list-panel-heading">
@@ -103,10 +114,14 @@
      	 	 	 	 </div>
      	 	 	 	 <main class="contnet-code-list">
                         <article class="contnet-code">
- 	 	 	 	 	 	     <code class="block-box content-code-line">
+ 	 	 	 	 	 	     <span class="block-box content-code-line">
  	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
- 	 	 	 	 	 	     	 <pre> &gt;  php jollof make:view master/home </pre>
- 	 	 	 	 	 	     </code>
+ 	 	 	 	 	 	     	 <pre class=""> 
+ <code class="language-terminal">
+     &gt;  php jollof make:view master/home
+ </code>
+                                 </pre>
+ 	 	 	 	 	 	     </span>
      	 	 	 	 	</article>
      	 	 	 	 </main>
      	 	 	</section>
@@ -123,10 +138,14 @@
      	 	 	 	 </div>
      	 	 	 	 <main class="contnet-code-list">
                         <article class="contnet-code">
- 	 	 	 	 	 	     <code class="block-box content-code-line">
+ 	 	 	 	 	 	     <span class="block-box content-code-line">
  	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
- 	 	 	 	 	 	     	 <pre> &gt;  php jollof make:model Posts</pre>
- 	 	 	 	 	 	     </code>
+ 	 	 	 	 	 	     	 <pre class=""> 
+ <code class="language-terminal">
+     &gt;  php jollof make:model Posts
+ </code>
+                                 </pre>
+ 	 	 	 	 	 	     </span>
      	 	 	 	 	</article>
      	 	 	 	 </main>
      	 	 	</section>
@@ -143,10 +162,14 @@
      	 	 	 	 </div>
      	 	 	 	 <main class="contnet-code-list">
                         <article class="contnet-code">
- 	 	 	 	 	 	     <code class="block-box content-code-line">
+ 	 	 	 	 	 	     <span class="block-box content-code-line">
  	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
- 	 	 	 	 	 	     	 <pre> &gt;  php jollof make:controller Accounts</pre>
- 	 	 	 	 	 	     </code>
+ 	 	 	 	 	 	     	 <pre class="">
+ <code class="language-terminal">
+     &gt;  php jollof make:controller Accounts
+ </code>
+                                 </pre>
+ 	 	 	 	 	 	     </span>
      	 	 	 	 	</article>
      	 	 	 	 </main>
      	 	 	</section>
@@ -163,10 +186,14 @@
      	 	 	 	 </div>
      	 	 	 	 <main class="contnet-code-list">
                         <article class="contnet-code">
- 	 	 	 	 	 	     <code class="block-box content-code-line">
+ 	 	 	 	 	 	     <span class="block-box content-code-line">
  	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
- 	 	 	 	 	 	     	 <pre> &gt;  php jollof make:route /login PUT </pre>
- 	 	 	 	 	 	     </code>
+ 	 	 	 	 	 	     	 <pre class="">
+ <code class="language-terminal">
+     &gt;  php jollof make:route /login PUT
+ </code>
+                                 </pre>
+ 	 	 	 	 	 	     </span>
      	 	 	 	 	</article>
      	 	 	 	 </main>
      	 	 	</section>
@@ -183,10 +210,14 @@
      	 	 	 	 </div>
      	 	 	 	 <main class="contnet-code-list">
                         <article class="contnet-code">
- 	 	 	 	 	         <code class="block-box content-code-line">
+ 	 	 	 	 	         <span class="block-box content-code-line">
  	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
- 	 	 	 	 	 	     	 <pre> &gt;  php jollof run:tasks concatmin </pre>
- 	 	 	 	 	 	     </code>
+ 	 	 	 	 	 	     	 <pre class="">
+ <code class="language-terminal">
+     &gt;  php jollof run:tasks concat-min
+ </code> 
+                                 </pre>
+ 	 	 	 	 	 	     </span>
      	 	 	 	 	</article>
      	 	 	 	 </main>
      	 	 	</section>
@@ -203,10 +234,14 @@
      	 	 	 	 </div>
      	 	 	 	 <main class="contnet-code-list">
                         <article class="contnet-code">
- 	 	 	 	 	         <code class="block-box content-code-line">
+ 	 	 	 	 	         <span class="block-box content-code-line">
  	 	 	 	 	 	         <var class="line-block-box content-example-line">Example Usage:</var>
- 	 	 	 	 	 	     	 <pre> &gt;  php jollof run:tests  </pre>
- 	 	 	 	 	 	     </code>
+ 	 	 	 	 	 	     	 <pre class="">
+ <code class="language-terminal">
+     &gt;  php jollof run:tests  
+ </code>
+                                 </pre>
+ 	 	 	 	 	 	     </span>
      	 	 	 	 	</article>
      	 	 	 	 </main>
      	 	 	</section>
@@ -220,20 +255,21 @@
   </footer>
   <aside class="table-of-contents fixed snap-top-right" id="aside">
      	<ul class="table-of-contents-list">
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#make:env" class="block-box active"> make:env</a></li>
-           <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#make:component" class="block-box"> make:component</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#make:view" class="block-box"> make:view</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#make:model" class="block-box">make:model</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#make:controller" class="block-box"> make:controller</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#make:route" class="block-box">make:route</a></li>
-         <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#make:test" class="block-box">make:test</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#run:tasks" class="block-box"> run:tasks</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#run:tests" class="block-box"> run:tests</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#run:dumpautoload" class="block-box"> run:dumpautoload</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#run:install" class="block-box">run:install</a></li>
+     	   <li class="table-of-contents-list-item"><a href="#make:env" class="block-box active"> make:env</a></li>
+           <!--<li class="table-of-contents-list-item"><a href="#make:component" class="block-box"> make:component</a></li>-->
+     	   <li class="table-of-contents-list-item"><a href="#make:view" class="block-box"> make:view</a></li>
+     	   <li class="table-of-contents-list-item"><a href="#make:model" class="block-box">make:model</a></li>
+     	   <li class="table-of-contents-list-item"><a href="#make:controller" class="block-box"> make:controller</a></li>
+     	   <li class="table-of-contents-list-item"><a href="#make:route" class="block-box">make:route</a></li>
+         <li class="table-of-contents-list-item"><a href="#make:test" class="block-box">make:test</a></li>
+     	   <li class="table-of-contents-list-item"><a href="#run:tasks" class="block-box"> run:tasks</a></li>
+     	   <li class="table-of-contents-list-item"><a href="#run:tests" class="block-box"> run:tests</a></li>
+     	   <li class="table-of-contents-list-item"><a href="#run:dumpautoload" class="block-box"> run:dumpautoload</a></li>
+     	   <li class="table-of-contents-list-item"><a href="#run:install" class="block-box">run:install</a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
      	</ul>
   </aside>
  <script type="text/javascript" src="../documentation.js"></script>
+ <script type="text/javascript" src="../prism.js"></script>
 </body>
 </html>

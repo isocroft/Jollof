@@ -11,7 +11,7 @@
  	 stopOnFailure="false"
 	 stopOnIncomplete="false"
 	 syntaxCheck="true"
-	 bootstrap="app.php"
+	 bootstrap="../app.php"
 	 verbose="true">
 
 	<php>

@@ -16,19 +16,45 @@ class MongoConnectionAdapter extends BaseConnectionAdapter{
 
 		$type = $this->getType();
 
-		$connectionString = 'mongodb://' . $config['hostname'] . ':' . $config['port'] . '/' . $dbname;
+		$dbOptions = array(
+						'connectionTimeoutMS' => 30000/*, 
+						'replicaSet' => '[replicaSetName]'*/
+					);
 
-		if(!isset($type)){
+		if(!isset($type) 
+			|| !class_exists($type)){
 
-			return NULL;
+			$type = '\\MongoClient';
+			
+			if(!class_exists($type)){
+				;
+			}
 		}
 
-		$dbo = new $type($connectionString, array('username'=>$config['username'], 'password'=>$config['password']));
+		if(index_of($type, 'MongoClient') > 0){
+
+				$connectionString = 'mongodb://' . $config['hostname'] . ':' . $config['port'] . '/' . $dbname;
+
+				$dbOptions['username'] = $config['username'];
+				$dbOptions['password'] = $config['password'];
+		}else{
+		
+
+		 		$connectionString = 'mongodb://' . $config['username'] . ':' . $config['password'] . '@' . $config['hostname'] . ':' . $config['port'] . '/' . $dbname;
+		}
+
+		$dbo = new $type($connectionString, $dbOptions);
 
 		if(method_exists($dbo, 'selectDB')){
 
 			$dbo = $dbo->selectDB($dbname);
+
 		}
+		
+		/*if(empty($dbo)){
+			
+			$dbo = $dbo->{$dbname};
+		}*/
 
 		return $dbo;
 	}

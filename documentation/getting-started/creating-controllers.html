@@ -44,7 +44,7 @@
   <header class="header fixed snap-top-left clear-fix"  id="header">
   	   <div class="header-branding pull-left">
   	   	  <ul class="nav navbar-nav">
-  	   	  	  <li><a href="javascript:void(0);" class="btn btn-menu btn-plain nav-btn"><strong>&#9776;</strong></a></li>
+  	   	  	  <li><a href="javascript:void(0);" id="nav-btn" class="btn btn-menu btn-plain nav-btn"><strong>&#9776;</strong></a></li>
   	   	  	  <li><b>Jollof</b></li>
   	   	  </ul>
   	   </div>
@@ -106,7 +106,7 @@
 
         // @Override
 
-        public function index($models){
+        public function index(){
 
             # code ...
 
@@ -122,10 +122,10 @@
         <li class="content-list-item">
            <section class="content-list-panel" id="controller_method_argument">
                <div class="content-list-panel-heading">
-               <h2 class=""><i class="ink-icon">§</i><b> Controller Method Argument</b></h2>
+               <h2 class=""><i class="ink-icon">§</i><b> Controller Method Argument(s)</b></h2>
                <blockquote>
                  <p>
-                    Only one argument is passed to every method of any controller. This is an array of <kbd>Models</kbd> (objects) that are defined for the given route for which the controller method is invoked.
+                    All arguments passed to every method of any controller are objects of classes that are injected as a dependency that are defined for the given route for which the controller method is invoked.
                  </p>
                  <p>
 
@@ -143,9 +143,9 @@
   </footer>
   <aside class="table-of-contents fixed snap-top-right" id="aside">
      	<ul class="table-of-contents-list">
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#set_controller_name" class="block-box active">Set Controller Name</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#create_controller_file" class="block-box">Create Controller File</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#controller_method-argument" class="block-box">Controller Method Arg</a></li>
+     	   <li class="table-of-contents-list-item"><a href="#set_controller_name" class="block-box active">Set Controller Name</a></li>
+     	   <li class="table-of-contents-list-item"><a href="#create_controller_file" class="block-box">Create Controller File</a></li>
+     	   <li class="table-of-contents-list-item"><a href="#controller_method_argument" class="block-box">Controller Method Args</a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>

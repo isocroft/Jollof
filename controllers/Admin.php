@@ -10,7 +10,7 @@
 
 	 }
 
-	 public function index($models){
+	 public function index(){
 
 		 return Response::view('admin/index', array());
 

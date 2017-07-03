@@ -2,15 +2,46 @@
 
 namespace Jollof\SocketService;
 
+/**
+ * Jollof Framework - (c) 2016
+ *
+ *
+ * @author Ifeora Okechukwu
+ * @license    MIT License
+ * @copyright   Mobicent, Ltd.
+ * @link htps://github.com/isocroft/Jollof
+ */
+
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
 class Chat implements MessageComponentInterface {
 
+    /**
+     * @var array -
+     */
+
     protected $clients;
+
+    /**
+     * @var array -
+     */
+
     protected $clientSessions;	
 
+    /**
+     * @var string -
+     */
+
     private $sessionName;
+
+    /**
+     * Constructor.
+     *
+     * @param void
+     *
+     * @scope private
+     */
 
     public function __construct($sessionName){
 

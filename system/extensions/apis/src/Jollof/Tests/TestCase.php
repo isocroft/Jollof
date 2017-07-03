@@ -7,7 +7,7 @@ namespace Jollof\Tests;
  *
  *
  * @package    Jollof\Tests\
- * @version    0.9.9
+ * @version    0.0.4-beta.3
  * @author     Ifeora Okechukwu.
  * @license    MIT License
  * @copyright   Mobicent, Ltd.
@@ -20,9 +20,21 @@ use \PHPUnit_Framework_TestCase;
 
 class TestCase extends PHPUnit_Framework_TestCase {
 
+    /**
+     * @var array -
+     */
+
     protected $mockObjects;
 
+    /**
+     * @var array -
+     */
+
     protected $mockClassNames;
+
+    /**
+     * @var array -
+     */
 
     protected $config;
 
@@ -36,7 +48,7 @@ class TestCase extends PHPUnit_Framework_TestCase {
      *
      */
 
-    public function __construct(array $mockClassNames, array $testingConfig = array()){
+    public function __construct(array $mockClassNames = array(), array $testingConfig = array()){
 
          $this->config = $testingConfig; #unitTesting = true
 

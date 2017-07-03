@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-   <title>Jelloff - Application Error</title>
+   <title>Jollof - Application Error</title>
    <meta charset="utf-8">
    <style type="text/css">
       body, html{
@@ -21,7 +21,7 @@
       =@msg
    </p>
    <em>
-      on =@line in <a href="=@file">=@file</a>
+      on =@line in <a href="file:///=@file">=@file</a>
    </em>
    </div>
 </body>

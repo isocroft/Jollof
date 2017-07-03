@@ -9,7 +9,7 @@
   ! We set up middlewares here...
   !
   !
-  !* Jollof Framework (c) 2016
+  !* Jollof Framework (c) 2016 - 2017
   !*
   !* {setup.php}
   !*
@@ -60,11 +60,12 @@
   System::middleware('redirectIfGuest', function($currentRoute, $auth){
       $result = TRUE;
 
-      /*
-       * route premissions (Access Control)
+      /**
+       * route permissions (Access Control)
        * ----------------------------------
        * Feel free to modify this middleware to
        * suit the needs of the app
+       *
        */
 
       if(!(in_array($currentRoute, $auth->getGuestRoutes()))){
@@ -79,18 +80,20 @@
       return $result;
   });
 
-  System::middleware('csrf', function($currentRoute){
+  System::middleware('enableCSRFCheck', function($currentRoute){
       $result = TRUE;
       $token = '';
+      $verb = Request::method();
 
       /**
        * request forgery check (Trust Appraisal)
        *---------------------------------------
        * Feel free to modify this middleware to
        * suit the needs of the app
+       *
        */
 
-      if(Request::method() == 'POST'){
+      if($verb == 'POST' || $verb == 'PUT'){
               if(Request::isAjax()){
                   $token = array();
                   $token['_token'] = Request::rawHeader('X-CSRF-Token');
@@ -107,6 +110,7 @@
   });
 
   System::middleware('responseHeaders', function($currentRoute){
+         
          $result = TRUE;
          $acceptable = Request::rawHeader('Accept');
 
@@ -120,6 +124,75 @@
         }
 
         return $result;
+  });
+
+  System::middleware('enableCORS', function($currentRoute, $auth){
+
+        $result = TRUE;
+        $requestOrigin = NULL;
+        $requestHeaders = NULL;
+        $requestMethod = NULL;
+        $rHeaders = NULL;
+
+        $isMethodsOk = FALSE;
+        $isOriginsOk = FALSE;
+        $cookie = '';
+
+
+        if(Request::isPreflight()){
+
+            $requestOrigin = Request::rawHeader('Origin');
+            $rHeaders = Request::rawHeader('Access-Control-Request-Headers');
+            $requestHeaders = (is_string($rHeaders))? explode(',', $rHeaders) : array();
+            $rHeadersDiff = array_diff($requestHeaders, $auth->getCORSOption('allowed_headers'));
+            $requestMethod = strtoupper(Request::rawHeader('Access-Control-Request-Method'));
+
+            $origins = $auth->getCORSOption('allowed_origins');
+            $isOriginsOk = $origins[0] == '*' || fast_in_array($requestOrigin, $origins);
+            $isMethodsOk = fast_in_array($requestMethod, $auth->getCORSOption('allowed_methods'));
+            $isHeadersOk = count($rHeadersDiff) == 0;
+
+
+            if(!$isMethodsOk){
+                return Response::text('Request Origin Disallowed', 403);
+            }
+
+            if(!$isOriginsOk){
+                return Response::text('Request Method Disallowed', 405);
+            }
+
+            if(!$isHeadersOk){
+                return Response::text('Request Headers Disallowed', 403);
+            }
+
+            Response::header('Access-Control-Allow-Origin', $requestOrigin);
+            Response::header('Access-Control-Max-Age', strval($auth->getCORSOption('max_age')));
+
+            $requestHeaders = array_diff($requestHeaders, $rHeadersDiff);
+
+            if($auth->getCORSOption('credentials_pass') === TRUE){
+                /* @TODO: by CORS rule, when client is requesting [withCredentials], 'Access-Control-Allow-Origin' response header cannot be equal to '*' - implement this rule later */
+                Response::header('Access-Control-Allow-Credentials', 'true');
+            }
+
+            if(count($auth->getCORSOption('exposed_headers')) > 0){
+
+                Response::header('Access-Control-Expose-Headers', implode(', ', $auth->getCORSOption('exposed_headers')));
+            }
+
+            if(count($auth->getCORSOption('allowed_headers')) > 0){
+                Response::header('Access-Control-Allow-Headers', implode(', ', $requestHeaders));
+            }
+
+            if(count($auth->getCORSOption('allowed_methods')) > 0){
+                Response::header('Access-Control-Allow-Methods', implode(', ', $auth->getCORSOption('allowed_methods')));
+            }
+
+            return Response::status(200);
+        }
+
+        return $result;
+
   });
 
 ?>

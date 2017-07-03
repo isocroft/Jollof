@@ -1,7 +1,7 @@
 <?php
 
 /*!
- * Jollof Framework (c) 2016
+ * Jollof Framework (c) 2016 - 2017
  *
  * {Hasher.php}
  *
@@ -18,6 +18,18 @@ class Hasher {
        protected $algorithms;
 
        /**
+        * @var array - the rounds used to determine hash
+        */ 
+
+       protected $workLoadFactors;
+
+       /**
+        * @var string - the specific algorithm chosen from the [$algoritms] array
+        */ 
+
+       private $algosSpecified;
+
+       /**
         * @var bool - 
         */ 
 
@@ -25,9 +37,22 @@ class Hasher {
 
        public function __construct(array $config = array()){
 
+            /*  http://php.net/crypt */
+
+            if(CRYPT_BLOWFISH != 1) {
+
+                  throw new \Exception("Bcrypt is not supported on this server");
+
+            }
+
+            $this->algosSpecified = array_key_exists('crypt_algos', $config)? $config['crypt_algos'] : 'bcrypt_blowfish'; 
+
             $this->algorithms = array('bcrypt'=>"$2y$", 'bcrypt_blowfish'=>"$2a$");
 
-            $this->workLoadFactors = array('high_factor'=>"12$", 'low_factor'=>"10$");
+            $this->workLoadFactors = array(
+                  'high_factor'=>"12$", 
+                  'low_factor'=>"10$"
+            );
 
             /* @TODO: try to find out about PHP's built in bcrypt for [PHP >= 5.5.*] - syntactically sugary
             */
@@ -38,7 +63,40 @@ class Hasher {
        }
 
        /**
-        * 
+        * Generates a salt based on current crypt algorithm
+        *
+        *
+        *
+        *
+        * @param void
+        * @return mixed (string|null) 
+        */
+
+        private function generateSalt(){
+
+            $salt = NULL;
+
+            if($this->algosSpecified == 'bcrypt'){
+
+                  $random = str_shuffle(mt_rand());
+
+                  $salt = uniqid($random, true);
+
+            }else{
+
+                  /* secure hashing of passwords wih [bcrypt]
+                     salt for [bcrypt] needs to be 22 base_64 characters (blowfish_salt)
+                  */   
+
+                  $salt = bin2hex(openssl_random_pseudo_bytes(22));
+            }      
+
+            return $salt;
+
+        }
+
+       /**
+        * Generates a hash based on current crypt algorithm
         *
         *
         *
@@ -52,13 +110,12 @@ class Hasher {
 
                    return NULL;
        	    }
-            // secure hashing of passwords wih [bcrypt]
-       	    // salt for [bcrypt] needs to be 22 base_64 characters (blowfish_salt)
+            
+       	    $format = $this->algorithms[$this->algosSpecified] . $this->workLoadFactors['high_factor'];
 
-       	    $blowfish_salt = bin2hex(openssl_random_pseudo_bytes(22));
-       	    $format = $this->algorithms['bcrypt_blowfish'] . $this->workLoadFactors['high_factor'];
+            $hash_salt = $this->generateSalt();
 
-       	    return (crypt($plain_text, ($format . $blowfish_salt)));
+       	    return crypt($plain_text, ($format . $hash_salt));
        }
 
        /**
@@ -72,10 +129,11 @@ class Hasher {
         */
 
        public function checkHash($plain_text, $hash){
+            
             if(!$this->canHash){
 
-                return false;
-       	}
+                  return FALSE;
+       	    }
 
             return (crypt($plain_text, $hash) === $hash);
        }

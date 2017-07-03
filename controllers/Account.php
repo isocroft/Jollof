@@ -12,54 +12,54 @@ class Account extends Controller {
 
         // @Override
 
-        public function index($models){
+        public function index(){
 
             return Response::text('You are not loggged in', 403);
         }
 
-        public function register($models){
+        public function register(){
 
             return Response::view('register/index', array('framework' => 'Jollof', 'title' => 'Register'));
         }
 
-        public function signup($models){
+        public function signup(){
 
             # code ...
         }
 
-        public function login($models){
+        public function login(){
 
 
             return Response::view('login/index', array('framework' => 'Jollof', 'title' => 'Login'));
 
         }
 
-        public function signin($models){
+        public function signin(){
 
             # code ...
         }
 
-        public function logout($models){
+        public function logout(){
 
             # code ...
         }
 
-        public function reset_password($models){
+        public function reset_password(){
 
             # code ...
         }
 
-        public function activate($models){
+        public function activate(){
 
             # code ...
         }
 
-        public function deactivate($models){
+        public function deactivate(){
 
             # code ...
         }
 
-        public function forced_logout($models){
+        public function forced_logout(){
 
             $user = Auth::user();
 

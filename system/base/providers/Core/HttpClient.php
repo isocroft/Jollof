@@ -16,7 +16,7 @@ class HttpClient {
         const HTTP_PACKETING = TRUE;
 
         private $HTTP_HOST = '';
-        private $HTTP_OPTIONS = array('RETURN_HTTP_HEADERS'=>1,'RETURN_HTTP_RESPONSE'=>TRUE);
+        private $HTTP_OPTIONS = array('RETURN_HTTP_HEADERS'=>0,'RETURN_HTTP_RESPONSE'=>TRUE);
         private $port = 0;
         private $method = "";
         private $recieve = NULL;
@@ -75,15 +75,25 @@ class HttpClient {
              curl_setopt($this->ch, CURLOPT_URL, ($this->HTTP_HOST . $pathname));
              curl_setopt($this->ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
              curl_setopt($this->ch, CURLOPT_HEADER, $this->HTTP_OPTIONS['RETURN_HTTP_HEADERS']);
-	           curl_setopt($this->ch, CURLOPT_HTTPHEADER, $this->headers);
-             if($this->port != 80){
-                curl_setopt($this->ch, CURLOPT_PORT, $this->port);
+
+             /* follow a redirect 'Location' header command from target server */
+             curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
+             # curl_setopt($this->ch, CURLOPT_TIMEOUT, 10);
+	           
+             if(count($this->headers) > 0){
+                   curl_setopt($this->ch, CURLOPT_HTTPHEADER, $this->headers);
              }
+
+             if($this->port != 80){
+                    curl_setopt($this->ch, CURLOPT_PORT, $this->port);
+             }
+
              curl_setopt($this->ch, CURLOPT_CONNECTTIMEOUT, 2);
 
              if($this->method == "GET"){
 		            curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, $this->HTTP_OPTIONS['RETURN_HTTP_RESPONSE']);
-                curl_setopt($this->ch, CURLOPT_GET, true);
+                curl_setopt($this->ch, CURLOPT_BINARYTRANSFER, 1);
+                # curl_setopt($this->ch, CURLOPT_GET, true);
              }else{
                 curl_setopt($this->ch, CURLOPT_POST, true);
              }
@@ -121,7 +131,17 @@ class HttpClient {
             curl_setopt($this->ch, CURLOPT_SSL_VERIFYHOST, 2);
         }
 
-        public function getResponse(){
+        public function getResponse($withInfo = FALSE){
+
+            /*
+
+            if($withInfo){
+
+                  curl_getinfo($this->ch); 
+
+            }
+
+            */
 
              return $this->recieve;
         }

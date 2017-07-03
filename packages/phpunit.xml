@@ -2,7 +2,7 @@
 
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
-         bootstrap="app.php"
+         bootstrap="../app.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
@@ -14,9 +14,11 @@
          verbose="true">
 
             <testsuites>
-                <testsuite name="Jollof App Test Suite">
-                    <directory suffix="Test.php">../system/tests</directory>
+                <testsuite name="Jollof Framework - App Test Suite">
+                    <directory suffix="Test.php">../system/tests/framework</directory>
                 </testsuite>
+                <!-- Add your own test suites below -->
+
             </testsuites>
 
 </phpunit>

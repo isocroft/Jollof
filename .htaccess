@@ -7,15 +7,16 @@
 		RewriteEngine On
 
 		php_flag html_errors Off
-	    	php_flag log_error Off
+    	php_flag log_error Off
 
-	    	# Prevent Hot-linking (especially for images)
-		# Change "- [F]" to "http://www.jollof.com/public/img/stop.gif [R,L]" in your Jollof App (if needed)
+    	# Prevent Hot-linking (especially for images)
+		
 
 		RewriteCond %{HTTP_REFERER} !^$
 		RewriteCond %{HTTP_REFERER} !^http://(www\.)?(localhost|jollof.com)/.*$ [NC]
+		RewriteCond %{REQUEST_URI} \.(gif|jpg|jpeg|bmp|zip|rar|mp3|flv|swf|xml|php|png|css|pdf)$
 
-		RewriteRule \.(gif|jpg|jpeg|bmp|zip|rar|mp3|flv|swf|xml|php|png|css|pdf)$ - [F]
+		RewriteRule . - [F]
 
 		# Disallow Dastradly Crawlers And Site-Mirroring Apps
 

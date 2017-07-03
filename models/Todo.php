@@ -13,7 +13,7 @@ class Todo extends Model {
  		'TodoList' => '@list_id' // <OutSideModel> =====> hasMany ====> <@ThisModelForeignKey> 
     );
     
-    protected $pivotTable = null;
+    protected $pivotTable = NULL;
 
     protected $autoPrimaryKey = false;
 

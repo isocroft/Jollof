@@ -4,6 +4,7 @@
  <title>Creating Models - Jollof</title>
  <meta charset="utf-8">
  <link rel="stylesheet" type="text/css" href="../bootstrap.css">
+ <link rel="stylesheet" type="text/css" href="../prism.css">
  <link rel="stylesheet" type="text/css" href="../documentation.css">
  <!-- <link rel="stylesheet" type="text/css" href="../mobile.css"> -->
 
@@ -44,7 +45,7 @@
   <header class="header fixed snap-top-left clear-fix" id="header">
   	   <div class="header-branding pull-left">
   	   	  <ul class="nav navbar-nav">
-  	   	  	  <li><a href="javascript:void(0);" class="btn btn-menu btn-plain nav-btn"><strong>&#9776;</strong></a></li>
+  	   	  	  <li><a href="javascript:void(0);" id="nav-btn" class="btn btn-menu btn-plain nav-btn"><strong>&#9776;</strong></a></li>
   	   	  	  <li><b>Jollof</b></li>
   	   	  </ul>
   	   </div>
@@ -102,17 +103,23 @@
              </div>
              <main class="contnet-code-list">
                <article class="contnet-code">
-                     <code class="block-box content-code-line">
-                         <var class="line-block-box content-example-line">Showcase:</var>
-                       <pre>class Posts extends Model {
+                     <span class="block-box content-code-line">
+                         <var class="line-block-box content-example-line">Posts Model:</var>
+                       <pre class="">
+   <code class="language-php">
+class Posts extends Model {
 
-    protected $table = '...';
+    protected $table = 'tbl_blog_posts';
 
-    protected $primaryKey = '...';
+    protected $primaryKey = 'id';
 
     protected $relations = array(
 
     );
+
+    protected $autoPrimaryKey = false;
+
+    protected $pivotTable = NULL;
 
     public function __construct(){
 
@@ -120,8 +127,45 @@
 
     }
 
-}</pre>
-                     </code>
+}</code>
+                </pre>
+                </span>
+               </article>
+               <article class="contnet-code">
+                     <span class="block-box content-code-line">
+                         <var class="line-block-box content-example-line">Comments Model:</var>
+                       <pre class="">
+   <code class="language-php">
+class Comments extends Model {
+
+    protected $table = 'tbl_blog_comments';
+
+    protected $primaryKey = 'id';
+
+    protected $relations = array(
+
+        /* 
+          This means that Posts entity [has many] Comments linked by the foreign key 'post_id'
+          on the Comments table/entity/collection. The '@' symbol is just a marker for the foreign key
+        */   
+
+        'Posts' => '@post_id' 
+    );
+
+    /* No incrementing primary key */
+    protected $autoPrimaryKey = false;
+
+    protected $pivotTable = NULL;
+
+    public function __construct(){
+
+        parent::__construct();
+
+    }
+
+}</code>
+                </pre>
+                </span>
                </article>
           </main>
           </section>
@@ -132,18 +176,164 @@
                <h2 class=""><i class="ink-icon">§</i><b>Setup Model Attributes</b></h2>
                <blockquote>
                  <p>
-                    <span class="inline-block-box" style="width:100%;">There are 3 major attributes of every <b class="text-warning">Jollof</b> model.</span>
+                    <span class="inline-block-box" style="width:100%;">There are 4 major attributes of every <b class="text-warning">Jollof</b> model.</span>
                     <ol start="1">
-                        <li><kbd>table</kbd> - </li>
-                        <li><kbd>primary key</kbd> - </li>
-                        <li><kbd>relations</kbd> - </li>
+                        <li><kbd>table</kbd> - This attribute is for specifying the table/entity/collection for the Model</li>
+                        <li><kbd>primary key</kbd> - This atrribute is for specifying the unique id/primary key for the Model</li>
+                        <li><kbd>relations</kbd> - This attribute is for specifying the relationship mode for the Model. e.g. 1-1 (One-to-One), 1-M (One-to-Many) or M-M (Many-to-Many)</li>
+                        <li><kbd>auto primary key</kbd> - This attribute is for specifying whether or not the primary key will be automatically incremented. </li>
                     </ol>
                  </p>
                  <p>
-                  These atrributes need to be filled in and setup with the correct information. The first 2 attributes are requested via command line while the last attribute has to be filled in manually int the <kbd>Model</kbd> file.
+                  These atrributes need to be filled in and setup with the correct information. The first 2 attributes (table and primary key) are requested via command line while the remaining 2 attributes has to be filled in manually into the <kbd>Model</kbd> file.
                  </p>
                </blockquote>
                </div>
+           </section>
+         </li>
+         <li class="content-list-item">
+           <section class="content-list-panel" id="using_model_apis">
+               <div class="content-list-panel-heading">
+               <h2 class=""><i class="ink-icon">§</i><b>Using Model APIs</b></h2>
+               <blockquote>
+                 <p>
+                    <span class="inline-block-box" style="width:100%;">There are a number of APIs which can be used for performing CRUD (Create, read, Update, Delete) operations on a <b class="text-warning">Jollof</b> Model.</span>
+                    <em>Using the <strong>[Posts]</strong> Model above as an example: the APIs are as follows</em>
+                    <ol start="1">
+                        <li>
+                            <b class="" style="color:#451e34;">Posts::create( [array [, array]] )</b> 
+                            <p>
+                                This API will create a brand new row (data instance) of the Posts model in the database. 
+                            </p>
+                        </li>
+                        <li>
+                            <b class="" style="color:#451e34;">Posts::whereBy( [array [, array]] )</b> 
+                            <p>
+                                This API will fetch/select all rows in the Posts model based on column names passed in as the second argument and also based on the criteria/clause (WHERE criteria/clause in case of SQL) passed in as the first argument with the 'AND' operator from the database table/entity/collection.
+                            </p> 
+                        </li>
+                        <li>
+                            <b class="" style="color:#451e34;">Posts::whereByOr( [array [, array]] )</b> 
+                            <p>
+                                This API will fetch/select all rows in the Posts model based on column names passed in as the second argument and also based on the criteria/clause (WHERE criteria/clause in case of SQL) passed in as the first argument with the 'OR' operator from the database table/entity/collection.
+                            </p>
+                        </li>
+                        <li>
+                            <b class="" style="color:#451e34;">Posts::updateById( string )</b> 
+                            <p>
+                              This API will update one row in the Posts model based on the value of the primary key (for the model) passed in as the first argument in the database table/entity/collection.
+                            </p>
+                        </li>
+                        <li>
+                            <b class="" style="color:#451e34;">Posts::findById( string )</b> 
+                            <p>
+                               This API will fetch/select one row in the Posts model based on the value of the primary key (for the model) passed in as the first argument in the database table/entity/collection.
+                            </p>
+                        </li>
+                        <li>
+                            <b class="" style="color:#451e34;">Posts::removeById( string )</b> 
+                            <p>
+                              This API will delete one row in the Posts model based on the value of the primary key (for the model) passed in as the first argument in the database table/entity/collection.
+                            </p>
+                        </li>
+                        <li>
+                            <b class="" style="color:#451e34;">Posts::first( [array [, array]] )</b> 
+                            <p>
+                              This API will fetch/select only the first row in the Posts model based on column names passed in as the second argument and also based on the criteria/clause (WHERE criteria/clause in case of SQL) passed in as the first argument from the database table/entity/collection.
+                            </p>
+                        </li>
+                        <li>
+                            <b class="" style="color:#451e34;">Posts::firstOr( [array [, array]] )</b> 
+                            <p>
+                              This API will fetch/select only the first row in the Posts model based on the column names passed in as the second argument and also based on the criteria/clause (WHERE criteria/clause in case of SQL) passed in as the first argument as well as the 'OR' operator from the database table/entity/collection.
+                            </p>
+                        </li>
+                        <li>
+                            <b class="" style="color:#451e34;">Posts::fetchDistinct( [array] )</b> 
+                            <p>
+                              This API will fetch/select all rows in the Posts model based on the column names (as first argument) that are DISTINCT passed in as the first argument from the database table/entity/collection.
+                            </p>
+                        </li>
+                        <li>
+                            <b class="" style="color:#451e34;">Posts::fecthAll( [array [, integer [, integer]]] )</b> 
+                            <p>
+                              This API will fetch/select all rows in the Posts model picking out the columns specified in the array (first argument) based on the LIMIT and OFFSET (second and third arguments respectively) from the database table/entity/collection.
+                            </p>
+                        </li>
+                        <li>
+                            <b class="" style="color:#451e34;">Posts::fetchAllOrdered( [array [, array[, integer[, integer ]]]] )</b> 
+                            <p>
+                              This API will fetch/select all rows in the Posts model picking out the columns specified in the array (first argument) based on the criteria/clause (WHERE criteria/clause in case of SQL) passed in as the second argument as well as the LIMIT and OFFSET (third and fourth arguments respectively) from the database table/entity/collection.
+                            </p>
+                        </li>
+                        <li>
+                            <b class="" style="color:#451e34;">Posts::update( [array] )</b> 
+                            <p>
+                              This API will update all rows in the Posts model based on the criteria/clause (WHERE criteria/clause in case of SQL) passed in as the first argument in the database table/entity/collection.
+                            </p>
+                        </li>
+                        <li>
+                            <b class="" style="color:#451e34;">Posts::upsert( [array] )</b> 
+                            <p>
+                              This API will update and/or insert all rows in the Posts model based on the criteria/clause (WHERE criteria/clause in case of SQL) passed in as the first argument in the database table/entity/collection.
+                            </p>
+                        </li>
+                        <!--<li><span class="">Posts::fetchWith( )</span> <p></p></li>-->
+                    </ol>
+                 </p>
+                 <p>
+                    <h6>All the above APIs work for all Database driver types:</h6> 
+                    <ul>
+                      <li><b>pgsql</b></li>
+                      <li><b>mysql</b></li>
+                      <li><b>mongo</b></li> 
+                      <li><b>sqlite</b></li>
+                      <li><strike><b>mssql</b></strike></li>
+                 </p>
+               </blockquote>
+               </div>
+               <main class="contnet-code-list">
+               <article class="contnet-code">
+                     <span class="block-box content-code-line">
+                         <var class="line-block-box content-example-line">Showcase:</var>
+                       <pre class="">
+  <code class="language-php"> 
+class Blog extends Controller {
+
+    protected $params = array();
+
+    public function __construct(array $params = array()){
+
+         parent::__construct($params);
+
+    }
+
+    // @Override
+    public function index(){
+
+        return Response::view('blog/index', array('title' => 'My Blog'));
+    }
+   
+    public function posts(){
+
+        $posts = Posts::fetchAll(); // [$posts] is an array
+
+        return Response::view('post/article', array('posts' => $posts));
+    }
+
+    public function post(){
+
+        $id = $this->params['id'];
+
+        $post = Posts::findById($id); // [$post] is an array
+
+        return Response::view('post/article', array('post' => $post));
+    }
+}</code>
+                      </pre>
+                     </span>
+               </article>
+          </main>
            </section>
          </li>
       </ul>
@@ -155,11 +345,11 @@
   </footer>
   <aside class="table-of-contents fixed snap-top-right" id="aside">
      	<ul class="table-of-contents-list">
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#choose_model_name" class="block-box active" style="white-space:nowrap;">Choose Model Name</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#create_env_file" class="block-box" style="white-space:nowrap;">Create Env File</a></li>
-         <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#create_model_file" class="block-box" style="white-space:nowrap;">Create Model File</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#setup_model_attributes" class="block-box" style="white-space:nowrap;">Setup Model Attributes</a></li>
-     	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
+     	   <li class="table-of-contents-list-item"><a href="#choose_model_name" class="block-box active" style="white-space:nowrap;">Choose Model Name</a></li>
+     	   <li class="table-of-contents-list-item"><a href="#create_env_file" class="block-box" style="white-space:nowrap;">Create Env File</a></li>
+         <li class="table-of-contents-list-item"><a href="#create_model_file" class="block-box" style="white-space:nowrap;">Create Model File</a></li>
+     	   <li class="table-of-contents-list-item"><a href="#setup_model_attributes" class="block-box" style="white-space:nowrap;">Setup Model Attributes</a></li>
+     	   <li class="table-of-contents-list-item"><a href="#using_model_apis" class="block-box" style="white-space:nowrap;">Using Model APIs</a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
      	   <li class="table-of-contents-list-item"><a href="javascript:void(0);" hash="#" class="block-box"></a></li>
@@ -168,5 +358,6 @@
      	</ul>
   </aside>
  <script type="text/javascript" src="../documentation.js"></script>
+ <script type="text/javascript" src="../prism.js"></script>
 </body>
 </html>

@@ -9,9 +9,25 @@ namespace Providers\Services;
 
 class EnvService {
 
+        /**
+         * @var array - a map of all configurations for the Jollof application environment
+         */  
+
 	      protected $configs;
 
+        /**
+         * @var stdClass - a map of all paths in a Jollof application environment
+         */  
+
         protected $appPaths;
+
+        /**
+         * Constructor.
+         *
+         * @param array - 
+         *
+         * @scope public
+         */
 
         public function __construct(array $configs){
 
@@ -19,9 +35,9 @@ class EnvService {
 
               $this->appPaths = new \stdClass();
 
-              $this->setupAppEnvironment();
-
               $this->setupAppPaths();
+
+              $this->setupAppEnvironment();
 
               $this->setAppRawSockets();
 
@@ -32,6 +48,7 @@ class EnvService {
         public function getConfig($key){
 
            if(array_key_exists($key, $this->configs)){
+                 
                  return $this->configs[$key];
            }
 
@@ -58,12 +75,17 @@ class EnvService {
     		private function setAppMail(){
 
     		    $mail_settings = $this->configs['app_mails'];
+
+            /* @TODO: implement native mail function settings here */
+
+            // more code here ... 
     		}
 
         private function setupAppEnvironment (){
 
         	    $app_env = $this->configs['app_environment'];
               $can_upload = $this->configs['app_uploads']['uploads_enabled'];
+              $tmp_upload_dir = $this->configs['app_uploads']['temp_upload_dir'];
 
                 if($app_env == "prod"){
 
@@ -82,9 +104,27 @@ class EnvService {
                     ini_set("file_uploads", "Off");
                 }
 
+                if(!is_null($tmp_upload_dir)){
+
+                    if(index_of($tmp_upload_dir, '/') == 0){
+
+                        $tmp_upload_dir = substr($tmp_upload_dir, 1);
+
+                    }
+
+                    $tmp_upload_dir = $this->appPaths->base . $tmp_upload_dir;
+
+                    if(!is_dir($tmp_upload_dir)){
+
+                        make_folder($tmp_upload_dir);
+                    }
+
+                    ini_set("upload_tmp_dir", $tmp_upload_dir);
+                }
+
                 $extensions = get_loaded_extensions();
 
-               // More code here...
+               /* @TODO: More code here ... */
         }
 
         private function setupAppPaths(){
@@ -109,7 +149,7 @@ class EnvService {
                // get the contents of the file
                $settings = file($env_file);
 
-               // extract the application key
+               // extract the application key generated inside the .env file
                foreach ($settings as $line){
                   $split = explode('=', $line);
                   if(index_of($split[0], 'app_') === 0){

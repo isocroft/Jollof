@@ -30,7 +30,7 @@
   function email($value, $fieldname, $validator, $pattern = ''){
 	     $valid = $validator->filterEmail($value);
 		   if($valid === FALSE){
-		     return "This is not a valid '{$fieldname}'";
+		      return "This is not a valid '{$fieldname}'";
 		   }
 		   return $valid;
 

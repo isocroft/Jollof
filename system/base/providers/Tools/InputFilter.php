@@ -41,6 +41,7 @@ class InputFilter {
         break;
         case 4:
           $const = FILTER_VALIDATE_EMAIL;
+          strpos($raw_str, '@') ? list(, $mailDomain) = explode('@', $raw_str) : $mailDomain = null;
         break;
         case 5:
           $const = FILTER_VALIDATE_INT;
@@ -50,14 +51,23 @@ class InputFilter {
        	   if($opts !== NULL){
                $result = filter_var($raw_str, $const, $opts);
            }else{
-              $result = filter_var($raw_str, $const);
+               $result = filter_var($raw_str, $const);
+               if($result === TRUE && $const === 4 && !is_null($mailDomain)){
+                    try{
+                      $result = (!is_null($mailDomain) && checkdnsrr($mailDomain, 'MX'));
+                    }catch(\Exception $e){
+                      $result = TRUE;
+                    }
+               }
            }
-           \Logger::info('sanitizing input: "'.$raw_str.'" result: '.$result);
+
        }catch(\Exception $ex){
 
-           \Logger::error('sanitizing input error: '.$ex->getMessage());
+           \Logger::error('Sanitizing input error: '. $ex->getMessage());
        }
-       return $raw_str;
+       
+       /* return $raw_str; */
+       return $result;
      }
 
 }

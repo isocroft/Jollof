@@ -11,8 +11,6 @@ namespace Providers\Core;
 
 use \Router;
 use \System;
-use \Request;
-use \Response;
 use \Auth;
 
 class HTTPResolver{
@@ -105,12 +103,12 @@ class HTTPResolver{
 
      public function handleCurrentRoute(Router $router, System $sys, Auth $auth){
 
-            $uri = Request::uri();
+            $uri = $router->getUri();
 
             if(preg_match('/\.(?:[a-z]{1,5})$/i', $uri)){
 
                     /* if the requested file (or route) is a real file on disk, 
-                     * then serve it using PHP (Apache/Nginx not involved)
+                     * then serve it using PHP (Apache/Nginx/Others not involved)
                      */
 
                     if(file_exists(realpath($uri))){
@@ -118,11 +116,13 @@ class HTTPResolver{
                             * This serves back the file from disk to the client 
                             * -- can be very slow though
                             */ 
-                          return $router->fromDisk($uri);
+                          $router->fromDisk($uri);
+
+                          return 0;
                     }
             }
 
-            if(!$router->findRoute($uri)){
+            if(!$router->findRoute()){
                 if($sys->hasBlindRouteCallback()){
                    $sys->fireCallback('BLIND_ROUTE_CALLBACK', array($uri));
                 }else{
@@ -149,13 +149,21 @@ class HTTPResolver{
                  $meth = preg_replace('/\-/', '_', $controllerMethod);
                  // TODO: Later, we could do dependency injection to controller methods for Model class names via args list here...
                  if(method_exists($this->currentController, $meth)){
-                     return $this->currentController->{$meth}($models);
+                     
+                     /* @TODO: 
+                     return call_user_func_array(
+                                    array(&$this->currentController, $meth), 
+                                    $settings['inject']
+                     );
+                     */
+
+                     return $this->currentController->{$meth}();
                  }
             }else{
                  throw new \Exception("Controller Not Found >> ['". $controllerClass . "'] ");
             }
 
-            return NULL;
+            return 0; // Response::error();
      }
 }
 

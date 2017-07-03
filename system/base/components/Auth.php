@@ -30,7 +30,7 @@ final class Auth {
      private static $instance = NULL;
 
      /**
-      * @var array
+      * @var array - 
       */ 
 
      protected $loginFields;
@@ -60,7 +60,7 @@ final class Auth {
      protected $throttle;
 
      /**
-      * @var Providers\Tools\Hasher
+      * @var Providers\Tools\Hasher -
       */ 
 
      protected $hasher;
@@ -75,15 +75,17 @@ final class Auth {
       * Constructor
       *
       *
-      * @param void
-      * @api
+      * @param array $options -
+      * @param Request $request -
+      *
+      * @scope private
       */
 
-     private function __construct(array $options){
+     private function __construct(array $options, Request $request){
 
          $this->loginFields = array('email', 'password', 'username', 'user_id');
 
-         $this->clientIP = (Request::ip() || '0.0.0.0');
+         $this->clientIP = ($request->getIp() || '0.0.0.0');
 
          $this->options = $options;
 
@@ -119,16 +121,16 @@ final class Auth {
      *
      *
      *
-     * @param void
+     * @param array $options
      * @return object $instance
      * @api
      */
 
-     public static function createInstance(array $options){
+     public static function createInstance(array $options, Request $req){
 
           if(static::$instance == NULL){
 
-               static::$instance = new Auth($options);
+               static::$instance = new Auth($options, $req);
                return static::$instance;
           }
 
@@ -139,12 +141,14 @@ final class Auth {
       *
       *
       *
-      * @param array $props
+      * @param void
       * @return array
       * @api
       */
 
      public static function user(){
+
+         /* @TODO: transform to: $this->session->getDriver()->read("accessLogin"); */
 
          $session = Session::get("accessLogin");
 
@@ -248,13 +252,22 @@ final class Auth {
       *
       *
       * @param void
-      * @param array
+      * @return array
       */
 
      private function getLoginFields(){
 
          return $this->loginFields;
      }
+
+     /**
+      *
+      *
+      *
+      *
+      * @param void
+      * @return string
+      */
 
      private function getJWTCookieName(){
 
@@ -273,6 +286,29 @@ final class Auth {
      private function getClientIP(){
 
          return $this->clientIP;
+     }
+
+     /*private function getOption(){
+
+        $this->options = ;
+
+        return ;
+     }*/
+
+     /**
+      *
+      *
+      *
+      *
+      * @param string $option
+      * @return mixed
+      */
+
+     public function getCORSOption($option){
+
+          $corsOption = $this->options['cors'];
+
+          return (array_key_exists($option, $corsOption))? $corsOption[$option]: NULL;
      }
 
      /**
@@ -356,7 +392,7 @@ final class Auth {
                 }    
 
                 if(isset($details['password'])){
-                    unset($$details['password']);
+                    unset($details['password']);
                 } 
 
                 $session['info'] = $details;
@@ -565,8 +601,7 @@ final class Auth {
                 //unset($credentials['id']);
 
                 if(isset($credentials['password'])){
-
-                    unset($credentials['password']);
+                     unset($credentials['password']);
                 }    
 
                 $session['info'] = $credentials;
@@ -729,6 +764,28 @@ final class Auth {
       *
       *
       *
+      * @param string $value
+      * @param string $key
+      * @return array
+      */
+
+     private function prepLoginFields($value, $key){
+            
+            if($key == 'password'){
+
+                 return array('=', $this->hasher->hash($value));
+            }
+
+            return array('=', $value);
+    
+     }
+
+     /**
+      * 
+      *
+      *
+      *
+      *
       * @param array $fields
       * @return array
       */
@@ -739,29 +796,21 @@ final class Auth {
 
         // validate
         foreach ($fields as $fkey => $fvalue){
-              if(!array_key_exists($fkey, $loginFields)){
+              if(!fast_in_array($fkey, $loginFields)){
                   unset($fields[$fkey]);
               }
         }
 
-        /*if(count($fields) != count($loginFields)){
+        /*
+          if(count($fields) != count($loginFields)){
 
-            $fields = array_slice($fields, 0, 2, TRUE);
-        }*/
+              $fields = array_slice($fields, 0, 2, TRUE);
+          }
+        */
 
-        $compositeFieldValues = array();
+        $compositeFieldValues = array_mapper(array(&$this, 'prepLoginFields'), $fields);
 
-        array_walk($fields, function($value, $key){
-
-            if($key == 'password'){
-
-                 $value = $this->hasher->hash($value);
-            }
-
-            $compositeFieldValues[] = array('=', $value);
-        });
-
-        $credentials = User::whereBy(array_combine($fields,  $compositeFieldValues));
+        $credentials = User::whereBy($compositeFieldValues, array('*'));
 
         return (count($credentials) > 0)? $credentials[0] : array('id' => NULL, 'email' => NULL);
 

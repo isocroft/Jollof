@@ -8,9 +8,15 @@
  *
  */
 
+use \Request;
+
 final class Helpers {
 
       const CIPHER_KEY = 'ABCDEF123JKLMNOPQvwxUVWYZ0GHI456789abcghi]|klp[_#$qrstuRSTyz@,!def^*/?><:;+% -=.")(}{mn&o\'`~©';
+
+      /**
+       * @var Helper
+       */
 
       private static $instance = NULL;
 
@@ -46,22 +52,44 @@ final class Helpers {
          }
       }
 
-    public static function randomCode($length = 10){
-        $code = '';
-        $total = 0;
+      public static function randomCode($length = 10){
+          $code = '';
+          $total = 0;
 
-        do{
-            if (rand(0, 1) == 0){
-                $code.= chr(rand(97, 122)); // ASCII code from **a(97)** to **z(122)**
-            }
-            else{
-                $code.= rand(0, 9); // Numbers!!
-            }
-            $total++;
-        } while ($total < $length);
+          do{
+              if (rand(0, 1) == 0){
+                  $code.= chr(rand(97, 122)); // ASCII code from **a(97)** to **z(122)**
+              }
+              else{
+                  $code.= rand(0, 9); // Numbers!!
+              }
+              $total++;
+          } while ($total < $length);
 
-        return $code;
-    }
+          return $code;
+      }
+
+      /**
+       * Get client location.
+       *
+       * @see https://github.com/ngfw/Recipe/
+       *
+       * @param void
+       * @return array
+       */
+
+      public static function getClientLocation(){
+          $result = array();
+          $ip_data = @json_decode(file_get_contents('http://www.geoplugin.net/json.gp?ip='.Request::ip()));
+          if (isset($ip_data) && $ip_data->geoplugin_countryName != NULL) {
+              $result = array(
+                'city' => $ip_data->geoplugin_city, 
+                'code' => $ip_data->geoplugin_countryCode,
+                'name' => $ip_data->geoplugin_countryName
+              );
+          }
+          return $result;
+      }
 
 
     public static function emptyCheck($value){
@@ -308,6 +336,50 @@ final class Helpers {
                   return NULL;
               }
        }
+
+       /**
+        * Retrieves keyword suggestions from Google servers
+        *
+        * @see https://github.com/ngfw/Recipe/
+        *
+        * @param string $keyword
+        * @return bool
+        */
+
+       public static function keywordSuggestionsGoogle($keyword = ' '){
+            $data = file_get_contents('http://suggestqueries.google.com/complete/search?output=firefox&client=firefox&hl=en-US&q='. urlencode($keyword));
+            if (($data = json_decode($data, true)) !== null 
+                  && !static::emptyCheck($data[1])) {
+                return $data[1];
+            }
+            return false;
+       }
+
+       /**
+        * Returns a automatically-generated random passcode 
+        *
+        * @see https://github.com/ngfw/Recipe/
+        *
+        * @param integer $length
+        * @param string $customAlphabet
+        * @return string
+        */
+
+
+        public static function autoPassKey($length = 8, $customAlphabet = null){
+            $pass = [];
+            if (strlen(trim($customAlphabet))) {
+                $alphabet = trim($customAlphabet);
+            } else {
+                $alphabet = 'abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789';
+            }
+            $alphaLength = strlen($alphabet) - 1;
+            for ($i = 0; $i < $length; ++$i) {
+                $n = rand(0, $alphaLength);
+                $pass[] = $alphabet[$n];
+            }
+            return implode($pass);
+        }
 
        public static function decodeJWTObject(array $jwt_obj){
 

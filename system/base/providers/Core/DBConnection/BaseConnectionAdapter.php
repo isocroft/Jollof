@@ -45,9 +45,16 @@ abstract class BaseConnectionAdapter{
 				throw new InvalidArgumentException("Expected [string] got [null]");
 			}
 
+
 			if(class_exists('\\' . $driver_class_name)){
 
 				$this->type = '\\' . $driver_class_name;
+				
+			}else{
+				if($driver_class_name == 'Mongo'){
+
+					$this->type = '\\MongoClient'; 
+				}
 			}
 
 			$this->dbname = $db_name;

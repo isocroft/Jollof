@@ -67,7 +67,7 @@ final class DBService {
   protected $db_engine;
 
   /**
-   * @var BaseConnectionAdapter
+   * @var \Providers\Core\DBConnection\BaseConnectionAdapter
    */
 
   protected $connectionAdapter;
@@ -159,7 +159,7 @@ final class DBService {
 
     public function bindSchema($models){
 
-        foreach($models as $model){
+        foreach($models as $modelName => $model){
 
              $model->bindSchema();
 
@@ -210,6 +210,7 @@ final class DBService {
    *
    * @param string $env_file
    * @return void 
+   * @throws Exception
    */
 
     public function connect($env_file = ''){
@@ -292,7 +293,7 @@ final class DBService {
    * @return \Providers\Core\QueryBuilder $builder; 
    */
 
-    public function getBuilder(array $modelAttributes, $modelName){
+    public function getBuilder(array $modelAttributes = array(), $modelName){
 
         $db_connection = $this->getConnection();
 
@@ -302,16 +303,11 @@ final class DBService {
 
         $table = (!array_key_exists('table', $modelAttributes))? NULL : $modelAttributes['table'];
 
-        if(is_null($table)){
+        if(is_null($table) || is_null($db_connection)){
 
-              return $table; // just returning [NULL]
+              return NULL;
         }
 
-        if(is_null($db_connection)){
-
-              throw new Exception("No Database Connection Found, .env File Probably Missing");
-
-        }
 
         if($db_engine != 'mongo'){
 

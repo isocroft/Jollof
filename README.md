@@ -33,33 +33,39 @@ _If you wish to contribute to this project, you can take a peep at the [contribu
 
 ## Credits
 
-_Thanks to **Micheal Akpobome**, **Shuaib Afegbua**, **Abraham Yusuf**, **Stephen Igwue** and **Umar Binkabir** for their individual and collective efforts in this project. Jollof would not be the way it is without you guys._
+_Thanks to **Micheal Akpobome**, **Shuaib Afegbua**, **Abraham Yusuf**, **Dimgba Kalu**, **Stephen Igwue** and **Kabir Idris** for their individual and collective efforts in this project. Jollof would not be the way it is right now without you guys._
 
 ## Minimum Requirements (Running Jollof)
 
-* Have PHP 5.3.8 and above Installed
+>Before you attempt to startup Jollof, please ensure you machine meets the below requirements
 
-	1. Have the PHP *mb_string* extension enabled
-	2. Have the PHP *openssl* extension enabled
-	3. Have the PHP *pdo_mysql* extension enabled
-	4. Have the PHP *pdo_pgsql* extension enabled
-	5. Have the PHP *pdo_sqlite* extension enabled
-	6. Have the PHP *sockets* extension enabled
-	7. Have the PHP *zip* extension enabled
-	8. Have the PHP *curl* extension enabled
-	9. Have the PHP *zlib* extension enabled (required - built-in)
-	10. Have the PHP *mongodb* extension installed and enabled (optional - pecl)
-	11. Have the PHP *memcache* extension installed and enabled (optional - pecl)
-	12. Have the PHP *v8js* extension installed and enabled (optional - pecl)
+* Have the PHP executable (php.exe, php.dmg) file path exposed in the environmental variable _PATH_
 
-* Have Composer 1.0.0 and above Installed
+* Have PHP v5.3.8 and above installed and also enable all PHP extension below marked as **required**
 
-* Have Npm 4.2.0 and above Installed
+	1. Have the PHP *mb_string* extension enabled (required - built-in)
+	2. Have the PHP *openssl* extension enabled (required - built-in)
+	3. Have the PHP *pdo_mysql* extension enabled (required - built-in)
+	4. Have the PHP *pdo_pgsql* extension enabled (optional - built-in)
+	5. Have the PHP *pdo_sqlite* extension enabled (optional - built-in)
+	6. Have the PHP *pdo_mssql* extension enabled (optional - built-in)
+	7. Have the PHP *sockets* extension enabled (required - built-in)
+	8. Have the PHP *zip* extension enabled (required - built-in)
+	9. Have the PHP *curl* extension enabled (required - built-in)
+	10. Have the PHP *zlib* extension enabled (required - built-in)
+	11. Have the PHP *mongodb* extension installed and enabled (optional - pecl)
+	12. Have the PHP *memcached* extension installed and enabled (optional - pecl)
+	13. Have the PHP *gd* extension enabled (required - built-in)
+	14. Have the PHP *v8js* extension installed and enabled (optional - pecl)
+
+* Have Composer v1.0.0 and above Installed
+
+* Have Npm v4.2.0 and above Installed
 
 
 ## Trademarks
 
-_Trademark(s) for this PHP framework are a joint effort of [Mobicent, Ltd](http://www.learnsty.com) and [Abuja Dev Meetup](http://www.abujadevmeetup.com)_
+_Trademark(s) for this PHP framework are a joint effort of [Furppa](http://www.furppa.com.ng) and [WeCode](http://www.wecode.ng)_
 
 ## License
 

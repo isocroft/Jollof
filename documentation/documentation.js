@@ -1,13 +1,17 @@
 /*!
  *
- * Jollof Documentation
+ * Jollof Documentation JS (2016 - 2017)
  *
  * {documentation.js}
  */
 
 ;(function(w, d){
 
-                    var body = d.body,
+                    Function.prototype.bind = Function.prototype.bind || function(){
+
+                    };
+
+                    var uriRoot, body = d.body,
 
                     html = d.documentElement,
 
@@ -134,6 +138,10 @@
                 },
 
                 DOM = {
+                    autoClick: function(factory){
+                        var navBtn = document.getElementById("nav-btn");
+                        addListener(w, "load", factory(navBtn));
+                    },
                     boostrapImgFix:function(factory){
                         factory(document.images['mast']);
                     },
@@ -154,7 +162,7 @@
                 	  	  var menu = d.getElementById("menu");
                 	  	  var btns = getElements("a.nav-btn", body);
                           _each(btns, function(btn){
-                	  	     addListener(btn, "click", factory(menu));
+                	  	      addListener(btn, "click", factory(menu));
                           });
                 	  },
                 	  setHeaderVisible:function(factory){
@@ -166,6 +174,20 @@
                           addListener(w, "scroll", factory(header));
                 	  }
                 };
+
+                if(w.name == ""){
+                      uriRoot = '/' + (w.location.search.split('=') || [0, ''])[1];
+
+                      if(uriRoot.length > 0){
+                          w.name = uriRoot;
+                      }
+                }
+                
+                DOM.autoClick(function(btn){
+                    return function(e){
+                        setTimeout(btn.click.bind(btn), 0);
+                    }
+                });
 
                 DOM.boostrapImgFix(function(img){
                     // For Opera & Firefox
@@ -181,11 +203,19 @@
 
                     return function(e){
                           if(w.location.protocol == "file:"){
-                              alert("Your Jollof App cannot be loaded from the file system");
+                              alert("Your Jollof App cannot be loaded directly from the file system");
                               return;
                           }
 
-                          location.assign(location.protocol + '//' + location.host + (location.pathname.length > 1? location.pathname.replace('/documentation/index.html', '') : '') + rootPath);
+                          var host = location.host.replace(':8888', '').replace('/', '');
+
+                          if(w.location.port == '8888'){
+                              if(w.name != ""){
+                                  uriRoot = w.name;
+                              }
+                          }
+
+                          location.assign(location.protocol + '//' + host + (location.pathname.length > 1? location.pathname.replace(/\/documentation\/(?:.*)\.html$/ig, uriRoot) : uriRoot) + rootPath);
                     }
                 });
 

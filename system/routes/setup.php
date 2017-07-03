@@ -7,7 +7,7 @@
 ! parameters.
 !
 !
-! * Jollof (c) Copyright 2016
+! * Jollof (c) Copyright 2016 - 2017
 ! *
 ! *
 ! * {setup.php}
@@ -15,19 +15,19 @@
 ! *
 ----------------------------------------------------------*/
 
- Router::bind('/', array('models' => array()));
+ Router::bind('/', array('inject' => array()));
 
- Router::bind('/webhook/git-payload/@gitaccountname/@gitprojectname', array('verb' => 'post', 'models' => array(), 'params' => array('gitaccountname' => '/^([a-zA-Z0-9-]+)$/', 'gitprojectname' => '/[a-zA-Z-_]/')));
+ Router::bind('/webhook/git-payload/@gitaccountname/@gitprojectname', array('verb' => 'post', 'inject' => array(), 'params' => array('gitaccountname' => '/^([a-zA-Z0-9-]+)$/', 'gitprojectname' => '/[a-zA-Z-_]/')));
 
- Router::bind('/chats/messaging', array('verb' => 'post', 'model' => array()));
+ Router::bind('/chats/messaging', array('verb' => 'post', 'inject' => array()));
 
- Router::bind('/admin', array('models' => array('Todo', 'TodoList', 'Project')));
+ Router::bind('/admin', array('inject' => array()));
 
- Router::bind('/account/login/', array('models' => array()));
+ Router::bind('/account/login/', array('inject' => array()));
 
- Router::bind('/account/register/', array('models' => array()));
+ Router::bind('/account/register/', array('inject' => array()));
 
- Router::bind('/account/signin/@provider', array('verb'=> 'post', 'models' => array('User', 'UserRole', 'UserThrottle'), 'params'=> array('provider' => '/^(?:(?:oauth-([a-z]+))|email)$/i')));
+ Router::bind('/account/signin/@provider', array('inject' => array(), 'verb'=> 'post', 'params'=> array('provider' => '/^(?:(?:oauth-([a-z]+))|email)$/i')));
 
- Router::bind('/account/signup/@mode', array('verb' => 'post', 'models' => array('User', 'UserRole', 'UserThrottle'), 'params' => array('mode' => '/^create$/i')));
+ Router::bind('/account/signup/@mode', array('inject' => array(), 'verb' => 'post', 'params' => array('mode' => '/^create$/i')));
 
