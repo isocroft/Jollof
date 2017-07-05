@@ -103,7 +103,7 @@ final class App {
 
              $this->jheaders = new JollofSecureHeaders();
 
-             $this->os = \get_os();
+             $this->os = get_os();
         }
 
         $this->instances = array();
@@ -284,18 +284,24 @@ final class App {
 
          $request = $this->getInstance('Request');
                     
-         $session = $this->getInstance('Session'); 
+         $session = $this->getInstance('Session')->getDriver(); 
 
-         if($router->getMethod() == 'GET' 
+     	   $resolved = $this->resolver->handleCurrentRoute($router, $system, $auth);
+
+         if($request->getMethod() === 'GET' 
             && !$request->ajaxRequest()){
 
-                  $session->getDriver()->write(
-                          'previousRoute', 
-                          $router->getCurrentRouteUrl()
-                  );
+                $rl = $router->getCurrentRouteUrl();
+              
+                if($session->read('previousRoute') !== $rl){
+                    $session->write(
+                            'previousRoute', 
+                            $rl
+                    );
+                }
          }
 
-     	   return $this->resolver->handleCurrentRoute($router, $system, $auth);
+         return $resolved;
 
      }
 
@@ -421,8 +427,11 @@ final class App {
             /* 
              *  set up config for Content-Security-Policy HTTP response headers
              */
+            if(!$this->inCLIMode()){
 
-              $this->jheaders->installConfig($this->envservice->getConfig("app_security"));
+                $this->jheaders->installConfig($this->envservice->getConfig("app_security"));
+
+            }
 
             /*
              * Setup all Singletons for the application
@@ -438,7 +447,7 @@ final class App {
                $this->instances['System'] = System::createInstance($this->getInstance('Config'));
                $this->instances['Session'] = Session::createInstance($this->envservice->getConfig('app_session'));
                $this->instances['Request'] = Request::createInstance($this->envservice->getConfig('app_uploads'), $this->getInstance('Session'));
-               $this->instances['Response'] = Response::createInstance($this->jheaders->getSourceNonces());
+               $this->instances['Response'] = Response::createInstance($this->inCLIMode()? array() : $this->jheaders->getSourceNonces());
                $this->instances['Router'] = Router::createInstance($this->getInstance('Request'), $this->getInstance('Response'));
                $this->instances['Cache'] = Cache::createInstance($this->envservice->getConfig('app_cache'));
                $this->instances['Validator'] = Validator::createInstance();
@@ -448,7 +457,7 @@ final class App {
                $this->instances['Comms'] = Comms::createInstance($this->envservice->getConfig('app_mails'), $this->envservice->getConfig('app_connection'), $this->envservice->getConfig('app_messaging'));
                $this->instances['TextStream'] = TextStream::createInstance();
 
-               if(File::exists($dotenv)){ 
+               if(file_exists($dotenv)){ 
                     
                     $this->dbservice->connect($dotenv);
                }

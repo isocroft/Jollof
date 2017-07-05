@@ -34,15 +34,17 @@
    *
    */
 
-	require_once 'system/boot.php';
+	require_once 'app.php';
+
+  # require_once __DIR__ . '/system/routes/setup.php';
 
 	  $model_path = __DIR__ . '/models/';
-
-    $migrations_path = __DIR__ . '/storage/migrations/';
 
     $ctrl_path = __DIR__ . '/controllers/';
 
     $views_path = __DIR__ . '/views/';
+
+    $migrations_path = __DIR__ . '/storage/migrations/';
 
     $tests_path = __DIR__ . '/system/tests/';
 
@@ -50,7 +52,7 @@
 
     $class_maps_path = __DIR__ . '/system/base/';
 
-	$args  = $_SERVER['argv'];
+	  $args  = $_SERVER['argv'];
 
 	$promptList = NULL;
 

@@ -39,7 +39,7 @@ _Thanks to **Micheal Akpobome**, **Shuaib Afegbua**, **Abraham Yusuf**, **Dimgba
 
 >Before you attempt to startup Jollof, please ensure you machine meets the below requirements
 
-* Have the PHP executable (php.exe, php.dmg) file path exposed in the environmental variable _PATH_
+* Have the PHP executable (binary) file path exposed in the environmental variable _PATH_
 
 * Have PHP v5.3.8 and above installed and also enable all PHP extension below marked as **required**
 

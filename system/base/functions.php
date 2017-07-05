@@ -224,12 +224,16 @@ if(! function_exists('fix_integer_overflow')){
 }
 
 if(! function_exists('index_of') ){
-    function index_of($str, $seed, $radix  = -1){
+    function index_of($str, $seed, $radix = -1){
 	      $mixed = FALSE;
 	      if($radix == -1){
-             $mixed = strpos($str, $seed);
+             if(!empty($seed)){
+                $mixed = strpos($str, $seed);
+             }
 	      }else if($radix > -1){
-	           $mixed = strpos($str, $seed, $radix);
+             if(!empty($seed)){ 
+	               $mixed = strpos($str, $seed, $radix);
+             }
 	      }
 
 		    return (gettype($mixed) === 'integer')? $mixed : -1;
