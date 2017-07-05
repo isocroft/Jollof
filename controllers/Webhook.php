@@ -24,9 +24,9 @@ class Webhook extends Controller {
 
             $base_repo_path = "https://raw.githubusercontent.com/{$account}/{$project}/master/";
 
-            $base_project_path = $env['app.path.base'];
+            $base_project_path = $GLOBALS['env']['app.path.base'];
 
-            $secret = $env['app.key'];
+            $secret = $GLOBALS['env']['app.key'];
 
             $payload = Request::input()->getFields();
 

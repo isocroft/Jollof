@@ -2,7 +2,7 @@
 
 This is a temporary location for accessing a very simple <q>How to</q> on using Jollof to develop apps.
 
-# Run-Through Examples
+## Run-Through Examples
 
 Below are some examples that can help you dig in in minutes.
 
@@ -28,9 +28,9 @@ Move into the __views__ folder (in the root) and into the __example__ folder, op
                     	</head>
                     	<body>
                         	<h1>=@heading</h1>
-				[if:@heading == 'About Jollof']
-				<p>This is the caption</p>
-				[/if]
+            				[if:@heading == 'About Jollof']
+            				<p>This is the caption</p>
+            				[/if]
                         	<ul>
                         		[loop:@words]
                           			<li> [@words_value] </li>
@@ -203,7 +203,7 @@ Using the route **[/account/signup/@mode/]** which has already been setup in the
 
 ```php
 
-  public function signup($models){
+  public function signup(){
 
             $inputs = Request::input()->getFields(); /* get POST params */
 
@@ -235,12 +235,14 @@ Using the route **[/account/signup/@mode/]** which has already been setup in the
                 if(isset($validInputs['auto-login'])
                    && $validInputs['auto-login'] === 'true'){
                         unset($validInputs['password']);
+                        /* automatically log the user in */
                         Auth::auto($json['result'], $validInputs);
                 }
             }    
 
             // $json['result'] = array();
 
+            /* redirect to another route */
             return Response::redirect( '/admin');
   }
 
@@ -250,7 +252,7 @@ Using the route **[/account/signup/@mode/]** which has already been setup in the
 
 ```php
 
-    public function signin($models){
+    public function signin(){
 
             $inputs = Request::input()->getFields();
 
@@ -291,9 +293,11 @@ Using the route **[/account/signup/@mode/]** which has already been setup in the
 
 ```php
 
-  public function logout($models){
+  public function logout(){
 
         Auth::logout();
+
+        // return Response::redirectBack();
 
         return Response::view('index', array('framework' => 'Jollof', 'title' => 'PHP MVC Framework'));
   }
@@ -497,9 +501,9 @@ Open up the _Admin_ controller from the **controllers** folder and edit as follo
 
 ```php
 
-    public function index($models){
+    public function index(){
 
-        $user = Auth::user(); /* user from session */
+        $user = Auth::user(); /* user from session - logged in */
 
         if(!is_array($user)){
 
@@ -529,7 +533,7 @@ Then, open up the _Tasks_ controller from the **controllers** folder and edit th
 
 ```php
 
-    public function index($models){
+    public function index(){
 
         $user = Auth::user();
         
@@ -548,7 +552,7 @@ Then, open up the _Tasks_ controller from the **controllers** folder and edit th
         ); 
     }
 
-    public function create($models){
+    public function create(){
 
          $input = Request::input()->getFields(); /* get post params - 'name' */
 
@@ -567,10 +571,11 @@ Then, open up the _Tasks_ controller from the **controllers** folder and edit th
 
          $project = Project::whereBy(array(
                                     'name' => array(
-                                                    '=', 
-                                                    'personal'
-                                            ),
-                                     array('id', 'mode')
+                                            '=', 
+                                            'personal'
+                                        ),
+                                    )
+                                    array('id', 'mode')
                     );
 
          $list = NULL;
@@ -674,10 +679,12 @@ Move into the **configs** folder (in the root), open up the _env.php_ file and e
                     /* HTTP methods must be listed in uppercase */
                     'allowed_methods' => array(
                         'GET',
+                        'POST',
                         'PUT',
                         'DELETE'
                     ),
                     'allowed_headers' => array(
+                         'X-Requested-With',
                          'X-Document-Hash' // custom header to allow from CORS request
                     ),
                     'allowed_origins' => array(

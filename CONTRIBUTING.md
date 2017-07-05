@@ -4,7 +4,9 @@ We completely welcome your intent to contributing to the Jollof PHP Framework. W
 
 ## Current Code Requests 
 
-- Finding an intelligent way (given the current codebase) to tie only specific middleware functions to specific routes 
+- Set a flag in the session which ensures that Jollof only include the 'Link' HTTP/2 header only once for each unique client user-agent (browser) [system/base/components/Response.php]
+- Check to see if the 'previousRoute' session data is the same as the current route path. if so, stop Joolof from writing to the session for 'previousRoute' [system/base/providers/Core/App.php]
+- Finding an intelligent way (given the current codebase) to tie only specific middleware functions to specific routes [system/base/components/System.php]
 - Enhance the current query builder with 'join' function and rewrite and arrange database query builder class files better.
 - Implement the PHP DOM Renderer for ReactJS server-side rendering (https://reactjs/react-php-v8js)
 - Adding the command for make:component and/or redesigning the manner in which custom components will be created.

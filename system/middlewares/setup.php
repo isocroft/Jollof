@@ -138,10 +138,10 @@
         $isOriginsOk = FALSE;
         $cookie = '';
 
+        $requestOrigin = Request::rawHeader('Origin');
 
         if(Request::isPreflight()){
 
-            $requestOrigin = Request::rawHeader('Origin');
             $rHeaders = Request::rawHeader('Access-Control-Request-Headers');
             $requestHeaders = (is_string($rHeaders))? explode(',', $rHeaders) : array();
             $rHeadersDiff = array_diff($requestHeaders, $auth->getCORSOption('allowed_headers'));
@@ -189,6 +189,18 @@
             }
 
             return Response::status(200);
+            
+        }else{
+
+              if(isset($requestOrigin)){
+
+                    Response::header('Access-Control-Allow-Origin', $requestOrigin);
+
+                    if($auth->getCORSOption('credentials_pass') === TRUE){
+                        /* @TODO: by CORS rule, when client is requesting [withCredentials], 'Access-Control-Allow-Origin' response header cannot be equal to '*' - implement this rule later */
+                        Response::header('Access-Control-Allow-Credentials', 'true');
+                    }
+              }
         }
 
         return $result;

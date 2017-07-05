@@ -1,7 +1,7 @@
 <?php
 
 /*!
- * Jollof (c) Copyright 2016
+ * Jollof (c) Copyright 2016 - 2017
  *
  * {Request.php}
  *
@@ -212,6 +212,8 @@ final class Request {
                 }
           }
 
+          # FILTER_SANITIZE_NUMBER_INT
+
           return '::1';
      }
 
@@ -287,7 +289,15 @@ final class Request {
          return $_host;
      }
 
-     public function url(){
+     /**
+      *
+      *
+      *
+      * @param bool $withQuery
+      * @return
+      */
+
+     public function url($withQuery = FALSE){
 
           $r_uri = $this->getInfo('REQUEST_URI');
 
@@ -324,6 +334,7 @@ final class Request {
           $this->url_elements = explode('/', $this->getInfo('PATH_INFO'));
 
           $qs = $this->getInfo('QUERY_STRING');
+          # $storage_path = $GLOBALS['app.path.storage'];
 
           switch($this->method){
                case "JSONP":
@@ -338,6 +349,7 @@ final class Request {
                case "POST":
                case "PUT":
                    $body = file_get_contents("php://input");
+                   
                    if(Helpers::emptyCheck($body)){
                        $body = $HTTP_RAW_POST_DATA;
                    }
@@ -518,6 +530,12 @@ final class Request {
 
                                                           /* Get the temporary upload dir */
                                                           $up_dir_path = ini_get('upload_tmp_dir');
+
+                                                          /** @TODO: next version
+                                                              if(Helpers::emptyCheck($up_dir_path)){
+                                                                  $up_dir_path = $temp_storage_path;
+                                                              }
+                                                           */
 
                                                           /* construct the path for the temp file */
                                                           $tmp_file_path = $up_dir_path . '/' . $files[$filename]['tmp_name'];

@@ -8,7 +8,7 @@
     !
     !
     !
-    ! * Jollof (c) Copyright 2016
+    ! * Jollof (c) Copyright 2016 - 2017
     ! *
     ! *
     ! *
@@ -74,7 +74,7 @@
    /*!------------------------------------------------------
     !
     ! Instantiate all necessary components needed by the app
-    ! internals e.g Routes, Controllers, Models and Views
+    ! internals e.g Routes, Controllers, Models and Components
     !
     !
     !
