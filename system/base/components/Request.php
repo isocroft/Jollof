@@ -214,7 +214,7 @@ final class Request {
 
           # FILTER_SANITIZE_NUMBER_INT
 
-          return '::1';
+          return '::1'; // unknown
      }
 
      public function pjaxRequest(){
@@ -529,7 +529,7 @@ final class Request {
                                                           }
 
                                                           /* Get the temporary upload dir */
-                                                          $up_dir_path = ini_get('upload_tmp_dir');
+                                                          $up_dir_path = sys_get_temp_dir(); // ini_get('upload_tmp_dir');
 
                                                           /** @TODO: next version
                                                               if(Helpers::emptyCheck($up_dir_path)){

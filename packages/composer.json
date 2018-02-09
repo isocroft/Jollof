@@ -1,5 +1,6 @@
 {
-        "name": "mobicent/jollof",
+        "name": "isocroft/jollof",
+        "version":"0.0.5",
         "description": "This is a lighweight PHP framework for developers who love smart work",
         "keywords": ["compact", "php", "framework"],
         "type": "project",
@@ -12,7 +13,9 @@
           }
         ],
         "require":{
-                "php": ">=5.3.8"
+                "php": ">=5.3.8",
+                "predis/predis-async": "0.2.*",
+                "cboden/ratchet": "0.4.*"
         },
         "require-dev": {
                 "mockery/mockery":"0.9.*",
@@ -28,7 +31,7 @@
         },
         "scripts": {
           "post-install-cmd": [
-
+              "php jollof setup:box"
           ]
         },
         "suggest":{
@@ -45,10 +48,10 @@
       		"phpmailer/phpmailer":"Optionally required to use the [Comms] components' mailing functionality (~5.2)",
       		"bugsnag/bugsnag":"Optionally required to use the Jollof Error Reporter (~3.4)",
           "guzzle/guzzle":"", 
-          "isocroft/beamzer": "Required to use the [TextStream] components' streams functionality (~0.3).",
-          "league/flysystem-aws-s3-v2": "Required to use the Flysystem S3 driver (~1.0).",
-          "league/flysystem-rackspace": "Required to use the Flysystem Rackspace driver (~1.0).",
-          "pda/pheanstalk": "Required to use the beanstalk queue driver (~3.0)."
+          "isocroft/beamzer":"Http event source data streams functionality (~0.1.0).",
+          "league/flysystem-aws-s3-v2":"Required to use the Flysystem S3 driver (~1.0).",
+          "league/flysystem-rackspace":"Required to use the Flysystem Rackspace driver (~1.0).",
+          "pda/pheanstalk":"Required to use the beanstalk queue driver (~3.0)."
       	},
         "minimum-stability": "stable"
 }

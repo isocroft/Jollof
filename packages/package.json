@@ -1,6 +1,6 @@
 {
-        "name": "mobicent_jollof",
-        "version": "0.9.9",
+    "name": "wecode_jollof",
+    "version": "0.0.5",
 	"description": "The lighweight PHP framework for developer who love smart work",
 	"keywords": ["compact", "php", "framework"],
 	"authors": [
@@ -11,27 +11,27 @@
 		    "name":"Micheal Akpobome"
 		}
 	],
-        "private":true,
-        "scripts":{
-           "tests":""
-        },
-        "engines": {
-           "node": "*"
-        },
-        "devDependencies":{
-            "grunt":"*",
-            "grunt-contrib-compress":"*",
-            "grunt-contrib-cssmin":"*",
-            "grunt-contrib-jasmine":"*",
-            "grunt-contrib-csslint":"*",
-            "grunt-contrib-imagemin":"*",
-            "grunt-contrib-concat":"*",
-            "grunt-contrib-uglify":"*",
-            "grunt-contrib-jshint":"*",
-            "grunt-htmlhint":"*",
-            "matchdep":"*"
-        },
-        "dependencies":{
+    "private":true,
+    "scripts":{
+       "tests":""
+    },
+    "engines": {
+       "node": "*"
+    },
+    "devDependencies":{
+        "grunt":"*",
+        "grunt-contrib-compress":"*",
+        "grunt-contrib-cssmin":"*",
+        "grunt-contrib-jasmine":"*",
+        "grunt-contrib-csslint":"*",
+        "grunt-contrib-imagemin":"*",
+        "grunt-contrib-concat":"*",
+        "grunt-contrib-uglify":"*",
+        "grunt-contrib-jshint":"*",
+        "grunt-htmlhint":"*",
+        "matchdep":"*"
+    },
+    "dependencies":{
 
-        }
+    }
 }

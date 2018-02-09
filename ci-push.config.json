@@ -1,0 +1,10 @@
+{
+  	"endpoint":"",
+  	"email":{
+		"to":"",
+		"subject":""
+  	},
+	"command":{
+		"run":""
+	}
+}
