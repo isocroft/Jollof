@@ -26,7 +26,7 @@
       $result = TRUE;
 
        /*
-        * route permissions (Access Reaffirmation)
+        * route permissions (Access Control)
         * ---------------------------------------
         * Feel free to modify this middleware to
         * suit the needs of the app
