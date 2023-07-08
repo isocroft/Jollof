@@ -33,7 +33,7 @@ _If you wish to contribute to this project, you can take a peep at the [contribu
 
 ## Credits
 
-_Thanks to **Micheal Akpobome**, **Shuaib Afegbua**, **Abraham Yusuf**, **Dimgba Kalu**, **Stephen Igwue** and **Kabir Idris** for their individual and collective efforts in this project. Jollof would not be the way it is right now without you guys._
+_Thanks to **Micheal Akpobome**, **Shuaib Afegbua**, **Abraham Yusuf**, **Dimgba Kalu**, **Stephen Igwue**, **Adewale Abati**, **Shalvah Adebbayo** and **Kabir Idris** for their individual and collective efforts in this project. Jollof would not be the way it is right now without you guys._
 
 ## Minimum Requirements (Running Jollof)
 
@@ -65,7 +65,7 @@ _Thanks to **Micheal Akpobome**, **Shuaib Afegbua**, **Abraham Yusuf**, **Dimgba
 
 ## Trademarks
 
-_Trademark(s) for this PHP framework are a joint effort of [Furppa](http://www.furppa.com.ng) and [WeCode](http://www.wecode.ng)_
+_Trademark(s) for this PHP framework is a joint effort of [WeCode](http://www.wecode.ng)_
 
 ## License
 
